@@ -131,14 +131,6 @@ public class OpenIddictDataSeeder(
             throw new BusinessException(L["TheClientSecretIsRequiredForConfidentialApplications"]);
         }
 
-        if (
-            !string.IsNullOrEmpty(name)
-            && await _applicationManager.FindByClientIdAsync(name) != null
-        )
-        {
-            return;
-        }
-
         var client = await _applicationManager.FindByClientIdAsync(name);
         if (client == null)
         {
@@ -365,6 +357,53 @@ public class OpenIddictDataSeeder(
             }
 
             await _applicationManager.CreateAsync(application);
+            return;
+        }
+
+        var descriptor = new OpenIddictApplicationDescriptor();
+        await _applicationManager.PopulateAsync(descriptor, client);
+
+        MergeUris(descriptor.RedirectUris, redirectUris, isPostLogoutRedirectUri: false);
+        MergeUris(
+            descriptor.PostLogoutRedirectUris,
+            postLogoutRedirectUris,
+            isPostLogoutRedirectUri: true
+        );
+
+        await _applicationManager.UpdateAsync(client, descriptor);
+    }
+
+    private void MergeUris(
+        ICollection<Uri> targetUris,
+        string[]? sourceUris,
+        bool isPostLogoutRedirectUri
+    )
+    {
+        if (sourceUris == null)
+        {
+            return;
+        }
+
+        foreach (var sourceUri in sourceUris)
+        {
+            if (sourceUri.IsNullOrEmpty())
+            {
+                continue;
+            }
+
+            if (!Uri.TryCreate(sourceUri, UriKind.Absolute, out var uri) || !uri.IsWellFormedOriginalString())
+            {
+                throw new BusinessException(
+                    isPostLogoutRedirectUri
+                        ? L["InvalidPostLogoutRedirectUri", sourceUri]
+                        : L["InvalidRedirectUri", sourceUri]
+                );
+            }
+
+            if (targetUris.All(x => x != uri))
+            {
+                targetUris.Add(uri);
+            }
         }
     }
 }

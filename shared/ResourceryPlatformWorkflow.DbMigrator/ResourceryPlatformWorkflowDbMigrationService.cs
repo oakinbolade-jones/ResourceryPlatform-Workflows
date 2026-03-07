@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
-using ResourceryPlatformWorkflow.Projects.EntityFrameworkCore;
+// using ResourceryPlatformWorkflow.Projects.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -132,7 +132,7 @@ public class ResourceryPlatformWorkflowDbMigrationService(
 
         await MigrateDatabaseAsync<AdministrationDbContext>(cancellationToken);
         await MigrateDatabaseAsync<IdentityServiceDbContext>(cancellationToken);
-        await MigrateDatabaseAsync<ProjectsDbContext>(cancellationToken);
+        // await MigrateDatabaseAsync<ProjectsDbContext>(cancellationToken);
         //await MigrateDatabaseAsync<WebAppDbContext>(cancellationToken);
 
         await uow.CompleteAsync(cancellationToken);

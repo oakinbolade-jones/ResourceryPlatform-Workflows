@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Middleware;
 using ResourceryPlatformWorkflow.MultiTenancy;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp;
@@ -125,6 +126,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
         app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();

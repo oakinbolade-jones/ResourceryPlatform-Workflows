@@ -12,7 +12,7 @@ export const environment = {
   oAuthConfig: {
     issuer: 'https://localhost:7600/',
     redirectUri: baseUrl,
-    clientId: 'ResourceryPlatformWorkflow_Angular',
+    clientId: 'ResourceryPlatformWorkflow_Web',
     clientSecret: '1q2w3e*',
     responseType: 'code',
     scope: 'offline_access ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',

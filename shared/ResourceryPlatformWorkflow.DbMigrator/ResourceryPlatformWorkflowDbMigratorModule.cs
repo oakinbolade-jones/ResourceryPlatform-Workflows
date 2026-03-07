@@ -2,8 +2,8 @@ using ResourceryPlatformWorkflow.Administration;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
-using ResourceryPlatformWorkflow.Projects;
-using ResourceryPlatformWorkflow.Projects.EntityFrameworkCore;
+// using ResourceryPlatformWorkflow.Projects;
+// using ResourceryPlatformWorkflow.Projects.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.SaaS;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Autofac;
@@ -19,8 +19,8 @@ namespace ResourceryPlatformWorkflow.DbMigrator;
 [DependsOn(typeof(AdministrationApplicationContractsModule))]
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityServiceApplicationContractsModule))]
-[DependsOn(typeof(ProjectsEntityFrameworkCoreModule))]
-[DependsOn(typeof(ProjectsApplicationContractsModule))]
+// [DependsOn(typeof(ProjectsEntityFrameworkCoreModule))]
+// [DependsOn(typeof(ProjectsApplicationContractsModule))]
 [DependsOn(typeof(SaaSEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSApplicationContractsModule))]
 //[DependsOn(typeof(WebAppEntityFrameworkCoreModule))]

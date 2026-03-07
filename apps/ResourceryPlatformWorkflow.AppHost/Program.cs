@@ -72,18 +72,18 @@ internal class Program
             .WithReference(seq)
             .WaitForCompletion(migrator);
 
-        builder
-            .AddProject<ResourceryPlatformWorkflow_Projects_HttpApi_Host>(
-                ResourceryPlatformWorkflowNames.ProjectsApi,
-                launchProfileName: LaunchProfileName
-            )
-            .WithExternalHttpEndpoints()
-            .WithReference(adminDb)
-            .WithReference(projectsDb)
-            .WithReference(rabbitMq)
-            .WithReference(redis)
-            .WithReference(seq)
-            .WaitForCompletion(migrator);
+        // builder
+        //     .AddProject<ResourceryPlatformWorkflow_Projects_HttpApi_Host>(
+        //         ResourceryPlatformWorkflowNames.ProjectsApi,
+        //         launchProfileName: LaunchProfileName
+        //     )
+        //     .WithExternalHttpEndpoints()
+        //     .WithReference(adminDb)
+        //     .WithReference(projectsDb)
+        //     .WithReference(rabbitMq)
+        //     .WithReference(redis)
+        //     .WithReference(seq)
+        //     .WaitForCompletion(migrator);
 
         var gateway = builder
             .AddProject<ResourceryPlatformWorkflow_Gateway>(ResourceryPlatformWorkflowNames.Gateway, launchProfileName: LaunchProfileName)
