@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsAspireHost>true</IsAspireHost>
+        <UserSecretsId>0aae16e2-bc34-40f6-b9c4-10379cc46b10</UserSecretsId>
+    </PropertyGroup>
+
+    <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
+        <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
+        <PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
+        <PackageReference Include="Aspire.Hosting.Seq" Version="9.0.0" />
+        <PackageReference Include="IdentityModel" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\apps\ResourceryPlatformWorkflow.AuthServer\ResourceryPlatformWorkflow.AuthServer.csproj" />
+        <ProjectReference Include="..\..\gateway\ResourceryPlatformWorkflow.Gateway\ResourceryPlatformWorkflow.Gateway.csproj" />
+        <ProjectReference Include="..\..\services\administration\host\ResourceryPlatformWorkflow.Administration.HttpApi.Host\ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj" />
+        <ProjectReference Include="..\..\services\identity\host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host.csproj" />
+        <ProjectReference Include="..\..\services\projects\host\ResourceryPlatformWorkflow.Projects.HttpApi.Host\ResourceryPlatformWorkflow.Projects.HttpApi.Host.csproj" />
+        <ProjectReference Include="..\..\services\saas\host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host.csproj" />
+        <ProjectReference Include="..\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor\ResourceryPlatformWorkflow.WebApp.Blazor.csproj" />
+        <ProjectReference Include="..\..\shared\ResourceryPlatformWorkflow.DbMigrator\ResourceryPlatformWorkflow.DbMigrator.csproj" />
+        <ProjectReference Include="..\..\shared\ResourceryPlatformWorkflow.Shared\ResourceryPlatformWorkflow.Shared.csproj" IsAspireProjectResource="false" />
+    </ItemGroup>
+
+</Project>

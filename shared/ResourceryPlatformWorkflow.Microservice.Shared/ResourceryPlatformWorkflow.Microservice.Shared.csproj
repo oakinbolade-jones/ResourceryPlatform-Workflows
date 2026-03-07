@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace />
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="2.1" />        <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />        <PackageReference Include="Volo.Abp.AspNetCore" Version="10.0.2" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\..\services\administration\src\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\ResourceryPlatformWorkflow.Hosting.Shared\ResourceryPlatformWorkflow.Hosting.Shared.csproj" />
+    </ItemGroup>
+    
+</Project>
