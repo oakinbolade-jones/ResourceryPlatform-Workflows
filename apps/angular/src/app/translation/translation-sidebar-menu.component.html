@@ -1,0 +1,82 @@
+<nav class="qt-nav">
+
+  <a class="qt-nav-item" routerLink="/directorate" routerLinkActive="active"
+    title="{{ 'Workflow::Dashboard' | abpLocalization }}">
+    <!-- <i class="fa fa-border-all" aria-hidden="true"></i> -->
+    <span class="text-bold">
+      <strong> {{ 'Workflow::TranslationServices' | abpLocalization }} </strong>
+    </span>
+  </a>
+
+<a class="qt-nav-item" routerLink="/translation/translation-requests" routerLinkActive="active"
+    title="{{ 'Workflow::TranslationRequests' | abpLocalization }}">
+    <i class="fab fa-wpforms" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::TranslationRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/translation-mount-meeting" routerLinkActive="active"
+    title="{{ 'Workflow::TranslationMountMeeting' | abpLocalization }}">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::TranslationMountMeeting' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/translation-processing" routerLinkActive="active"
+    title="{{ 'Workflow::TranslationProcessing' | abpLocalization }}">
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::TranslationProcessing' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/translation-document-alignment" routerLinkActive="active"
+    title="{{ 'Workflow::TranslationDocumentAlignment' | abpLocalization }}">
+    <i class="fa fa-file-import" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::TranslationDocumentAlignment' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/translator-payment" routerLinkActive="active"
+    title="{{ 'Workflow::TranslatorPayment' | abpLocalization }}">
+    <i class="fas fa-money-check-alt" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::TranslatorPayment' | abpLocalization }}
+    </span>
+  </a>
+
+  <div class="qt-nav-section">Pipeline</div>
+  <a class="qt-nav-item" routerLink="/translation/approved-requests" routerLinkActive="active"
+    title="{{ 'Workflow::ApprovedRequests' | abpLocalization }}">
+    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ApprovedRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/in-process-requests" routerLinkActive="active"
+    title="{{ 'Workflow::InProcessRequests' | abpLocalization }}">
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::InProcessRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/rejected-requests" routerLinkActive="active"
+    title="{{ 'Workflow::RejectedRequests' | abpLocalization }}">
+    <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::RejectedRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/translation/sla" routerLinkActive="active"
+    title="{{ 'Workflow::SLA' | abpLocalization }}">
+    <i class="fa fa-balance-scale" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::SLA' | abpLocalization }}
+    </span>
+  </a>
+
+  <div class="qt-nav-section">Team</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    <span>{{ 'Workflow::Settings' | abpLocalization }}</span>
+  </a>
+</nav>

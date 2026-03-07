@@ -22,8 +22,8 @@ public static class ResourceryPlatformWorkflowNames
     public const string IdentityServiceApi = "ResourceryPlatformWorkflowIdentityService";
     public const string IdentityServiceDb = "ResourceryPlatformWorkflowIdentityServiceDb";
 
-    public const string ProjectsApi = "ResourceryPlatformWorkflowProjects";
-    public const string ProjectsDb = "ResourceryPlatformWorkflowProjectsDb";
+    public const string WorkflowApi = "ResourceryPlatformWorkflowWorkflow";
+    public const string WorkflowDb = "ResourceryPlatformWorkflowWorkflowDb";
 
     public const string SaaSApi = "ResourceryPlatformWorkflowSaaS";
     public const string SaaSDb = "ResourceryPlatformWorkflowSaaSDb";

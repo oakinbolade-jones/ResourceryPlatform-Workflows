@@ -1,0 +1,11 @@
+<div class="qt-dashboard rounded-0" [class.is-collapsed]="isSidebarCollapsed">
+  <app-resourcery-sidebar [collapsed]="isSidebarCollapsed">
+    <app-conference-sidebar-menu></app-conference-sidebar-menu>
+  </app-resourcery-sidebar>
+  <app-resourcery-page [collapsed]="isSidebarCollapsed" (toggleSidebar)="toggleSidebar()">
+    <div page-actions>
+      <button type="button" class="btn btn-outline-light btn-sm">Export</button>
+      <button type="button" class="btn btn-light btn-sm">New Conference</button>
+    </div>
+  </app-resourcery-page>
+</div>

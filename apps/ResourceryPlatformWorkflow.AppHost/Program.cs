@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Hosting;
-using Projects;
+using Workflow;
 
 namespace ResourceryPlatformWorkflow.AppHost;
 
@@ -17,7 +17,7 @@ internal class Program
 
         var adminDb = postgres.AddDatabase(ResourceryPlatformWorkflowNames.AdministrationDb);
         var identityDb = postgres.AddDatabase(ResourceryPlatformWorkflowNames.IdentityServiceDb);
-        var projectsDb = postgres.AddDatabase(ResourceryPlatformWorkflowNames.ProjectsDb);
+        var workflowDb = postgres.AddDatabase(ResourceryPlatformWorkflowNames.WorkflowDb);
         var saasDb = postgres.AddDatabase(ResourceryPlatformWorkflowNames.SaaSDb);
 
         var migrator = builder
@@ -27,7 +27,7 @@ internal class Program
             )
             .WithReference(adminDb)
             .WithReference(identityDb)
-            .WithReference(projectsDb)
+            .WithReference(workflowDb)
             .WithReference(saasDb)
             .WithReference(seq)
             .WaitFor(postgres);
@@ -72,18 +72,18 @@ internal class Program
             .WithReference(seq)
             .WaitForCompletion(migrator);
 
-        // builder
-        //     .AddProject<ResourceryPlatformWorkflow_Projects_HttpApi_Host>(
-        //         ResourceryPlatformWorkflowNames.ProjectsApi,
-        //         launchProfileName: LaunchProfileName
-        //     )
-        //     .WithExternalHttpEndpoints()
-        //     .WithReference(adminDb)
-        //     .WithReference(projectsDb)
-        //     .WithReference(rabbitMq)
-        //     .WithReference(redis)
-        //     .WithReference(seq)
-        //     .WaitForCompletion(migrator);
+        builder
+            .AddProject<ResourceryPlatformWorkflow_Workflow_HttpApi_Host>(
+                ResourceryPlatformWorkflowNames.WorkflowApi,
+                launchProfileName: LaunchProfileName
+            )
+            .WithExternalHttpEndpoints()
+            .WithReference(adminDb)
+            .WithReference(workflowDb)
+            .WithReference(rabbitMq)
+            .WithReference(redis)
+            .WithReference(seq)
+            .WaitForCompletion(migrator);
 
         var gateway = builder
             .AddProject<ResourceryPlatformWorkflow_Gateway>(ResourceryPlatformWorkflowNames.Gateway, launchProfileName: LaunchProfileName)

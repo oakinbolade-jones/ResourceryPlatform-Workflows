@@ -1,6 +1,6 @@
 using Serilog;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
-// using ResourceryPlatformWorkflow.Projects.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 
@@ -21,7 +21,7 @@ internal class Program
         );
         builder.AddNpgsqlDbContext<IdentityDbContext>(connectionName: ResourceryPlatformWorkflowNames.IdentityServiceDb);
         builder.AddNpgsqlDbContext<SaaSDbContext>(connectionName: ResourceryPlatformWorkflowNames.SaaSDb);
-        //builder.AddNpgsqlDbContext<ProjectsDbContext>(connectionName: ResourceryPlatformWorkflowNames.ProjectsDb);
+        builder.AddNpgsqlDbContext<WorkflowDbContext>(connectionName: ResourceryPlatformWorkflowNames.WorkflowDb);
 
         builder.Configuration.AddAppSettingsSecretsJson();
 

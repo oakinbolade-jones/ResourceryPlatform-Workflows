@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>ResourceryPlatformWorkflow.Workflow</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ResourceryPlatformWorkflow.Workflow.Application\ResourceryPlatformWorkflow.Workflow.Application.csproj" />
+    <ProjectReference Include="..\ResourceryPlatformWorkflow.Workflow.Domain.Tests\ResourceryPlatformWorkflow.Workflow.Domain.Tests.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.qt-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qt-nav-section {
+  margin-top: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--oc-gray-8);
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+
+.qt-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--oc-gray-8);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.qt-nav-item i {
+  width: 20px;
+  color: var(--oc-gray-8);
+}
+
+.qt-nav-item:hover,
+.qt-nav-item.active {
+  background: var(--oc-teal-0);
+  color: var(--oc-teal-9);
+}
+
+:host-context(.qt-sidebar) .qt-nav-item,
+:host-context(.qt-sidebar) .qt-nav-item i,
+:host-context(.qt-sidebar) .qt-nav-section {
+  color: var(--oc-gray-8);
+}
+
+:host-context(.qt-sidebar.is-collapsed) .qt-nav-item span,
+:host-context(.qt-sidebar.is-collapsed) .qt-nav-section {
+  display: none;
+}
+
+:host-context(.qt-sidebar.is-collapsed) .qt-nav-item {
+  justify-content: center;
+}
+
+:host-context(.qt-sidebar.is-collapsed) .qt-nav-item i {
+  margin: 0;
+}

@@ -1,0 +1,19 @@
+.qt-dashboard {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100%;
+  background: transparent;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.qt-dashboard.is-collapsed {
+  grid-template-columns: 80px 1fr;
+}
+
+@media (max-width: 1200px) {
+  .qt-dashboard {
+    grid-template-columns: 1fr;
+  }
+}

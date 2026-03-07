@@ -1,0 +1,32 @@
+<section class="qt-main">
+  <header class="qt-topbar" *ngIf="!hideTopbar">
+    <div class="qt-page">
+      <button
+        type="button"
+        class="qt-collapse-btn btn btn-outline-light btn-sm"
+        (click)="onToggleSidebar()"
+        [attr.aria-expanded]="!collapsed"
+        aria-label="Toggle sidebar"
+      >
+        <i
+          class="fa"
+          aria-hidden="true"
+          [class.fa-angle-left]="!collapsed"
+          [class.fa-angle-right]="collapsed"
+        ></i>
+      </button>
+      <div class="qt-page-text">
+        <div class="qt-page-title">{{ ('Workflow::' + pageTitle) | abpLocalization }}</div>
+        <div class="qt-page-subtitle">{{ ('Workflow::' + pageSubtitle) | abpLocalization }}</div>
+      </div>
+    </div>
+    <div class="qt-actions">
+      <ng-content select="[page-actions]"></ng-content>
+    </div>
+  </header>
+
+  <div class="qt-content">
+    <ng-content select="[page-content]"></ng-content>
+    <router-outlet></router-outlet>
+  </div>
+</section>

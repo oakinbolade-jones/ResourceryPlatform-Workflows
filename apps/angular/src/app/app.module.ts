@@ -23,7 +23,6 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
     BrowserAnimationsModule,
     AppRoutingModule,
     ThemeSharedModule,
-
     CoreModule,
     ThemeBasicModule,
   ],

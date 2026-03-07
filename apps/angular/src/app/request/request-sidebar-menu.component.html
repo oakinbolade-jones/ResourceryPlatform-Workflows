@@ -1,0 +1,23 @@
+<nav class="qt-nav">
+  <a class="qt-nav-item" routerLink="/request" routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <i class="fa fa-list" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::Requests' | abpLocalization }}
+    </span>
+  </a>
+
+  <div class="qt-nav-section">{{ 'Workflow::Management' | abpLocalization }}</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
+    <span>{{ 'Workflow::PendingRequests' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-check-circle" aria-hidden="true"></i>
+    <span>{{ 'Workflow::ApprovedRequests' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-times-circle" aria-hidden="true"></i>
+    <span>{{ 'Workflow::RejectedRequests' | abpLocalization }}</span>
+  </a>
+</nav>

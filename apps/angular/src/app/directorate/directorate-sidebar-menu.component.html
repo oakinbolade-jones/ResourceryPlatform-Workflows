@@ -1,0 +1,43 @@
+<nav class="qt-nav">
+  <a class="qt-nav-item" routerLink="/directorate" routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <i class="fa fa-building" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::Directorate' | abpLocalization }}
+    </span>
+  </a>
+
+  <div class="qt-nav-section">{{ 'Workflow::Documents' | abpLocalization }}</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-file-text" aria-hidden="true"></i>
+    <span>{{ 'Workflow::InternalMemorada' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-envelope" aria-hidden="true"></i>
+    <span>{{ 'Workflow::IncomingCorrespondence' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-sticky-note" aria-hidden="true"></i>
+    <span>{{ 'Workflow::NoteVerbales' | abpLocalization }}</span>
+  </a>
+
+  <div class="qt-nav-section">{{ 'Workflow::Meetings' | abpLocalization }}</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    <span>{{ 'Workflow::MeetingSupervision' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-clipboard" aria-hidden="true"></i>
+    <span>{{ 'Workflow::MeetingPreparation' | abpLocalization }}</span>
+  </a>
+
+  <div class="qt-nav-section">{{ 'Workflow::Reports' | abpLocalization }}</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+    <span>{{ 'Workflow::ContributionReports' | abpLocalization }}</span>
+  </a>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+    <span>{{ 'Workflow::ConceptNotes' | abpLocalization }}</span>
+  </a>
+</nav>

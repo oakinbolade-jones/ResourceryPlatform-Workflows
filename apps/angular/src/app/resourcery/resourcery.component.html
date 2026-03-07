@@ -1,0 +1,6 @@
+<div class="qt-dashboard rounded-0" [class.is-collapsed]="isSidebarCollapsed">
+  <app-resourcery-sidebar [collapsed]="isSidebarCollapsed"></app-resourcery-sidebar>
+  <app-resourcery-page [collapsed]="isSidebarCollapsed" (toggleSidebar)="toggleSidebar()">
+
+  </app-resourcery-page>
+</div>
