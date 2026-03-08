@@ -13,7 +13,7 @@ public class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        ResourceryLogging.Initialize();
+        ResourceryPlatformWorkflowLogging.Initialize();
 
         try
         {

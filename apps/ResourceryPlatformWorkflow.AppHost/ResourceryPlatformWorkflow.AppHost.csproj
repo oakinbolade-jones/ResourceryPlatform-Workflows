@@ -25,7 +25,7 @@
         <ProjectReference Include="..\..\gateway\ResourceryPlatformWorkflow.Gateway\ResourceryPlatformWorkflow.Gateway.csproj" />
         <ProjectReference Include="..\..\services\administration\host\ResourceryPlatformWorkflow.Administration.HttpApi.Host\ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj" />
         <ProjectReference Include="..\..\services\identity\host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host.csproj" />
-        <!-- <ProjectReference Include="..\..\services\projects\host\ResourceryPlatformWorkflow.Projects.HttpApi.Host\ResourceryPlatformWorkflow.Projects.HttpApi.Host.csproj" /> -->
+        <ProjectReference Include="..\..\services\workflow\host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host.csproj" /> 
         <ProjectReference Include="..\..\services\saas\host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host.csproj" />
         <ProjectReference Include="..\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor\ResourceryPlatformWorkflow.WebApp.Blazor.csproj" />
         <ProjectReference Include="..\..\shared\ResourceryPlatformWorkflow.DbMigrator\ResourceryPlatformWorkflow.DbMigrator.csproj" />
