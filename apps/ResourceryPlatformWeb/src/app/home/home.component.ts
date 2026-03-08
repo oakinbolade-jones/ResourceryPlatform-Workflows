@@ -1,12 +1,12 @@
 import { AuthService, SessionStateService } from '@abp/ng.core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent {
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated;
   }
@@ -15,14 +15,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private sessionStateService: SessionStateService
   ) {}
-
-  ngOnInit(): void {
-    document.body.classList.add('home-page');
-  }
-
-  ngOnDestroy(): void {
-    document.body.classList.remove('home-page');
-  }
 
   login() {
     this.authService.navigateToLogin();

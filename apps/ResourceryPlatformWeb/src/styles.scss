@@ -2,8 +2,8 @@
 
 @font-face {
   font-family: 'Millik';
-  src: url('/assets/fonts/Millik-Regular.woff2') format('woff2'),
-    url('/assets/fonts/Millik-Regular.woff') format('woff');
+  src: url('assets/fonts/millik/Millik.otf') format('opentype'),
+    url('assets/fonts/millik/Millik.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -11,8 +11,8 @@
 
 @font-face {
   font-family: 'Millik';
-  src: url('/assets/fonts/Millik-Medium.woff2') format('woff2'),
-    url('/assets/fonts/Millik-Medium.woff') format('woff');
+  src: url('assets/fonts/millik/Millik.otf') format('opentype'),
+    url('assets/fonts/millik/Millik.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -20,8 +20,8 @@
 
 @font-face {
   font-family: 'Millik';
-  src: url('/assets/fonts/Millik-Bold.woff2') format('woff2'),
-    url('/assets/fonts/Millik-Bold.woff') format('woff');
+  src: url('assets/fonts/millik/Millik.otf') format('opentype'),
+    url('assets/fonts/millik/Millik.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -240,18 +240,9 @@ abp-layout-application>div.container {
 // Remove the default mb-4 spacing from the ABP navbar
 #main-navbar {
   margin-bottom: 0 !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background: transparent !important;
   box-shadow: none !important;
   min-height: 6rem !important;
-}
-
-#main-navbar,
-#main-navbar.navbar,
-#main-navbar .container,
-#main-navbar .container-fluid {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
 }
 
 body:not(.home-page) abp-layout-header,
@@ -259,8 +250,7 @@ body:not(.home-page) .abp-header,
 body:not(.home-page) .abp-navbar,
 body:not(.home-page) #main-navbar {
   background: #ffffff !important;
-  background-color: #ffffff !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
 abp-layout-header,
@@ -268,7 +258,7 @@ abp-layout-header,
 .abp-navbar,
 .abp-topbar,
 header {
-  // background: transparent !important;
+  background: transparent !important;
 }
 
 body.home-page abp-layout-header,
@@ -283,14 +273,7 @@ body.home-page #main-navbar {
   right: 0;
   z-index: 1000;
   background: transparent !important;
-  background-color: transparent !important;
   box-shadow: none !important;
-}
-
-body.home-page #main-navbar .container,
-body.home-page #main-navbar .container-fluid {
-  background: transparent !important;
-  background-color: transparent !important;
 }
 
 abp-layout-header .navbar-nav .nav-link,
@@ -302,28 +285,6 @@ abp-layout-header .navbar-nav .nav-link,
   font-weight: 500 !important;
   font-size: 14px !important;
   margin-left: 25px !important;
-}
-
-abp-layout-header .navbar-brand,
-.abp-navbar .navbar-brand,
-.abp-topbar .navbar-brand,
-#main-navbar .navbar-brand,
-.navbar .navbar-brand,
-abp-layout-header .dropdown-toggle,
-.abp-navbar .dropdown-toggle,
-.abp-topbar .dropdown-toggle,
-#main-navbar .dropdown-toggle,
-.navbar .dropdown-toggle {
-  color: #4a4a4a !important;
-}
-
-#main-navbar .nav-link,
-#main-navbar .navbar-brand,
-#main-navbar .dropdown-toggle,
-#main-navbar .btn,
-#main-navbar .btn-link,
-#main-navbar .navbar-text {
-  color: #4a4a4a !important;
 }
 
 /* Navbar toggler (mobile) */

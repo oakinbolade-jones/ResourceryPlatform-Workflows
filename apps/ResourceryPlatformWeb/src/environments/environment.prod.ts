@@ -24,4 +24,7 @@ export const environment = {
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },
+  localization: {
+    defaultResourceName: 'AbpUi',
+  },
 } as Environment;

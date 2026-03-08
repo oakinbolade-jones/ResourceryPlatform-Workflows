@@ -10,7 +10,7 @@ function configureRoutes(routesService: RoutesService) {
     routesService.add([
       {
         path: '/',
-        name: '',
+        name: 'Workflow::Home',
         iconClass: '',
         order: 0,
         layout: eLayoutType.application,

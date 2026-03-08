@@ -8,6 +8,7 @@ using ResourceryPlatformWorkflow.IdentityService;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.MultiTenancy;
 using ResourceryPlatformWorkflow.SaaS;
+using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Identity;
@@ -24,6 +25,7 @@ namespace ResourceryPlatformWorkflow.Administration;
 [DependsOn(typeof(IdentityServiceApplicationContractsModule))]
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSApplicationContractsModule))]
+[DependsOn(typeof(WorkflowApplicationContractsModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
 public class AdministrationHttpApiHostModule : AbpModule

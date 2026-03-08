@@ -14,7 +14,7 @@ export const environment = {
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
-    scope: 'ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+    scope: 'ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
     requireHttps: false,
   },
   apis: {
@@ -22,5 +22,8 @@ export const environment = {
       url: 'https://localhost:7500',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
+  },
+  localization: {
+    defaultResourceName: 'Workflow',
   },
 } as Environment;

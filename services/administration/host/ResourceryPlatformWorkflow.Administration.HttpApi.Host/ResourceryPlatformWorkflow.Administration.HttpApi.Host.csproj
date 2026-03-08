@@ -17,6 +17,7 @@
         <ProjectReference Include="..\..\..\identity\src\ResourceryPlatformWorkflow.IdentityService.Application.Contracts\ResourceryPlatformWorkflow.IdentityService.Application.Contracts.csproj" />
         <ProjectReference Include="..\..\..\identity\src\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.csproj" />
         <ProjectReference Include="..\..\..\saas\src\ResourceryPlatformWorkflow.SaaS.Application.Contracts\ResourceryPlatformWorkflow.SaaS.Application.Contracts.csproj" />
+        <ProjectReference Include="..\..\..\workflow\src\ResourceryPlatformWorkflow.Workflow.Application.Contracts\ResourceryPlatformWorkflow.Workflow.Application.Contracts.csproj" />
         <ProjectReference Include="..\..\src\ResourceryPlatformWorkflow.Administration.HttpApi\ResourceryPlatformWorkflow.Administration.HttpApi.csproj" />
         <ProjectReference Include="..\..\src\ResourceryPlatformWorkflow.Administration.Application\ResourceryPlatformWorkflow.Administration.Application.csproj" />
         <ProjectReference Include="..\..\src\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj" />

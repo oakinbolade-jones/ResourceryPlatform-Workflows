@@ -7,7 +7,10 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
-    data: { layout: eLayoutType.empty },
+      data: { 
+        layout: eLayoutType.empty,
+        title: 'Home'
+      },
   },
   ,
   { path: 'resourcery', loadChildren: () => import('./resourcery/resourcery.module').then(m => m.ResourceryModule) },
