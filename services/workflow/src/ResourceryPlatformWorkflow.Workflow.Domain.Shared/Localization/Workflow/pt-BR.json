@@ -11,9 +11,9 @@
     "Integrated": "Integrado",
     "Department": "Departamento",
     "Operations": "Operações",
-    "OperationsDescription":"Gerenciar os fluxos de trabalho operacionais e os serviços internos do DCP (Apenas Pessoal).",
+    "OperationsDescription": "Gerenciar os fluxos de trabalho operacionais e os serviços internos do DCP (Apenas Pessoal).",
     "Services": "Serviços",
-    "ServicesDescription":"Faça uma solicitação de serviço/instrução administrativa ao DCP para suporte e ação.",
+    "ServicesDescription": "Faça uma solicitação de serviço/instrução administrativa ao DCP para suporte e ação.",
     "ArtificialIntelligence": "Inteligência Artificial",
     "IntegratedWorkflows": "Fluxos de Trabalho Integrados",
     "ProcessAutomation": "Automação de Processos",
@@ -154,7 +154,7 @@
     "ConferenceServices": "Serviços de Conferência",
     "ProtocolServices": "Serviços de Protocolo",
     "TranscriptionServices": "Serviços de Transcrição",
-    
+
     "DirectorateRequests": "Solicitações de Serviço da Diretoria",
     "DirectorateRequestsOverview": "Todas as solicitações de serviço - Serviços da Diretoria",
     "ConferenceRequests": "Solicitações de Serviço de Conferência",
@@ -162,20 +162,20 @@
     "ProtocolRequests": "Solicitações de Serviço de Protocolo",
     "ProtocolRequestsOverview": "Todas as solicitações de serviço - Serviços de Protocolo",
 
-"Permission:Workflow:Departments": "Departamentos",
-"Permission:Workflow:Departments:Create": "Criar Departamentos",
-"Permission:Workflow:Departments:Update": "Atualizar Departamentos",
-"Permission:Workflow:Departments:Delete": "Excluir Departamentos",
+    "Permission:Workflow:Departments": "Departamentos",
+    "Permission:Workflow:Departments:Create": "Criar Departamentos",
+    "Permission:Workflow:Departments:Update": "Atualizar Departamentos",
+    "Permission:Workflow:Departments:Delete": "Excluir Departamentos",
 
-"Permission:Workflow:Requests": "Solicitações",
-"Permission:Workflow:Requests:Create": "Criar Solicitações",
-"Permission:Workflow:Requests:Update": "Atualizar Solicitações",
-"Permission:Workflow:Requests:Delete": "Excluir Solicitações",
+    "Permission:Workflow:Requests": "Solicitações",
+    "Permission:Workflow:Requests:Create": "Criar Solicitações",
+    "Permission:Workflow:Requests:Update": "Atualizar Solicitações",
+    "Permission:Workflow:Requests:Delete": "Excluir Solicitações",
 
-"Permission:Workflow:Services": "Serviços",
-"Permission:Workflow:Services:Create": "Criar Serviços",
-"Permission:Workflow:Services:Update": "Atualizar Serviços",
-"Permission:Workflow:Services:Delete": "Excluir Serviços"
+    "Permission:Workflow:Services": "Serviços",
+    "Permission:Workflow:Services:Create": "Criar Serviços",
+    "Permission:Workflow:Services:Update": "Atualizar Serviços",
+    "Permission:Workflow:Services:Delete": "Excluir Serviços"
 
   }
 }
