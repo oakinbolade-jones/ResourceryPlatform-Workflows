@@ -172,6 +172,53 @@
     "Permission:Workflow:Services": "Services",
     "Permission:Workflow:Services:Create": "Create Services",
     "Permission:Workflow:Services:Update": "Update Services",
-    "Permission:Workflow:Services:Delete": "Delete Services"
+    "Permission:Workflow:Services:Delete": "Delete Services",
+
+    "Workflow:Services:OFD": "Office of the Director",
+    "Workflow:Services:OFD-PID": "Preparation of Internal Memoranda on behalf of Directorate/Management",
+    "Workflow:Services:OFD-RICR": "Receipt of incoming Correspondences and Requests",
+    "Workflow:Services:OFD-NVINN": "Review of Notes Verbale (NV) and Issuance of NV Numbers",
+    "Workflow:Services:OFD-SMOE": "Supervision of Preparations for Statutory Meetings and other Official Events",
+    "Workflow:Services:OFD-PMOE": "Preparations for Statutory Meetings/ Official Events",
+    "Workflow:Services:OFD-PRCR": "Preparation and Review of Contributions to Reports",
+    "Workflow:Services:OFD-PCNTR": "Preparation of Concept Notes/Terms of Reference",
+    "Workflow:Services:OFD-PIM": "Preparation of Internal Meetings",
+    "Workflow:Services:OFD-DUPMEPM": "Document Upload, Population and Management of ECODOCS for Paperless Meeting",
+    
+    "Workflow:Services:CONF": "Conference Division Services",
+    "Workflow:Services:CONF-CCOE": "Compilation of Quarterly Calendar of Events - Event Schedules",
+    "Workflow:Services:CONF-BP": "Budget Preparation",
+    "Workflow:Services:CONF-MLC": "Meeting at the Commission (Physical)- Meeting Logistics Arrangement and Support Service",
+    "Workflow:Services:CONF-EMME": "External Meeting (Physical) - Meeting Execution",
+    "Workflow:Services:CONF-MCPM": "Meeting at the Commission (Physical) - Post Meeting",
+    "Workflow:Services:CONF-EMMLA": "External Meeting (Physical Outside the Commission)- Meeting Logistics Arrangement: Support Service or Service Providers- Set up",
+    "Workflow:Services:CONF-EMPOC": "External Meeting (Physical Outside the Commission)",
+    "Workflow:Services:CONF-EMPOCPM": "External Meeting (Physical outside the Commission) PostMeeting",  
+    "Workflow:Services:CONF-VHMLA": "Virtual/Hybrid Meeting - Meeting Logistics Arrangement: Meeting Link and Refreshment",
+    "Workflow:Services:CONF-HVPVRS": "Hybrid/Virtual (Physical & Virtual Running Simultaneously)",
+    "Workflow:Services:CONF-HVPVRSPM": "Hybrid/Virtual (Physical & Virtual Running Simultaneously) Post-Meeting",
+    "Workflow:Services:CONF-CIDEWPC": "Communication/Information Document: Events of the Week - Pre-Conference",
+    "Workflow:Services:CONF-CIDEWIM": "Communication/Information Document: Events of the Week - In-Meeting",
+    "Workflow:Services:CONF-CIDEWPOC": "Communication/Information Document: Events of the Week - Post-Conference",
+ "Workflow:Services:CONF-EMMSPC": "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers- Pre-Conference Set up",
+ "Workflow:Services:CONF-EMMSME": "External Meetings (Physical in the Member States) - Meeting Execution",
+ "Workflow:Services:CONF-EMMSPM": "External Meetings (Physical in the Member States) - Post-Meeting",
+"Workflow:Services:CONF-EMMSFB": "External Meetings (Physical in the Member States) - Feedback",
+ 
+
+"Workflow:Services:CONF-EMRMEPC": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution Pre-Conference",
+ "Workflow:Services:CONF-EMRMEIM": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution In-Meeting",
+ "Workflow:Services:CONF-EMRMEPOC": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution - Post-Conference ",
+ 
+
+
+
+
+    "Workflow:Services:INT": "Interpretation Services",    
+
+    "Workflow:Services:TS": "Translation Services",
+    
+    "Workflow:Services:PS": "Protocol Services",
+    "Workflow:Services:TRS": "Transcription Services"
   }
 }

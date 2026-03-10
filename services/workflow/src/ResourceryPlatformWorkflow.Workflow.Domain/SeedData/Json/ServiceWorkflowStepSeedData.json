@@ -1,0 +1,2330 @@
+[
+    {
+        "Step": "1",
+        "Description": "Memo is received, time/date stamped and acknowledged in Director's office by the Office Aide",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-01"
+    },
+    {
+        "Step": "2",
+        "Description": "Office Aide sends to the Director who minutes/instructs accordingly to officer responsible for related task",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-01"
+    },
+    {
+        "Step": "3",
+        "Description": "Office Aide dispatches minuted memo to officers responsible OR Office Manager/Officer responsible prepares draft memo and sends draft to Director for review ",
+        "Actor": "Office Aide, DCP Staff, Director",
+        "ServiceCode": "OD-01"
+    },
+    {
+        "Step": "4",
+        "Description": "Director reviews, amends if need be and returns to Office Manager/officer responsible for production of final draft OR Director finalises, signs and dispatches electronically while copying office email to constitute file copy for archiving by Office Manager and Office Aide",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-01"
+    },
+    {
+        "Step": "5",
+        "Description": "Office Aide dispatches to destination while ensuring acknowledgement",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-01"
+    },
+    {
+        "Step": "1",
+        "Description": "Memo is reviewed for receipt by Office Manager for hard copies OR Director performs same action for electronic receipt of request",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "2",
+        "Description": "Memo without necessary supporting documents/wrongly transmitted is returned to Client  Directorate OR Director performs same action for electronic receipt of request",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "3",
+        "Description": "Memo with all supporting documents is received and acknowledged in incoming register by Office Aide or electronically by Director",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "4",
+        "Description": "Office Aide submits memo to Director for action Director acts on request/minutes memo to appropriate DCP staff/destination Director when acting on request electronically, copies DCP office email",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "5",
+        "Description": "Office Aide submits memo to Director for action Director acts on request/minutes memo to appropriate DCP staff/destination Director when acting on request electronically, copies DCP office email",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "6",
+        "Description": "Office Aide archives hard/electronic copy",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "7",
+        "Description": "Office Aide dispatches duly registered memo to destination",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "8",
+        "Description": "Office Aide delivers memo to destination and obtains acknowledgement in outgoing registe",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-02"
+    },
+    {
+        "Step": "1",
+        "Description": "Director receives from PPO Protocol soft or hard copy of draft Note Verbale withsupporting documents where necessary",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-03"
+    },
+    {
+        "Step": "2",
+        "Description": "Director reviews and sends back to PPO Protocol for production of final hard copy while directing Office Manager to provide reference number",
+        "Actor": "Office Aide, Director, Office Manager",
+        "ServiceCode": "OD-03"
+    },
+    {
+        "Step": "3",
+        "Description": "Director receives final version for initialing",
+        "Actor": "Director",
+        "ServiceCode": "OD-03"
+    },
+    {
+        "Step": "4",
+        "Description": "Director dispatches initialed Note Verbale to Protocol through Office Aide",
+        "Actor": "Office Aide, Director",
+        "ServiceCode": "OD-03"
+    },
+    {
+        "Step": "5",
+        "Description": "Initialed Note Verbale is dispatched to Protocol Division",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-0"
+    },
+    {
+        "Step": "1",
+        "Description": "Director proposes dates for statutory meetings to Management for approval",
+        "Actor": "Office Manager",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "2",
+        "Description": "Director amends and returns for production of final draft and production of cover memo by Office Manager",
+        "Actor": "Director, Office Manager",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "3",
+        "Description": "Office Manager submits final correpondence and relevant cover memo to Director for signature",
+        "Actor": "Office Manager",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "4",
+        "Description": "Director sends electronic version of correspondence to Commissioner for review",
+        "Actor": "Director",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "5",
+        "Description": "Upon return of CGAC amendments, Director adjust as necessary",
+        "Actor": "Director",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "6",
+        "Description": "Office Manager prepares cover memo to accompany final versions to be dispatched of correspondence to CGAC",
+        "Actor": "Office Manager",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "7",
+        "Description": "Director signs cover memo, while checking again accompanying final versions",
+        "Actor": "Director",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "8",
+        "Description": "Office Aide dispatches to CGAC/destination",
+        "Actor": "Office Aide",
+        "ServiceCode": "OD-04"
+    },
+    {
+        "Step": "1",
+        "Description": "Director proposes dates for Statutory Meetings to Management for approval/receives dates from Management Once dates are received, Director informs DCP colleagues and prepares draft correspondence for Management to inform all Community Institutions Director instructs HOD Conference to approach DCP colleagues for expression of needs Director instructs PPO Protocol to provide list of recommended hotels and negotiated rates",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "2",
+        "Description": "Director convenes initial preparation meeting with HODs and directs prepartions of all deliverables, including any required liaison with support directorate and deliverables from Director's Office itself",
+        "Actor": "Director, HOD",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "3",
+        "Description": "Director reviews all deliverables for adjustments where necessary/acts on deliverables and/forwards deliverables to Management",
+        "Actor": "Director",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "4",
+        "Description": "Director receives further instructions from Management and hands down further instructions to HODs for adjustment where necessary and completion of all deliverables",
+        "Actor": "Director, HOD",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "5",
+        "Description": "Director invites Management to conduct final check of facilities and arrangements/obtains final approval for implemetion of all deliverables/release of all document",
+        "Actor": "Director",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "6",
+        "Description": "While meeting/event is ongoing Director monitors smooth functioning of all meeting pillars (payments, bills, documentation, accreditation, signature of final reports, etc.)",
+        "Actor": "Director",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "7",
+        "Description": "Director supervises the dismantling of meeting",
+        "Actor": "Director",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "8",
+        "Description": "Director receives analysis of feedback and assessment forms, and reviews DCP procedures accordingly",
+        "Actor": "Director",
+        "ServiceCode": "OD-05"
+    },
+    {
+        "Step": "1",
+        "Description": "Director receives instructions from Management to prepare contributions",
+        "Actor": "Director",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "2",
+        "Description": "Director requests Director's Office support staff to provide previous versions where it exists/prepare preliminary draft",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "3",
+        "Description": "Director requests elements from divisions where necessary in electronic version",
+        "Actor": "Director",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "4",
+        "Description": "Director directs  support staff to merge all elements and prepare second preliminary draft",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "5",
+        "Description": "Director reviews second preliminary draft and dispatches to support staff/ffice Manager/Documentation Division for formatting",
+        "Actor": "Director",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "6",
+        "Description": "Director receives formatted version",
+        "Actor": "Director",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "7",
+        "Description": "Director forwards DCP contribution to appropriate quarters (electronic version or hard copy)",
+        "Actor": "Director",
+        "ServiceCode": "OD-06"
+    },
+    {
+        "Step": "1",
+        "Description": "Director receives instruction from Management/Technical Directorate OR Director requests draft concept note/terms of reference from relevant DCP staff in implementation of approved budget/activity plan",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-07"
+    },
+    {
+        "Step": "2",
+        "Description": "Director reviews draft received and instructs relevant DCP staff to prepare final version",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-07"
+    },
+    {
+        "Step": "3",
+        "Description": "Director dispatches completed document to appropriate quarters",
+        "Actor": "Director, Office Aide",
+        "ServiceCode": "OD-07"
+    },
+    {
+        "Step": "1",
+        "Description": "Director instructs support staff to prepare relevant background information, notice of meeting, draft agenda and work program",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "2",
+        "Description": "Director reviews preliminary background information and supporting document, amending where necessary or issuing instruction to DCP staff for finalisation",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "3",
+        "Description": "Director directs Office Manager to dispatch notice of meeting, agenda, work program and any supporting documents",
+        "Actor": "Director, Office Manager",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "4",
+        "Description": "Director instructs support staff to prepare annotated agenda for Director’s own use",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "5",
+        "Description": "Director appoints meeting rapporteur and moderates meeting",
+        "Actor": "Director",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "6",
+        "Description": "Director disseminates the report of meeting/summary of conclusions/reminder of intructions to relevant DCP staff",
+        "Actor": "Director, DCP Staff",
+        "ServiceCode": "OD-08"
+    },
+    {
+        "Step": "1",
+        "Description": "Director receives approved draft agenda from Management",
+        "Actor": "Director",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "2",
+        "Description": "Director sends approved agenda to support staff for insertion of details into status of documents",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "3",
+        "Description": "Director instructs support staff to continuously adjust status of documents in line with President’s instructions",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "4",
+        "Description": "Director instructs support staff to format and upload documents as against President’s approval of agenda items Director continues to release documents as upload is completed by  support staff",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "5",
+        "Description": "Director remains available  to instruct staff for replacement/removal of any uploaded document",
+        "Actor": "Director, Support Staff",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "6",
+        "Description": "Director checks that system has automatically archived all documents",
+        "Actor": "Director",
+        "ServiceCode": "OD-09"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Division through DCP requests for the activities for the quarter from Finance Directorate",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD assigned a Conference Assistant to extract detailed information and produce preliminary calendar",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "3",
+        "Description": "HOD allocates each Conference Assistance aspecific directorate(s)",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "4",
+        "Description": "Each Conference Assistant to liaise with his allocated directorate to confirm the meetings in the quarterly calendar and update with logistics (venue/number of days/number of participants)",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "5",
+        "Description": "Assigned Conference Assistant undertakes check at end of every month and updates calendar when necessary. Collation continues",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference Assistants send information collected to officer in charge of collation for review and dispatch to HOD who will perform final check and dispatch to DCP",
+        "Actor": "Conference Assistant, HOD, DCP Staff",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "7",
+        "Description": "Issuance of the calendar of events",
+        "Actor": "",
+        "ServiceCode": "CONF-01"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD received instruction from DCP toprepare budget for the activity",
+        "Actor": "DCP Staff, HOD",
+        "ServiceCode": "CONF-02"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant contacts other DCP divisions/support directorates involved, also Client Directorate, to obtain all details necessary for budgetpreparation.",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-02"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant prepares the draft budget and submits to HOD for vetting",
+        "Actor": "Conference Assistant, HOD",
+        "ServiceCode": "CONF-02"
+    },
+    {
+        "Step": "4",
+        "Description": "HOD sends the prepared budget to DCP for onward transmission to Technical Directorate",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-02"
+    },
+    {
+        "Step": "5",
+        "Description": "Logistics budget available",
+        "Actor": "",
+        "ServiceCode": "CONF-02"
+    },
+    {
+        "Step": "1",
+        "Description": " Approved memo/meeting request form received from DCP by HOD",
+        "Actor": "DCP Staff, HOD",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD minutes the meeting request to Conference Assistant in charge for necessary logistics preparation",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant completes the logistics request form as against approved budget and submits to DCP through the HOD",
+        "Actor": "Conference Assistant, HOD, DCP Staff",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "4",
+        "Description": "DCP approves and sends to Admin Directorate",
+        "Actor": "DCP Staff",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "5",
+        "Description": "Logistics requested received from General Admin and deployed by Conference Assistant assigned to the meeting/element of meeting ",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "6",
+        "Description": "Logistics arrangement concluded",
+        "Actor": "",
+        "ServiceCode": "CONF-03"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD requests menu and meal plan from identified caterer(s)",
+        "Actor": "HOD",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "2",
+        "Description": "Assigned Conference Assistant proposes menu choice to HOD for validation",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "3",
+        "Description": "HOD with participation of Conference Assistant calls for meeting with caterer to discuss identified service points, timings, food distribution, presentation, packaging, number of wait staff, waste disposal, etc.",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Assistant checks compliance with contract and menu at delivery. Conference Assistant continues surpervision until the end of the event.",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference Assistant submits meeting assessment form to Client Directorate and receives completed form for dispatch to HOD and onward transmission to DCP ",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference Assistant submits meeting feedback form to HOD and receives completed form for dispatch to HOD for onward transmission to DCP",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "7",
+        "Description": "Caterer deployed and evaluated",
+        "Actor": "",
+        "ServiceCode": "CONF-04"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD with participation of Reprographic/Documentation Officer and Conference Assistant(s) convenes meeting with designated adhoc staff to assign duties and positions.",
+        "Actor": "HOD, Reprographic Officer, Conference Assistant",
+        "ServiceCode": "CONF-05"
+    },
+    {
+        "Step": "2",
+        "Description": "Dedicated refresher for all ushers is conducted to review ushering checklist by Senior Conference Assistant/HOD",
+        "Actor": "Senior Conference Assistant, HOD",
+        "ServiceCode": "CONF-05"
+    },
+    {
+        "Step": "3",
+        "Description": "Supervising staff monitors performance of adhoc staff",
+        "Actor": "DCP Staff",
+        "ServiceCode": "CONF-05"
+    },
+    {
+        "Step": "4",
+        "Description": "Supervising Officer completes contract evaluation form and submits to the HOD for onward transmission to DCP",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-05"
+    },
+    {
+        "Step": "5",
+        "Description": "Adhoc staff deployed and evaluated",
+        "Actor": "",
+        "ServiceCode": "CONF-05"
+    },
+    {
+        "Step": "1",
+        "Description": "Approved memo/meetingrequest form received from DCP by HOD",
+        "Actor": "HOD",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD assigns to officer in Charge of logistics planning for external meetings. Officer analyses request and compiles meeting logistics needs and services",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "3",
+        "Description": "Officer dispatched emails to designated service provider which reflects the compilation of meeting logistics needs and other relevant details. Email is copied to HOD and DCP.",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "4",
+        "Description": "As indicated by officer, HOD notifies DCP of any request to be made to resident reps. or national office/ECOWAS entities",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "5",
+        "Description": "Officer assesses for comformity with approval and negotiates, if necessary, until agreement is reached.",
+        "Actor": "",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "6",
+        "Description": "Officer through the HOD requests confirmation from client directorate and notifies service provider accordingly while also indicating the date of the meeting after conference division arrival.",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "7",
+        "Description": "Logistics Concluded",
+        "Actor": "",
+        "ServiceCode": "CONF-06"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD/Conference Assistant leads inspection and walk through of meeting facilities. Identification and allocation of offices and work space, preparation of office space directory, labelling and room tagging.",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD/Conference Assistant sketches layout reflecting set-up & seating arrangement and shares with service provider for appropriate set-up to be done",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant prepares and places nameplates to reflect approved participants and order of precedence as well as seating plan. Conference Assistant guides hostesses toundertake labelling of seats and familiarization with designated seating areas ",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Assistant guides  hostesses to place writing kits on tables and any other folders/documents as indicated by DCP",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference Assistant informs HOD to invite Meeting Coordinator/DCP/Management for final inspection",
+        "Actor": "Conference Assistant, HOD",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "6",
+        "Description": "Set-up concluded",
+        "Actor": "",
+        "ServiceCode": "CONF-07"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD/Reproduction Officer leads inspection and walk through of meeting logistics items. Identification and allocation of working tools",
+        "Actor": "HOD, Reproduction Officer",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "2",
+        "Description": " HOD/Reproduction Officer sketches layout reflecting set-up and shares with service provider for appropriate set-up to be done.",
+        "Actor": "HOD, Reprographic Officer",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "3",
+        "Description": "Reproduction Officer/Assistant and technicians install and test run office machines at the secretariat and others offices spaces.",
+        "Actor": "Reproduction Officer, Assistant, Technicians",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "4",
+        "Description": "Reproduction Officer/Assistant and technicians reproduce and package documents. Reproduction Officer checks packed folder and submits to DCP/Coordinator for last vetting.",
+        "Actor": "Reproduction Officer, Reproduction Assistant, Technicians, DCP Staff",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "5",
+        "Description": "Reproduction Officer/Assistant delivers package documents to HOD Protocol/Assistant for distribution",
+        "Actor": "HOD, Reproduction Officer, Reproduction Assistant",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "6",
+        "Description": "Meetings  equipment/documents available",
+        "Actor": "Reproduction Officer, HOD, Reproduction Assistant",
+        "ServiceCode": "CONF-08"
+    },
+    {
+        "Step": "1",
+        "Description": "Reproduction Officer designs badges and seeks for management approval through DCP",
+        "Actor": "Reproduction Officer, Reproduction Assistant",
+        "ServiceCode": "CONF-09"
+    },
+    {
+        "Step": "2",
+        "Description": "Reproduction Officer/Assistant receives approved list of participants for accreditation and produces badges accordingly",
+        "Actor": "Reproduction Officer, DCP Staff",
+        "ServiceCode": "CONF-09"
+    },
+    {
+        "Step": "3",
+        "Description": "Reproduction Officer/Assistant produces badges, groups them according to the approved list and deliver to DCP",
+        "Actor": "Reproduction Officer, DCP Staff",
+        "ServiceCode": "CONF-09"
+    },
+    {
+        "Step": "4",
+        "Description": "DCP vets delivered badges and sends to Head of Protocol for distribution",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-09"
+    },
+    {
+        "Step": "5",
+        "Description": "Badges produced and delivered",
+        "Actor": "",
+        "ServiceCode": "CONF-09"
+    },
+    {
+        "Step": "1",
+        "Description": "HOD Conference/Assistant identifies the place for SIE set-up and shares with the provider",
+        "Actor": "",
+        "ServiceCode": "CONF-10"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD Conference/Assistant follows on the set-up of the SIE arrangement in the hall",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-10"
+    },
+    {
+        "Step": "3",
+        "Description": "HOD Conference/Assistant arrangesv chairs in the booths according to the approved type of language team and also makes provision for extra seat for rotational purposes",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-10"
+    },
+    {
+        "Step": "4",
+        "Description": "HOD Conference/Assistant informs the Language Coordinator when the set-up ends",
+        "Actor": "HOD, Conference Assistant, Language Coordinstor",
+        "ServiceCode": "CONF-10"
+    },
+    {
+        "Step": "5",
+        "Description": "SIE space identified",
+        "Actor": "",
+        "ServiceCode": "CONF-10"
+    },
+    {
+        "Step": "1",
+        "Description": "Approved memo/meeting request form received from DCP by HOD",
+        "Actor": "DCP Staff, HOD",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD minutes the meetin request to conference assistant in charge for creation of virtual links & also to Conference Assistant in charge of other logistics arrangement",
+        "Actor": "HOD, Conference Assistant",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant in charge of the link creation contacts the Client Directorate for other necessary information.",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Assistant completes the logistics request form as against approved budget and submits to DCP through the HOD",
+        "Actor": "Conference Assistant, HOD, DCP Staff",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference Assistant in charge of the link creation receives from the Client Directorate accurate information for the link setup.",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "6",
+        "Description": "DCP approves the logistics request form and sends to General Admin Directorate.  Conference Assistant follows up on logistics deployement",
+        "Actor": "Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "7",
+        "Description": "Logistics concluded",
+        "Actor": "DCP Staff",
+        "ServiceCode": "CONF-11"
+    },
+    {
+        "Step": "1",
+        "Description": "  Conference Assistant designs the meeting link according to the received information",
+        "Actor": "Conference Assistant,",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant forwards the created link to Client Directorate and in copy to DCP/HOD/other support divisions.",
+        "Actor": "Conference Assistant DCP Staff, HOD",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant forwards the created meeting information to the Conference Assistant in charge of creation of dashboard who will complete and dispatch to HOD",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Assistant forward the created meeting information to Client Directorate and in copy to DCP/HOD/other support divisions.",
+        "Actor": "Conference Assistant DCP Staff, HOD",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference Assistant in charge of logistics contacts the service provider with the refreshment dispatch plan for its implementation.",
+        "Actor": "Conference Assistant",
+        "ServiceCode": ""
+    },
+    {
+        "Step": "6",
+        "Description": "Virtual meeting host from conference Division completes contract evaluation form, submits to HOD for onward transmission to DCP",
+        "Actor": "HOD, DCP Staff",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "7",
+        "Description": "Meeting link available",
+        "Actor": "",
+        "ServiceCode": "CONF-12"
+    },
+    {
+        "Step": "1",
+        "Description": "Approved memo/meeting request form received from DCP by HOD",
+        "Actor": "HOD",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "2",
+        "Description": "HOD assigns to officer in charge of logistics planning for external meetings. Officer analyses request and compiles meeting logistics needs and services",
+        "Actor": "HOD, Conference Officer",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "3",
+        "Description": "Officer dispatched emails to designated service provider which reflects compilation of meeting logistics needs and other relevant details. Email is copied to HOD and DCP.",
+        "Actor": " Conference Officer, HOD, DCP Staff",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "4",
+        "Description": "As indicated by Officer, HOD notifies DCP of any request to be made to resident reps. or national office/ECOWAS entities",
+        "Actor": "Conference Officer, HOD",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "5",
+        "Description": "Officer assesses for comformity with approval and negotiates, if necessary, until agreement is reached. ",
+        "Actor": "Conference Officer",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "6",
+        "Description": "Officer through the HOD request confirmation from Client Directorate and notifies service provider accordingly while also indicating the date of the meeting after conference division arrival.",
+        "Actor": "Conference Officer, HOD",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "",
+        "Description": "Logistics concluded",
+        "Actor": "",
+        "ServiceCode": "CONF-13"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Officer inspects requested meeting facilities including spill over rooms. Also assures that the meeting designed link were dispatched to all participants.",
+        "Actor": "Conference Officer",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Officers in collaboration with ITS staff proceed to the set-up of meeting facilities (hall/spill over rooms/secretariat items/internet connectivity/refreshment arrangement and all ad-hoc staff).",
+        "Actor": "Conference Officer",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Officer proceeds to the repartition of participants into the various meeting rooms (hall/spill over rooms) and seek for DCP approval, then past accordingly at the door of each meeting rooms.",
+        "Actor": "Conference Officer, Reproduction Officer",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Officer reports to DCP/coordinator on the set-up facilities and invites for inspection.",
+        "Actor": "Conference Officer, ITS Officer",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "5",
+        "Description": "DCP approves the set-up and validates for implementation carried out by the Conference Officer.",
+        "Actor": "Conference Officer, Reproduction Officer",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference Officer completes contract evaluation form, submits to the HOD for onward transmission to DCP",
+        "Actor": "Conference Officer, DCP",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "",
+        "Description": "Meeting link and set-up deployed",
+        "Actor": "Conference Officer, DCP Staff",
+        "ServiceCode": "CONF-14"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Assistant checks the validity of the meetings with the Client Directorates and prepares a draft “Events of the week”",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-15"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant prepares the draft “Events of the week” including the assigned conference contact for each meeting and sends to HOD for vetting",
+        "Actor": " Conference Assistant, HOD Staff",
+        "ServiceCode": "CONF-15"
+    },
+    {
+        "Step": "3",
+        "Description": "HOD sends the draft “Events of the week” to DCP for approval and dispatch to communication directorate for publication",
+        "Actor": "",
+        "ServiceCode": "CONF-15"
+    },
+    {
+        "Step": "4",
+        "Description": "“Events of the week” available",
+        "Actor": "",
+        "ServiceCode": "CONF-15"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Assistant receives requested SIM cards according to the staff list for the meeting",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant separates management telephone list from the general list",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant allocates telephone numbers to each staff on the list and submits to HOD/Coordinator for verification",
+        "Actor": "Conference Assistant, HOD",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "4",
+        "Description": "HOD/Conference Assistant hands over to HOD/Protocol Assistant for dispatch",
+        "Actor": "Conference Assistant, HOD, Protocol Officer",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "5",
+        "Description": "HOD/Conference Assistant with ITS staff facilitates the acquisition of modems/routers and recharges token",
+        "Actor": "HOD, Conference Assistant, ITS",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference/Reproduction Assistant receives the used modems/routers from ITS staff for safe keeping at the end of the meeting",
+        "Actor": "Conference Officer, Reproduction Assistant, ITS",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "7",
+        "Description": "SIM cards/data token/routers available",
+        "Actor": "",
+        "ServiceCode": "CONF-16"
+    },
+    {
+        "Step": "1",
+        "Description": " Conference staff inspects all required infrastructure allocated for the meeting",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference staff labels all allocated meeting spaces including spill over rooms and assigns participants to each meeting rooms",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference staff in collaboration with the hotel sets up the hall according to ECOWAS standard",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference staff/ITS staff checks through all digital connection in all meetings halls",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "5",
+        "Description": "HOD/conference staff invites DCP/Coordinator to validate the set-up.",
+        "Actor": "HOD, Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference staff (Reproduction Assistant) designs the signage including the list of participants (spill over rooms) and pastes them where necessary.",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "7",
+        "Description": "Physical & virtual set-up done",
+        "Actor": "",
+        "ServiceCode": "CONF-17"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference staff invites all contracted service providers to the venue for the installation of requested logistics",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference staff conducts a meeting with each service provider on ECOWAS standard servicing",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "3",
+        "Description": "Service providers install all equipment under the supervision of conference staff and ITS staff",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference/ITS staff proceeds on the dry run for all equipments including dry run for virtual meetings",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference staff invites meeting coordinator for briefing.",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference staff may receive further instructions from the Coordinator",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "7",
+        "Description": "Set-up of working logistics done",
+        "Actor": "",
+        "ServiceCode": "CONF-18"
+    },
+    {
+        "Step": "1",
+        "Description": "Reproduction staff downloads received meeting documents from DCP",
+        "Actor": "Reproduction Officer, Reproduction Assistant, DCP Staff",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "2",
+        "Description": "Reproduction staff edits and formats the received document according to ECOWAS standards",
+        "Actor": "Reproduction Officer, Reproduction Assistant",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "3",
+        "Description": "Reproduction staff reproduces the received documents according to directives from DCP",
+        "Actor": "Reproduction Officer, Reproduction Assistant",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "4",
+        "Description": "Reproduction staff collates and packages documents for distribution",
+        "Actor": "Reproduction Officer, Reproduction Assistant",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "5",
+        "Description": "Reproduction staff send sbound document and electronic version to Reprographic Officer for vetting",
+        "Actor": "Reproduction Officer, Reproduction Assistant, Reprograhic Officer, Protocol Assistant",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "6",
+        "Description": "Reprographic Officer sends packed folder to DCP for final vetting and approval for distribution. Folders are handed over to the HOD Protocol/protocol assistants",
+        "Actor": "Reproduction Officer, Reproduction Assistant, Reprograhic Officer",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "7",
+        "Description": "Meeting folders ready and dispatched",
+        "Actor": "",
+        "ServiceCode": "CONF-19"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Assistant man his duty station in the hall",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant supervises support staff and monitors smooth running of the meeting",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant follows up on F&B set-up according to ECOWAS standard",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference Assistant distributes meal tickets to all eligible participants and informs DCP/Coordinator accordingly",
+        "Actor": "Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference Assistant reviews distribution quality and quantity of F&B",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "6",
+        "Description": "Conference Assistant monitors the conclusion of F&B service (waste disposal, management of leftovers, etc.)",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "7",
+        "Description": "Meeting well coordinated",
+        "Actor": "",
+        "ServiceCode": "CONF-20"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference staff requests the bills from the service providers",
+        "Actor": "Conference Officer, Conference Assistant, DCP Staff",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference staff vets bills in line with the approved budget and submits to DCP/Coordinator for approval and onward transmission for payment",
+        "Actor": "Conference Officer, DCP Staff",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference staff fills feedback assessment form and submits to HOD Conference for onward transmission to DCP",
+        "Actor": "Conference Officer, DCP Staff",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "4",
+        "Description": "Conference staff fills the service satisfaction form and submits to HOD for review and signature",
+        "Actor": "Conference Officer, DCP Staff",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "5",
+        "Description": "Conference staff ushers the service provider to the accountant for payment",
+        "Actor": "Conference Assistant, DCP Staff, HOD",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "6",
+        "Description": "Vetted bills duly submitted for payment",
+        "Actor": "",
+        "ServiceCode": "CONF-21"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference Assistant takes a random number of feedback forms as a basis for analysing the service",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-22"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference Assistant analyses the filled feedback forms",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-22"
+    },
+    {
+        "Step": "3",
+        "Description": "Conference Assistant presents and hands over to HOD for onward transmission to DCP",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-23"
+    },
+    {
+        "Step": "4",
+        "Description": "HOD prepares a quality control report for DCP",
+        "Actor": "Conference Assistant",
+        "ServiceCode": "CONF-24"
+    },
+    {
+        "Step": "5",
+        "Description": "SWOT analysis been concluded",
+        "Actor": "",
+        "ServiceCode": "CONF-25"
+    },
+    {
+        "Step": "1",
+        "Description": "Conference/reproduction assistants initiate clearance of all conference materials by instructing adhoc staff on the collection of all leftover documents and meeting materials",
+        "Actor": "Conference Assistant, Reproduction Assistant",
+        "ServiceCode": "CONF-26"
+    },
+    {
+        "Step": "2",
+        "Description": "Conference/reproduction assistants with the help of support staff clear all used conference materials from all meeting spaces",
+        "Actor": "Conference Assistant, Reproduction Assistant",
+        "ServiceCode": "CONF-26"
+    },
+    {
+        "Step": "3",
+        "Description": "Reproduction/conference assistants ensure proper shredding of all leftover documents",
+        "Actor": "Reproduction Assistant",
+        "ServiceCode": "CONF-26"
+    },
+    {
+        "Step": "4",
+        "Description": "Reprographic officer/conference assistants ensure that all hired equipments are released to the service providers",
+        "Actor": "Conference Assistant, Reprographic Officer",
+        "ServiceCode": "CONF-26"
+    },
+    {
+        "Step": "5",
+        "Description": "Meeting space cleared",
+        "Actor": "",
+        "ServiceCode": "CONF-26"
+    },
+    {
+        "Step": "1",
+        "Description": "Receipt of interpretation service request minuted by DCP to Language Coordinator (LC)",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "2",
+        "Description": "LC shall minute request to the Language Assistant (LA) for initial assessment",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "3",
+        "Description": "LA shall assess the validity of the interpretation service request & adequacy of client’s supporting documents (budget adequacy, PR number, working documents, venue, working languages, and the number of participants, need for SIE, etc.)",
+        "Actor": "Language Assistant",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "4",
+        "Description": "LA shall submit the assessed request to LC ",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "5",
+        "Description": "When the request meets requirements, it is validated by LC",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "6",
+        "Description": "In the event that for cogent reasons interpretation cannot be provided (unavailability of staff interpreters and inadequacy of budget and other relevant documents/information), the LC shall inform DCP for appropriate action to be passed on to the Client Directorate",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "7",
+        "Description": "When the interpretation service request is validated by LC or returned to the client because of in-house staff unavailability and lack of adequate documentation to recruit freelancers",
+        "Actor": "",
+        "ServiceCode": "INT-01"
+    },
+    {
+        "Step": "1",
+        "Description": "Based on the interpretation service request, duly approved by DCP, LC shall determine language combination, team strengths and SIE or virtual meeting needs",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "2",
+        "Description": "LC shall check availability of staff interpreters and assign a team accordingly if they are available",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "3",
+        "Description": "LA shall acknowledge receipt of the request, inform the client directorate about the action taken, on the instruction of LC give the team leader's contact, request for working documents and any other information",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "4",
+        "Description": "When staff interpreters are not available and there are adequate budgetary provisions, LC shall propose a team of freelancers (as well as SIE if need be) to DCP for approval based on proximity criteria",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "5",
+        "Description": "Once DCP's approval is obtained, LC shall instruct LA to send out availability requests to freelancers (and proforma invoice requests to SIE providers if need be)",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "6",
+        "Description": "LC shall instruct LA to send out confirmations of offers to freelancers who confirmed their availability. For those who turned down the offer, new names shall be submitted by LC to DCP.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "7",
+        "Description": "LA shall generate the appropriate contracts, based on team size and language combination (including retour) and submit them to LC",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "8",
+        "Description": "LC shall check the contracts before submitting them to DCP",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "9",
+        "Description": "Upon receipt of the signed contracts from DCP, LC shall direct LA to email scanned copies to freelance interpreters for signature and endorsed proforma invoice to SIE providers ",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "10",
+        "Description": "LA shall send working documents (or give the username and password to access ECODOCS as far as statutory meetings are concerned) and useful links to interpreters concerned",
+        "Actor": "Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "11",
+        "Description": "In case it is a virtual meeting, LA shall obtain the meeting link from Conference Section and send it to interpreters",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "12",
+        "Description": "LA shall receive and file the signed contracts and endorsed proforma invoice from freelance interpreters and SIE provider, respectively",
+        "Actor": "Language Assistant",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "13",
+        "Description": "When freelance interpreters (and SIE providers) receive their signed contracts or when staff members are assigned to a meeting in the language schedule",
+        "Actor": "",
+        "ServiceCode": "INT-02"
+    },
+    {
+        "Step": "1",
+        "Description": "On LC’s instructions, LA shall prepare the Language Schedule where staff assignments are indicated and email it to line managers, staff interpreters and translators and other DCP Divisions",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "2",
+        "Description": "Once notified of a meeting outside their duty station, staff interpreters shall make their TVM requests on ECOLINK",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "3",
+        "Description": "On LC’s instructions, LA shall prepare ticket request and send it back to him/her for proper verification. The ticket request shall be sent to DCP who shall sign and forward it to Travel Unit for issuance of tickets.",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "4",
+        "Description": "Should ECOWAS rent a mobile SIE from a supplier, it shall be installed no later than the eve of the meeting, shall be funtional and placed in a position where a clear view of the high table/projection screen is provided. In addition, it shall be compatible with the virtual meeting interface and interpretation platforms.",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "5",
+        "Description": "LC shall appoint team leaders for meetings. The most senior staff interpreter shall be the de facto Team Leader. In event that there is no staff interpreter on the team, a freelance interpreter designated by LC shall play that role. ",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "6",
+        "Description": "The Team Leader shall check if practical arrangements are in place for interpreters i. e., availability of water, working documents including presentations, compliance with the work programme, ensure that professional cordial relations are maintained at all time among colleagues, etc.",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "7",
+        "Description": "Where practical arrangements are not in place, the Team Leader shall draw the attention of Conference Division or whoever plays that role",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "8",
+        "Description": "When the meeting is over",
+        "Actor": "",
+        "ServiceCode": "INT-03"
+    },
+    {
+        "Step": "1",
+        "Description": " LA shall send the meeting link received from the Conference Section to interpreters",
+        "Actor": "Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "2",
+        "Description": "A day before the meeting or during the pre-meeting tests, roles shall be assigned. Each booth shall appoint a Captain, preferably the most senior staff interpreter or a freelancer if there is no staff in the booth.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "3",
+        "Description": "The Booth Captain shall create a WhatsApp group with all his team members including the DCP Co-host. S/he should prepare a roster (order of work) in consultation with her/his team members.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "4",
+        "Description": "The Booth Captain is the interface between her/his booth and the DCP Co-host and Host. S/he shall report any challenge brought to her/his attention or that s/he may have observed and that may adversely affect the smooth performance of her/his colleagues.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "5",
+        "Description": "Each booth shall agree on their preferences as far as symbols are concerned ( : 5 min more; !: end your sentence;  handover) or messages (5 min before handover: “GET READY” and when it is time: “REPREND” or “GO”)",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "6",
+        "Description": "Upon handing over, the Interpreter that was “on” shall listen to the one who has taken over, from his/her second device, to ensure that the transition is going smoothly",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "7",
+        "Description": "Interpreters’ Co-host is designated by the Host (organiser of the meeting) in consultation with DCP. S/he is the interface between the three Booth Captains and the Host. S/he shall perform sound check by listening to the various booths and confirming that the sound is loud and clear before the meeting starts. When participants log on, another sound check shall be carried out with them to ensure that they are good to go.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "8",
+        "Description": "When the meeting is over",
+        "Actor": "",
+        "ServiceCode": "INT-04"
+    },
+    {
+        "Step": "1",
+        "Description": "On LC's instructions, LA shall prepare the Language Schedule and email it to line managers, staff interpreters and translators and other DCP Divisions",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "2",
+        "Description": "Once notified of a meeting outside their duty station, staff interpreters shall make their TVM requests on ECOLINK",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "3",
+        "Description": "On LC's instructions, LA shall prepare ticket requests and send it back to him/her for proper verification. The ticket request shall be sent to DCP who shall sign and forward it to Travel Unit for issuance of tickets.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "4",
+        "Description": "Should ECOWAS rent a mobile SIE from a supplier, it shall be installed no later than the eve of the meeting, shall be funtional and placed in a position where a clear view of the high table/projection screen is provided. In addition, it shall be compatible with the virtual meeting interface and interpretation platforms.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "5",
+        "Description": "The SIE shall be compatible with virtual meeting interface and interpretation platforms. ITS/the service provider shall ensure that the SIE is fitted with required interface and cables, logged on to the interpretation platform and ready for use by interpreters.",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "6",
+        "Description": "LC shall appoint the Team Leader once the team is confirmed. The most senior staff interpreter shall be the de facto Team Leader. In event that there is no staff interpreter on the team, a freelance interpreter designated by LC shall play that role.",
+        "Actor": "",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "7",
+        "Description": "The Team Leader shall check if practical arrangements are in place for interpreters i.e., availability of water, working documents including presentations, compliance with the work programme, ensure that professional cordial relations are maintained at all time among colleagues, etc. In addition, at the time of confirming the offer, the LC/Team Leader shall inform interpreters of any possible requirements to meet in respect of the virtual meeting platform to be used.",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "8",
+        "Description": "When the meeting is over",
+        "Actor": "",
+        "ServiceCode": "INT-05"
+    },
+    {
+        "Step": "1",
+        "Description": "LC obtains confirmation and contact details of SIE provider from DCP",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "2",
+        "Description": "LC/Team Leader receives/confirms details of designated driver",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "3",
+        "Description": "LC sets time for sound check ahead of meeting",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "4",
+        "Description": "Upon installation, the SIE provider shall test the equipment and ensure that it is working. In respect of hybrid meetings, upon installing the required interface and cables, ITS shall logging on to the interpretation platform and do a preliminary sound check to ensure that it is working",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "5",
+        "Description": "LC with staff interpreters ensure component checks (size and position of booths, booth labels, fans, booth lamps, screen, extension boxes, hybrid interpretation platform interface and cable, swivel chairs, writing materials and stationary, adjoining conducive waiting area for interpreters) and verification of the installation specifications with Conference Division/the technicians",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "6",
+        "Description": "When all physical and technical requirements are checked and deemed satisfactory",
+        "Actor": "",
+        "ServiceCode": "INT-06"
+    },
+    {
+        "Step": "1",
+        "Description": "Interpreters shall present themselves at the venue of their assigned meetings at least 1 hour to the commencement of the meeting. Sound check shall be done under the Team Leader's supervision to confirm that the SIE is working.",
+        "Actor": "",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "2",
+        "Description": "Check that input and output sound are clear",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "3",
+        "Description": "Check that relay is functional and that interpreters master the use of consoles",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "4",
+        "Description": "Check that there is direct sound to the interpreters from the roving mics",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "5",
+        "Description": "Check language settings on consoles and receivers Check sound from the interpretation platform",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "6",
+        "Description": "When all audio parameters are good",
+        "Actor": "",
+        "ServiceCode": "INT-07"
+    },
+    {
+        "Step": "1",
+        "Description": "Interpreters shall present themselves at the venue of their assigned meetings at least 1 hour to the commencement of the meeting. Sound check shall be done under the Team Leader's supervision to confirm that all the sound parameters are functional. Sound check shall be done concurrently with that of the interpretation platform. A simulation of participants use of audio on the interpretation platform shall also be done.",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "2",
+        "Description": "Check that input and output sound are clear",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "3",
+        "Description": "Check that relay is functional and that interpreters master the use of consoles",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "4",
+        "Description": "Check that there is direct sound to the interpreters from the roving mics",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "5",
+        "Description": "Check language settings on consoles and receivers",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "6",
+        "Description": "Check sound from the interpretation platform",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "7",
+        "Description": "The participants' audio check shall also be done by LC before any audio output is disseminated",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "8",
+        "Description": "When all audio parameters are good",
+        "Actor": "",
+        "ServiceCode": "INT-08"
+    },
+    {
+        "Step": "1",
+        "Description": "Sound check shall be led by DCP Cohost",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "2",
+        "Description": "LC shall instruct LA to inform colleague interpreters of the start time of sound check",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "3",
+        "Description": "Check that input and output sound are clear",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "4",
+        "Description": "DCP Co-host shall try to resolve challenges that occur and report those beyond his/her control to LC",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "5",
+        "Description": "In the event of serious difficulties that cannot be resolved at their level LC shall inform DCP for appropriate action to be taken by ITS",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "6",
+        "Description": "The participants' audio check shall also be done by LC before any audio output is disseminated",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "7",
+        "Description": "When all audio parameters are good",
+        "Actor": "",
+        "ServiceCode": "INT-09"
+    },
+    {
+        "Step": "1",
+        "Description": "LC shall ensure that all payment requirements are met in due time. To that effect, LC shall instruct LA to give all relevant information on the payment process to freelance interpreters (and SIE providers) ahead of time and ensure that all relevant supporting documents are submitted in line with ECOWAS financial procedures.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-10"
+    },
+    {
+        "Step": "2",
+        "Description": "For physical meetings, LA shall ensure early submission of copies of signed contracts and other supporting documents by freelance interpreters (and SIE provider’s endorsed proforma invoice) to the Protocol Assistant (PA) or Conference Assistant (CA) on the meeting. The latter in turn shall submit them to the Finance Directorate for timely and hitch-free payment.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-10"
+    },
+    {
+        "Step": "3",
+        "Description": "When freelance language professionals are not paid at the venue of the meeting or if it is a virtual meeting, LC shall instruct LA to prepare a cover memo with relevant documents for DCP’s attention for processing",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-10"
+    },
+    {
+        "Step": "4",
+        "Description": "LC shall instruct LA to follow up outstanding payments. LC shall draw DCP’s attention to delays and give relevant information to language service providers concerned.",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "INT-10"
+    },
+    {
+        "Step": "5",
+        "Description": "When all payments including bank transfers to freelance interpreters (and SIE providers)vare made",
+        "Actor": "",
+        "ServiceCode": "INT-10"
+    },
+    {
+        "Step": "1",
+        "Description": "Team Leaders on assigned meetings shall ensure that DCP feedback forms are distributed to the Client Directorate and randomly selected delegates from the various language groups, and collected at the end of the meeting. Survey Monkey with acknowledgment of receipt could also be used to ensure that their feedback is being monitored.",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-11"
+    },
+    {
+        "Step": "2",
+        "Description": "Team Leaders shall submit feedback forms to LC no later than 7 working days after the end of the meeting. LC may discuss them with him/her if need be.",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-11"
+    },
+    {
+        "Step": "3",
+        "Description": "LC shall take corrective actions on issues within his/her purview if need be",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-11"
+    },
+    {
+        "Step": "4",
+        "Description": "LC shall submit feedback forms to DCP when there are issues requiring DCP’s attention.",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "INT-11"
+    },
+    {
+        "Step": "5",
+        "Description": "When corrective action is taken if need be",
+        "Actor": "Language Coordinator, DCP Staff",
+        "ServiceCode": "INT-11"
+    },
+    {
+        "Step": "1",
+        "Description": " PPO Protocol receives approved request from client/superior officer/DCP and confirms validity and responds to client accordingly, PPO Protocol assigns request to Protocol Assistant/Logistics and Reception Officer",
+        "Actor": "PPO",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "2",
+        "Description": "Logistics and Reception Officer/Protocol Assistant confirms destination, fills transport request form(s), obtains endorsement from General Admin Directorate and submits to Transport Unit",
+        "Actor": "Logistics and Receprion Officer, Protocol Assistant",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "3",
+        "Description": "Logistics and Reception Officer/Protocol Assistant confirms pick up point and departure time to client",
+        "Actor": "Logistics and Receprion Officer, Protocol Assistant",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "4",
+        "Description": "Logistics and Reception Officer/Protocol Assistant confirms with transport unit regarding driver(s) and vehicle(s) scheduled for the assignment and contacts assigned driver",
+        "Actor": "",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "5",
+        "Description": "Logistics and Reception Officer/Protocol Assistant confirms driver and vehicle readiness to carry out the assignment on eve of assignment",
+        "Actor": "Logistics and Receprion Officer, Protocol Assistant",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "6",
+        "Description": "Logistics and Reception Officer/Protocol Assistant briefs supervisor on status of implementation",
+        "Actor": "Logistics and Receprion Officer, Protocol Assistant",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "7",
+        "Description": "Delegation is satisfactorily transported or assignment completed",
+        "Actor": "Logistics and Receprion Officer, Protocol Assistant",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "8",
+        "Description": "Assignment completion is reported to supervisor",
+        "Actor": "",
+        "ServiceCode": "PROT-01"
+    },
+    {
+        "Step": "1",
+        "Description": " Consular Officer prepares Note Verbale and offers guided advice where required",
+        "Actor": "Protocol Assistant",
+        "ServiceCode": "PROT-02"
+    },
+    {
+        "Step": "2",
+        "Description": "Note Verbale is submitted to Consulate and appointment scheduled and communicated to client",
+        "Actor": "Protocol Assistant",
+        "ServiceCode": "PROT-02"
+    },
+    {
+        "Step": "3",
+        "Description": "Client(s) show(s) up as appointed Client picks up passport with visa from the Embassy, Consulate/issuing office",
+        "Actor": "Protocol Assistant",
+        "ServiceCode": "PROT-02"
+    },
+    {
+        "Step": "4",
+        "Description": "Update to supervisor Assignment completed",
+        "Actor": "Protocol Assistant",
+        "ServiceCode": "PROT-02"
+    },
+    {
+        "Step": "5",
+        "Description": "Assignment is reported to supervisor",
+        "Actor": "Protocol Assistant",
+        "ServiceCode": "PROT-02"
+    },
+    {
+        "Step": "1",
+        "Description": "  PPO Protocol receives memo from DCP notifying the event. PPO Protocol convenes planning meeting with Consularteam.  ",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "2",
+        "Description": "PPO Protocol contacts counterpart in the Diplomatic Mission to confirm date and schedule for familiarisation visit and dress rehearsal",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "3",
+        "Description": "During dress rehearsal, PPO Protocol and team receive Heads of Mission observing all protocols with regard to accreditation including the following activities: - name - pronounciations, - arrival routes - walk through red carpet - briefing room - accreditation ceremony and departure",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "4",
+        "Description": "On accreditation day, Protocol Officers ensure accreditation venue is duly set up with required paraphenalia and insignia. Final inspection is carried out 1 hour before commencement of event.",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "5",
+        "Description": "Head of Protocol receives the designates in order of arrival and conducts briefing",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "6",
+        "Description": "PPO Protocol informs Protocol Officer attached to President of the Commission of arrival of designates. President is escorted to venue of accreditation by the Protocol Officer to the President.",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "7",
+        "Description": "Respecting order of arrival, the PPO Protocol leads One Heads of Mission, to the accreditation hall for accreditation ceremony to be conducted. PPO Protocol moderates accreditation ceremony.",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "8",
+        "Description": "Each Ambassador/Head of Mission is accompanied to his/her vehicle for departure",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "9",
+        "Description": "PPO Protocol reports completion of a‚ssignment to DCP",
+        "Actor": "",
+        "ServiceCode": "PROT-03"
+    },
+    {
+        "Step": "1",
+        "Description": "PPO Protocol receives instruction to prepare for Diplomatic Cocktail and convenes planning meeting",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "2",
+        "Description": "PPO prepares draft memo for DCP proposing tentative date for Reception to President. Memo shall be accompanied by draft programme, discussion guide, draft budget, proposed guest list, draft input to the President’s speech and all supporting documents",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "3",
+        "Description": "Upon receipt of approval, PPOProtocol assigns responsibilities to Protocol Personnel (arrangement for venue, catering, invitation cards, etc.) ",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "4",
+        "Description": "On request of PPO Protocol through DCP, invitation cards are obtained from General Administration and dispatched to guests",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "5",
+        "Description": "Designated Protocol Personnel receives acknowledgements, regrets, assurances and other feedba ck from invitees and prepares final guest list of confirmed attendance for transmission to Management through DCP",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "6",
+        "Description": "PPO Protocol, on eve of the event convenes final planning meeting and briefs the President appropriately",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "7",
+        "Description": "PPO Protocol invites DCP and Supervising Commissioner forfinal inspection no later than 4 hours before commencement time of event. Protocol Personnel mount their duty posts no later than 2 hours before event.",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "8",
+        "Description": "Protocol Personnel at the entrance verifies validity of invitation. PPO Protocol receives guests and ushers guest to accreditation table. Protocol Personnel receives invitation card and marks register. PPO Protocol ushers guest to President of the Commission. PPO Protocol anchors the event as the case may be. Protocol Personnel are strategically stationed throughout the event.",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "9",
+        "Description": "Designated Protocol Personnel organise departure of guests ",
+        "Actor": "",
+        "ServiceCode": "PROT-04"
+    },
+    {
+        "Step": "",
+        "Description": "PPO Protocol is notified in a memo about arrival, pick-up and temporary accommodation, in the hotel (specifying duration of stay), of new staff of the Commission. PPO Protocol assigns responsibility to the Logistics & Reception, Protocol Personnel.",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "Protocol Personnel notifies transportation unit and hotel in preparation for assignment. Verify ticket with travel unit. Protocol Personnel receives the new staff at the airport and takes him/her to the hotel for accommodation. Protocol Assistant aranges for the staff to be brought from the hotel to HR. Protocol presents a letter of introduction to the designated accommodation facility indicating Commission’s responsibility, date of arrival, name of staff and duration of stay.",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "Airport reception on arrival of new staff is carried out",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "Protocol Officer briefs new staff on arrangement for conveyance of the latter for documentation",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "New staff is handed over to HR ",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "Logistics and Reception Officer, Protocol Assistant briefs PPO Protocol on completion of assignment",
+        "Actor": "",
+        "ServiceCode": "PROT-05"
+    },
+    {
+        "Step": "",
+        "Description": "PPO Protocol receives request for clearing of consignment and assigns same to Privileges and Immunity Unit who prepares Note Verbale addressed to MFA in quadruplicate copies. Having each of the necessary documents attached P&I personnel submits Note Verbale to MFA.",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Note Verbale is submitted to MFA",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Response is received from MFA and submitted at the Customs Office Approved document comes out after 4 working days",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Payment is made to courier company for delivery of approved customs duty documents to the Customs Office at the Port Office",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Copy of approved duty waiver is handed over to the clearing agent/Client",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Cleared goods are delivered at the ECOWAS Commission. Privileges and Immunities Unit and client confirm safe delivery of cleared items.",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "Assignment completed",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "",
+        "Description": "P&I Personnel briefs PPO Protocol on completion of assignment",
+        "Actor": "",
+        "ServiceCode": "PROT-06"
+    },
+    {
+        "Step": "1",
+        "Description": " Protocol Division receives memo from PAPS requesting participation of at least 2 Protocol Officers on Election Observation Mission as well as budget and comprehensive list of participants on the mission and the approved memo by the President, as attachment",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "2",
+        "Description": "• Protocol Personnel (PP) arrive mission and carry out environmental survelance • PP hold logistic meeting with service providers • PP inspect hotels and mission secretariat • PP draft Arrival, Departure, Accommodation and Transport tables • PP establishs contacts with the office of the Resident Rep and/or ECOWAS National unit through Note verbales to receive the HOM and delegation, state escort and security and airport assistance • Medical contingencies, SIM card procurement, briefing room and secretaries are confirmed",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "3",
+        "Description": "Driver verification, noting the following: - Condition of tyres and spare- Fire extinguisher - Caution sign Suitability for the terrain of deployment Working headlamps  and trafficators, etc. PP brief drivers on recurrent questions: - When and how a driver can vote, general code of conduct and working hours PP present the vehicle list to PAPS for insertion into the deployment list and allocation to observers Observers are informed to pick daily updates at the protocol desks at the secretariat ",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "4",
+        "Description": "The PP ensures that the accountant or designated payment office(r) i.e. ECOBANK, has an up-to-date list of arrived election observers with the necessary supporting documents (passport data page and stamped page, ticket and boarding passes) for payment processing. Payment is immediately commenced for delegates especially those traveling to the interior/distant regions.",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "5",
+        "Description": "Before departure, the Protocol Officer and the service provider run final checks on the vehicles, with the list. Emphasis is on vehicle readiness and fueling. The PP labels all vehicles, according to regions and ensures EOM stickers are correctly placed.",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "6",
+        "Description": "Protocol prepares the Head of Mission for election observation by briefing him or her on the excercise. Protocol arranges convoy for departure, remains in contact with the situation room. Protocol monitors airport and border developments, particularly confirms tickets, and note flight changes. Protocol updates and pastes departure schedule at protocol desks and secretariat. Protocol personally reviews the departure plan of the Head of Mission with his team. Protocol reconfirms delegate drop-off plans with hotel shuttle or service provider and other coordination vehicles.",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "7",
+        "Description": "Protocol reviews bills and signs off with service providers for payment processing. Protocol arranges departure of ECOWAS team and announces departure plans to the delegates during the post-election debriefing. Protocol coordinates the departure of both observers and the ECOWAS team, to the airport and ensures all departure formalities are completed.",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "8",
+        "Description": "Protocol team submits mission report within 3 days of return to base. Assignment completed",
+        "Actor": "",
+        "ServiceCode": "PROT-07"
+    },
+    {
+        "Step": "1",
+        "Description": "     Language Assistant (LA) receives translation requests and administers the translation analysis checklist",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "2",
+        "Description": "Language Assistant forwards translation requests to Revisor/Senior Translator with copy to Language Coordinator",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "3",
+        "Description": "Revisor/Senior Translator assigns translation",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "4",
+        "Description": "Translator reviews document and commences translation",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "5",
+        "Description": "Revisor/Senior Translator, after consultation with LC, may decide to assign documents and resources to freelance translators subject to DCP's approval",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "6",
+        "Description": "Documents assigned and processed",
+        "Actor": "",
+        "ServiceCode": "TRANS-01"
+    },
+    {
+        "Step": "1",
+        "Description": "DCP approves the recruitment of freelancers",
+        "Actor": "DCP Staff",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "2",
+        "Description": "LC requests from Language Assistant availability of freelance translators for certain number of pages to be translated",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "3",
+        "Description": "Language Assistant sends document to the confirmed freelance translator(s) specifying required deadline",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "4",
+        "Description": "Freelance translator returns translated document with the invoice to LA",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "5",
+        "Description": "LA sends translated document to Revisor/Senior Translator for review and onward transmission to client",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "6",
+        "Description": "Language Assistant initiates payment process",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "7",
+        "Description": "Documents assigned and processed ",
+        "Actor": "",
+        "ServiceCode": "TRANS-02"
+    },
+    {
+        "Step": "1",
+        "Description": "Translator finalises document",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "2",
+        "Description": "Translated document sent to Revisor/Senior Translator",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "3",
+        "Description": "Revisor/Senior Translator reviews document and sends back to Language Assistant with copy to LC",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "4",
+        "Description": "Language Assistant forwards translated document to client and requests for feedback",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "5",
+        "Description": "Client acknowledges receipt of document and gives feedback",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "6",
+        "Description": "Language Division receives feedback and acts on it",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "7",
+        "Description": "Documents assigned and processed ",
+        "Actor": "",
+        "ServiceCode": "TRANS-03"
+    },
+    {
+        "Step": "1",
+        "Description": "  Revisor/Senior Translato puts forward names of translators",
+        "Actor": "Senior Translator",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "2",
+        "Description": "Language Coordinator reviews and confirms nominations for in-house translation team",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "3",
+        "Description": "Language Coordinator submits the proposed list to Director",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "4",
+        "Description": "Director forwards the proposed list to Conference Division for necessary arrangements and consolidation",
+        "Actor": "Director",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "5",
+        "Description": "Director submits the consolidated list of Commission's delegation to Management for approval",
+        "Actor": "Director",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "6",
+        "Description": "Each staff translator initiates TVM process on ECOLink where necessary",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "7",
+        "Description": "Translation team is available",
+        "Actor": "",
+        "ServiceCode": "TRANS-04"
+    },
+    {
+        "Step": "1",
+        "Description": " Language Coordinator directs Language Assistant to check availability of freelance translators for the period",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "2",
+        "Description": "Language Assistant sends availability request to freelance translators",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "3",
+        "Description": "Language Assistant receives confirmation of availability and notifies Language Coordinator",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "4",
+        "Description": "Language Coordinator discusses and agrees on team of freelance translators with Director",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "5",
+        "Description": "Language Coordinator instructs Language Assistant to confirm freelance translators and proceed with issuance and signing of their Contracts",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "6",
+        "Description": "On instruction of Language Coordinator, Language Assistant completes table for tickets and for onward transmission to Director",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "7",
+        "Description": "Language Coordinator communicates translation team to Conference Division for necessary arrangements",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "8",
+        "Description": "Translation team is available",
+        "Actor": "",
+        "ServiceCode": "TRANS-05"
+    },
+    {
+        "Step": "1",
+        "Description": "Language Assistant, on instruction of Language Coordinator sends request to destination language Revisor",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "2",
+        "Description": "Revisor assigns translation to translator(s)",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "3",
+        "Description": "Translators return translated documents to Revisor",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "4",
+        "Description": "Revisor collates, verifies and sends translated document to the meeting coordinator/focal person",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "5",
+        "Description": "Revisor ensures that documents are available in the different languages before adoption and sends to drafting team focal person/Ag LC/Director Conference",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "6",
+        "Description": "Translated documents available",
+        "Actor": "",
+        "ServiceCode": "TRANS-06"
+    },
+    {
+        "Step": "1",
+        "Description": "Language Coordinator receives amendments made by the meeting to the document",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "2",
+        "Description": "Language Coordinator assigns documents for alignment",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "3",
+        "Description": "Revisor submits aligned document to Language Coordinator",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "4",
+        "Description": "Meeting Coordinator sends adopted document for final alignment",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "5",
+        "Description": "Language Coordinator sends final aligned document to meeting coordinator/focal person",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "6",
+        "Description": "Meeting Coordinator sends adopted document for final alignment",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "7",
+        "Description": "Language Coordinator sends final aligned document to meeting coordinator/focal person",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "8",
+        "Description": "Meeting documents finalised",
+        "Actor": "",
+        "ServiceCode": "TRANS-07"
+    },
+    {
+        "Step": "1",
+        "Description": "    Language Coordinator forwards a copy of the contract to recruited freelance translators for signing",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "2",
+        "Description": "Freelance translators sign contract and return same to Language Coordinator through Language Assistant",
+        "Actor": "Translator",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "3",
+        "Description": "Language Assistant acknowledges receipt of signed contracts",
+        "Actor": "Language Assistant",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "4",
+        "Description": "Language Coordinator forwards the signed contract of recruited freelance translators to the Protocol Officer/DCP representative at the meeting/Client Directorate",
+        "Actor": "Language Coordinator",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "5",
+        "Description": "Should payment be made during the meeting, Protocol Officer/DCP representative at the meeting/Client Directorate submits the contract of the recruited Freelance Translators to Accountant for payment",
+        "Actor": "",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "6",
+        "Description": "If payment is to be made by Directorate of Finance at the Commission, Language Coordinator instructs Language Assistant to prepare the necessary paperwork",
+        "Actor": "Language Coordinator, Language Assistant",
+        "ServiceCode": "TRANS-08"
+    },
+    {
+        "Step": "7",
+        "Description": "Freelance translators’ payment ready",
+        "Actor": "",
+        "ServiceCode": "TRANS-08"
+    }
+]

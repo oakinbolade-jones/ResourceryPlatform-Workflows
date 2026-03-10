@@ -171,6 +171,18 @@
     "Permission:Workflow:Services": "Serviços",
     "Permission:Workflow:Services:Create": "Criar Serviços",
     "Permission:Workflow:Services:Update": "Atualizar Serviços",
-    "Permission:Workflow:Services:Delete": "Excluir Serviços"
+    "Permission:Workflow:Services:Delete": "Excluir Serviços",
+
+    "Workflow:Services:OFD": "Serviços do Gabinete do Diretor",
+    "Workflow:Services:OFD-PID": "Preparação de Memorandos Internos em nome da Direção/Gestão",
+    "Workflow:Services:OFD-RICR": "Recebimento de Correspondências e Solicitações Entrantes",
+    "Workflow:Services:OFD-NVINN": "Revisão de Notas Verbais (NV) e Emissão de Números NV",
+    "Workflow:Services:OFD-SMOE": "Supervisão dos Preparativos para Reuniões Estatutárias e outros Eventos Oficiais",
+    "Workflow:Services:OFD-PMOE": "Preparativos para Reuniões Estatutárias/ Eventos Oficiais",
+    "Workflow:Services:OFD-PRCR": "Preparação e Revisão das Contribuições para Relatórios",
+    "Workflow:Services:OFD-PCNTR": "Preparação de Notas Conceituais/Termos de Referência",
+    "Workflow:Services:OFD-PIM": "Preparação de Reuniões Internas",
+    "Workflow:Services:OFD-DUPMEPM": "Carregamento, População e Gestão de ECODOCS para Reuniões Sem Papel"
+
   }
 }
