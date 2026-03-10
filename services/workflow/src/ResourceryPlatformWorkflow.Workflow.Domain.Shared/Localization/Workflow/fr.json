@@ -7,6 +7,7 @@
     "WorkflowDescription": "Prise en charge des ERP avec des applications personnalisées et des flux de travail automatisés pour des processus cohérents et efficaces.",
     "Workflows": "Flux de travail",
     "WelcomeToResourcery": "Bienvenue à Resourcery",
+    "WelcomeToResourceryDescription": "Une plateforme numérique axée sur la technologie pour une gestion des services sans tracas.",
     "GetStarted": "Commencer",
     "Integrated": "Intégré",
     "Department": "Département",
@@ -146,38 +147,29 @@
     "TranscriptionDocumentAlignmentOverview": "Alignement des documents transcrits pour les demandes approuvées",
     "TranscriberPayment": "Paiement des prestataires de service",
     "TranscriberPaymentOverview": "Traitement du paiement pour les transcripteurs indépendants",
-
     "DirectorateServices": "Services de la direction",
     "TranslationServices": "Services de traduction",
     "InterpretationServices": "Services d'interprétation",
     "ConferenceServices": "Services de conférence",
     "ProtocolServices": "Services de protocole",
     "TranscriptionServices": "Services de transcription",
-
     "DirectorateRequests": "Demandes de service de la direction",
     "DirectorateRequestsOverview": "Toutes les demandes de service - Services de la direction",
     "ConferenceRequests": "Demandes de service de conférence",
     "ConferenceRequestsOverview": "Toutes les demandes de service - Services de conférence",
     "ProtocolRequests": "Demandes de service de protocole",
     "ProtocolRequestsOverview": "Toutes les demandes de service - Services de protocole",
-
-
-
     "Permission:Workflow:Departments": "Départements",
     "Permission:Workflow:Departments:Create": "Créer des départements",
     "Permission:Workflow:Departments:Update": "Mettre à jour les départements",
     "Permission:Workflow:Departments:Delete": "Supprimer des départements",
-
     "Permission:Workflow:Requests": "Demandes",
     "Permission:Workflow:Requests:Create": "Créer des demandes",
     "Permission:Workflow:Requests:Update": "Mettre à jour les demandes",
     "Permission:Workflow:Requests:Delete": "Supprimer des demandes",
-
     "Permission:Workflow:Services": "Services",
     "Permission:Workflow:Services:Create": "Créer des services",
     "Permission:Workflow:Services:Update": "Mettre à jour les services",
     "Permission:Workflow:Services:Delete": "Supprimer des services"
-
-
   }
 }

@@ -1,0 +1,352 @@
+[
+        {
+            "DeptCode": "OFD",
+            "Name": "Preparation of Internal Memoranda on behalf of Directorate/Management",
+            "Code": "OD-01"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Receipt of Incoming Correspondences and Requests",
+            "Code": "OD-02"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Review of Note Verbales and Issuance of Numbers",
+            "Code": "OD-03"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Supervision of Preparations for Statutory Meetings and other Official Events",
+            "Code": "OD-04"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Preparations for Statutory Meetings/Official Events",
+            "Code": "OD-05"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Preparation and Review of Contributions to Reports",
+            "Code": "OD-06"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Preparation of Concept Notes/Terms of Reference",
+            "Code": "OD-07"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Preparation of Internal Meetings",
+            "Code": "OD-08"
+        },
+        {
+            "DeptCode": "OFD",
+            "Name": "Document Upload, Population and Management of ECODOCS for Paperless Meeting",
+            "Code": "OD-09"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Submission of Translation Requests",
+            "Code": "TRANS-01"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Processing of Translation Requests - External(Freelancers)/Non Conference",
+            "Code": "TRANS-02"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Processing of Translation Requests - Internal/Non Conference",
+            "Code": "TRANS-03"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Mounting of Meeting Team - Internal/Conference",
+            "Code": "TRANS-04"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Mounting of Meeting Team - External(Freelanceers)/Non Conference",
+            "Code": "TRANS-05"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Translation Process/Conference",
+            "Code": "TRANS-06"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Alignment of Translated Documents/Conference",
+            "Code": "TRANS-07"
+        },
+        {
+            "DeptCode": "TRANS",
+            "Name": "Processing of Payment for Freelance Translators/Conference",
+            "Code": "TRANS-08"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Assessing Interpretation Service Request",
+            "Code": "INT-01"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Processing the Validated Interpretation Service Request and Mounting Team(s)",
+            "Code": "INT-02"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Deploying Interpreters in a Physical Meeting",
+            "Code": "INT-03"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Deployment of Interpreters' Team in Virtual Meetings",
+            "Code": "INT-04"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Deployment of Interpreters' Team in Hybrid Meetings",
+            "Code": "INT-05"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Inspection",
+            "Code": "INT-06"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Sound Check For Physical Meetings",
+            "Code": "INT-07"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Hybrid Meetings Sound Check",
+            "Code": "INT-08"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Virtual meetings sound check",
+            "Code": "INT-09"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Paying Freelance Interpreters and SIE Provider",
+            "Code": "INT-10"
+        },
+        {
+            "DeptCode": "INT",
+            "Name": "Receiving Feedback",
+            "Code": "INT-11"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Compilation of Quarterly Calendar of Events - Event Schedules",
+            "Code": "CONF-01"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Compilation of Quarterly Calendar of Events - Event Budget Preparations",
+            "Code": "CONF-02"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Meeting at the Commission (physical)",
+            "Code": "CONF-03"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Meeting at the Commission (physical) Catering Services",
+            "Code": "CONF-04"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Meeting at the Commission (physical) Adhoc Staff",
+            "Code": "CONF-05"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – External Meeting (physical)",
+            "Code": "CONF-06"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – External Meeting (physical) Setup",
+            "Code": "CONF-07"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – External Meeting (physical) Meeting Equipment/Documents",
+            "Code": "CONF-08"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – External Meeting (physical) Badge Production",
+            "Code": "CONF-09"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – External Meeting (physical) SIE Space Identification",
+            "Code": "CONF-10"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Virtual Meeting",
+            "Code": "CONF-11"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Virtual Meeting Link Share",
+            "Code": "CONF-12"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Hybrid Meeting (physical & virtual simultenously)",
+            "Code": "CONF-13"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Hybrid Meeting (physical & virtual simultenously) Meeting Link Share",
+            "Code": "CONF-14"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Communication / Information Documentation Events",
+            "Code": "CONF-15"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Meeting Logistics Arrangement – Communication / Information Documentation SIM Cards",
+            "Code": "CONF-16"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Inspection and Identification of infrastructure for the meeting - Physical/Visual Setup",
+            "Code": "CONF-17"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Inspection and Identification of infrastructure for the meeting - Logistics/Service Providers",
+            "Code": "CONF-18"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Reproduction and packaging of meeting documents - Document Preparation",
+            "Code": "CONF-19"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Reproduction and packaging of meeting documents - Support Services",
+            "Code": "CONF-20"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Post Event Activities - Bills Vetting and Submission",
+            "Code": "CONF-21"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Post Event Activities - Feedback",
+            "Code": "CONF-22"
+        },
+        {
+            "DeptCode": "CONF",
+            "Name": "Post Event Activities - Meeting Space Clearance",
+            "Code": "CONF-23"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Ground Transportation",
+            "Code": "PROT-01"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Visa Procurement",
+            "Code": "PROT-02"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence",
+            "Code": "PROT-03"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Diplomatic Cocktail, Reception of the ECOWAS President",
+            "Code": "PROT-04"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Reception and Lodging of New Staf",
+            "Code": "PROT-05"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Customs Duties' Waivers",
+            "Code": "PROT-06"
+        },
+        {
+            "DeptCode": "PROT",
+            "Name": "Election Observation Mission",
+            "Code": "PROT-07"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Submission of Transcription Requests",
+            "Code": "TRANC-01"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Processing of Transcription Requests",
+            "Code": "TRANC-02"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Alignment of Transcribed Documents",
+            "Code": "TRANc-03"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Dispatch of Transcribed Documents",
+            "Code": "TRANC-04"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Processing of Payment for Freelance Translators/Conference",
+            "Code": "TRANC-05"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Processing of Transcription Requests - External(Freelancers)/Non Conference",
+            "Code": "TRANC-06"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Processing of Transcription Requests - Internal/Non Conference",
+            "Code": "TRANC-07"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Mounting of Meeting Team - Internal/Conference",
+            "Code": "TRANC-08"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Mounting of Meeting Team - External(Freelanceers)/Non Conference",
+            "Code": "TRANC-09"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Transcription Process/Conference",
+            "Code": "TRANC-10"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Alignment of transcrbied Documents/Conference",
+            "Code": "TRANC-11"
+        },
+        {
+            "DeptCode": "TRANC",
+            "Name": "Processing of Payment for Freelance Transcribers/Conference",
+            "Code": "TRANC-12"
+        }
+    ]
