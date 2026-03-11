@@ -173,16 +173,76 @@
     "Permission:Workflow:Services:Update": "Atualizar Serviços",
     "Permission:Workflow:Services:Delete": "Excluir Serviços",
 
-    "Workflow:Services:OFD": "Serviços do Gabinete do Diretor",
-    "Workflow:Services:OFD-PID": "Preparação de Memorandos Internos em nome da Direção/Gestão",
-    "Workflow:Services:OFD-RICR": "Recebimento de Correspondências e Solicitações Entrantes",
+   
+
+    "Workflow:Services:OFD": "Serviços da Diretoria",
+    "Workflow:Services:OFD-PID": "Preparação de Memorandos Internos em nome da Diretoria/Gestão",
+    "Workflow:Services:OFD-RICR": "Recebimento de Correspondências e Solicitações",
     "Workflow:Services:OFD-NVINN": "Revisão de Notas Verbais (NV) e Emissão de Números NV",
-    "Workflow:Services:OFD-SMOE": "Supervisão dos Preparativos para Reuniões Estatutárias e outros Eventos Oficiais",
-    "Workflow:Services:OFD-PMOE": "Preparativos para Reuniões Estatutárias/ Eventos Oficiais",
-    "Workflow:Services:OFD-PRCR": "Preparação e Revisão das Contribuições para Relatórios",
+    "Workflow:Services:OFD-SMOE": "Supervisão das Preparações para Reuniões Estatutárias e outros Eventos Oficiais",
+    "Workflow:Services:OFD-PMOE": "Preparações para Reuniões Estatutárias/ Eventos Oficiais",
+    "Workflow:Services:OFD-PRCR": "Preparação e Revisão de Contribuições para Relatórios",
     "Workflow:Services:OFD-PCNTR": "Preparação de Notas Conceituais/Termos de Referência",
     "Workflow:Services:OFD-PIM": "Preparação de Reuniões Internas",
-    "Workflow:Services:OFD-DUPMEPM": "Carregamento, População e Gestão de ECODOCS para Reuniões Sem Papel"
+    "Workflow:Services:OFD-DUPMEPM": "Upload, População e Gestão de Documentos no ECODOCS para Reuniões Sem Papel",
+    
+    "Workflow:Services:CONF": "Serviços da Divisão de Conferências",
+    "Workflow:Services:CONF:CCOE": "Compilação do Calendário Trimestral de Eventos - Cronogramas de Eventos",
+    "Workflow:Services:CONF:BP": "Preparação do Orçamento",
+    "Workflow:Services:CONF:MLC": "Reunião na Comissão (Física) - Arranjo Logístico da Reunião e Serviço de Apoio",
+    "Workflow:Services:CONF:EMME": "Reunião Externa (Física) - Execução da Reunião",
+    "Workflow:Services:CONF:MCPM": "Reunião na Comissão (Física) - Pós-Reunião",
+    "Workflow:Services:CONF:EMMLA": "Reunião Externa (Física Fora da Comissão) - Arranjo Logístico da Reunião: Serviço de Apoio ou Prestadores de Serviços - Configuração",
+    "Workflow:Services:CONF:EMPOC": "Reunião Externa (Física Fora da Comissão) - Execução da Reunião",
+    "Workflow:Services:CONF:EMPOCPM": "Reunião Externa (Física Fora da Comissão) - Pós-Reunião",
+    "Workflow:Services:CONF:VHMLA": "Reunião Virtual/íbrida - Arranjo Logístico da Reunião: Link da Reunião e Refeições",
+    "Workflow:Services:CONF:HVPVRS": "íbrida/Virtual (Física e Virtual Executando Simultaneamente)",
+    "Workflow:Services:CONF:HVPVRSPM": "íbrida/Virtual (Física e Virtual Executando Simultaneamente) - Pós-Reunião",
+    "Workflow:Services:CONF:CIDEWPC": "Documento de Comunicação/Informação: Eventos da Semana - Pré-Conferência",
+    "Workflow:Services:CONF:CIDEWCE": "Documento de Comunicação/Informação: Eventos da Semana - Execução da Conferência",
+    "Workflow:Services:CONF:CIDEWPOC": "Documento de Comunicação/Informação: Eventos da Semana - Pós-Conferência",
+    "Workflow:Services:CONF-EMMSPC": "Reuniões Externas (Físicas nos Estados Membros) - Arranjo Logístico da Reunião: Serviço de Apoio ou Prestadores de Serviços - Configuração Pré-Conferência",
+    "Workflow:Services:CONF-EMMSME": "Reuniões Externas (Físicas nos Estados Membros) - Execução da Reunião",
+    "Workflow:Services:CONF-EMMSPM": "Reuniões Externas (Físicas nos Estados Membros) - Pós-Reunião",
+    "Workflow:Services:CONF-EMRMSRA": "Reuniões Externas (Físicas nos Estados Membros) - Arranjo Reprográfico",
+    "Workflow:Services:CONF-EMRMSRME": "Reuniões Externas (Físicas nos Estados Membros) - Execução Reprográfica",
+    "Workflow:Services:CONF-EMRMSRPM": "Reuniões Externas (Físicas nos Estados Membros) - Pós-Reunião Reprográfica",
+    "Workflow:Services:CONF-CSSMMPC": "Coordenação das Reuniões dos Ministros Estatutários e Setoriais - Pré-Conferência",
+    "Workflow:Services:CONF-CSSMMCE": "Coordenação das Reuniões dos Ministros Estatutários e Setoriais - Execução da Conferência",
+    "Workflow:Services:CONF-CSSMMPM": "Coordenação das Reuniões dos Ministros Estatutários e Setoriais - Pós-Reunião",
+    
+    "Workflow:Services:PROT": "Serviços de Protocolo",
+    "Workflow:Services:PROT:GT": "Transporte Terrestre",
+    "Workflow:Services:PROT:VP": "Processamento de Vistos",
+    "Workflow:Services:PROT:AHM": "Acreditação de Chefes de Missão junto à CEDEAO, Apresentação da Carta de Credenciamento",
+    "Workflow:Services:PROT:DC": "Coquetel Diplomático, Recepção do Presidente da CEDEAO",
+    "Workflow:Services:PROT:RLNS": "Recepção e Alojamento de Novos Funcionários",
+    "Workflow:Services:PROT:EOM": "Missão de Observação Eleitoral",
+    "Workflow:Services:PROT:BF": "Formalidades de Fronteira (Escritório de Ligação de Lagos)",
+    "Workflow:Services:PROT:TPE": "Bilheteira para Terceiros que estão fora do ECOLINK",
+    "Workflow:Services:PROT:TBTD": "Bilheteira Baseada no Entregável TVM",    
+    "Workflow:Services:PROT:INVP": "Processamento de Faturas",
+    "Workflow:Services:PROT:OVA": "Obtenção de Visto na Chegada",
+    "Workflow:Services:PROT:CDW": "Isenção de Direitos Aduaneiros",
+    "Workflow:Services:PROT:ROR": "Repatriação de Restos Mortais",
+    "Workflow:Services:PROT:RSC": "Cartões de Residência",
+    
+    
+    "Workflow:Services:INT": "Serviços de Interpretação",
+    "Workflow:Services:INT:AIS": "Avaliação do Serviço de Interpretação",
+    "Workflow:Services:INT:PVISRM": "Processamento da Solicitação de Serviço de Interpretação Validada e Montagem da(s) Equipe(s)",
+    "Workflow:Services:INT:DIPM": "Desdobramento de Intérpretes em uma Reunião Física",
+    "Workflow:Services:INT:DIVM": "Desdobramento da Equipe de Intérpretes em Reuniões Virtuais",
+    "Workflow:Services:INT:DIHM": "Desdobramento da Equipe de Intérpretes em Reuniões Híbridas",
+    "Workflow:Services:INT:PFISP": "Pagamento de Intérpretes Freelance e Prestadores de Serviços SIE",
+    
+
+    "Workflow:Services:TRANS": "Serviços de Tradução",
+    "Workflow:Services:TRANS:NCTIH": "Tradução Fora de Conferência - Tradução Interna",
+    "Workflow:Services:TRANS:NCTFRE": "Tradução Fora de Conferência - Tradução Freelance",
+    "Workflow:Services:TRANS:CTIH": "Tradução de Conferência - Tradução Interna",
+    "Workflow:Services:TRANS:CTFRE": "Tradução de Conferência - Tradução Freelance"    
+
 
   }
 }
