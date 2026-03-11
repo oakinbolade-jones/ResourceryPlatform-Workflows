@@ -186,39 +186,61 @@
     "Workflow:Services:OFD-DUPMEPM": "Document Upload, Population and Management of ECODOCS for Paperless Meeting",
     
     "Workflow:Services:CONF": "Conference Division Services",
-    "Workflow:Services:CONF-CCOE": "Compilation of Quarterly Calendar of Events - Event Schedules",
-    "Workflow:Services:CONF-BP": "Budget Preparation",
-    "Workflow:Services:CONF-MLC": "Meeting at the Commission (Physical)- Meeting Logistics Arrangement and Support Service",
-    "Workflow:Services:CONF-EMME": "External Meeting (Physical) - Meeting Execution",
-    "Workflow:Services:CONF-MCPM": "Meeting at the Commission (Physical) - Post Meeting",
-    "Workflow:Services:CONF-EMMLA": "External Meeting (Physical Outside the Commission)- Meeting Logistics Arrangement: Support Service or Service Providers- Set up",
-    "Workflow:Services:CONF-EMPOC": "External Meeting (Physical Outside the Commission)",
-    "Workflow:Services:CONF-EMPOCPM": "External Meeting (Physical outside the Commission) PostMeeting",  
-    "Workflow:Services:CONF-VHMLA": "Virtual/Hybrid Meeting - Meeting Logistics Arrangement: Meeting Link and Refreshment",
-    "Workflow:Services:CONF-HVPVRS": "Hybrid/Virtual (Physical & Virtual Running Simultaneously)",
-    "Workflow:Services:CONF-HVPVRSPM": "Hybrid/Virtual (Physical & Virtual Running Simultaneously) Post-Meeting",
-    "Workflow:Services:CONF-CIDEWPC": "Communication/Information Document: Events of the Week - Pre-Conference",
-    "Workflow:Services:CONF-CIDEWIM": "Communication/Information Document: Events of the Week - In-Meeting",
-    "Workflow:Services:CONF-CIDEWPOC": "Communication/Information Document: Events of the Week - Post-Conference",
- "Workflow:Services:CONF-EMMSPC": "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers- Pre-Conference Set up",
- "Workflow:Services:CONF-EMMSME": "External Meetings (Physical in the Member States) - Meeting Execution",
- "Workflow:Services:CONF-EMMSPM": "External Meetings (Physical in the Member States) - Post-Meeting",
-"Workflow:Services:CONF-EMMSFB": "External Meetings (Physical in the Member States) - Feedback",
- 
-
-"Workflow:Services:CONF-EMRMEPC": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution Pre-Conference",
- "Workflow:Services:CONF-EMRMEIM": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution In-Meeting",
- "Workflow:Services:CONF-EMRMEPOC": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution - Post-Conference ",
- 
-
-
-
-
-    "Workflow:Services:INT": "Interpretation Services",    
-
-    "Workflow:Services:TS": "Translation Services",
+    "Workflow:Services:CONF:CCOE": "Compilation of Quarterly Calendar of Events - Event Schedules",
+    "Workflow:Services:CONF:BP": "Budget Preparation",
+    "Workflow:Services:CONF:MLC": "Meeting at the Commission (Physical)- Meeting Logistics Arrangement and Support Service",
+    "Workflow:Services:CONF:EMME": "External Meeting (Physical) - Meeting Execution",
+    "Workflow:Services:CONF:MCPM": "Meeting at the Commission (Physical) - Post Meeting",
+    "Workflow:Services:CONF:EMMLA": "External Meeting (Physical Outside the Commission) - Meeting Logistics Arrangement: Support Service or Service Providers- Set up",
+    "Workflow:Services:CONF:EMPOC": "External Meeting (Physical Outside the Commission) - Meeting Execution",
+    "Workflow:Services:CONF:EMPOCPM": "External Meeting (Physical outside the Commission) - Post Meeting",
+    "Workflow:Services:CONF:VHMLA": "Virtual/Hybrid Meeting - Meeting Logistics Arrangement: Meeting Link and Refreshment",
+    "Workflow:Services:CONF:HVPVRS": "Hybrid/Virtual (Physical & Virtual Running Simultaneously)",
+    "Workflow:Services:CONF:HVPVRSPM": "Hybrid/Virtual (Physical & Virtual Running Simultaneously) - Post Meeting",
+    "Workflow:Services:CONF:CIDEWPC": "Communication/Information Document: Events of the Week - Pre-Conference",
+    "Workflow:Services:CONF:CIDEWCE": "Communication/Information Document: Events of the Week - Conference Execution",
+    "Workflow:Services:CONF:CIDEWPOC": "Communication/Information Document: Events of the Week - Post Conference",
+    "Workflow:Services:CONF-EMMSPC": "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers - Set up Pre-Conference",
+    "Workflow:Services:CONF-EMMSME": "External Meetings (Physical in the Member States) - Meeting Execution",
+    "Workflow:Services:CONF-EMMSPM": "External Meetings (Physical in the Member States) - Post Meeting",
+    "Workflow:Services:CONF-EMRMSRA": "External Meetings (Physical in the Member States) - Reprographic Arrangement",
+    "Workflow:Services:CONF-EMRMSRME": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution",
+    "Workflow:Services:CONF-EMRMSRPM": "External Meetings (Physical in the Member States) - Reprographic Post Meeting ",
+    "Workflow:Services:CONF-CSSMMPC": "Coordination of Statutory and Sectorial Ministers Meeting - Pre-Conference",
+    "Workflow:Services:CONF-CSSMMCE": "Coordination of Statutory and Sectorial Ministers Meeting - Conference Execution",
+    "Workflow:Services:CONF-CSSMMPM": "Coordination of Statutory and Sectorial Ministers Meeting - Post Meeting",
     
-    "Workflow:Services:PS": "Protocol Services",
-    "Workflow:Services:TRS": "Transcription Services"
+    "Workflow:Services:PROT": "Protocol Services",
+    "Workflow:Services:PROT:GT": "Ground Transportation",
+    "Workflow:Services:PROT:VP": "Visa Processing",
+    "Workflow:Services:PROT:AHM": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence",
+    "Workflow:Services:PROT:DC": "Diplomatic Cocktail, Reception of the ECOWAS President",
+    "Workflow:Services:PROT:RLNS": "Reception and Lodging of New Staff",
+    "Workflow:Services:PROT:EOM": "Election Observation Mission",
+    "Workflow:Services:PROT:BF": "Border Formalities  (Lagos Liaison Office)",
+    "Workflow:Services:PROT:TPE": "Ticketing for 3rd parties who are outside ECOLINK",
+    "Workflow:Services:PROT:TBTD": "Ticketing Based on TVM Deliverable",    
+    "Workflow:Services:PROT:INVP": "Invoice Processing",
+    "Workflow:Services:PROT:OVA": "Obtaining Visa-on-Arrival",
+    "Workflow:Services:PROT:CDW": "Customs Duties Waiver",
+    "Workflow:Services:PROT:ROR": "Repatriation of Remains",
+    "Workflow:Services:PROT:RSC": "Residence Cards",
+    
+    
+    "Workflow:Services:INT": "Interpretation Services",
+    "Workflow:Services:INT:AIS": "Assessing Interpretation Service ",
+    "Workflow:Services:INT:PVISRM": "Processing the Validated Interpretation Service Request and Mounting Team(s)",
+    "Workflow:Services:INT:DIPM": "Deploying Interpreters in a Physical Meeting",
+    "Workflow:Services:INT:DIVM": "Deployment of Interpreters' Team in Virtual Meetings",
+    "Workflow:Services:INT:DIHM": "Deployment of Interpreters' Team in Hybrid Meetings",
+    "Workflow:Services:INT:PFISP": "Paying Freelance Interpreters and SIE Providers",
+    
+
+    "Workflow:Services:TRANS": "Translation Services",
+    "Workflow:Services:TRANS:NCTIH": "Non-Conference Translation In-House Translation",
+    "Workflow:Services:TRANS:NCTFRE": "Non-Conference Translation Freelance Translation",
+    "Workflow:Services:TRANS:CTIH": "Conference Translation In-House Translation",
+    "Workflow:Services:TRANS:CTFRE": "Conference Translation Freelance Translation"    
+
   }
 }
