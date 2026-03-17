@@ -16,7 +16,7 @@
     {
         "DeptCode": "OFD",
         "Code": "OD-03",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:NVINN",
+        "DisplayName": "L:Workflow,Workflow:Services:OFD:PCNTR",
         "LeadTime": "5",
         "LeadTimeType": "Days"
     },
