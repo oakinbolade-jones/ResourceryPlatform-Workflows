@@ -173,7 +173,6 @@
     "Permission:Workflow:Services:Create": "Create Services",
     "Permission:Workflow:Services:Update": "Update Services",
     "Permission:Workflow:Services:Delete": "Delete Services",
-
     "Workflow:Services:OFD": "Office of the Director",
     "Workflow:Services:OFD-PID": "Preparation of Internal Memoranda on behalf of Directorate/Management",
     "Workflow:Services:OFD-RICR": "Receipt of incoming Correspondences and Requests",
@@ -184,7 +183,6 @@
     "Workflow:Services:OFD-PCNTR": "Preparation of Concept Notes/Terms of Reference",
     "Workflow:Services:OFD-PIM": "Preparation of Internal Meetings",
     "Workflow:Services:OFD-DUPMEPM": "Document Upload, Population and Management of ECODOCS for Paperless Meeting",
-    
     "Workflow:Services:CONF": "Conference Division Services",
     "Workflow:Services:CONF:CCOE": "Compilation of Quarterly Calendar of Events - Event Schedules",
     "Workflow:Services:CONF:BP": "Budget Preparation",
@@ -203,13 +201,12 @@
     "Workflow:Services:CONF-EMMSPC": "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers - Set up Pre-Conference",
     "Workflow:Services:CONF-EMMSME": "External Meetings (Physical in the Member States) - Meeting Execution",
     "Workflow:Services:CONF-EMMSPM": "External Meetings (Physical in the Member States) - Post Meeting",
-    "Workflow:Services:CONF-EMRMSRA": "External Meetings (Physical in the Member States) - Reprographic Arrangement",
-    "Workflow:Services:CONF-EMRMSRME": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution",
-    "Workflow:Services:CONF-EMRMSRPM": "External Meetings (Physical in the Member States) - Reprographic Post Meeting ",
+    "Workflow:Services:CONF-EMMSRA": "External Meetings (Physical in the Member States) - Reprographic Arrangement",
+    "Workflow:Services:CONF-EMMSRME": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution",
+    "Workflow:Services:CONF-EMMSRPM": "External Meetings (Physical in the Member States) - Reprographic Post Meeting ",
     "Workflow:Services:CONF-CSSMMPC": "Coordination of Statutory and Sectorial Ministers Meeting - Pre-Conference",
     "Workflow:Services:CONF-CSSMMCE": "Coordination of Statutory and Sectorial Ministers Meeting - Conference Execution",
     "Workflow:Services:CONF-CSSMMPM": "Coordination of Statutory and Sectorial Ministers Meeting - Post Meeting",
-    
     "Workflow:Services:PROT": "Protocol Services",
     "Workflow:Services:PROT:GT": "Ground Transportation",
     "Workflow:Services:PROT:VP": "Visa Processing",
@@ -219,14 +216,12 @@
     "Workflow:Services:PROT:EOM": "Election Observation Mission",
     "Workflow:Services:PROT:BF": "Border Formalities  (Lagos Liaison Office)",
     "Workflow:Services:PROT:TPE": "Ticketing for 3rd parties who are outside ECOLINK",
-    "Workflow:Services:PROT:TBTD": "Ticketing Based on TVM Deliverable",    
+    "Workflow:Services:PROT:TBTD": "Ticketing Based on TVM Deliverable",
     "Workflow:Services:PROT:INVP": "Invoice Processing",
     "Workflow:Services:PROT:OVA": "Obtaining Visa-on-Arrival",
     "Workflow:Services:PROT:CDW": "Customs Duties Waiver",
     "Workflow:Services:PROT:ROR": "Repatriation of Remains",
     "Workflow:Services:PROT:RSC": "Residence Cards",
-    
-    
     "Workflow:Services:INT": "Interpretation Services",
     "Workflow:Services:INT:AIS": "Assessing Interpretation Service ",
     "Workflow:Services:INT:PVISRM": "Processing the Validated Interpretation Service Request and Mounting Team(s)",
@@ -234,15 +229,10 @@
     "Workflow:Services:INT:DIVM": "Deployment of Interpreters' Team in Virtual Meetings",
     "Workflow:Services:INT:DIHM": "Deployment of Interpreters' Team in Hybrid Meetings",
     "Workflow:Services:INT:PFISP": "Paying Freelance Interpreters and SIE Providers",
-    
-
     "Workflow:Services:TRANS": "Translation Services",
     "Workflow:Services:TRANS:NCTIH": "Non-Conference Translation In-House Translation",
     "Workflow:Services:TRANS:NCTFRE": "Non-Conference Translation Freelance Translation",
     "Workflow:Services:TRANS:CTIH": "Conference Translation In-House Translation",
-    "Workflow:Services:TRANS:CTFRE": "Conference Translation Freelance Translation"    
-
-    
-
+    "Workflow:Services:TRANS:CTFRE": "Conference Translation Freelance Translation"
   }
 }

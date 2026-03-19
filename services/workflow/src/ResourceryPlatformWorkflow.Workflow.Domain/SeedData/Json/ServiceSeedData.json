@@ -184,21 +184,21 @@
     {
         "DeptCode": "CONF",
         "Code": "CONF-18",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMRMSRA",
+        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRA",
         "LeadTime": "2",
         "LeadTimeType": "Days"
     },
     {
         "DeptCode": "CONF",
         "Code": "CONF-19",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMRMSRME",
+        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRME",
         "LeadTime": "3",
         "LeadTimeType": "Days"
     },
     {
         "DeptCode": "CONF",
         "Code": "CONF-20",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMRMSRPM",
+        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRPM",
         "LeadTime": "13",
         "LeadTimeType": "Days"
     },
@@ -373,18 +373,21 @@
     {
         "DeptCode": "TRANS",
         "Code": "TRANS-02",
+        "DisplayName": "L:Workflow,Workflow:Services:TRANS:NCTFRE",
         "LeadTime": "Derived",
         "LeadTimeType": "Days"
     },
     {
         "DeptCode": "TRANS",
         "Code": "TRANS-03",
+        "DisplayName": "L:Workflow,Workflow:Services:TRANS:CTIH",
         "LeadTime": "Derived",
         "LeadTimeType": "Days"
     },
     {
         "DeptCode": "TRANS",
         "Code": "TRANS-04",
+         "DisplayName": "L:Workflow,Workflow:Services:TRANS:CTFRE",
         "LeadTime": "Derived",
         "LeadTimeType": "Days"
     }
