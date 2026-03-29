@@ -1,0 +1,27 @@
+[
+    {
+        "Name": "Conference",
+        "Description": "Conference Service",
+        "Code": "CONF"
+    },
+    {
+        "Name": "Translation",
+        "Description": "Translation Service",
+        "Code": "TRANS"
+    },
+    {
+        "Name": "Interpretation",
+        "Description": "Interpretation Service",
+        "Code": "INT"
+    },
+    {
+        "Name": "Protocol",
+        "Description": "Protocol Service",
+        "Code": "PROT"
+    },
+    {
+        "Name": "Office of the Director",
+        "Description": "Office of the Director",
+        "Code": "OFD"
+    }
+]

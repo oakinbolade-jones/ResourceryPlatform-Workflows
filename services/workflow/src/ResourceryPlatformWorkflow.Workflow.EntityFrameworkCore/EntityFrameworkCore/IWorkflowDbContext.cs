@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using ResourceryPlatformWorkflow.Workflow.Requests;
+using ResourceryPlatformWorkflow.Workflow.Services;
+using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -7,7 +11,11 @@ namespace ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
 [ConnectionStringName(ResourceryPlatformWorkflowNames.WorkflowDb)]
 public interface IWorkflowDbContext : IEfCoreDbContext
 {
-    /* Add DbSet for each Aggregate Root here. Example:
-     * DbSet<Question> Questions { get; }
-     */
+    DbSet<Request> Requests { get; }
+    DbSet<Service> Services { get; }
+    DbSet<ServiceWorkflow> ServiceWorkflows { get; }
+    DbSet<ServiceWorkflowStep> ServiceWorkflowSteps { get; }
+    DbSet<ServiceWorkflowInstance> ServiceWorkflowInstances { get; }
+    DbSet<ServiceWorkflowTask> ServiceWorkflowTasks { get; }
+    DbSet<ServiceWorkflowHistory> ServiceWorkflowHistoryEntries { get; }
 }

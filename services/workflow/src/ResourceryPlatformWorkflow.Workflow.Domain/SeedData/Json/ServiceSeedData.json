@@ -1,394 +1,67 @@
 [
     {
-        "DeptCode": "OFD",
-        "Code": "OD-01",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PID",
-        "LeadTime": "4",
-        "LeadTimeType": "Days"
+        "ServiceCode": "PID",
+        "Name": "L:Workflow,Workflow:Service:PID",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-02",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:RICR",
-        "LeadTime": "15",
-        "LeadTimeType": "Days"
+        "ServiceCode": "RICR",
+        "Name": "L:Workflow,Workflow:Service:RICR",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-03",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PCNTR",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
+        "ServiceCode": "PCNTR",
+        "Name": "L:Workflow,Workflow:Service:PCNTR",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-04",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:SMOE",
-        "LeadTime": "7",
-        "LeadTimeType": "Days"
+        "ServiceCode": "MEET",
+        "Name": "L:Workflow,Workflow:Service:MEET",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-05",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PMOE",
-        "LeadTime": "10",
-        "LeadTimeType": "Days"
+        "ServiceCode": "TS",
+        "Name": "L:Workflow,Workflow:Service:TS",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-06",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PRCR",
-        "LeadTime": "3",
-        "LeadTimeType": "Days"
+        "ServiceCode": "IS",
+        "Name": "L:Workflow,Workflow:Service:IS",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-07",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PCNTR",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
+        "ServiceCode": "GTS",
+        "Name": "L:Workflow,Workflow:Service:GTS",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-08",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:PIM",
-        "LeadTime": "8",
-        "LeadTimeType": "Days"
+        "ServiceCode": "VP",
+        "Name": "L:Workflow,Workflow:Service:VP",
+        "IsActive": true
     },
     {
-        "DeptCode": "OFD",
-        "Code": "OD-09",
-        "DisplayName": "L:Workflow,Workflow:Services:OFD:DUPMEPM",
-        "LeadTime": "17",
-        "LeadTimeType": "Days"
+        "ServiceCode": "AHM",
+        "Name": "L:Workflow,Workflow:Service:AHM",
+        "IsActive": true
     },
     {
-        "DeptCode": "CONF",
-        "Code": "CONF-01",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CCOE",
-        "LeadTime": "30",
-        "LeadTimeType": "Days"
+        "ServiceCode": "DC",
+        "Name": "L:Workflow,Workflow:Service:DC",
+        "IsActive": true
     },
     {
-        "DeptCode": "CONF",
-        "Code": "CONF-02",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:BP",
-        "LeadTime": "15",
-        "LeadTimeType": "Days"
+        "ServiceCode": "RLNS",
+        "Name": "L:Workflow,Workflow:Service:RLNS",
+        "IsActive": true
     },
     {
-        "DeptCode": "CONF",
-        "Code": "CONF-03",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:MLC",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
+        "ServiceCode": "CDW",
+        "Name": "L:Workflow,Workflow:Service:CDW",
+        "IsActive": true
     },
     {
-        "DeptCode": "CONF",
-        "Code": "CONF-04",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMME",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-05",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:MCPM",
-        "LeadTime": "13",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-06",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMLA",
-        "LeadTime": "11",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-07",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMPOC",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-08",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMPOCPM",
-        "LeadTime": "13",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-09",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:VHMLA",
-        "LeadTime": "11",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-10",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:HVPVRS",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-11",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:HVPVRSPM",
-        "LeadTime": "13",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-12",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CIDEWPC",
-        "LeadTime": "7",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-13",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CIDEWCE",
-        "LeadTime": "2",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-14",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CIDEWPOC",
-        "LeadTime": "7",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-15",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSPC",
-        "LeadTime": "11",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-16",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSME",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-17",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSPM",
-        "LeadTime": "13",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-18",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRA",
-        "LeadTime": "2",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-19",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRME",
-        "LeadTime": "3",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-20",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:EMMSRPM",
-        "LeadTime": "13",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-21",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CSSMMPC",
-        "LeadTime": "2",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-22",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CSSMMCE",
-        "LeadTime": "2",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "CONF",
-        "Code": "CONF-23",
-        "DisplayName": "L:Workflow,Workflow:Services:CONF:CSSMMPM",
-        "LeadTime": "7",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-01",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:GT",
-        "LeadTime": "4",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-02",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:VP",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-03",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:AHM",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-04",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:DC",
-        "LeadTime": "NULL",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-05",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:RLNS",
-        "LeadTime": "7",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-06",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:EOM",
-        "LeadTime": "30",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-07",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:BF",
-        "LeadTime": "1",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-08",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:TPE",
-        "LeadTime": "2",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-09",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:TBTD",
-        "LeadTime": "3",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-10",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:INVP",
-        "LeadTime": "NULL",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-11",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:OVA",
-        "LeadTime": "14",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-12",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:CDW",
-        "LeadTime": "14",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-13",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:ROR",
-        "LeadTime": "NULL",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "PROT",
-        "Code": "PROT-14",
-        "DisplayName": "L:Workflow,Workflow:Services:PROT:RSC",
-        "LeadTime": "14",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-01",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:AIS",
-        "LeadTime": "NULL",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-02",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:PVISRM",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-03",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:DIPM",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-04",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:DIVM",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-05",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:DIHM",
-        "LeadTime": "5",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "INT",
-        "Code": "INT-06",
-        "DisplayName": "L:Workflow,Workflow:Services:INT:PFISP",
-        "LeadTime": "1",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "TRANS",
-        "Code": "TRANS-01",
-        "DisplayName": "L:Workflow,Workflow:Services:TRANS:NCTIH",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "TRANS",
-        "Code": "TRANS-02",
-        "DisplayName": "L:Workflow,Workflow:Services:TRANS:NCTFRE",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "TRANS",
-        "Code": "TRANS-03",
-        "DisplayName": "L:Workflow,Workflow:Services:TRANS:CTIH",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
-    },
-    {
-        "DeptCode": "TRANS",
-        "Code": "TRANS-04",
-         "DisplayName": "L:Workflow,Workflow:Services:TRANS:CTFRE",
-        "LeadTime": "Derived",
-        "LeadTimeType": "Days"
+        "ServiceCode": "EOM",
+        "Name": "L:Workflow,Workflow:Service:EOM",
+        "IsActive": true
     }
 ]

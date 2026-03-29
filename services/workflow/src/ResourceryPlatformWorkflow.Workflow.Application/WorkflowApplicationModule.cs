@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
 
 namespace ResourceryPlatformWorkflow.Workflow;
@@ -8,6 +9,7 @@ namespace ResourceryPlatformWorkflow.Workflow;
 [DependsOn(typeof(WorkflowDomainModule))]
 [DependsOn(typeof(WorkflowApplicationContractsModule))]
 [DependsOn(typeof(AbpDddApplicationModule))]
+[DependsOn(typeof(AbpBackgroundJobsAbstractionsModule))]
 [DependsOn(typeof(AbpAutoMapperModule))]
 public class WorkflowApplicationModule : AbpModule
 {

@@ -133,6 +133,7 @@ public class ResourceryPlatformWorkflowDbMigrationService(
 
         await MigrateDatabaseAsync<AdministrationDbContext>(cancellationToken);
         await MigrateDatabaseAsync<IdentityServiceDbContext>(cancellationToken);
+        await MigrateDatabaseAsync<WorkflowDbContext>(cancellationToken);
         // await MigrateDatabaseAsync<ProjectsDbContext>(cancellationToken);
         //await MigrateDatabaseAsync<WebAppDbContext>(cancellationToken);
 

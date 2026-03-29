@@ -4,5 +4,5 @@ public class WorkflowRemoteServiceConsts
 {
     public const string RemoteServiceName = "Workflow";
 
-    public const string ModuleName = "projects";
+    public const string ModuleName = "workflow";
 }
