@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
-public class ServiceWorkflowInstance : FullAuditedAggregateRoot<Guid>
+public class ServiceWorkflowInstance : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
+    public Guid? TenantId { get; private set; }
     public Guid ServiceWorkflowId { get; private set; }
     public Guid RequestId { get; private set; }
     public Guid? CurrentStepId { get; private set; }

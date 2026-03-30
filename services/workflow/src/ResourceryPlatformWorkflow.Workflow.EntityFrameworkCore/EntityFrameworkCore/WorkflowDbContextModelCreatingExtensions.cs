@@ -19,6 +19,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "Requests", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.DocumentSetUrl)
                 .IsRequired()
@@ -36,6 +37,8 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .HasForeignKey(x => x.RequestId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<RequestDocument>(b =>
@@ -43,6 +46,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "Documents", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.Title)
                 .IsRequired()
@@ -63,6 +67,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.MigratedAt);
 
             b.HasIndex(x => x.RequestId);
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<Service>(b =>
@@ -70,6 +75,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "Services", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.Name).IsRequired().HasMaxLength(ServiceConsts.MaxServiceNameLength);
             b.Property(x => x.Description)
@@ -78,6 +84,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.IsActive).IsRequired();
 
             b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<ServiceWorkflow>(b =>
@@ -85,6 +92,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "ServiceWorkflows", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.Name)
                 .IsRequired()
@@ -117,6 +125,7 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .OnDelete(DeleteBehavior.Cascade);
 
             b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<ServiceWorkflowStep>(b =>
@@ -124,6 +133,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "ServiceWorkflowSteps", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.Name)
                 .IsRequired()
@@ -135,6 +145,7 @@ public static class WorkflowDbContextModelCreatingExtensions
 
             b.HasIndex(x => x.ServiceWorkflowId);
             b.HasIndex(x => new { x.ServiceWorkflowId, x.Order }).IsUnique();
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<ServiceWorkflowInstance>(b =>
@@ -145,6 +156,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             );
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.ServiceWorkflowId).IsRequired();
             b.Property(x => x.RequestId).IsRequired();
@@ -169,6 +181,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.HasIndex(x => x.RequestId).IsUnique();
             b.HasIndex(x => x.CurrentStepId);
             b.HasIndex(x => x.Status);
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<ServiceWorkflowTask>(b =>
@@ -176,6 +189,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ToTable(WorkflowDbProperties.DbTablePrefix + "ServiceWorkflowTasks", WorkflowDbProperties.DbSchema);
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.ServiceWorkflowInstanceId).IsRequired();
             b.Property(x => x.ServiceWorkflowStepId).IsRequired();
@@ -194,6 +208,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.HasIndex(x => x.ServiceWorkflowStepId);
             b.HasIndex(x => x.AssigneeUserId);
             b.HasIndex(x => x.Status);
+            b.HasIndex(x => x.TenantId);
         });
 
         builder.Entity<ServiceWorkflowHistory>(b =>
@@ -204,6 +219,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             );
 
             b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
 
             b.Property(x => x.ServiceWorkflowInstanceId).IsRequired();
             b.Property(x => x.ServiceWorkflowStepId);
@@ -223,6 +239,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.HasIndex(x => x.ServiceWorkflowTaskId);
             b.HasIndex(x => x.Type);
             b.HasIndex(x => x.PerformedAt);
+            b.HasIndex(x => x.TenantId);
         });
     }
 }

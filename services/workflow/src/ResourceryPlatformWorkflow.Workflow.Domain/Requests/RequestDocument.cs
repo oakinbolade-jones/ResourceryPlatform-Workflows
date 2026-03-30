@@ -1,11 +1,13 @@
 using System;
 using Volo.Abp;
-using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
-public class RequestDocument : Entity<Guid>
+public class RequestDocument : FullAuditedEntity<Guid>, IMultiTenant
 {
+    public Guid? TenantId { get; private set; }
     public Guid RequestId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }

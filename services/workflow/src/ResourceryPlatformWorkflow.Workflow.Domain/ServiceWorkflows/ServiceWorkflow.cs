@@ -4,11 +4,13 @@ using System.Linq;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
-public class ServiceWorkflow : FullAuditedAggregateRoot<Guid>
+public class ServiceWorkflow : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
+    public Guid? TenantId { get; private set; }
     public ServiceRelation ServiceRelation { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }

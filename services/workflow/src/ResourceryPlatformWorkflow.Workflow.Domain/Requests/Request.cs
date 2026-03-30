@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
-public class Request : FullAuditedAggregateRoot<Guid>
+public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
+    public Guid? TenantId { get; private set; }
     public RequestType RequestType { get; private set; }
     public RequestStatus RequestStatus { get; private set; }
     public ICollection<RequestDocument> Documents { get; private set; } 

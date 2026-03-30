@@ -1,11 +1,13 @@
 using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.Services;
 
-public class Service : FullAuditedAggregateRoot<Guid>
+public class Service : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
+    public Guid? TenantId { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public bool IsActive { get; private set; }
