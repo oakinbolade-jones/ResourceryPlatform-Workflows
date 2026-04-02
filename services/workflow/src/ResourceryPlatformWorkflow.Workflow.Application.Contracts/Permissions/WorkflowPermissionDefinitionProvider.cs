@@ -46,23 +46,6 @@ public class WorkflowPermissionDefinitionProvider : PermissionDefinitionProvider
             L("Permission:Workflow:Services:Delete")
         );
 
-        var serviceRelationsPermissions = workflowsGroup.AddPermission(
-            WorkflowPermissions.ServiceRelations.Default,
-            L("Permission:Workflow:ServiceRelations")
-        );
-        serviceRelationsPermissions.AddChild(
-            WorkflowPermissions.ServiceRelations.Create,
-            L("Permission:Workflow:ServiceRelations:Create")
-        );
-        serviceRelationsPermissions.AddChild(
-            WorkflowPermissions.ServiceRelations.Update,
-            L("Permission:Workflow:ServiceRelations:Update")
-        );
-        serviceRelationsPermissions.AddChild(
-            WorkflowPermissions.ServiceRelations.Delete,
-            L("Permission:Workflow:ServiceRelations:Delete")
-        );
-
         var projectsPermissions = workflowsGroup.AddPermission(
             WorkflowPermissions.Requests.Default,
             L("Permission:Workflow:Requests")

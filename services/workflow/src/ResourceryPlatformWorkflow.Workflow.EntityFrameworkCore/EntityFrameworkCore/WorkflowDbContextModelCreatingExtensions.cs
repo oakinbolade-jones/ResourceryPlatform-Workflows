@@ -79,6 +79,9 @@ public static class WorkflowDbContextModelCreatingExtensions
 
             b.Property(x => x.ServiceCenterId).IsRequired();
             b.Property(x => x.Name).IsRequired().HasMaxLength(ServiceConsts.MaxServiceNameLength);
+            b.Property(x => x.DisplayName)
+                .IsRequired()
+                .HasMaxLength(ServiceConsts.MaxServiceDisplayNameLength);
             b.Property(x => x.Description)
                 .IsRequired()
                 .HasMaxLength(ServiceConsts.MaxServiceDescriptionLength);
@@ -127,22 +130,8 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDescriptionLength);
             b.Property(x => x.IsActive).IsRequired();
-
-            b.OwnsOne(x => x.ServiceRelation, relation =>
-            {
-                relation.WithOwner().HasForeignKey("ServiceWorkflowEntityId");
-                relation.Property<Guid>("ServiceWorkflowEntityId");
-                relation.HasKey("ServiceWorkflowEntityId");
-
-                relation.Property(x => x.ServiceId)
-                    .HasColumnName("RelationServiceId")
-                    .IsRequired();
-                relation.Property(x => x.ServiceWorkflowId)
-                    .HasColumnName("RelationServiceWorkflowId")
-                    .IsRequired();
-
-                relation.HasIndex(x => x.ServiceId);
-            });
+            b.Property(x => x.ServiceId).HasColumnName("RelationServiceId");
+            b.HasIndex(x => x.ServiceId);
 
             b.HasMany(x => x.Steps)
                 .WithOne()

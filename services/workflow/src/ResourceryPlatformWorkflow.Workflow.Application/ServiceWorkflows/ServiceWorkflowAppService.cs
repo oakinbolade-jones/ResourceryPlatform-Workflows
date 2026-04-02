@@ -88,9 +88,7 @@ public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> servic
         return new ServiceWorkflowDto
         {
             Id = entity.Id,
-            ServiceId = entity.ServiceRelation?.ServiceId ?? Guid.Empty,
-            RelationServiceId = entity.ServiceRelation?.ServiceId ?? Guid.Empty,
-            RelationServiceWorkflowId = entity.ServiceRelation?.ServiceWorkflowId ?? entity.Id,
+            ServiceId = entity.ServiceId ?? Guid.Empty,
             Name = entity.Name,
             Description = entity.Description,
             IsActive = entity.IsActive,

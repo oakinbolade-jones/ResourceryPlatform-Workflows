@@ -1393,11 +1393,6 @@
     "Permission:Workflow:Services:Update": "Atualizar Serviços",
     "Permission:Workflow:Services:Delete": "Excluir Serviços",
 
-   "Permission:Workflow:ServiceRelations": "Relacoes de Serviço",
-   "Permission:Workflow:ServiceRelations:Create": "Criar Relacoes de Serviço",
-   "Permission:Workflow:ServiceRelations:Update": "Atualizar Relacoes de Serviço",
-   "Permission:Workflow:ServiceRelations:Delete": "Excluir Relacoes de Serviço",
-
    "Permission:Workflow:ServiceWorkflows": "Workflows de Serviço",
    "Permission:Workflow:ServiceWorkflows:Create": "Criar Workflows de Serviço",
    "Permission:Workflow:ServiceWorkflows:Update": "Atualizar Workflows de Serviço",
@@ -1441,8 +1436,9 @@
     "Workflow:Requests:InvalidStatus":"The request has an invalid status.",
     "Workflow:SeedData:ServiceCenterSeedFileNotFound":"The seed file for service centers was not found.",
     "Workflow:ServiceCenters:CodeAlreadyExists":"Ja existe um centro de servico com o mesmo codigo.",
-    "Workflow:ServiceCenters:InUse":"Este centro de servico ja esta atribuido a um servico e nao pode ser excluido."
-    
+    "Workflow:ServiceCenters:InUse":"Este centro de servico ja esta atribuido a um servico e nao pode ser excluido.",
+    "Workflow:Services:ServiceNotFound":"The service is invalid.",
+    "Workflow:SeedData:ServiceSeedFileNotFound":"The seed file for services was not found."
     
   }
 }

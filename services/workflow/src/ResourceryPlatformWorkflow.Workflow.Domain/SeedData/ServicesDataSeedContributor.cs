@@ -69,11 +69,15 @@ public class ServicesDataSeedContributor(
                 var description = string.IsNullOrWhiteSpace(item.Description)
                     ? item.Name
                     : item.Description;
+                var displayName = string.IsNullOrWhiteSpace(item.DisplayName)
+                    ? item.Name
+                    : item.DisplayName;
 
                 var service = new Service(
                     Guid.NewGuid(),
                     serviceCenter.Id,
                     item.Name,
+                    displayName,
                     description
                 );
 

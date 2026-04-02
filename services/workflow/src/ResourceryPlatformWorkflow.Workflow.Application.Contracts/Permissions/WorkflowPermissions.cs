@@ -22,14 +22,6 @@ public class WorkflowPermissions
         public const string Delete = Default + ".Delete";
     }
 
-    public static class ServiceRelations
-    {
-        public const string Default = GroupName + ".ServiceRelations";
-        public const string Create = Default + ".Create";
-        public const string Update = Default + ".Update";
-        public const string Delete = Default + ".Delete";
-    }
-
     public static class Requests
     {
         public const string Default = GroupName + ".Requests";

@@ -9,6 +9,11 @@ public static class WorkflowErrorCodes
         public const string InvalidRequestStatus = "Workflow:Requests:InvalidRequestStatus";
     }
 
+    public static class Services
+    {
+        public const string ServiceNotFound = "Workflow:Services:ServiceNotFound";
+    }
+
     public static class ServiceWorkflows
     {
         public const string InvalidStepOrder = "Workflow:ServiceWorkflows:InvalidStepOrder";

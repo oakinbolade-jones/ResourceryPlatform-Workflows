@@ -1394,11 +1394,6 @@
     "Permission:Workflow:Services:Update": "Update Services",
     "Permission:Workflow:Services:Delete": "Delete Services",
 
-     "Permission:Workflow:ServiceRelations": "Service Relations",
-    "Permission:Workflow:ServiceRelations:Create": "Create Service Relations",
-    "Permission:Workflow:ServiceRelations:Update": "Update Service Relations",
-    "Permission:Workflow:ServiceRelations:Delete": "Delete Service Relations",
-
     "Permission:Workflow:ServiceWorkflows": "Service Workflows",
     "Permission:Workflow:ServiceWorkflows:Create": "Create Service Workflows",
     "Permission:Workflow:ServiceWorkflows:Update": "Update Service Workflows",
@@ -1446,9 +1441,10 @@
     "Workflow:Requests:InvalidStatus":"The request has an invalid status.",
     "Workflow:SeedData:ServiceCenterSeedFileNotFound":"The seed file for service centers was not found.",
     "Workflow:ServiceCenters:CodeAlreadyExists":"A service center with the same code already exists.",
-    "Workflow:ServiceCenters:InUse":"This service center is already assigned to a service and cannot be deleted."
-   
-
+    "Workflow:ServiceCenters:InUse":"This service center is already assigned to a service and cannot be deleted.",
+    "Workflow:Services:ServiceNotFound":"The service is invalid.",
+    "Workflow:Services:ServiceCenterAlreadyAssigned":"This service center is already assigned to another service. Please choose a different service center.",
+    "Workflow:SeedData:ServiceSeedFileNotFound":"The seed file for services was not found."
    
 
   }
