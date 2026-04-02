@@ -5,25 +5,22 @@ using Microsoft.Extensions.Hosting;
 using ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.EntityFrameworkCore;
-using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.VirtualFileSystem;
 
 namespace ResourceryPlatformWorkflow.Workflow;
 
+
+[DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
+[DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
 [DependsOn(typeof(AbpAspNetCoreMvcUiMultiTenancyModule))]
-[DependsOn(typeof(AbpAuditLoggingEntityFrameworkCoreModule))]
-[DependsOn(typeof(AbpPermissionManagementEntityFrameworkCoreModule))]
-[DependsOn(typeof(AbpSettingManagementEntityFrameworkCoreModule))]
-[DependsOn(typeof(AbpTenantManagementEntityFrameworkCoreModule))]
+[DependsOn(typeof(AdministrationEntityFrameworkCoreModule))]
+[DependsOn(typeof(SaaSEntityFrameworkCoreModule))]
 [DependsOn(typeof(WorkflowApplicationModule))]
 [DependsOn(typeof(WorkflowEntityFrameworkCoreModule))]
 [DependsOn(typeof(WorkflowHttpApiModule))]
-[DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
-[DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
 public class WorkflowHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

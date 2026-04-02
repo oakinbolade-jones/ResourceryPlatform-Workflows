@@ -1,37 +1,12 @@
 [
-    {
-        "Role": "Accountant"
-    },
-    {
-        "Role": "Administrative Assistant"
-    },
-    {
-        "Role": "All Participants including Member States."
-    },
-    {
-        "Role": "Caterer"
-    },
-    {
-        "Role": "Caterers"
-    },
-    {
-        "Role": "Client Directorate"
-    },
-    {
-        "Role": "Communication team"
-    },
-    {
-        "Role": "Communication team"
-    },
+
     {
         "Role": "Language Coordinator"
     },
     {
         "Role": "DCP Staff"
     },
-    {
-        "Role": "DCP"
-    },
+   
     {
         "Role": "Director"
     },
@@ -40,15 +15,9 @@
     },
     {
         "Role": "Focal Person"
-    },
+    },    
     {
-        "Role": "General Administration and Services"
-    },
-    {
-        "Role": "Head ECOWAS National Office"
-    },
-    {
-        "Role": "Head Reproduction Unit"
+        "Role": "HOD Reproduction Unit"
     },
     {
         "Role": "HOD Conference"
@@ -76,58 +45,36 @@
     },
     {
         "Role": "Delegate"
-    },
-    {
-        "Role": "Reproduction Officer"
-    },
-    {
-        "Role": "Reproduction Unit"
-    },
-    {
-        "Role": "Reprographic Officer"
-    },
+    }, 
     {
         "Role": "Resident Representative Officer"
-    },
-    {
-        "Role": "Service provider"
-    },
+    },    
     {
         "Role": "Support Staff"
     },
-    {
-        "Role": "Technicians"
-    },
+    
     {
         "Role": "Booth Captain"
+    },   
+    {
+        "Role": "ECODOCS Support"
     },
     {
-        "Role": "Client Directorate"
-    },
-    {
-        "Role": "Cohost"
-    },
-    {
-        "Role": "Director"
-    },
-    {
-        "Role": "ECODOCS Team"
-    },
-    {
-        "Role": "Head of Department"
-    },
-    {
-        "Role": "Host"
-    },
+        "Role": "HOD"
+    },    
     {
         "Role": "Interpretation Officer"
     },
     {
-        "Role": "Interpreter"
+        "Role": "Interpreter"    },
+        
+    {
+        "Role": "Translation Officer"
     },
     {
-        "Role": "ITS Staff"
+        "Role": "Translation Assistant"
     },
+    
     {
         "Role": "Language Assistant"
     },
@@ -139,46 +86,24 @@
     },
     {
         "Role": "Reception & Logistics Officer"
-    },
+    },     
     {
-        "Role": "SIE Provider"
-    },
-    {
-        "Role": "Technicians"
-    },
-    {
-        "Role": "Travel Unit"
-    },
-    {
-        "Role": "Admin & General Service"
-    },
-    {
-        "Role": "Administrative Assistant"
-    },
-    {
-        "Role": "Booth Captain"
-    },
+        "Role": "Travel Assistant"
+    },    
     {
         "Role": "Conference Assistant"
     },
     {
         "Role": "Conference Officer"
     },
-    {
-        "Role": "Consular Officer"
-    },
-    {
-        "Role": "Cohost"
-    },
+   
+   
     {
         "Role": "Resident Representative Officer"
     },
     {
         "Role": "ECOWAS Delegation"
-    },
-    {
-        "Role": "Freelance"
-    },
+    },    
     {
         "Role": "HOD"
     },
@@ -187,10 +112,7 @@
     },
     {
         "Role": "Meeting Host"
-    },
-    {
-        "Role": "PPO"
-    },
+    },     
     {
         "Role": "Privileges & Immunities Officer"
     },
@@ -216,17 +138,8 @@
         "Role": "Reprographic Assistant"
     },
     {
-        "Role": "Revisor"
-    },
-    {
-        "Role": "Support Staff"
-    },
-    {
-        "Role": "Team Lead"
-    },
-    {
-        "Role": "Translator"
-    },
+        "Role": "Revisor"    }, 
+   
     {
         "Role": "Travel Officer"
     }

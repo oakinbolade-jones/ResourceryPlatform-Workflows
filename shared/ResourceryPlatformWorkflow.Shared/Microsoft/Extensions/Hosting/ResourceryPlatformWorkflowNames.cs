@@ -1,10 +1,10 @@
-﻿namespace Microsoft.Extensions.Hosting;
+namespace Microsoft.Extensions.Hosting;
 
 public static class ResourceryPlatformWorkflowNames
 {
     public const string ResourceryPlatformWorkflow = "ResourceryPlatformWorkflow";
 
-    public const string Postgres = "postgres";
+    public const string SqlServer = "sqlserver";
     public const string RabbitMq = "rabbitmq";
     public const string Redis = "redis";
     public const string Seq = "seq";

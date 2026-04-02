@@ -1383,6 +1383,11 @@
     "Permission:Workflow:Departments:Delete": "Excluir Departamentos",    
 
    
+    "Permission:Workflow:ServiceCenters": "Centros de Servico",
+    "Permission:Workflow:ServiceCenters:Create": "Criar Centros de Servico",
+    "Permission:Workflow:ServiceCenters:Update": "Atualizar Centros de Servico",
+    "Permission:Workflow:ServiceCenters:Delete": "Excluir Centros de Servico",
+
     "Permission:Workflow:Services": "Serviços",
     "Permission:Workflow:Services:Create": "Criar Serviços",
     "Permission:Workflow:Services:Update": "Atualizar Serviços",
@@ -1433,7 +1438,10 @@
     
  "Workflow:Requests:DuplicateDocument":"A document with the same name ({title})  already exists for this request. Please rename the document and try again.",
     "Workflow:Requests:RequestNotFound":"The request is invalid.", 
-    "Workflow:Requests:InvalidStatus":"The request has an invalid status."
+    "Workflow:Requests:InvalidStatus":"The request has an invalid status.",
+    "Workflow:SeedData:ServiceCenterSeedFileNotFound":"The seed file for service centers was not found.",
+    "Workflow:ServiceCenters:CodeAlreadyExists":"Ja existe um centro de servico com o mesmo codigo.",
+    "Workflow:ServiceCenters:InUse":"Este centro de servico ja esta atribuido a um servico e nao pode ser excluido."
     
     
   }

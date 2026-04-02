@@ -2,26 +2,31 @@
     {
         "Name": "Conference",
         "Description": "Conference Service",
-        "Code": "CONF"
+        "Code": "CONF",
+        "DisplayName": "L:Workflow,DirectorateServices"
     },
     {
         "Name": "Translation",
         "Description": "Translation Service",
-        "Code": "TRANS"
+        "Code": "TRANS",
+        "DisplayName": "L:Workflow,TranslationServices"
     },
     {
         "Name": "Interpretation",
         "Description": "Interpretation Service",
-        "Code": "INT"
+        "Code": "INT",
+        "DisplayName": "L:Workflow,InterpretationServices"
     },
     {
         "Name": "Protocol",
         "Description": "Protocol Service",
-        "Code": "PROT"
+        "Code": "PROT",
+        "DisplayName": "L:Workflow,ProtocolServices"
     },
     {
-        "Name": "Office of the Director",
+        "Name": "Directorate",
         "Description": "Office of the Director",
-        "Code": "OFD"
+        "Code": "OFD",
+        "DisplayName": "L:Workflow,DirectorateServices"
     }
 ]

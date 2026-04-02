@@ -163,7 +163,7 @@
     "ProtocolRequestsOverview": "Toutes les demandes de service - Services de protocole",
     "Workflow:Service:PID": "Préparation des mémorandums internes au nom de la Direction/Gestion",
   
-  "Workflow:Service:RICR": " Réception des correspondances et demandes entrantes",
+  "Workflow:Service:RICR": "Réception des correspondances et demandes entrantes",
    "Workflow:Service:PRCR": "Préparation et révision des contributions aux rapports",
 "Workflow:Service:PCNTR":"Préparation des notes conceptuelles/termes de référence",
 "Workflow:Service:MEET":"Services liés aux réunions",
@@ -1383,6 +1383,11 @@
     "Permission:Workflow:Departments:Update": "Mettre à jour les départements",
     "Permission:Workflow:Departments:Delete": "Supprimer des départements",
 
+    "Permission:Workflow:ServiceCenters": "Centres de service",
+    "Permission:Workflow:ServiceCenters:Create": "Creer des centres de service",
+    "Permission:Workflow:ServiceCenters:Update": "Mettre a jour les centres de service",
+    "Permission:Workflow:ServiceCenters:Delete": "Supprimer des centres de service",
+
     "Permission:Workflow:Services": "Services",
     "Permission:Workflow:Services:Create": "Créer des services",
     "Permission:Workflow:Services:Update": "Mettre à jour les services",
@@ -1430,9 +1435,12 @@
     "Permission:Workflow:RequestDocuments:Delete": "Supprimer des documents de demande",
     "Permission:Workflow:RequestDocuments:List": "Lister les documents de demande",
  
- "Workflow:Requests:DuplicateDocument":"A document with the same name ({title})  already exists for this request. Please rename the document and try again.",
+ "Workflow:Requests:DuplicateDocument":"A document with the same name ({title}) already exists for this request. Please rename the document and try again.",
     "Workflow:Requests:RequestNotFound":"The request is invalid.", 
-    "Workflow:Requests:InvalidStatus":"The request has an invalid status."
+    "Workflow:Requests:InvalidStatus":"The request has an invalid status.",
+    "Workflow:SeedData:ServiceCenterSeedFileNotFound":"The seed file for service centers was not found.",
+    "Workflow:ServiceCenters:CodeAlreadyExists":"Un centre de service avec le meme code existe deja.",
+    "Workflow:ServiceCenters:InUse":"Ce centre de service est deja assigne a un service et ne peut pas etre supprime."
     
   }
 }

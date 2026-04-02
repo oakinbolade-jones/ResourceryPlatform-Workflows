@@ -22,7 +22,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 
@@ -36,7 +36,7 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(AbpAutofacModule))]
 [DependsOn(typeof(AbpCachingStackExchangeRedisModule))]
 [DependsOn(typeof(AbpDistributedLockingModule))]
-[DependsOn(typeof(AbpEntityFrameworkCorePostgreSqlModule))]
+[DependsOn(typeof(AbpEntityFrameworkCoreSqlServerModule))]
 [DependsOn(typeof(AdministrationEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSEntityFrameworkCoreModule))]
@@ -46,8 +46,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {

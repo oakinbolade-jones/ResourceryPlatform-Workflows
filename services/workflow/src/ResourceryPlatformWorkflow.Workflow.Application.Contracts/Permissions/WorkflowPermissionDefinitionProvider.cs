@@ -12,6 +12,23 @@ public class WorkflowPermissionDefinitionProvider : PermissionDefinitionProvider
             WorkflowPermissions.GroupName,
             L("Permission:Workflow")
         );
+        var serviceCentersPermissions = workflowsGroup.AddPermission(
+            WorkflowPermissions.ServiceCenters.Default,
+            L("Permission:Workflow:ServiceCenters")
+        );
+        serviceCentersPermissions.AddChild(
+            WorkflowPermissions.ServiceCenters.Create,
+            L("Permission:Workflow:ServiceCenters:Create")
+        );
+        serviceCentersPermissions.AddChild(
+            WorkflowPermissions.ServiceCenters.Update,
+            L("Permission:Workflow:ServiceCenters:Update")
+        );
+        serviceCentersPermissions.AddChild(
+            WorkflowPermissions.ServiceCenters.Delete,
+            L("Permission:Workflow:ServiceCenters:Delete")
+        );
+
         var servicesPermissions = workflowsGroup.AddPermission(
             WorkflowPermissions.Services.Default,
             L("Permission:Workflow:Services")

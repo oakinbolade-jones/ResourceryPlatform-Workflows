@@ -14,4 +14,9 @@
         <ProjectReference Include="..\ResourceryPlatformWorkflow.Workflow.Domain.Shared\ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <EmbeddedResource Include="SeedData\Json\ServiceCenterSeedData.json" />
+        <EmbeddedResource Include="SeedData\Json\ServiceSeedData.json" />
+    </ItemGroup>
+
 </Project>

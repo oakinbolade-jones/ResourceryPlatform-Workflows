@@ -77,6 +77,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ConfigureByConvention();
             b.ConfigureMultiTenant();
 
+            b.Property(x => x.ServiceCenterId).IsRequired();
             b.Property(x => x.Name).IsRequired().HasMaxLength(ServiceConsts.MaxServiceNameLength);
             b.Property(x => x.Description)
                 .IsRequired()
@@ -84,6 +85,31 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.IsActive).IsRequired();
 
             b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.ServiceCenterId);
+            b.HasIndex(x => x.TenantId);
+        });
+
+        builder.Entity<ServiceCenter>(b =>
+        {
+            b.ToTable(WorkflowDbProperties.DbTablePrefix + "ServiceCenters", WorkflowDbProperties.DbSchema);
+
+            b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
+
+            b.Property(x => x.Name)
+                .IsRequired()
+                .HasMaxLength(ServiceCenterConsts.MaxServiceCenterNameLength);
+            b.Property(x => x.DisplayName)
+                .IsRequired()
+                .HasMaxLength(ServiceCenterConsts.MaxServiceCenterDisplayNameLength);
+            b.Property(x => x.Description)
+                .IsRequired()
+                .HasMaxLength(ServiceCenterConsts.MaxServiceCenterDescriptionLength);
+            b.Property(x => x.Code)
+                .IsRequired()
+                .HasMaxLength(ServiceCenterConsts.MaxServiceCenterCodeLength);
+
+            b.HasIndex(x => x.Code).IsUnique();
             b.HasIndex(x => x.TenantId);
         });
 

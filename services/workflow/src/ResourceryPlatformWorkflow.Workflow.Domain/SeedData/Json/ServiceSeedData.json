@@ -1,67 +1,107 @@
 [
-    {
-        "ServiceCode": "PID",
-        "Name": "L:Workflow,Workflow:Service:PID",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "RICR",
-        "Name": "L:Workflow,Workflow:Service:RICR",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "PCNTR",
-        "Name": "L:Workflow,Workflow:Service:PCNTR",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "MEET",
-        "Name": "L:Workflow,Workflow:Service:MEET",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "TS",
-        "Name": "L:Workflow,Workflow:Service:TS",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "IS",
-        "Name": "L:Workflow,Workflow:Service:IS",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "GTS",
-        "Name": "L:Workflow,Workflow:Service:GTS",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "VP",
-        "Name": "L:Workflow,Workflow:Service:VP",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "AHM",
-        "Name": "L:Workflow,Workflow:Service:AHM",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "DC",
-        "Name": "L:Workflow,Workflow:Service:DC",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "RLNS",
-        "Name": "L:Workflow,Workflow:Service:RLNS",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "CDW",
-        "Name": "L:Workflow,Workflow:Service:CDW",
-        "IsActive": true
-    },
-    {
-        "ServiceCode": "EOM",
-        "Name": "L:Workflow,Workflow:Service:EOM",
-        "IsActive": true
-    }
+  {
+    "ServiceCode": "PID",
+    "Name": "Preparation of Internal Memoranda on behalf of Directorate/Management",
+    "DisplayName": "L:Workflow,Workflow:Service:PID",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD"
+  },
+  {
+    "ServiceCode": "RICR",
+    "Name": "Receipt of Incoming Correspondences and Requests",
+    "DisplayName": "L:Workflow,Workflow:Service:RICR",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD"
+  },
+  {
+    "ServiceCode": "PCNTR",
+    "Name": "Preparation of Concept Notes/Terms of Reference",
+    "DisplayName": "L:Workflow,Workflow:Service:PCNTR",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD"
+
+  },
+  {
+    "ServiceCode": "MEET",
+    "Name": "Meeting  - Meeting Related Services",
+    "DisplayName": "L:Workflow,Workflow:Service:MEET",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "CONF"
+  },
+  {
+    "ServiceCode": "TS",
+    "Name": "Translation Services",
+    "DisplayName": "L:Workflow,Workflow:Service:TS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "TRANS"
+  },
+  {
+    "ServiceCode": "IS",
+    "Name": "Interpretation Services",
+    "DisplayName": "L:Workflow,Workflow:Service:IS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "INT"
+  },
+  {
+    "ServiceCode": "GTS",
+    "Name": "Ground Transportation Services",
+    "DisplayName": "L:Workflow,Workflow:Service:GTS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "VP",
+    "Name": "Visa Procurement Services",
+    "DisplayName": "L:Workflow,Workflow:Service:VP",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "AHM",
+      "Name": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence",
+    "DisplayName": "L:Workflow,Workflow:Service:AHM",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "DC",
+    "Name": "Diplomatic Cocktail, Reception of the ECOWAS President",
+    "DisplayName": "L:Workflow,Workflow:Service:DC",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "RLNS",
+    "Name": "Reception and Lodging of New Staff",
+    "DisplayName": "L:Workflow,Workflow:Service:RLNS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "CDW",
+    "Name": "Customs Duties Waiver",
+    "DisplayName": "L:Workflow,Workflow:Service:CDW",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  },
+  {
+    "ServiceCode": "EOM",
+    "Name": "Election Observation Mission",
+    "DisplayName": "L:Workflow,Workflow:Service:EOM",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT"
+  }
 ]

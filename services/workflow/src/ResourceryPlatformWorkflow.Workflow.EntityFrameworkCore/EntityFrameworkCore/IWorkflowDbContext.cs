@@ -13,6 +13,7 @@ public interface IWorkflowDbContext : IEfCoreDbContext
 {
     DbSet<Request> Requests { get; }
     DbSet<Service> Services { get; }
+    DbSet<ServiceCenter> ServiceCenters { get; }
     DbSet<ServiceWorkflow> ServiceWorkflows { get; }
     DbSet<ServiceWorkflowStep> ServiceWorkflowSteps { get; }
     DbSet<ServiceWorkflowInstance> ServiceWorkflowInstances { get; }

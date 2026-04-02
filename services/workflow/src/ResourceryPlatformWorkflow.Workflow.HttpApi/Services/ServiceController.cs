@@ -8,8 +8,12 @@ namespace ResourceryPlatformWorkflow.Workflow.Services;
 
 [Area(WorkflowRemoteServiceConsts.ModuleName)]
 [RemoteService(Name = WorkflowRemoteServiceConsts.RemoteServiceName)]
+[ApiExplorerSettings(IgnoreApi = false)]
+[ApiController]
 [Route("api/workflow/services")]
-public class ServiceController(IServiceAppService appService) : WorkflowController, IServiceAppService
+public class WorkflowServiceController(IServiceAppService appService)
+    : WorkflowController,
+        IServiceAppService
 {
     private readonly IServiceAppService _appService = appService;
 

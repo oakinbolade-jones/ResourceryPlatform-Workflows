@@ -163,7 +163,7 @@
     "ProtocolRequestsOverview": "All Service Request - Protocol Services",
 
   "Workflow:Service:PID": "Preparation of Internal Memoranda on behalf of Directorate/Management",
-  "Workflow:Service:RICR": " Receipt of Incoming Correspondences and Requests",
+  "Workflow:Service:RICR": "Receipt of Incoming Correspondences and Requests",
    "Workflow:Service:PRCR": "Preparation and Review of Contributions to Reports",
 "Workflow:Service:PCNTR":"Preparation of Concept Notes/Terms of Reference",
 "Workflow:Service:MEET":"Meeting Related Services",
@@ -1384,6 +1384,11 @@
     "Permission:Workflow:Departments:Update": "Update Departments",
     "Permission:Workflow:Departments:Delete": "Delete Departments",
 
+    "Permission:Workflow:ServiceCenters": "Service Centers",
+    "Permission:Workflow:ServiceCenters:Create": "Create Service Centers",
+    "Permission:Workflow:ServiceCenters:Update": "Update Service Centers",
+    "Permission:Workflow:ServiceCenters:Delete": "Delete Service Centers",
+
     "Permission:Workflow:Services": "Services",
     "Permission:Workflow:Services:Create": "Create Services",
     "Permission:Workflow:Services:Update": "Update Services",
@@ -1438,8 +1443,10 @@
 
     "Workflow:Requests:DuplicateDocument":"A document with the same name ({title})  already exists for this request. Please rename the document and try again.",
     "Workflow:Requests:RequestNotFound":"The request is invalid.", 
-    "Workflow:Requests:InvalidStatus":"The request has an invalid status."
-    
+    "Workflow:Requests:InvalidStatus":"The request has an invalid status.",
+    "Workflow:SeedData:ServiceCenterSeedFileNotFound":"The seed file for service centers was not found.",
+    "Workflow:ServiceCenters:CodeAlreadyExists":"A service center with the same code already exists.",
+    "Workflow:ServiceCenters:InUse":"This service center is already assigned to a service and cannot be deleted."
    
 
    

@@ -16,12 +16,12 @@ internal class Program
 
         builder.AddServiceDefaults();
 
-        builder.AddNpgsqlDbContext<AdministrationDbContext>(
+        builder.AddSqlServerDbContext<AdministrationDbContext>(
             connectionName: ResourceryPlatformWorkflowNames.AdministrationDb
         );
-        builder.AddNpgsqlDbContext<IdentityDbContext>(connectionName: ResourceryPlatformWorkflowNames.IdentityServiceDb);
-        builder.AddNpgsqlDbContext<SaaSDbContext>(connectionName: ResourceryPlatformWorkflowNames.SaaSDb);
-        builder.AddNpgsqlDbContext<WorkflowDbContext>(connectionName: ResourceryPlatformWorkflowNames.WorkflowDb);
+        builder.AddSqlServerDbContext<IdentityDbContext>(connectionName: ResourceryPlatformWorkflowNames.IdentityServiceDb);
+        builder.AddSqlServerDbContext<SaaSDbContext>(connectionName: ResourceryPlatformWorkflowNames.SaaSDb);
+        builder.AddSqlServerDbContext<WorkflowDbContext>(connectionName: ResourceryPlatformWorkflowNames.WorkflowDb);
 
         builder.Configuration.AddAppSettingsSecretsJson();
 

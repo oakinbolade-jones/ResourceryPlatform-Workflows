@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +9,7 @@ public class AdministrationDbContextFactory : IDesignTimeDbContextFactory<Admini
 {
     public AdministrationDbContext CreateDbContext(string[] args)
     {
-        var builder = new DbContextOptionsBuilder<AdministrationDbContext>().UseNpgsql(
+        var builder = new DbContextOptionsBuilder<AdministrationDbContext>().UseSqlServer(
             GetConnectionStringFromConfiguration()
         );
 

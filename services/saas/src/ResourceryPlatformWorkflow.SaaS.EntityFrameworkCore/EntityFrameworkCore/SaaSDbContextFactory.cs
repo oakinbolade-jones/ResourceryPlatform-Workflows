@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +11,7 @@ public class SaaSDbContextFactory : IDesignTimeDbContextFactory<SaaSDbContext>
     {
         var configuration = BuildConfiguration();
 
-        var builder = new DbContextOptionsBuilder<SaaSDbContext>().UseNpgsql(
+        var builder = new DbContextOptionsBuilder<SaaSDbContext>().UseSqlServer(
             GetConnectionStringFromConfiguration()
         );
 

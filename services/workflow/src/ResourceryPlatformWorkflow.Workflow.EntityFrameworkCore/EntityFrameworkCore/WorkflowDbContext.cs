@@ -15,6 +15,7 @@ public class WorkflowDbContext(DbContextOptions<WorkflowDbContext> options)
 {
     public DbSet<Request> Requests { get; set; }
     public DbSet<Service> Services { get; set; }
+    public DbSet<ServiceCenter> ServiceCenters { get; set; }
     public DbSet<ServiceWorkflow> ServiceWorkflows { get; set; }
     public DbSet<ServiceWorkflowStep> ServiceWorkflowSteps { get; set; }
     public DbSet<ServiceWorkflowInstance> ServiceWorkflowInstances { get; set; }

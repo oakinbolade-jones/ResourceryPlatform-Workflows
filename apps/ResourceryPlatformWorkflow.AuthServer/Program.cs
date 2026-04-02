@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +24,15 @@ public class Program
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
 
-            builder.AddNpgsqlDbContext<AdministrationDbContext>(
+            builder.AddSqlServerDbContext<AdministrationDbContext>(
                 connectionName: ResourceryPlatformWorkflowNames.AdministrationDb,
                 configure => configure.DisableRetry = true
             );
-            builder.AddNpgsqlDbContext<IdentityDbContext>(
+            builder.AddSqlServerDbContext<IdentityDbContext>(
                 connectionName: ResourceryPlatformWorkflowNames.IdentityServiceDb,
                 configure => configure.DisableRetry = true
             );
-            builder.AddNpgsqlDbContext<SaaSDbContext>(
+            builder.AddSqlServerDbContext<SaaSDbContext>(
                 connectionName: ResourceryPlatformWorkflowNames.SaaSDb,
                 configure => configure.DisableRetry = true
             );

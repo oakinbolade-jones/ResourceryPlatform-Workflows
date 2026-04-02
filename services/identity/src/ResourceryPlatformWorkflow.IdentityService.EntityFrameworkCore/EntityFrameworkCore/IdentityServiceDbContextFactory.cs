@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +11,7 @@ public class IdentityServiceDbContextFactory : IDesignTimeDbContextFactory<Ident
     {
         var configuration = BuildConfiguration();
 
-        var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>().UseNpgsql(
+        var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>().UseSqlServer(
             GetConnectionStringFromConfiguration()
         );
 

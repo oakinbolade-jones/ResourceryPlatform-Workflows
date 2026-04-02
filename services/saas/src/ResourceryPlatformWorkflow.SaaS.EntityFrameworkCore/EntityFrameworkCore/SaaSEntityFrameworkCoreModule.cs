@@ -3,13 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 
-[DependsOn(typeof(AbpEntityFrameworkCorePostgreSqlModule))]
+[DependsOn(typeof(AbpEntityFrameworkCoreSqlServerModule))]
 [DependsOn(typeof(AbpTenantManagementEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSDomainModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowSharedModule))]
@@ -17,8 +17,7 @@ public class SaaSEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
         Configure<AbpDbConnectionOptions>(options =>
         {
@@ -33,7 +32,7 @@ public class SaaSEntityFrameworkCoreModule : AbpModule
 
         Configure<AbpDbContextOptions>(options =>
         {
-            options.UseNpgsql();
+            options.UseSqlServer();
         });
 
         context.Services.AddAbpDbContext<SaaSDbContext>(options =>

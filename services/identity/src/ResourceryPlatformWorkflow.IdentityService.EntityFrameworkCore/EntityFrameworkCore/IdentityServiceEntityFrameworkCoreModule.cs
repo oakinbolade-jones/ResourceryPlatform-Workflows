@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 
 namespace ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 
-[DependsOn(typeof(AbpEntityFrameworkCorePostgreSqlModule))]
+[DependsOn(typeof(AbpEntityFrameworkCoreSqlServerModule))]
 [DependsOn(typeof(AbpIdentityEntityFrameworkCoreModule))]
 [DependsOn(typeof(AbpOpenIddictEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityServiceDomainModule))]
@@ -19,8 +19,7 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
         Configure<AbpDbConnectionOptions>(options =>
         {
@@ -36,7 +35,7 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 
         Configure<AbpDbContextOptions>(options =>
         {
-            options.UseNpgsql();
+            options.UseSqlServer();
         });
 
         context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
