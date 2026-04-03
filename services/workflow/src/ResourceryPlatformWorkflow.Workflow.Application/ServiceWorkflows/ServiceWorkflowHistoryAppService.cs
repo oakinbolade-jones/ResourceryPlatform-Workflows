@@ -11,11 +11,13 @@ namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
 [Authorize(WorkflowPermissions.ServiceWorkflowHistory.Default)]
 public class ServiceWorkflowHistoryAppService(
-    IRepository<ServiceWorkflowHistory, Guid> serviceWorkflowHistoryRepository
+    IRepository<ServiceWorkflowHistory, Guid> serviceWorkflowHistoryRepository,
+    ServiceWorkflowHistoryManager serviceWorkflowHistoryManager
 ) : WorkflowAppService, IServiceWorkflowHistoryAppService
 {
     private readonly IRepository<ServiceWorkflowHistory, Guid> _serviceWorkflowHistoryRepository =
         serviceWorkflowHistoryRepository;
+    private readonly ServiceWorkflowHistoryManager _serviceWorkflowHistoryManager = serviceWorkflowHistoryManager;
 
     public async Task<ServiceWorkflowHistoryDto> GetAsync(Guid id)
     {
@@ -34,7 +36,7 @@ public class ServiceWorkflowHistoryAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = new ServiceWorkflowHistory(
+        var entity = await _serviceWorkflowHistoryManager.CreateAsync(
             GuidGenerator.Create(),
             input.ServiceWorkflowInstanceId,
             input.Type,
@@ -45,7 +47,6 @@ public class ServiceWorkflowHistoryAppService(
             input.ServiceWorkflowTaskId
         );
 
-        entity = await _serviceWorkflowHistoryRepository.InsertAsync(entity, autoSave: true);
         return Map(entity);
     }
 
@@ -57,18 +58,19 @@ public class ServiceWorkflowHistoryAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await _serviceWorkflowHistoryRepository.GetAsync(id);
-        entity.SetAction(input.Action);
-        entity.SetComment(input.Comment);
+        var entity = await _serviceWorkflowHistoryManager.UpdateAsync(
+            id,
+            input.Action,
+            input.Comment
+        );
 
-        entity = await _serviceWorkflowHistoryRepository.UpdateAsync(entity, autoSave: true);
         return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceWorkflowHistory.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _serviceWorkflowHistoryRepository.DeleteAsync(id, autoSave: true);
+        await _serviceWorkflowHistoryManager.DeleteAsync(id);
     }
 
     private static ServiceWorkflowHistoryDto Map(ServiceWorkflowHistory entity)

@@ -13,12 +13,11 @@ namespace ResourceryPlatformWorkflow.Workflow.Services;
 [Authorize(WorkflowPermissions.Services.Default)]
 public class ServiceAppService(
     IRepository<Service, Guid> serviceRepository,
-    IRepository<ServiceWorkflows.ServiceWorkflow, Guid> serviceWorkflowRepository
+    ServiceManager serviceManager
 ) : WorkflowAppService, IServiceAppService
 {
     private readonly IRepository<Service, Guid> _serviceRepository = serviceRepository;
-    private readonly IRepository<ServiceWorkflows.ServiceWorkflow, Guid> _serviceWorkflowRepository =
-        serviceWorkflowRepository;
+    private readonly ServiceManager _serviceManager = serviceManager;
 
     public async Task<ServiceDto> GetAsync(Guid id)
     {
@@ -39,19 +38,16 @@ public class ServiceAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = new Service(
+        var entity = await _serviceManager.CreateAsync(
             GuidGenerator.Create(),
             input.ServiceCenterId,
             input.Name,
+            input.Code,
             input.DisplayName,
-            input.Description
+            input.Description,
+            input.IsActive
         );
-        entity.SetIsActive(input.IsActive);
 
-        entity = await _serviceRepository.InsertAsync(entity, autoSave: true);
-        await AttachWorkflowsAsync(entity.Id, input.ServiceWorkflowIds);
-
-        entity = await GetServiceWithDetailsAsync(entity.Id);
         return await MapAsync(entity);
     }
 
@@ -60,36 +56,23 @@ public class ServiceAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await GetServiceWithDetailsAsync(id);
-        entity.SetServiceCenter(input.ServiceCenterId);
-        entity.SetName(input.Name);
-        entity.SetDisplayName(input.DisplayName);
-        entity.SetDescription(input.Description);
-        entity.SetIsActive(input.IsActive);
+        var entity = await _serviceManager.UpdateAsync(
+            id,
+            input.ServiceCenterId,
+            input.Name,
+            input.Code,
+            input.DisplayName,
+            input.Description,
+            input.IsActive
+        );
 
-        entity = await _serviceRepository.UpdateAsync(entity, autoSave: true);
-        await AttachWorkflowsAsync(entity.Id, input.ServiceWorkflowIds);
-
-        entity = await GetServiceWithDetailsAsync(entity.Id);
         return await MapAsync(entity);
     }
 
     [Authorize(WorkflowPermissions.Services.Delete)]
-    public Task DeleteAsync(Guid id) => _serviceRepository.DeleteAsync(id, autoSave: true);
-
-    private async Task AttachWorkflowsAsync(Guid serviceId, IEnumerable<Guid> workflowIds)
+    public async Task DeleteAsync(Guid id)
     {
-        if (workflowIds == null)
-        {
-            return;
-        }
-
-        foreach (var workflowId in workflowIds.Distinct())
-        {
-            var workflow = await _serviceWorkflowRepository.GetAsync(workflowId);
-            workflow.SetService(serviceId);
-            await _serviceWorkflowRepository.UpdateAsync(workflow, autoSave: true);
-        }
+        await _serviceManager.DeleteAsync(id);
     }
 
     private async Task<ServiceDto> MapAsync(Service entity)
@@ -117,6 +100,7 @@ public class ServiceAppService(
             Id = entity.Id,
             ServiceCenterId = entity.ServiceCenterId,
             Name = entity.Name,
+            Code = entity.Code,
             DisplayName = entity.DisplayName,
             Description = entity.Description,
             IsActive = entity.IsActive,

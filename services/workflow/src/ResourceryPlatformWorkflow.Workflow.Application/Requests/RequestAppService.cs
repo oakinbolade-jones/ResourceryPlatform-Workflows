@@ -197,7 +197,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
     }
 
     [Authorize(WorkflowPermissions.Requests.Delete)]
-    public Task DeleteAsync(Guid id) => _requestRepository.DeleteAsync(id, autoSave: true);
+    public Task DeleteAsync(Guid id) => _requestManager.DeleteAsync(id);
 
     private Task EnqueuePublishToSharePointAsync(Guid requestId) =>
         _backgroundJobManager.EnqueueAsync(new PublishRequestDocumentsJobArgs { RequestId = requestId });

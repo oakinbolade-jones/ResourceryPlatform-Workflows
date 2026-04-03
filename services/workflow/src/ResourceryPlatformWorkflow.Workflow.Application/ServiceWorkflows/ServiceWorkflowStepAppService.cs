@@ -12,13 +12,12 @@ namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 [Authorize(WorkflowPermissions.ServiceWorkflowSteps.Default)]
 public class ServiceWorkflowStepAppService(
     IRepository<ServiceWorkflowStep, Guid> serviceWorkflowStepRepository,
-    IRepository<ServiceWorkflow, Guid> serviceWorkflowRepository
+    ServiceWorkflowStepManager serviceWorkflowStepManager
 ) : WorkflowAppService, IServiceWorkflowStepAppService
 {
     private readonly IRepository<ServiceWorkflowStep, Guid> _serviceWorkflowStepRepository =
         serviceWorkflowStepRepository;
-    private readonly IRepository<ServiceWorkflow, Guid> _serviceWorkflowRepository =
-        serviceWorkflowRepository;
+    private readonly ServiceWorkflowStepManager _serviceWorkflowStepManager = serviceWorkflowStepManager;
 
     public async Task<ServiceWorkflowStepDto> GetAsync(Guid id)
     {
@@ -37,13 +36,21 @@ public class ServiceWorkflowStepAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var workflow = await _serviceWorkflowRepository.GetAsync(input.ServiceWorkflowId, includeDetails: true);
-        workflow.AddStep(GuidGenerator.Create(), input.Name, input.Description, input.Order);
+        var entity = await _serviceWorkflowStepManager.CreateAsync(
+            input.ServiceWorkflowId,
+            GuidGenerator.Create(),
+            input.Name,
+            input.Code,
+            input.Description,
+            input.Order,
+            input.DisplayName,
+            input.DisplayNameOutput,
+            input.Output,
+            input.TATType,
+            input.TATUnit
+        );
 
-        await _serviceWorkflowRepository.UpdateAsync(workflow, autoSave: true);
-
-        var created = workflow.Steps.Single(x => x.Order == input.Order && x.Name == input.Name);
-        return Map(created);
+        return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceWorkflowSteps.Update)]
@@ -51,19 +58,26 @@ public class ServiceWorkflowStepAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await _serviceWorkflowStepRepository.GetAsync(id);
-        entity.SetName(input.Name);
-        entity.SetDescription(input.Description);
-        entity.SetOrder(input.Order);
+        var entity = await _serviceWorkflowStepManager.UpdateAsync(
+            id,
+            input.Name,
+            input.Code,
+            input.Description,
+            input.Order,
+            input.DisplayName,
+            input.DisplayNameOutput,
+            input.Output,
+            input.TATType,
+            input.TATUnit
+        );
 
-        entity = await _serviceWorkflowStepRepository.UpdateAsync(entity, autoSave: true);
         return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceWorkflowSteps.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _serviceWorkflowStepRepository.DeleteAsync(id, autoSave: true);
+        await _serviceWorkflowStepManager.DeleteAsync(id);
     }
 
     private static ServiceWorkflowStepDto Map(ServiceWorkflowStep entity)
@@ -73,7 +87,13 @@ public class ServiceWorkflowStepAppService(
             Id = entity.Id,
             ServiceWorkflowId = entity.ServiceWorkflowId,
             Name = entity.Name,
+            Code = entity.Code,
             Description = entity.Description,
+            DisplayName = entity.DisplayName,
+            DisplayNameOutput = entity.DisplayNameOutput,
+            Output = entity.Output,
+            TATType = entity.TATType,
+            TATUnit = entity.TATUnit,
             Order = entity.Order
         };
     }

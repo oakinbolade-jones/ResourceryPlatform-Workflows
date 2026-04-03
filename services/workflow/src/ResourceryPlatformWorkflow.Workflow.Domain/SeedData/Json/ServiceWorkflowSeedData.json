@@ -1,450 +1,450 @@
 [
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-01",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PID",
-        "LeadTime":  "4",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparation of Internal Memoranda on behalf of Directorate/Management"
+        "ServiceCode": "OFD",
+        "Code": "OD01",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:PID",
+        "LeadTime": "4",
+        "LeadTimeType": "Days",
+        "Name": "Preparation of Internal Memoranda on behalf of Directorate/Management"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-02",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:RICR",
-        "LeadTime":  "15",
-        "LeadTimeType":  "Days",
-        "Name":  "Receipt of incoming Correspondences and Requests"
+        "ServiceCode": "OFD",
+        "Code": "OD02",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:RICR",
+        "LeadTime": "15",
+        "LeadTimeType": "Days",
+        "Name": "Receipt of incoming Correspondences and Requests"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-03",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PCNTR",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparation of Concept Notes/Terms of Reference"
+        "ServiceCode": "OFD",
+        "Code": "OD03",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:RNVINN",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Review of Note Verbales and Issuance of Numbers"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-04",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:SMOE",
-        "LeadTime":  "7",
-        "LeadTimeType":  "Days",
-        "Name":  "Supervision of Preparations for Statutory Meetings and other Official Events"
+        "ServiceCode": "OFD",
+        "Code": "OD04",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:SMOE",
+        "LeadTime": "7",
+        "LeadTimeType": "Days",
+        "Name": "Supervision of Preparations for Statutory Meetings and other Official Events"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-05",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PMOE",
-        "LeadTime":  "10",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparations for Statutory Meetings/ Official Events"
+        "ServiceCode": "OFD",
+        "Code": "OD05",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:PMOE",
+        "LeadTime": "10",
+        "LeadTimeType": "Days",
+        "Name": "Preparations for Statutory Meetings/ Official Events"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-06",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PRCR",
-        "LeadTime":  "3",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparation and Review of Contributions to Reports"
+        "ServiceCode": "OFD",
+        "Code": "OD06",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:PRCR",
+        "LeadTime": "3",
+        "LeadTimeType": "Days",
+        "Name": "Preparation and Review of Contributions to Reports"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-07",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PCNTR",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparation of Concept Notes/Terms of Reference"
+        "ServiceCode": "OFD",
+        "Code": "OD07",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:PCNTR",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Preparation of Concept Notes/Terms of Reference"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-08",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:PIM",
-        "LeadTime":  "8",
-        "LeadTimeType":  "Days",
-        "Name":  "Preparation of Internal Meetings"
+        "ServiceCode": "OFD",
+        "Code": "OD08",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:PIM",
+        "LeadTime": "8",
+        "LeadTimeType": "Days",
+        "Name": "Preparation of Internal Meetings"
     },
     {
-        "DeptCode":  "OFD",
-        "Code":  "OD-09",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:OFD:DUPMEPM",
-        "LeadTime":  "17",
-        "LeadTimeType":  "Days",
-        "Name":  "Document Upload, Population and Management of ECODOCS for Paperless Meeting"
+        "ServiceCode": "OFD",
+        "Code": "OD09",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:OFD:DUPMEPM",
+        "LeadTime": "17",
+        "LeadTimeType": "Days",
+        "Name": "Document Upload, Population and Management of ECODOCS for Paperless Meeting"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-01",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CCOE",
-        "LeadTime":  "30",
-        "LeadTimeType":  "Days",
-        "Name":  "Compilation of Quarterly Calendar of Events - Event Schedules"
+        "ServiceCode": "CONF",
+        "Code": "CONF01",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CCOE",
+        "LeadTime": "30",
+        "LeadTimeType": "Days",
+        "Name": "Compilation of Quarterly Calendar of Events - Event Schedules"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-02",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:BP",
-        "LeadTime":  "15",
-        "LeadTimeType":  "Days",
-        "Name":  "Budget Preparation"
+        "ServiceCode": "CONF",
+        "Code": "CONF02",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:BP",
+        "LeadTime": "15",
+        "LeadTimeType": "Days",
+        "Name": "Budget Preparation"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-03",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:MLC",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Meeting at the Commission (Physical)- Meeting Logistics Arrangement and Support Service"
+        "ServiceCode": "CONF",
+        "Code": "CONF03",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:MLC",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Meeting at the Commission (Physical)- Meeting Logistics Arrangement and Support Service"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-04",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMME",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meeting (Physical) - Meeting Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF04",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMME",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "External Meeting (Physical) - Meeting Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-05",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:MCPM",
-        "LeadTime":  "13",
-        "LeadTimeType":  "Days",
-        "Name":  "Meeting at the Commission (Physical) - Post Meeting"
+        "ServiceCode": "CONF",
+        "Code": "CONF05",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:MCPM",
+        "LeadTime": "13",
+        "LeadTimeType": "Days",
+        "Name": "Meeting at the Commission (Physical) - Post Meeting"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-06",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMLA",
-        "LeadTime":  "11",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meeting (Physical Outside the Commission) - Meeting Logistics Arrangement: Support Service or Service Providers- Set up"
+        "ServiceCode": "CONF",
+        "Code": "CONF06",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMLA",
+        "LeadTime": "11",
+        "LeadTimeType": "Days",
+        "Name": "External Meeting (Physical Outside the Commission) - Meeting Logistics Arrangement: Support Service or Service Providers- Set up"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-07",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMPOC",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meeting (Physical Outside the Commission) - Meeting Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF07",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMPOC",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "External Meeting (Physical Outside the Commission) - Meeting Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-08",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMPOCPM",
-        "LeadTime":  "13",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meeting (Physical outside the Commission) - Post Meeting"
+        "ServiceCode": "CONF",
+        "Code": "CONF08",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMPOCPM",
+        "LeadTime": "13",
+        "LeadTimeType": "Days",
+        "Name": "External Meeting (Physical outside the Commission) - Post Meeting"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-09",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:VHMLA",
-        "LeadTime":  "11",
-        "LeadTimeType":  "Days",
-        "Name":  "Virtual/Hybrid Meeting - Meeting Logistics Arrangement: Meeting Link and Refreshment"
+        "ServiceCode": "CONF",
+        "Code": "CONF09",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:VHMLA",
+        "LeadTime": "11",
+        "LeadTimeType": "Days",
+        "Name": "Virtual/Hybrid Meeting - Meeting Logistics Arrangement: Meeting Link and Refreshment"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-10",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:HVPVRS",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Hybrid/Virtual (Physical \u0026 Virtual Running Simultaneously)"
+        "ServiceCode": "CONF",
+        "Code": "CONF10",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:HVPVRS",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Hybrid/Virtual (Physical \u0026 Virtual Running Simultaneously)"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-11",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:HVPVRSPM",
-        "LeadTime":  "13",
-        "LeadTimeType":  "Days",
-        "Name":  "Hybrid/Virtual (Physical \u0026 Virtual Running Simultaneously) - Post Meeting"
+        "ServiceCode": "CONF",
+        "Code": "CONF11",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:HVPVRSPM",
+        "LeadTime": "13",
+        "LeadTimeType": "Days",
+        "Name": "Hybrid/Virtual (Physical \u0026 Virtual Running Simultaneously) - Post Meeting"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-12",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWPC",
-        "LeadTime":  "7",
-        "LeadTimeType":  "Days",
-        "Name":  "Communication/Information Document: Events of the Week - Pre-Conference"
+        "ServiceCode": "CONF",
+        "Code": "CONF12",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWPC",
+        "LeadTime": "7",
+        "LeadTimeType": "Days",
+        "Name": "Communication/Information Document: Events of the Week - Pre-Conference"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-13",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWCE",
-        "LeadTime":  "2",
-        "LeadTimeType":  "Days",
-        "Name":  "Communication/Information Document: Events of the Week - Conference Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF13",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWCE",
+        "LeadTime": "2",
+        "LeadTimeType": "Days",
+        "Name": "Communication/Information Document: Events of the Week - Conference Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-14",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWPOC",
-        "LeadTime":  "7",
-        "LeadTimeType":  "Days",
-        "Name":  "Communication/Information Document: Events of the Week - Post Conference"
+        "ServiceCode": "CONF",
+        "Code": "CONF14",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CIDEWPOC",
+        "LeadTime": "7",
+        "LeadTimeType": "Days",
+        "Name": "Communication/Information Document: Events of the Week - Post Conference"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-15",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSPC",
-        "LeadTime":  "11",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers - Set up Pre-Conference"
+        "ServiceCode": "CONF",
+        "Code": "CONF15",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSPC",
+        "LeadTime": "11",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Meeting Logistics Arrangement: Support Service or Service Providers - Set up Pre-Conference"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-16",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSME",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Meeting Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF16",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSME",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Meeting Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-17",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSPM",
-        "LeadTime":  "13",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Post Meeting"
+        "ServiceCode": "CONF",
+        "Code": "CONF17",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSPM",
+        "LeadTime": "13",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Post Meeting"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-18",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRA",
-        "LeadTime":  "2",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Reprographic Arrangement"
+        "ServiceCode": "CONF",
+        "Code": "CONF18",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRA",
+        "LeadTime": "2",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Reprographic Arrangement"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-19",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRME",
-        "LeadTime":  "3",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Reprographic Meeting Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF19",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRME",
+        "LeadTime": "3",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Reprographic Meeting Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-20",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRPM",
-        "LeadTime":  "13",
-        "LeadTimeType":  "Days",
-        "Name":  "External Meetings (Physical in the Member States) - Reprographic Post Meeting "
+        "ServiceCode": "CONF",
+        "Code": "CONF20",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:EMMSRPM",
+        "LeadTime": "13",
+        "LeadTimeType": "Days",
+        "Name": "External Meetings (Physical in the Member States) - Reprographic Post Meeting "
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-21",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMPC",
-        "LeadTime":  "2",
-        "LeadTimeType":  "Days",
-        "Name":  "Coordination of Statutory and Sectorial Ministers Meeting - Pre-Conference"
+        "ServiceCode": "CONF",
+        "Code": "CONF21",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMPC",
+        "LeadTime": "2",
+        "LeadTimeType": "Days",
+        "Name": "Coordination of Statutory and Sectorial Ministers Meeting - Pre-Conference"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-22",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMCE",
-        "LeadTime":  "2",
-        "LeadTimeType":  "Days",
-        "Name":  "Coordination of Statutory and Sectorial Ministers Meeting - Conference Execution"
+        "ServiceCode": "CONF",
+        "Code": "CONF22",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMCE",
+        "LeadTime": "2",
+        "LeadTimeType": "Days",
+        "Name": "Coordination of Statutory and Sectorial Ministers Meeting - Conference Execution"
     },
     {
-        "DeptCode":  "CONF",
-        "Code":  "CONF-23",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMPM",
-        "LeadTime":  "7",
-        "LeadTimeType":  "Days",
-        "Name":  "Coordination of Statutory and Sectorial Ministers Meeting - Post Meeting"
+        "ServiceCode": "CONF",
+        "Code": "CONF23",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:CONF:CSSMMPM",
+        "LeadTime": "7",
+        "LeadTimeType": "Days",
+        "Name": "Coordination of Statutory and Sectorial Ministers Meeting - Post Meeting"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-01",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:GT",
-        "LeadTime":  "4",
-        "LeadTimeType":  "Days",
-        "Name":  "Ground Transportation"
+        "ServiceCode": "PROT",
+        "Code": "PROT01",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:GT",
+        "LeadTime": "4",
+        "LeadTimeType": "Days",
+        "Name": "Ground Transportation"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-02",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:VP",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Visa Processing"
+        "ServiceCode": "PROT",
+        "Code": "PROT02",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:VP",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Visa Processing"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-03",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:AHM",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence"
+        "ServiceCode": "PROT",
+        "Code": "PROT03",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:AHM",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-04",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:DC",
-        "LeadTime":  "NULL",
-        "LeadTimeType":  "Days",
-        "Name":  "Diplomatic Cocktail, Reception of the ECOWAS President"
+        "ServiceCode": "PROT",
+        "Code": "PROT04",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:DC",
+        "LeadTime": "NULL",
+        "LeadTimeType": "Days",
+        "Name": "Diplomatic Cocktail, Reception of the ECOWAS President"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-05",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:RLNS",
-        "LeadTime":  "7",
-        "LeadTimeType":  "Days",
-        "Name":  "Reception and Lodging of New Staff"
+        "ServiceCode": "PROT",
+        "Code": "PROT05",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:RLNS",
+        "LeadTime": "7",
+        "LeadTimeType": "Days",
+        "Name": "Reception and Lodging of New Staff"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-06",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:EOM",
-        "LeadTime":  "30",
-        "LeadTimeType":  "Days",
-        "Name":  "Election Observation Mission"
+        "ServiceCode": "PROT",
+        "Code": "PROT06",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:EOM",
+        "LeadTime": "30",
+        "LeadTimeType": "Days",
+        "Name": "Election Observation Mission"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-07",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:BF",
-        "LeadTime":  "1",
-        "LeadTimeType":  "Days",
-        "Name":  "Border Formalities  (Lagos Liaison Office)"
+        "ServiceCode": "PROT",
+        "Code": "PROT07",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:BF",
+        "LeadTime": "1",
+        "LeadTimeType": "Days",
+        "Name": "Border Formalities  (Lagos Liaison Office)"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-08",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:TPE",
-        "LeadTime":  "2",
-        "LeadTimeType":  "Days",
-        "Name":  "Ticketing for 3rd parties who are outside ECOLINK"
+        "ServiceCode": "PROT",
+        "Code": "PROT08",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:TPE",
+        "LeadTime": "2",
+        "LeadTimeType": "Days",
+        "Name": "Ticketing for 3rd parties who are outside ECOLINK"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-09",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:TBTD",
-        "LeadTime":  "3",
-        "LeadTimeType":  "Days",
-        "Name":  "Ticketing Based on TVM Deliverable"
+        "ServiceCode": "PROT",
+        "Code": "PROT09",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:TBTD",
+        "LeadTime": "3",
+        "LeadTimeType": "Days",
+        "Name": "Ticketing Based on TVM Deliverable"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-10",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:INVP",
-        "LeadTime":  "NULL",
-        "LeadTimeType":  "Days",
-        "Name":  "Invoice Processing"
+        "ServiceCode": "PROT",
+        "Code": "PROT10",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:INVP",
+        "LeadTime": "NULL",
+        "LeadTimeType": "Days",
+        "Name": "Invoice Processing"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-11",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:OVA",
-        "LeadTime":  "14",
-        "LeadTimeType":  "Days",
-        "Name":  "Obtaining Visa-on-Arrival"
+        "ServiceCode": "PROT",
+        "Code": "PROT11",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:OVA",
+        "LeadTime": "14",
+        "LeadTimeType": "Days",
+        "Name": "Obtaining Visa-on-Arrival"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-12",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:CDW",
-        "LeadTime":  "14",
-        "LeadTimeType":  "Days",
-        "Name":  "Customs Duties Waiver"
+        "ServiceCode": "PROT",
+        "Code": "PROT12",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:CDW",
+        "LeadTime": "14",
+        "LeadTimeType": "Days",
+        "Name": "Customs Duties Waiver"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-13",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:ROR",
-        "LeadTime":  "NULL",
-        "LeadTimeType":  "Days",
-        "Name":  "Repatriation of Remains"
+        "ServiceCode": "PROT",
+        "Code": "PROT13",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:ROR",
+        "LeadTime": "NULL",
+        "LeadTimeType": "Days",
+        "Name": "Repatriation of Remains"
     },
     {
-        "DeptCode":  "PROT",
-        "Code":  "PROT-14",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:PROT:RSC",
-        "LeadTime":  "14",
-        "LeadTimeType":  "Days",
-        "Name":  "Residence Cards"
+        "ServiceCode": "PROT",
+        "Code": "PROT14",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:PROT:RSC",
+        "LeadTime": "14",
+        "LeadTimeType": "Days",
+        "Name": "Residence Cards"
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-01",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:AIS",
-        "LeadTime":  "NULL",
-        "LeadTimeType":  "Days",
-        "Name":  "Assessing Interpretation Service "
+        "ServiceCode": "INT",
+        "Code": "INT01",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:AIS",
+        "LeadTime": "NULL",
+        "LeadTimeType": "Days",
+        "Name": "Assessing Interpretation Service "
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-02",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:PVISRM",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Processing the Validated Interpretation Service Request and Mounting Team(s)"
+        "ServiceCode": "INT",
+        "Code": "INT02",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:PVISRM",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Processing the Validated Interpretation Service Request and Mounting Team(s)"
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-03",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:DIPM",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Deploying Interpreters in a Physical Meeting"
+        "ServiceCode": "INT",
+        "Code": "INT03",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:DIPM",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Deploying Interpreters in a Physical Meeting"
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-04",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:DIVM",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Deployment of Interpreters\u0027 Team in Virtual Meetings"
+        "ServiceCode": "INT",
+        "Code": "INT04",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:DIVM",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Deployment of Interpreters\u0027 Team in Virtual Meetings"
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-05",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:DIHM",
-        "LeadTime":  "5",
-        "LeadTimeType":  "Days",
-        "Name":  "Deployment of Interpreters\u0027 Team in Hybrid Meetings"
+        "ServiceCode": "INT",
+        "Code": "INT05",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:DIHM",
+        "LeadTime": "5",
+        "LeadTimeType": "Days",
+        "Name": "Deployment of Interpreters\u0027 Team in Hybrid Meetings"
     },
     {
-        "DeptCode":  "INT",
-        "Code":  "INT-06",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:INT:PFISP",
-        "LeadTime":  "1",
-        "LeadTimeType":  "Days",
-        "Name":  "Paying Freelance Interpreters and SIE Providers"
+        "ServiceCode": "INT",
+        "Code": "INT06",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:INT:PFISP",
+        "LeadTime": "1",
+        "LeadTimeType": "Days",
+        "Name": "Paying Freelance Interpreters and SIE Providers"
     },
     {
-        "DeptCode":  "TRANS",
-        "Code":  "TRANS-01",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:TRANS:NCTIH",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Non-Conference Translation In-House Translation"
+        "ServiceCode": "TRANS",
+        "Code": "TRANS01",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:TRANS:NCTIH",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Non-Conference Translation In-House Translation"
     },
     {
-        "DeptCode":  "TRANS",
-        "Code":  "TRANS-02",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:TRANS:NCTFRE",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Non-Conference Translation Freelance Translation"
+        "ServiceCode": "TRANS",
+        "Code": "TRANS02",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:TRANS:NCTFRE",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Non-Conference Translation Freelance Translation"
     },
     {
-        "DeptCode":  "TRANS",
-        "Code":  "TRANS-03",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:TRANS:CTIH",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Conference Translation In-House Translation"
+        "ServiceCode": "TRANS",
+        "Code": "TRANS03",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:TRANS:CTIH",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Conference Translation In-House Translation"
     },
     {
-        "DeptCode":  "TRANS",
-        "Code":  "TRANS-04",
-        "DisplayName":  "L:Workflow,Workflow:ServiceWorkflow:TRANS:CTFRE",
-        "LeadTime":  "Derived",
-        "LeadTimeType":  "Days",
-        "Name":  "Conference Translation Freelance Translation"
+        "ServiceCode": "TRANS",
+        "Code": "TRANS04",
+        "DisplayName": "L:Workflow,Workflow:ServiceWorkflow:TRANS:CTFRE",
+        "LeadTime": "Derived",
+        "LeadTimeType": "Days",
+        "Name": "Conference Translation Freelance Translation"
     }
 ]

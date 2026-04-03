@@ -1,38 +1,17 @@
-import type { EntityDto, FullAuditedEntityDto } from '@abp/ng.core';
 import type { ServiceWorkflowHistoryType } from './service-workflow-history-type.enum';
 import type { ServiceWorkflowInstanceStatus } from './service-workflow-instance-status.enum';
 import type { ServiceWorkflowTaskStatus } from './service-workflow-task-status.enum';
+import type { EntityDto, FullAuditedEntityDto } from '@abp/ng.core';
 
 export interface CreateUpdateServiceWorkflowDto {
-  serviceId?: string;
   name?: string;
+  code?: string;
+  displayName?: string;
+  leadTime?: string;
+  leadTimeType?: string;
   description?: string;
-  isActive?: boolean;
+  isActive: boolean;
   steps: CreateUpdateServiceWorkflowStepDto[];
-}
-
-export interface CreateUpdateServiceWorkflowStepDto {
-  serviceWorkflowId?: string;
-  name?: string;
-  description?: string;
-  order?: number;
-}
-
-export interface CreateUpdateServiceWorkflowInstanceDto {
-  serviceWorkflowId?: string;
-  requestId?: string;
-  currentStepId?: string;
-  status?: ServiceWorkflowInstanceStatus;
-}
-
-export interface CreateUpdateServiceWorkflowTaskDto {
-  serviceWorkflowInstanceId?: string;
-  serviceWorkflowStepId?: string;
-  title?: string;
-  description?: string;
-  assigneeUserId?: string;
-  status?: ServiceWorkflowTaskStatus;
-  dueDate?: string;
 }
 
 export interface CreateUpdateServiceWorkflowHistoryDto {
@@ -45,33 +24,27 @@ export interface CreateUpdateServiceWorkflowHistoryDto {
   performedByUserId?: string;
 }
 
-export interface ServiceWorkflowStepDto extends EntityDto<string> {
-  serviceWorkflowId?: string;
-  name?: string;
-  description?: string;
-  order?: number;
-}
-
-export interface ServiceWorkflowDto extends FullAuditedEntityDto<string> {
-  serviceId?: string;
-  relationServiceId?: string;
-  relationServiceWorkflowId?: string;
-  name?: string;
-  description?: string;
-  isActive?: boolean;
-  steps: ServiceWorkflowStepDto[];
-}
-
-export interface ServiceWorkflowInstanceDto extends FullAuditedEntityDto<string> {
+export interface CreateUpdateServiceWorkflowInstanceDto {
   serviceWorkflowId?: string;
   requestId?: string;
   currentStepId?: string;
   status?: ServiceWorkflowInstanceStatus;
-  startedAt?: string;
-  completedAt?: string;
 }
 
-export interface ServiceWorkflowTaskDto extends FullAuditedEntityDto<string> {
+export interface CreateUpdateServiceWorkflowStepDto {
+  serviceWorkflowId?: string;
+  name?: string;
+  code?: string;
+  description?: string;
+  displayName?: string;
+  displayNameOutput?: string;
+  output?: string;
+  tatType?: string;
+  tatUnit?: string;
+  order: number;
+}
+
+export interface CreateUpdateServiceWorkflowTaskDto {
   serviceWorkflowInstanceId?: string;
   serviceWorkflowStepId?: string;
   title?: string;
@@ -79,7 +52,17 @@ export interface ServiceWorkflowTaskDto extends FullAuditedEntityDto<string> {
   assigneeUserId?: string;
   status?: ServiceWorkflowTaskStatus;
   dueDate?: string;
-  completedAt?: string;
+}
+
+export interface ServiceWorkflowDto extends FullAuditedEntityDto<string> {
+  name?: string;
+  code?: string;
+  displayName?: string;
+  leadTime?: string;
+  leadTimeType?: string;
+  description?: string;
+  isActive: boolean;
+  steps: ServiceWorkflowStepDto[];
 }
 
 export interface ServiceWorkflowHistoryDto extends EntityDto<string> {
@@ -91,4 +74,37 @@ export interface ServiceWorkflowHistoryDto extends EntityDto<string> {
   comment?: string;
   performedByUserId?: string;
   performedAt?: string;
+}
+
+export interface ServiceWorkflowInstanceDto extends FullAuditedEntityDto<string> {
+  serviceWorkflowId?: string;
+  requestId?: string;
+  currentStepId?: string;
+  status?: ServiceWorkflowInstanceStatus;
+  startedAt?: string;
+  completedAt?: string;
+}
+
+export interface ServiceWorkflowStepDto extends EntityDto<string> {
+  serviceWorkflowId?: string;
+  name?: string;
+  code?: string;
+  description?: string;
+  displayName?: string;
+  displayNameOutput?: string;
+  output?: string;
+  tatType?: string;
+  tatUnit?: string;
+  order: number;
+}
+
+export interface ServiceWorkflowTaskDto extends FullAuditedEntityDto<string> {
+  serviceWorkflowInstanceId?: string;
+  serviceWorkflowStepId?: string;
+  title?: string;
+  description?: string;
+  assigneeUserId?: string;
+  status?: ServiceWorkflowTaskStatus;
+  dueDate?: string;
+  completedAt?: string;
 }

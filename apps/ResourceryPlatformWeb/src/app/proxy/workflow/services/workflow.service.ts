@@ -1,18 +1,18 @@
-import type { CreateUpdateServiceWorkflowDto, ServiceWorkflowDto } from './models';
+import type { CreateUpdateServiceDto, ServiceDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ServiceWorkflowService {
+export class WorkflowService {
   apiName = 'Workflow';
   
 
-  create = (input: CreateUpdateServiceWorkflowDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ServiceWorkflowDto>({
+  create = (input: CreateUpdateServiceDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ServiceDto>({
       method: 'POST',
-      url: '/api/workflow/service-workflows',
+      url: '/api/workflow/services',
       body: input,
     },
     { apiName: this.apiName,...config });
@@ -21,31 +21,31 @@ export class ServiceWorkflowService {
   delete = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/workflow/service-workflows/${id}`,
+      url: `/api/workflow/services/${id}`,
     },
     { apiName: this.apiName,...config });
   
 
   get = (id: string, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ServiceWorkflowDto>({
+    this.restService.request<any, ServiceDto>({
       method: 'GET',
-      url: `/api/workflow/service-workflows/${id}`,
+      url: `/api/workflow/services/${id}`,
     },
     { apiName: this.apiName,...config });
   
 
   getList = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ServiceWorkflowDto[]>({
+    this.restService.request<any, ServiceDto[]>({
       method: 'GET',
-      url: '/api/workflow/service-workflows',
+      url: '/api/workflow/services',
     },
     { apiName: this.apiName,...config });
   
 
-  update = (id: string, input: CreateUpdateServiceWorkflowDto, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, ServiceWorkflowDto>({
+  update = (id: string, input: CreateUpdateServiceDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ServiceDto>({
       method: 'PUT',
-      url: `/api/workflow/service-workflows/${id}`,
+      url: `/api/workflow/services/${id}`,
       body: input,
     },
     { apiName: this.apiName,...config });

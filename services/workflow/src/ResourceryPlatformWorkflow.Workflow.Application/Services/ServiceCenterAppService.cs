@@ -12,11 +12,11 @@ namespace ResourceryPlatformWorkflow.Workflow.Services;
 [Authorize(WorkflowPermissions.ServiceCenters.Default)]
 public class ServiceCenterAppService(
     IRepository<ServiceCenter, Guid> serviceCenterRepository,
-    IRepository<Service, Guid> serviceRepository
+    ServiceCenterManager serviceCenterManager
 ) : WorkflowAppService, IServiceCenterAppService
 {
     private readonly IRepository<ServiceCenter, Guid> _serviceCenterRepository = serviceCenterRepository;
-    private readonly IRepository<Service, Guid> _serviceRepository = serviceRepository;
+    private readonly ServiceCenterManager _serviceCenterManager = serviceCenterManager;
 
     public async Task<ServiceCenterDto> GetAsync(Guid id)
     {
@@ -34,9 +34,8 @@ public class ServiceCenterAppService(
     public async Task<ServiceCenterDto> CreateAsync(CreateUpdateServiceCenterDto input)
     {
         Check.NotNull(input, nameof(input));
-        await EnsureCodeIsUniqueAsync(input.Code);
 
-        var entity = new ServiceCenter(
+        var entity = await _serviceCenterManager.CreateAsync(
             GuidGenerator.Create(),
             input.Name,
             input.DisplayName,
@@ -44,7 +43,6 @@ public class ServiceCenterAppService(
             input.Code
         );
 
-        entity = await _serviceCenterRepository.InsertAsync(entity, autoSave: true);
         return Map(entity);
     }
 
@@ -52,41 +50,22 @@ public class ServiceCenterAppService(
     public async Task<ServiceCenterDto> UpdateAsync(Guid id, CreateUpdateServiceCenterDto input)
     {
         Check.NotNull(input, nameof(input));
-        await EnsureCodeIsUniqueAsync(input.Code, id);
 
-        var entity = await _serviceCenterRepository.GetAsync(id);
-        entity.SetName(input.Name);
-        entity.SetDisplayName(input.DisplayName);
-        entity.SetDescription(input.Description);
-        entity.SetCode(input.Code);
+        var entity = await _serviceCenterManager.UpdateAsync(
+            id,
+            input.Name,
+            input.DisplayName,
+            input.Description,
+            input.Code
+        );
 
-        entity = await _serviceCenterRepository.UpdateAsync(entity, autoSave: true);
         return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceCenters.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        var isInUse = await _serviceRepository.AnyAsync(x => x.ServiceCenterId == id);
-        if (isInUse)
-        {
-            throw new BusinessException("Workflow:ServiceCenters:InUse");
-        }
-
-        await _serviceCenterRepository.DeleteAsync(id, autoSave: true);
-    }
-
-    private async Task EnsureCodeIsUniqueAsync(string code, Guid? excludingId = null)
-    {
-        var normalizedCode = code?.Trim();
-        var exists = await _serviceCenterRepository.AnyAsync(x =>
-            x.Code == normalizedCode && (!excludingId.HasValue || x.Id != excludingId.Value)
-        );
-
-        if (exists)
-        {
-            throw new BusinessException("Workflow:ServiceCenters:CodeAlreadyExists");
-        }
+        await _serviceCenterManager.DeleteAsync(id);
     }
 
     private static ServiceCenterDto Map(ServiceCenter entity)

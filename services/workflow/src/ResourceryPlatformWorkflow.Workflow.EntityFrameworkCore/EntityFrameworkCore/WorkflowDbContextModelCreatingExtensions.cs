@@ -79,6 +79,7 @@ public static class WorkflowDbContextModelCreatingExtensions
 
             b.Property(x => x.ServiceCenterId).IsRequired();
             b.Property(x => x.Name).IsRequired().HasMaxLength(ServiceConsts.MaxServiceNameLength);
+            b.Property(x => x.Code).IsRequired().HasMaxLength(ServiceConsts.MaxServiceCodeLength);
             b.Property(x => x.DisplayName)
                 .IsRequired()
                 .HasMaxLength(ServiceConsts.MaxServiceDisplayNameLength);
@@ -88,6 +89,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.IsActive).IsRequired();
 
             b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.Code).IsUnique();
             b.HasIndex(x => x.ServiceCenterId);
             b.HasIndex(x => x.TenantId);
         });
@@ -126,12 +128,20 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowNameLength);
-            b.Property(x => x.Description)
+            b.Property(x => x.Code)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowCodeLength);
+            b.Property(x => x.DisplayName)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDisplayNameLength);            b.Property(x => x.LeadTime)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxLeadTimeLength);
+            b.Property(x => x.LeadTimeType)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxLeadTimeTypeLength);            b.Property(x => x.Description)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDescriptionLength);
             b.Property(x => x.IsActive).IsRequired();
-            b.Property(x => x.ServiceId).HasColumnName("RelationServiceId");
-            b.HasIndex(x => x.ServiceId);
 
             b.HasMany(x => x.Steps)
                 .WithOne()
@@ -139,7 +149,8 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.Name);
+            b.HasIndex(x => x.Code).IsUnique();
             b.HasIndex(x => x.TenantId);
         });
 
@@ -153,9 +164,27 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxStepNameLength);
+            b.Property(x => x.Code)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepCodeLength);
             b.Property(x => x.Description)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxStepDescriptionLength);
+            b.Property(x => x.DisplayName)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepDisplayNameProcessLength);
+            b.Property(x => x.DisplayNameOutput)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepDisplayNameExpectedOutputLength);
+            b.Property(x => x.Output)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepOutputLength);
+            b.Property(x => x.TATType)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepTATTypeLength);
+            b.Property(x => x.TATUnit)
+                .IsRequired()
+                .HasMaxLength(ServiceWorkflowConsts.MaxStepTATUnitLength);
             b.Property(x => x.Order).IsRequired();
 
             b.HasIndex(x => x.ServiceWorkflowId);

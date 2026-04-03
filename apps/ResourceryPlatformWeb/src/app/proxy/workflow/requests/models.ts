@@ -1,6 +1,7 @@
 import type { RequestType } from './request-type.enum';
 import type { RequestStatus } from './request-status.enum';
 import type { EntityDto, FullAuditedEntityDto } from '@abp/ng.core';
+import type { DocumentMigrationStatus } from './document-migration-status.enum';
 
 export interface CreateUpdateRequestDocumentDto {
   title?: string;
@@ -22,7 +23,7 @@ export interface RequestDocumentDto extends EntityDto<string> {
   documentUrl?: string;
   sharePointDocumentUrl?: string;
   sharePointItemId?: string;
-  migrationStatus?: number;
+  migrationStatus?: DocumentMigrationStatus;
   lastMigrationError?: string;
   migratedAt?: string;
 }
@@ -32,7 +33,7 @@ export interface RequestDto extends FullAuditedEntityDto<string> {
   requestStatus?: RequestStatus;
   documentSetUrl?: string;
   description?: string;
-  documentMigrationStatus?: number;
+  documentMigrationStatus?: DocumentMigrationStatus;
   documentsPublishedAt?: string;
   documents: RequestDocumentDto[];
 }

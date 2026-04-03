@@ -10,12 +10,15 @@ using Volo.Abp.Domain.Repositories;
 namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
 [Authorize(WorkflowPermissions.ServiceWorkflowTasks.Default)]
-public class ServiceWorkflowTaskAppService(IRepository<ServiceWorkflowTask, Guid> serviceWorkflowTaskRepository)
-    : WorkflowAppService,
+public class ServiceWorkflowTaskAppService(
+    IRepository<ServiceWorkflowTask, Guid> serviceWorkflowTaskRepository,
+    ServiceWorkflowTaskManager serviceWorkflowTaskManager
+) : WorkflowAppService,
         IServiceWorkflowTaskAppService
 {
     private readonly IRepository<ServiceWorkflowTask, Guid> _serviceWorkflowTaskRepository =
         serviceWorkflowTaskRepository;
+    private readonly ServiceWorkflowTaskManager _serviceWorkflowTaskManager = serviceWorkflowTaskManager;
 
     public async Task<ServiceWorkflowTaskDto> GetAsync(Guid id)
     {
@@ -34,19 +37,17 @@ public class ServiceWorkflowTaskAppService(IRepository<ServiceWorkflowTask, Guid
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = new ServiceWorkflowTask(
+        var entity = await _serviceWorkflowTaskManager.CreateAsync(
             GuidGenerator.Create(),
             input.ServiceWorkflowInstanceId,
             input.ServiceWorkflowStepId,
             input.Title,
             input.Description,
             input.AssigneeUserId,
-            input.DueDate
+            input.DueDate,
+            input.Status
         );
 
-        ApplyStatus(entity, input.Status);
-
-        entity = await _serviceWorkflowTaskRepository.InsertAsync(entity, autoSave: true);
         return Map(entity);
     }
 
@@ -55,45 +56,22 @@ public class ServiceWorkflowTaskAppService(IRepository<ServiceWorkflowTask, Guid
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await _serviceWorkflowTaskRepository.GetAsync(id);
-        entity.SetTitle(input.Title);
-        entity.SetDescription(input.Description);
-        entity.SetAssigneeUserId(input.AssigneeUserId);
-        entity.SetDueDate(input.DueDate);
+        var entity = await _serviceWorkflowTaskManager.UpdateAsync(
+            id,
+            input.Title,
+            input.Description,
+            input.AssigneeUserId,
+            input.DueDate,
+            input.Status
+        );
 
-        ApplyStatus(entity, input.Status);
-
-        entity = await _serviceWorkflowTaskRepository.UpdateAsync(entity, autoSave: true);
         return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceWorkflowTasks.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _serviceWorkflowTaskRepository.DeleteAsync(id, autoSave: true);
-    }
-
-    private static void ApplyStatus(ServiceWorkflowTask entity, ServiceWorkflowTaskStatus targetStatus)
-    {
-        switch (targetStatus)
-        {
-            case ServiceWorkflowTaskStatus.Pending:
-                break;
-            case ServiceWorkflowTaskStatus.InProgress:
-                entity.Start();
-                break;
-            case ServiceWorkflowTaskStatus.Completed:
-                entity.Complete();
-                break;
-            case ServiceWorkflowTaskStatus.Rejected:
-                entity.Reject();
-                break;
-            case ServiceWorkflowTaskStatus.Cancelled:
-                entity.Cancel();
-                break;
-            default:
-                throw new BusinessException("Workflow:ServiceWorkflowTasks:InvalidStatus");
-        }
+        await _serviceWorkflowTaskManager.DeleteAsync(id);
     }
 
     private static ServiceWorkflowTaskDto Map(ServiceWorkflowTask entity)

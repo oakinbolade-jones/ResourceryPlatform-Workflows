@@ -1,3 +1,3 @@
 export * from './models';
-export * from './service-entity.service';
-export * from './usage-examples.service';
+export * from './service-center.service';
+export * from './workflow.service';

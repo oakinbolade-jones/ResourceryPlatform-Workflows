@@ -1,12 +1,10 @@
 [
-
     {
         "Role": "Language Coordinator"
     },
     {
         "Role": "DCP Staff"
     },
-   
     {
         "Role": "Director"
     },
@@ -15,7 +13,7 @@
     },
     {
         "Role": "Focal Person"
-    },    
+    },
     {
         "Role": "HOD Reproduction Unit"
     },
@@ -45,36 +43,34 @@
     },
     {
         "Role": "Delegate"
-    }, 
+    },
     {
         "Role": "Resident Representative Officer"
-    },    
+    },
     {
         "Role": "Support Staff"
     },
-    
     {
         "Role": "Booth Captain"
-    },   
+    },
     {
         "Role": "ECODOCS Support"
     },
     {
         "Role": "HOD"
-    },    
+    },
     {
         "Role": "Interpretation Officer"
     },
     {
-        "Role": "Interpreter"    },
-        
+        "Role": "Interpreter"
+    },
     {
         "Role": "Translation Officer"
     },
     {
         "Role": "Translation Assistant"
     },
-    
     {
         "Role": "Language Assistant"
     },
@@ -86,24 +82,22 @@
     },
     {
         "Role": "Reception & Logistics Officer"
-    },     
+    },
     {
         "Role": "Travel Assistant"
-    },    
+    },
     {
         "Role": "Conference Assistant"
     },
     {
         "Role": "Conference Officer"
     },
-   
-   
     {
         "Role": "Resident Representative Officer"
     },
     {
         "Role": "ECOWAS Delegation"
-    },    
+    },
     {
         "Role": "HOD"
     },
@@ -112,7 +106,7 @@
     },
     {
         "Role": "Meeting Host"
-    },     
+    },
     {
         "Role": "Privileges & Immunities Officer"
     },
@@ -138,8 +132,8 @@
         "Role": "Reprographic Assistant"
     },
     {
-        "Role": "Revisor"    }, 
-   
+        "Role": "Revisor"
+    },
     {
         "Role": "Travel Officer"
     }

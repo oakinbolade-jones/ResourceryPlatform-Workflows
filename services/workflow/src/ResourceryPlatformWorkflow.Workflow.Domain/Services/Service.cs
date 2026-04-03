@@ -11,16 +11,18 @@ public class Service : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public Guid? TenantId { get; private set; }
     public Guid ServiceCenterId { get; private set; }
     public string Name { get; private set; }
+    public string Code { get; private set; }
     public string DisplayName { get; private set; }
     public string Description { get; private set; }
     public bool IsActive { get; private set; }
     protected Service() { }
 
-    public Service(Guid id, Guid serviceCenterId, string name, string displayName, string description)
+    public Service(Guid id, Guid serviceCenterId, string name, string code, string displayName, string description)
         : base(id)
     {
         SetServiceCenter(serviceCenterId);
         SetName(name);
+        SetCode(code);
         SetDisplayName(displayName);
         SetDescription(description);
         IsActive = true;
@@ -39,6 +41,11 @@ public class Service : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public void SetName(string name)
     {
         Name = Check.NotNullOrWhiteSpace(name, nameof(name), ServiceConsts.MaxServiceNameLength);
+    }
+
+    public void SetCode(string code)
+    {
+        Code = Check.NotNullOrWhiteSpace(code, nameof(code), ServiceConsts.MaxServiceCodeLength);
     }
 
     public void SetDisplayName(string displayName)

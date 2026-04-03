@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
 public class RequestManager : DomainService
 {
+    private readonly IRepository<Request, Guid> _requestRepository;
+
+    public RequestManager(IRepository<Request, Guid> requestRepository)
+    {
+        _requestRepository = requestRepository;
+    }
+
     public virtual Task<Request> CreateAsync(
         string documentSetUrl,
         string description,
@@ -150,5 +158,10 @@ public class RequestManager : DomainService
 
         document.MarkMigrationFailed(error);
         return Task.CompletedTask;
+    }
+
+    public virtual Task DeleteAsync(Guid id)
+    {
+        return _requestRepository.DeleteAsync(id, autoSave: true);
     }
 }

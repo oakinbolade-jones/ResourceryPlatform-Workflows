@@ -11,11 +11,13 @@ namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
 [Authorize(WorkflowPermissions.ServiceWorkflowInstances.Default)]
 public class ServiceWorkflowInstanceAppService(
-    IRepository<ServiceWorkflowInstance, Guid> serviceWorkflowInstanceRepository
+    IRepository<ServiceWorkflowInstance, Guid> serviceWorkflowInstanceRepository,
+    ServiceWorkflowInstanceManager serviceWorkflowInstanceManager
 ) : WorkflowAppService, IServiceWorkflowInstanceAppService
 {
     private readonly IRepository<ServiceWorkflowInstance, Guid> _serviceWorkflowInstanceRepository =
         serviceWorkflowInstanceRepository;
+    private readonly ServiceWorkflowInstanceManager _serviceWorkflowInstanceManager = serviceWorkflowInstanceManager;
 
     public async Task<ServiceWorkflowInstanceDto> GetAsync(Guid id)
     {
@@ -34,20 +36,14 @@ public class ServiceWorkflowInstanceAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = new ServiceWorkflowInstance(
+        var entity = await _serviceWorkflowInstanceManager.CreateAsync(
             GuidGenerator.Create(),
             input.ServiceWorkflowId,
-            input.RequestId
+            input.RequestId,
+            input.CurrentStepId,
+            input.Status
         );
 
-        if (input.CurrentStepId.HasValue)
-        {
-            entity.StartStep(input.CurrentStepId.Value);
-        }
-
-        ApplyStatus(entity, input.Status);
-
-        entity = await _serviceWorkflowInstanceRepository.InsertAsync(entity, autoSave: true);
         return Map(entity);
     }
 
@@ -59,47 +55,19 @@ public class ServiceWorkflowInstanceAppService(
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await _serviceWorkflowInstanceRepository.GetAsync(id);
+        var entity = await _serviceWorkflowInstanceManager.UpdateAsync(
+            id,
+            input.CurrentStepId,
+            input.Status
+        );
 
-        if (input.CurrentStepId.HasValue)
-        {
-            entity.StartStep(input.CurrentStepId.Value);
-        }
-
-        ApplyStatus(entity, input.Status);
-
-        entity = await _serviceWorkflowInstanceRepository.UpdateAsync(entity, autoSave: true);
         return Map(entity);
     }
 
     [Authorize(WorkflowPermissions.ServiceWorkflowInstances.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _serviceWorkflowInstanceRepository.DeleteAsync(id, autoSave: true);
-    }
-
-    private static void ApplyStatus(
-        ServiceWorkflowInstance entity,
-        ServiceWorkflowInstanceStatus targetStatus
-    )
-    {
-        switch (targetStatus)
-        {
-            case ServiceWorkflowInstanceStatus.Pending:
-            case ServiceWorkflowInstanceStatus.InProgress:
-                break;
-            case ServiceWorkflowInstanceStatus.Completed:
-                entity.Complete();
-                break;
-            case ServiceWorkflowInstanceStatus.Rejected:
-                entity.Reject();
-                break;
-            case ServiceWorkflowInstanceStatus.Cancelled:
-                entity.Cancel();
-                break;
-            default:
-                throw new BusinessException("Workflow:ServiceWorkflowInstances:InvalidStatus");
-        }
+        await _serviceWorkflowInstanceManager.DeleteAsync(id);
     }
 
     private static ServiceWorkflowInstanceDto Map(ServiceWorkflowInstance entity)

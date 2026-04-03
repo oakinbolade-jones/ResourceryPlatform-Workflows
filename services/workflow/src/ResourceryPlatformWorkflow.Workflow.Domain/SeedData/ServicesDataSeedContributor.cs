@@ -46,12 +46,12 @@ public class ServicesDataSeedContributor(
         {
             foreach (var item in seedItems)
             {
-                if (string.IsNullOrWhiteSpace(item.Name))
+                if (string.IsNullOrWhiteSpace(item.Name) || string.IsNullOrWhiteSpace(item.ServiceCode))
                 {
                     continue;
                 }
 
-                var exists = await _serviceRepository.AnyAsync(x => x.Name == item.Name);
+                var exists = await _serviceRepository.AnyAsync(x => x.Code == item.ServiceCode);
                 if (exists)
                 {
                     continue;
@@ -77,6 +77,7 @@ public class ServicesDataSeedContributor(
                     Guid.NewGuid(),
                     serviceCenter.Id,
                     item.Name,
+                    item.ServiceCode,
                     displayName,
                     description
                 );

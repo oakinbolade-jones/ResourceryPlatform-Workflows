@@ -10,12 +10,15 @@ using Volo.Abp.Domain.Repositories;
 namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
 
 [Authorize(WorkflowPermissions.ServiceWorkflows.Default)]
-public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> serviceWorkflowRepository)
-    : WorkflowAppService,
+public class ServiceWorkflowAppService(
+    IRepository<ServiceWorkflow, Guid> serviceWorkflowRepository,
+    ServiceWorkflowManager serviceWorkflowManager
+) : WorkflowAppService,
         IServiceWorkflowAppService
 {
     private readonly IRepository<ServiceWorkflow, Guid> _serviceWorkflowRepository =
         serviceWorkflowRepository;
+    private readonly ServiceWorkflowManager _serviceWorkflowManager = serviceWorkflowManager;
 
     public async Task<ServiceWorkflowDto> GetAsync(Guid id)
     {
@@ -34,20 +37,34 @@ public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> servic
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = new ServiceWorkflow(
-            GuidGenerator.Create(),
-            input.ServiceId,
-            input.Name,
-            input.Description
+        var steps = input.Steps.OrderBy(x => x.Order).Select(step =>
+            new ServiceWorkflowStep(
+                GuidGenerator.Create(),
+                Guid.Empty,
+                step.Name,
+                step.Code,
+                step.Description,
+                step.DisplayName,
+                step.DisplayNameOutput,
+                step.Output,
+                step.TATType,
+                step.TATUnit,
+                step.Order
+            )
         );
-        entity.SetIsActive(input.IsActive);
 
-        foreach (var step in input.Steps.OrderBy(x => x.Order))
-        {
-            entity.AddStep(GuidGenerator.Create(), step.Name, step.Description, step.Order);
-        }
+        var entity = await _serviceWorkflowManager.CreateAsync(
+            GuidGenerator.Create(),
+            input.Name,
+            input.Code,
+            input.DisplayName,
+            input.LeadTime,
+            input.LeadTimeType,
+            input.Description,
+            input.IsActive,
+            steps
+        );
 
-        entity = await _serviceWorkflowRepository.InsertAsync(entity, autoSave: true);
         entity = await _serviceWorkflowRepository.GetAsync(entity.Id, includeDetails: true);
 
         return Map(entity);
@@ -58,20 +75,34 @@ public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> servic
     {
         Check.NotNull(input, nameof(input));
 
-        var entity = await _serviceWorkflowRepository.GetAsync(id, includeDetails: true);
+        var steps = input.Steps.OrderBy(x => x.Order).Select(step =>
+            new ServiceWorkflowStep(
+                GuidGenerator.Create(),
+                id,
+                step.Name,
+                step.Code,
+                step.Description,
+                step.DisplayName,
+                step.DisplayNameOutput,
+                step.Output,
+                step.TATType,
+                step.TATUnit,
+                step.Order
+            )
+        );
 
-        entity.SetService(input.ServiceId);
-        entity.SetName(input.Name);
-        entity.SetDescription(input.Description);
-        entity.SetIsActive(input.IsActive);
+        var entity = await _serviceWorkflowManager.UpdateAsync(
+            id,
+            input.Name,
+            input.Code,
+            input.DisplayName,
+            input.LeadTime,
+            input.LeadTimeType,
+            input.Description,
+            input.IsActive,
+            steps
+        );
 
-        entity.Steps.Clear();
-        foreach (var step in input.Steps.OrderBy(x => x.Order))
-        {
-            entity.AddStep(GuidGenerator.Create(), step.Name, step.Description, step.Order);
-        }
-
-        entity = await _serviceWorkflowRepository.UpdateAsync(entity, autoSave: true);
         entity = await _serviceWorkflowRepository.GetAsync(entity.Id, includeDetails: true);
 
         return Map(entity);
@@ -80,7 +111,7 @@ public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> servic
     [Authorize(WorkflowPermissions.ServiceWorkflows.Delete)]
     public async Task DeleteAsync(Guid id)
     {
-        await _serviceWorkflowRepository.DeleteAsync(id, autoSave: true);
+        await _serviceWorkflowManager.DeleteAsync(id);
     }
 
     private static ServiceWorkflowDto Map(ServiceWorkflow entity)
@@ -88,8 +119,11 @@ public class ServiceWorkflowAppService(IRepository<ServiceWorkflow, Guid> servic
         return new ServiceWorkflowDto
         {
             Id = entity.Id,
-            ServiceId = entity.ServiceId ?? Guid.Empty,
             Name = entity.Name,
+            Code = entity.Code,
+            DisplayName = entity.DisplayName,
+            LeadTime = entity.LeadTime,
+            LeadTimeType = entity.LeadTimeType,
             Description = entity.Description,
             IsActive = entity.IsActive,
             CreationTime = entity.CreationTime,
