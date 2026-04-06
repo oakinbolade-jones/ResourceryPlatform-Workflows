@@ -84,8 +84,11 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         var request = await _requestManager.CreateAsync(
             input.DocumentSetUrl,
             input.Description,
-            input.RequestType
+            input.ServiceId,
+            input.RequestType,
+            input.Comment
         );
+
         await _requestManager.SetRequestStatusAsync(request, input.RequestStatus);
 
         foreach (var document in input.Documents)
@@ -130,7 +133,9 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
 
         await _requestManager.SetDocumentSetUrlAsync(request, input.DocumentSetUrl);
         await _requestManager.SetDescriptionAsync(request, input.Description);
+        await _requestManager.SetServiceIdAsync(request, input.ServiceId);
         await _requestManager.SetRequestTypeAsync(request, input.RequestType);
+        await _requestManager.SetCommentAsync(request, input.Comment);
         await _requestManager.SetRequestStatusAsync(request, input.RequestStatus);
 
         await _requestManager.ReplaceDocumentsAsync(

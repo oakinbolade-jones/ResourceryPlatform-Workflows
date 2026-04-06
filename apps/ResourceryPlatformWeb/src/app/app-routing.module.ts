@@ -12,7 +12,7 @@ const routes: Routes = [
         title: 'Home'
       },
   },
-  ,
+  { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) },
   { path: 'resourcery', loadChildren: () => import('./resourcery/resourcery.module').then(m => m.ResourceryModule) },
   
   {
@@ -39,8 +39,8 @@ const routes: Routes = [
   { path: 'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.TranscriptionModule) },
   { path: 'interpretation', loadChildren: () => import('./interpretation/interpretation.module').then(m => m.InterpretationModule) },
   { path: 'protocol', loadChildren: () => import('./protocol/protocol.module').then(m => m.ProtocolModule) },
-  { path: 'conference', loadChildren: () => import('./conference/conference.module').then(m => m.ConferenceModule) },
-  { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) }
+  { path: 'conference', loadChildren: () => import('./conference/conference.module').then(m => m.ConferenceModule) }
+
 ];
 
 @NgModule({

@@ -14,6 +14,8 @@ export interface CreateUpdateRequestDto {
   requestStatus?: RequestStatus;
   documentSetUrl?: string;
   description?: string;
+  comment?: string;  
+  serviceId?: string;
   documents: CreateUpdateRequestDocumentDto[];
 }
 
@@ -33,6 +35,8 @@ export interface RequestDto extends FullAuditedEntityDto<string> {
   requestStatus?: RequestStatus;
   documentSetUrl?: string;
   description?: string;
+  comment?: string;
+  serviceId?: string;
   documentMigrationStatus?: DocumentMigrationStatus;
   documentsPublishedAt?: string;
   documents: RequestDocumentDto[];

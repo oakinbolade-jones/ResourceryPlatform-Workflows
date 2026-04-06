@@ -18,12 +18,22 @@ public class RequestManager : DomainService
     }
 
     public virtual Task<Request> CreateAsync(
-        string documentSetUrl,
+        string? documentSetUrl,
         string description,
-        RequestType requestType
+        Guid serviceId,
+        RequestType requestType,
+        string? comment = null
     )
     {
-        var request = new Request(GuidGenerator.Create(), documentSetUrl, description, requestType);
+        var request = new Request(
+            GuidGenerator.Create(),
+            documentSetUrl,
+            description,
+            serviceId,
+            requestType,
+            comment
+        );
+
         return Task.FromResult(request);
     }
 
@@ -56,6 +66,14 @@ public class RequestManager : DomainService
         Check.NotNull(request, nameof(request));
 
         request.SetDescription(description);
+        return Task.CompletedTask;
+    }
+
+    public virtual Task SetServiceIdAsync(Request request, Guid serviceId)
+    {
+        Check.NotNull(request, nameof(request));
+
+        request.SetServiceId(serviceId);
         return Task.CompletedTask;
     }
 
@@ -163,5 +181,11 @@ public class RequestManager : DomainService
     public virtual Task DeleteAsync(Guid id)
     {
         return _requestRepository.DeleteAsync(id, autoSave: true);
+    }
+
+    public Task SetCommentAsync(Request request, string? comment)
+    {
+        request.SetComment(comment);
+        return Task.CompletedTask;
     }
 }

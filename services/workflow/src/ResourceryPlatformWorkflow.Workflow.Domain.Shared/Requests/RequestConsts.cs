@@ -2,6 +2,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
 public static class RequestConsts
 {
+    public const int MaxCommentLength = 4096;
     public const int MaxDocumentSetUrlLength = 2048;
     public const int MaxRequestDescriptionLength = 2048;
     public const int MaxDocumentTitleLength = 256;

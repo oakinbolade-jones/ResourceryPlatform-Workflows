@@ -2,105 +2,127 @@
   {
     "ServiceCode": "PID",
     "Name": "Preparation of Internal Memoranda on behalf of Directorate/Management",
-    "DisplayName": "L:Workflow,Workflow:Service:PID",
+    "DisplayName": "Service:PID",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "OFD"
+    "ServiceCenterCode": "OFD",
+    "Requrements":" • Management’s approval • Draft from surbodinate Presence in DCP approved activity plan/Management’s directives (Statutory Meeting deliverables), etc. •  Reference documents when necessary •  Outcome of HODs meeting/Division meetings • Request for response from Management •  Management’s instructions •  Request from Client Directorate/DCP staff",
+    "Order":"0"
   },
   {
     "ServiceCode": "RICR",
     "Name": "Receipt of Incoming Correspondences and Requests",
-    "DisplayName": "L:Workflow,Workflow:Service:RICR",
+    "DisplayName": "Service:RICR",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "OFD"
+    "ServiceCenterCode": "OFD", 
+    "Requrements":"•  Verification of addressee •  Verification of required supporting documents (Released PR number, completed meeting request form)", 
+    "Order":"1"
   },
   {
     "ServiceCode": "PCNTR",
     "Name": "Preparation of Concept Notes/Terms of Reference",
-    "DisplayName": "L:Workflow,Workflow:Service:PCNTR",
+    "DisplayName": "Service:PCNTR",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "OFD"
+    "ServiceCenterCode": "OFD", 
+    "Requrements":"" ,
+    "Order":"2"
+
   },
   {
     "ServiceCode": "MEET",
     "Name": "Meeting  - Meeting Related Services",
-    "DisplayName": "L:Workflow,Workflow:Service:MEET",
+    "DisplayName": "Service:MEET",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "CONF"
+    "ServiceCenterCode": "CONF", 
+    "Requrements":"" ,
+    "Order":"3"
   },
   {
     "ServiceCode": "TS",
     "Name": "Translation Services",
-    "DisplayName": "L:Workflow,Workflow:Service:TS",
+    "DisplayName": "Service:TS",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "TRANS"
+    "ServiceCenterCode": "TRANS", 
+    "Requrements":"" ,
+    "Order":"4"
+
   },
   {
     "ServiceCode": "IS",
     "Name": "Interpretation Services",
-    "DisplayName": "L:Workflow,Workflow:Service:IS",
+    "DisplayName": "Service:IS",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "INT"
+    "ServiceCenterCode": "INT", 
+    "Requrements":"" ,
+    "Order":"5"
+
   },
   {
     "ServiceCode": "GTS",
     "Name": "Ground Transportation Services",
-    "DisplayName": "L:Workflow,Workflow:Service:GTS",
+    "DisplayName": "Service:GTS",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "VP",
     "Name": "Visa Procurement Services",
-    "DisplayName": "L:Workflow,Workflow:Service:VP",
+    "DisplayName": "Service:VP",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "AHM",
     "Name": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence",
-    "DisplayName": "L:Workflow,Workflow:Service:AHM",
+    "DisplayName": "Service:AHM",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "DC",
     "Name": "Diplomatic Cocktail, Reception of the ECOWAS President",
-    "DisplayName": "L:Workflow,Workflow:Service:DC",
+    "DisplayName": "Service:DC",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "RLNS",
     "Name": "Reception and Lodging of New Staff",
-    "DisplayName": "L:Workflow,Workflow:Service:RLNS",
+    "DisplayName": "Service:RLNS",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "CDW",
     "Name": "Customs Duties Waiver",
-    "DisplayName": "L:Workflow,Workflow:Service:CDW",
+    "DisplayName": "Service:CDW",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   },
   {
     "ServiceCode": "EOM",
     "Name": "Election Observation Mission",
-    "DisplayName": "L:Workflow,Workflow:Service:EOM",
+    "DisplayName": "Service:EOM",
     "Description": "",
     "IsActive": true,
-    "ServiceCenterCode": "PROT"
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
   }
 ]

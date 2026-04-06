@@ -56,7 +56,7 @@
   --qt-sidebar-active-text: #0b1220;
   --qt-input-bg: rgba(15, 23, 42, 0.06);
   --qt-upgrade-bg: rgba(15, 23, 42, 0.06);
-  
+
   --oc-white: #fff;
   --oc-black: #000;
   --oc-gray-0: #f8f9fa;
@@ -148,7 +148,7 @@
   --oc-teal-6: #12b886;
   --oc-teal-7: #0ca678;
   --oc-teal-8: #099268;
-  --oc-teal-9: ##087f5b;
+  --oc-teal-9: #087f5b;
   --oc-green-0: #ebfbee;
   --oc-green-1: #d3f9d8;
   --oc-green-2: #b2f2bb;
@@ -190,6 +190,7 @@
   --oc-orange-8: #e8590c;
   --oc-orange-9: #d9480f;
 }
+
 body {
   background: var(--qt-bg);
   color: var(--qt-text);
@@ -323,4 +324,19 @@ body.home-page abp-layout-application>div.container {
     width: 100% !important;
     margin: 0 20px !important;
   }
+}
+
+app-request {
+  background-color: var(--oc-gray-3);
+  display: block;
+  padding: 50px;
+  min-height: 100vh;
+  background-image: url('assets/images/bacground/bg-contact-center.png');
+  background-size: cover;
+  background-position:right;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+abp-loader .progress-bar {
+  background-color: var(--oc-teal-9) !important;
 }

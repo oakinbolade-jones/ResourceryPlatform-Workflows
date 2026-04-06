@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using ResourceryPlatformWorkflow.Workflow.Meetings;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
@@ -19,4 +20,7 @@ public interface IWorkflowDbContext : IEfCoreDbContext
     DbSet<ServiceWorkflowInstance> ServiceWorkflowInstances { get; }
     DbSet<ServiceWorkflowTask> ServiceWorkflowTasks { get; }
     DbSet<ServiceWorkflowHistory> ServiceWorkflowHistoryEntries { get; }
+    DbSet<Meeting> Meetings { get;  }
+    DbSet<MeetingRequirement> MeetingRequirements { get; }
+    DbSet<MeetingItem> MeetingItems { get;  }
 }

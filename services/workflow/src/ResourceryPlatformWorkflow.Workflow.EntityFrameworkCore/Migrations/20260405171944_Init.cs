@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ResourceryPlatformWorkflow.Workflow.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,8 +19,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RequestType = table.Column<int>(type: "int", nullable: false),
                     RequestStatus = table.Column<int>(type: "int", nullable: false),
-                    DocumentSetUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
+                    DocumentSetUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    ServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DocumentMigrationStatus = table.Column<int>(type: "int", nullable: false),
                     DocumentsPublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -125,7 +126,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
                     Code = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
                     LeadTime = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     LeadTimeType = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),

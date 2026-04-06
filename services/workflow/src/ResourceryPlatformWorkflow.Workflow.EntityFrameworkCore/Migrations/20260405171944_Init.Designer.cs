@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ResourceryPlatformWorkflow.Workflow.Migrations
 {
     [DbContext(typeof(WorkflowDbContext))]
-    [Migration("20260403192211_init")]
-    partial class init
+    [Migration("20260405171944_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,6 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
@@ -64,7 +63,6 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DocumentSetUrl")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
@@ -95,6 +93,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
 
                     b.Property<int>("RequestType")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier")
@@ -231,8 +232,8 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<string>("ExtraProperties")
                         .IsRequired()

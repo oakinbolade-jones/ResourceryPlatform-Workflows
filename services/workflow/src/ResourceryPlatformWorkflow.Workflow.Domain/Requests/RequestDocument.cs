@@ -12,8 +12,8 @@ public class RequestDocument : FullAuditedEntity<Guid>, IMultiTenant
     public string Title { get; private set; }
     public string Description { get; private set; }
     public string DocumentUrl { get; private set; }
-    public string SharePointDocumentUrl { get; private set; }
-    public string SharePointItemId { get; private set; }
+    public string? SharePointDocumentUrl { get; private set; }
+    public string? SharePointItemId { get; private set; }
     public DocumentMigrationStatus MigrationStatus { get; private set; }
     public string LastMigrationError { get; private set; }
     public DateTime? MigratedAt { get; private set; }

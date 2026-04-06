@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Workflow.Meetings;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
@@ -22,11 +23,12 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.ConfigureMultiTenant();
 
             b.Property(x => x.DocumentSetUrl)
-                .IsRequired()
                 .HasMaxLength(RequestConsts.MaxDocumentSetUrlLength);
             b.Property(x => x.Description)
-                .IsRequired()
                 .HasMaxLength(RequestConsts.MaxRequestDescriptionLength);
+            b.Property(x => x.Comment)
+                .HasMaxLength(RequestConsts.MaxCommentLength);
+            b.Property(x => x.ServiceId).IsRequired();
             b.Property(x => x.RequestType).IsRequired();
             b.Property(x => x.RequestStatus).IsRequired();
             b.Property(x => x.DocumentMigrationStatus).IsRequired();
@@ -133,12 +135,12 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowCodeLength);
             b.Property(x => x.DisplayName)
                 .IsRequired()
-                .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDisplayNameLength);            b.Property(x => x.LeadTime)
+                .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDisplayNameLength); b.Property(x => x.LeadTime)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxLeadTimeLength);
             b.Property(x => x.LeadTimeType)
                 .IsRequired()
-                .HasMaxLength(ServiceWorkflowConsts.MaxLeadTimeTypeLength);            b.Property(x => x.Description)
+                .HasMaxLength(ServiceWorkflowConsts.MaxLeadTimeTypeLength); b.Property(x => x.Description)
                 .IsRequired()
                 .HasMaxLength(ServiceWorkflowConsts.MaxWorkflowDescriptionLength);
             b.Property(x => x.IsActive).IsRequired();
@@ -285,5 +287,137 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.HasIndex(x => x.PerformedAt);
             b.HasIndex(x => x.TenantId);
         });
+
+        builder.Entity<Meeting>(b =>
+           {
+               b.ToTable(WorkflowDbProperties.DbTablePrefix + "Meetings", WorkflowDbProperties.DbSchema);
+
+               b.ConfigureByConvention();
+               b.ConfigureMultiTenant();
+
+               b.Property(x => x.Title)
+                   .IsRequired()
+                   .HasMaxLength(MeetingConsts.MaxTitleLength);
+               b.Property(x => x.ReferenceNumber)
+                   .IsRequired()
+                   .HasMaxLength(MeetingConsts.MaxReferenceNumberLength);
+               b.Property(x => x.Location)
+                   .IsRequired()
+                   .HasMaxLength(MeetingConsts.MaxLocationLength);
+               b.Property(x => x.ContactPhone)
+                   .HasMaxLength(MeetingConsts.MaxContactPhoneLength);
+               b.Property(x => x.ContactEmail)
+                   .HasMaxLength(MeetingConsts.MaxContactEmailLength);
+               b.Property(x => x.ContactName)
+                   .HasMaxLength(MeetingConsts.MaxContactNameLength);
+               b.Property(x => x.HostName)
+                   .HasMaxLength(MeetingConsts.MaxHostNameLength);
+               b.Property(x => x.HostPhoneNumber)
+                   .HasMaxLength(MeetingConsts.MaxHostPhoneNumberLength);
+               b.Property(x => x.HostEmail)
+                   .HasMaxLength(MeetingConsts.MaxHostEmailLength);
+               b.Property(x => x.CoHost1Name)
+                   .HasMaxLength(MeetingConsts.MaxCoHostNameLength);
+               b.Property(x => x.CoHost1PhoneNumber)
+                   .HasMaxLength(MeetingConsts.MaxCoHostPhoneNumberLength);
+               b.Property(x => x.CoHost1Email)
+                   .HasMaxLength(MeetingConsts.MaxCoHostEmailLength);
+               b.Property(x => x.CoHost2Name)
+                   .HasMaxLength(MeetingConsts.MaxCoHostNameLength);
+               b.Property(x => x.CoHost2PhoneNumber)
+                   .HasMaxLength(MeetingConsts.MaxCoHostPhoneNumberLength);
+               b.Property(x => x.CoHost2Email)
+                   .HasMaxLength(MeetingConsts.MaxCoHostEmailLength);
+               b.Property(x => x.GLNumberRefreshments)
+                   .HasMaxLength(MeetingConsts.MaxGLNumberLength);
+               b.Property(x => x.GLNumberHotel)
+                   .HasMaxLength(MeetingConsts.MaxGLNumberLength);
+               b.Property(x => x.GLNumberCarHire)
+                   .HasMaxLength(MeetingConsts.MaxGLNumberLength);
+               b.Property(x => x.GLNumberEquipment)
+                   .HasMaxLength(MeetingConsts.MaxGLNumberLength);
+               b.Property(x => x.GLNumberLanguageServices)
+                   .HasMaxLength(MeetingConsts.MaxGLNumberLength);
+               b.Property(x => x.CostCenterNumberRefreshments)
+                   .HasMaxLength(MeetingConsts.MaxCostCenterNumberLength);
+               b.Property(x => x.CostCenterNumberHotel)
+                   .HasMaxLength(MeetingConsts.MaxCostCenterNumberLength);
+               b.Property(x => x.CostCenterNumberCarHire)
+                   .HasMaxLength(MeetingConsts.MaxCostCenterNumberLength);
+               b.Property(x => x.CostCenterNumberEquipment)
+                   .HasMaxLength(MeetingConsts.MaxCostCenterNumberLength);
+               b.Property(x => x.CostCenterNumberLanguageServices)
+                   .HasMaxLength(MeetingConsts.MaxCostCenterNumberLength);
+
+               b.HasMany(x => x.MeetingItems)
+                   .WithOne(x => x.Meeting)
+                   .HasForeignKey(x => x.MeetingId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.Cascade);
+
+               b.HasIndex(x => x.TenantId);
+               b.HasIndex(x => x.ReferenceNumber).IsUnique();
+           });
+
+        builder.Entity<MeetingItem>(b =>
+        {
+            b.ToTable(WorkflowDbProperties.DbTablePrefix + "MeetingItems", WorkflowDbProperties.DbSchema);
+
+            b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
+
+            b.Property(x => x.ItemName)
+                .IsRequired()
+                .HasMaxLength(MeetingItemConsts.MaxItemNameLength);
+            b.Property(x => x.ItemCode)
+                .IsRequired()
+                .HasMaxLength(MeetingItemConsts.MaxItemCodeLength);
+            b.Property(x => x.Category)
+                .IsRequired()
+                .HasMaxLength(MeetingItemConsts.MaxCategoryLength);
+            b.Property(x => x.ServiceCenterCode)
+                .IsRequired()
+                .HasMaxLength(MeetingItemConsts.MaxServiceCenterCodeLength);
+            b.Property(x => x.RemarkObservation)
+                .HasMaxLength(MeetingItemConsts.MaxRemarkObservationLength);
+
+            b.HasOne(x => x.Meeting)
+                .WithMany(x => x.MeetingItems)
+                .HasForeignKey(x => x.MeetingId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            b.HasIndex(x => x.MeetingId);
+            b.HasIndex(x => x.TenantId);
+        });
+
+        builder.Entity<MeetingRequirement>(b =>
+        {
+            b.ToTable(WorkflowDbProperties.DbTablePrefix + "MeetingRequirements", WorkflowDbProperties.DbSchema);
+
+            b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
+
+            b.Property(x => x.ItemName)
+                .IsRequired()
+                .HasMaxLength(MeetingRequirementConsts.MaxItemNameLength);
+            b.Property(x => x.Category)
+                .IsRequired()
+                .HasMaxLength(MeetingRequirementConsts.MaxCategoryLength);
+            b.Property(x => x.ServiceCenterCode)
+                .IsRequired()
+                .HasMaxLength(MeetingRequirementConsts.MaxServiceCenterCodeLength);
+
+            b.HasIndex(x => x.TenantId);
+        });
+    
+    
+    
     }
+
+
+
+
+
+
 }

@@ -1,4 +1,77 @@
-<div class="request-container">
-  <!-- <h2>{{ 'Workflow::Requests' | abpLocalization }}</h2> -->
-  <!-- Request content goes here -->
+<div class="container bg-white min-vh-50 p-5 border border-success rounded">
+  <h2 class="fw-bold fs-3 mb-2">{{ 'Workflow::ServiceRequestLabel' | abpLocalization }}</h2>
+  <p class="mb-5 text-wrap" style="font-size: small; width: 75%">
+    {{ 'Workflow::RequestsInfo' | abpLocalization }}
+  </p>
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+        <input type="hidden" formControlName="requestType" />
+        <input type="hidden" formControlName="requestStatus" />
+
+        <div class="mb-3">
+          <label for="serviceSelect" class="form-label fw-semibold text-secondary-emphasis">{{
+            'Workflow::ServiceLabel' | abpLocalization
+          }}</label>
+          <select
+            id="serviceSelect"
+            class="form-select border border-success p-2 rounded-0"
+            style="width: 50%"
+            formControlName="requestService"
+            (change)="onServiceChange()"
+            required
+          >
+            <option value="">{{ 'Workflow::ChooseService' | abpLocalization }}</option>
+            <option *ngFor="let service of services" [value]="service.id">
+              {{ 'Workflow::' + service.displayName | abpLocalization }}
+            </option>
+            <!-- <option *ngFor="let service of services" [value]="service.id">
+              {{ 'Workflow::service.displayName' | abpLocalization }} 
+            </option> -->
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="requestDescription" class="form-label fw-semibold text-secondary-emphasis">{{
+            'Workflow::ServiceDescriptionLabel' | abpLocalization
+          }}</label>
+          <textarea
+            id="requestDescription"
+            class="form-control border border-success p-2 rounded-0"
+            formControlName="requestDescription"
+            rows="4"
+            required
+            placeholder="{{ 'Workflow::ServiceDescriptionPlaceHolder' | abpLocalization }}"
+          ></textarea>
+        </div>
+        <!-- Separator -->
+        <hr class="my-5" />
+        <!-- Meeting-specific container -->
+        <div *ngIf="selectedServiceCode === 'MEET'" class="meeting-container">
+          <!-- Add your meeting-specific content here -->
+          <label for="requestDescription" class="form-label fw-semibold text-secondary-emphasis">{{
+            'Workflow::MeetingDetailsLabel' | abpLocalization
+          }}</label>
+          <!-- Add form controls or other content as needed -->
+          
+          <!-- Separator -->
+          <hr class="my-5" />
+        </div>
+
+        <button
+          type="submit"
+          class="rounded-0 px-3 py-2"
+          [ngClass]="{
+            'btn btn-success': requestForm.valid,
+            'btn-outline-secondary': requestForm.invalid,
+          }"
+          [disabled]="requestForm.invalid"
+        >
+          <i class="fa fa-save px-2" aria-hidden="true"></i>
+          {{ 'Workflow::Submit' | abpLocalization }}
+        </button>
+      </form>
+    </div>
+    <div class="col-12 col-lg-4"></div>
+  </div>
 </div>
