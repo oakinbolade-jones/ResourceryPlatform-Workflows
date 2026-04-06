@@ -11,10 +11,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace ResourceryPlatformWorkflow.Workflow.SeedData;
 
-public class ServiceCenterDataSeedContributor(
-    ICurrentTenant currentTenant,
-    IRepository<ServiceCenter, Guid> serviceCenterRepository
-) : IDataSeedContributor, ITransientDependency
+public class ServiceCenterDataSeedContributor(ICurrentTenant currentTenant, IRepository<ServiceCenter, Guid> serviceCenterRepository) : IDataSeedContributor, ITransientDependency
 {
     private const string ServiceCenterSeedFileName = "ServiceCenterSeedData.json";
 

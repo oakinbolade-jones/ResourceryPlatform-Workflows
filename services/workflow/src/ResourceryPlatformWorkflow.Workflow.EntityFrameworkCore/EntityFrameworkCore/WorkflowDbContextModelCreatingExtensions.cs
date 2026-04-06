@@ -380,7 +380,9 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .HasMaxLength(MeetingItemConsts.MaxServiceCenterCodeLength);
             b.Property(x => x.RemarkObservation)
                 .HasMaxLength(MeetingItemConsts.MaxRemarkObservationLength);
-
+            b.Property(x => x.Budget)
+                .IsRequired()
+                .HasPrecision(18, 2);
             b.HasOne(x => x.Meeting)
                 .WithMany(x => x.MeetingItems)
                 .HasForeignKey(x => x.MeetingId)
@@ -407,12 +409,18 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.ServiceCenterCode)
                 .IsRequired()
                 .HasMaxLength(MeetingRequirementConsts.MaxServiceCenterCodeLength);
+            b.Property(x => x.DisplayNameItemName)
+                .HasMaxLength(MeetingRequirementConsts.MaxDisplayNameLength);
+            b.Property(x => x.DisplayNameServiceCenter)
+                .HasMaxLength(MeetingRequirementConsts.MaxDisplayNameLength);
+            b.Property(x => x.DisplayNameItemCategory)
+                .HasMaxLength(MeetingRequirementConsts.MaxDisplayNameLength);
 
             b.HasIndex(x => x.TenantId);
         });
-    
-    
-    
+
+
+
     }
 
 

@@ -1,64 +1,103 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ResourceryPlatformWorkflow.Workflow.Meetings;
+using Volo.Abp;
 using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Domain.Services;
+using Volo.Abp.MultiTenancy;
 
-namespace ResourceryPlatformWorkflow.Workflow.Domain.SeedData;
+namespace ResourceryPlatformWorkflow.Workflow.SeedData;
 
-public class MeetingRequirementSeedDto
+public class MeetingRequirementDataSeedContributor(ICurrentTenant currentTenant, IRepository<MeetingRequirement, Guid> meetingRequirementRepository) : IDataSeedContributor, ITransientDependency
 {
-    public string ItemCode { get; set; }
-    public string ItemName { get; set; }
-    public string ItemCategory { get; set; }
-    public string ServiceCenterCode { get; set; }
 
-    public string DisplayNameItemName { get; set; }
-    public string DisplayNameServiceCenter { get; set; }
-    public string DisplayNameItemCategory { get; set; }
-}
+    private const string MeetingRequirementSeedFileName = "MeetingRequirementSeedData.json";
 
-public class MeetingRequirementDataSeedContributor : IDataSeedContributor
-{
-    private readonly IRepository<MeetingRequirement, Guid> _meetingRequirementRepository;
-
-    public MeetingRequirementDataSeedContributor(IRepository<MeetingRequirement, Guid> meetingRequirementRepository)
-    {
-        _meetingRequirementRepository = meetingRequirementRepository;
-    }
+    private readonly ICurrentTenant _currentTenant = currentTenant;
+    private readonly IRepository<MeetingRequirement, Guid> _meetingRequirementRepository = meetingRequirementRepository;
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "SeedData", "Json", "MeetingRequirementItemsSeedData.json");
 
-        if (!File.Exists(jsonFilePath))
+        if (context.TenantId.HasValue)
         {
             return;
         }
 
-        var json = await File.ReadAllTextAsync(jsonFilePath);
-        var seedData = JsonSerializer.Deserialize<List<MeetingRequirementSeedDto>>(json);
-
-        foreach (var item in seedData)
+        var seedItems = await ReadSeedItemsAsync();
+        if (seedItems.Count == 0)
         {
-            var existing = await _meetingRequirementRepository.FirstOrDefaultAsync(x => x.ItemCode == item.ItemCode);
-            if (existing == null)
+            return;
+        }
+
+        using (_currentTenant.Change(context.TenantId))
+        {
+            foreach (var item in seedItems)
             {
-                await _meetingRequirementRepository.InsertAsync(new MeetingRequirement
+                if (string.IsNullOrWhiteSpace(item.ItemCode))
                 {
-                    ItemCode = item.ItemCode,
-                    ItemName = item.ItemName,
-                    Category = item.ItemCategory,
-                    ServiceCenterCode = item.ServiceCenterCode,
-                    DisplayNameItemName = item.DisplayNameItemName,
-                    DisplayNameServiceCenter = item.DisplayNameServiceCenter,
-                    DisplayNameItemCategory = item.DisplayNameItemCategory
-                });
+                    continue;
+                }
+
+                var exists = await _meetingRequirementRepository.AnyAsync(x => x.ItemCode == item.ItemCode);
+                if (exists)
+                {
+                    continue;
+                }
+
+                var meetingRequirement = new MeetingRequirement(
+                    Guid.NewGuid(),
+                    item.ItemCode,
+                    item.ItemName,
+                    item.ItemCategory,
+                    item.ServiceCenterCode,
+                    item.DisplayNameItemName,
+                    item.DisplayNameServiceCenter,
+                    item.DisplayNameItemCategory
+                );
+                await _meetingRequirementRepository.InsertAsync(meetingRequirement, autoSave: true);
             }
         }
     }
+
+
+    private static async Task<List<MeetingRequirementSeedItem>> ReadSeedItemsAsync()
+    {
+        await using var stream = OpenSeedStream();
+        var seedItems = await JsonSerializer.DeserializeAsync<List<MeetingRequirementSeedItem>>(stream);
+       return seedItems ?? new List<MeetingRequirementSeedItem>();
+    }
+
+    private static System.IO.Stream OpenSeedStream()
+    {
+        var assembly = typeof(MeetingRequirementDataSeedContributor).Assembly;
+        var resourceName = Array.Find(
+            assembly.GetManifestResourceNames(),
+            name => name.EndsWith(MeetingRequirementSeedFileName, StringComparison.Ordinal)
+        );
+
+        if (resourceName != null)
+        {
+            return assembly.GetManifestResourceStream(resourceName)
+                ?? throw new BusinessException("SeedData:MeetingRequirementSeedFileNotFound");
+        }
+
+        throw new BusinessException("SeedData:MeetingRequirementSeedFileNotFound");
+    }
+
+    private sealed class MeetingRequirementSeedItem
+    {
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public string ItemCategory { get; set; }
+        public string ServiceCenterCode { get; set; }
+
+        public string DisplayNameItemName { get; set; }
+        public string DisplayNameServiceCenter { get; set; }
+        public string DisplayNameItemCategory { get; set; }
+    }
 }
+

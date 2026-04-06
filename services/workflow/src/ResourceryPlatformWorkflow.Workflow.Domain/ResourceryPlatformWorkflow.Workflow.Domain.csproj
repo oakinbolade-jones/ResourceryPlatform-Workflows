@@ -19,7 +19,7 @@
         <EmbeddedResource Include="SeedData\Json\ServiceSeedData.json" />
         <EmbeddedResource Include="SeedData\Json\ServiceWorkflowSeedData.json" />
         <EmbeddedResource Include="SeedData\Json\ServiceWorkflowStepSeedData.json" />
-        <EmbeddedResource Include="SeedData\Json\MeetingRequirementItemsSeedData.json" />
+        <EmbeddedResource Include="SeedData\Json\MeetingRequirementSeedData.json" />
     </ItemGroup>
 
 </Project>
