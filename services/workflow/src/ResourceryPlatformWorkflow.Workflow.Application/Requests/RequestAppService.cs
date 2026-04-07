@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
-[Authorize(WorkflowPermissions.Requests.Default)]
+// [Authorize(WorkflowPermissions.Requests.Default)]
 public class RequestAppService : WorkflowAppService, IRequestAppService
 {
     private readonly IRepository<Request, Guid> _requestRepository;

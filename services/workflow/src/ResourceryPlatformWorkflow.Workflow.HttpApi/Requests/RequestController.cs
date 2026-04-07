@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace ResourceryPlatformWorkflow.Workflow.HttpApi.Requests;
 
 [ApiController]
-[Route("api/app/requests")]
+[Route("api/workflow/requests")]
 public class RequestController : WorkflowController
 {
     private readonly IRequestAppService _requestAppService;
