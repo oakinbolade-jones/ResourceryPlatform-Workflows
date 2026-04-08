@@ -1,1 +1,5 @@
-/* Add your styles here */
+/* Keep accordion headers transparent in both collapsed and expanded states. */
+.meeting-container .accordion-button,
+.meeting-container .accordion-button:not(.collapsed) {
+	background-color: transparent;
+}

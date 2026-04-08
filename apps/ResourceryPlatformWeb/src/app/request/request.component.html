@@ -4,20 +4,20 @@
     {{ 'Workflow::RequestsInfo' | abpLocalization }}
   </p>
   <div class="row">
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-10">
       <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
-        <input type="hidden" formControlName="requestType" />
-        <input type="hidden" formControlName="requestStatus" />
+        <input type="hidden" formControlName="RequestType" />
+        <input type="hidden" formControlName="RequestStatus" />
 
         <div class="mb-3">
-          <label for="serviceSelect" class="form-label fw-semibold text-secondary-emphasis">{{
+          <label for="serviceSelect" class="form-label fw-bold">{{
             'Workflow::ServiceLabel' | abpLocalization
           }}</label>
           <select
             id="serviceSelect"
             class="form-select border border-success p-2 rounded-0"
             style="width: 50%"
-            formControlName="requestService"
+            formControlName="ServiceId"
             (change)="onServiceChange()"
             required
           >
@@ -32,13 +32,13 @@
         </div>
 
         <div class="mb-3">
-          <label for="requestDescription" class="form-label fw-semibold text-secondary-emphasis">{{
+          <label for="Description" class="form-label fw-bold">{{
             'Workflow::ServiceDescriptionLabel' | abpLocalization
           }}</label>
           <textarea
-            id="requestDescription"
+            id="Description"
             class="form-control border border-success p-2 rounded-0"
-            formControlName="requestDescription"
+            formControlName="Description"
             rows="4"
             required
             placeholder="{{ 'Workflow::ServiceDescriptionPlaceHolder' | abpLocalization }}"
@@ -47,17 +47,520 @@
         <!-- Separator -->
         <hr class="my-5" />
         <!-- Meeting-specific container -->
-        <div *ngIf="selectedServiceCode === 'MEET'" class="meeting-container">
+        <div
+          *ngIf="selectedServiceCode === 'MEET'"
+          class="meeting-container"
+          formGroupName="MeetingForm"
+        >
           <!-- Add your meeting-specific content here -->
-          <label for="requestDescription" class="form-label fw-semibold text-secondary-emphasis">{{
-            'Workflow::MeetingDetailsLabel' | abpLocalization
-          }}</label>
+          <!-- <label class="form-label fw-bolder">{{
+            'Workflow::MeetingFormLabel' | abpLocalization
+          }}</label> -->
           <!-- Add form controls or other content as needed -->
-          
+          <div class="accordion accordion-flush" id="meetingPanel">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button fw-bold"
+                  type="button"
+                  [class.collapsed]="!isAccordionOpen(1)"
+                  [attr.aria-expanded]="isAccordionOpen(1)"
+                  aria-controls="flush-collapseOne"
+                  (click)="toggleAccordion(1)"
+                >
+                  {{ 'Workflow::MeetingInformationLabel' | abpLocalization }}
+                </button>
+              </h2>
+              <div
+                id="flush-collapseOne"
+                class="accordion-collapse collapse"
+                [class.show]="isAccordionOpen(1)"
+                data-bs-parent="#meetingPanel"
+              >
+                <div class="accordion-body">
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-8">
+                      <label class="form-label d-block">{{
+                        'Workflow::MeetingTypeLabel' | abpLocalization
+                      }}</label>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input border border-success p-2 rounded-0"
+                          type="radio"
+                          id="meetingTypePhysical"
+                          formControlName="Type"
+                          [value]="0"
+                        />
+                        <label class="form-check-label" for="meetingTypePhysical">{{
+                          'Workflow::MeetingPhysicalLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input border border-success p-2 rounded-0"
+                          type="radio"
+                          id="meetingTypeVirtual"
+                          formControlName="Type"
+                          [value]="1"
+                        />
+                        <label class="form-check-label" for="meetingTypeVirtual">{{
+                          'Workflow::MeetingVirtualLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input border border-success p-2 rounded-0"
+                          type="radio"
+                          id="meetingTypeHybrid"
+                          formControlName="Type"
+                          [value]="2"
+                        />
+                        <label class="form-check-label" for="meetingTypeHybrid">{{
+                          'Workflow::MeetingHybridLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12">
+                      <label class="form-label">{{
+                        'Workflow::MeetingTitleLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="Title"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-4">
+                      <label class="form-label">{{
+                        'Workflow::MeetingDepartureDateLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="date"
+                        formControlName="DepartureDate"
+                      />
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <label class="form-label">{{
+                        'Workflow::MeetingStartDateLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="date"
+                        formControlName="StartDate"
+                      />
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <label class="form-label">{{
+                        'Workflow::MeetingEndDateLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="date"
+                        formControlName="EndDate"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-4">
+                      <label class="form-label">{{
+                        'Workflow::MeetingLocationLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="Location"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::MeetingNumberofParticipantsLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="number"
+                        min="1"
+                        formControlName="NumberOfParticipants"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12"><hr /></div>
+
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                      <label class="form-label fw-medium">{{
+                        'Workflow::MeetingGLNumberLabel' | abpLocalization
+                      }}</label>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingGLRefreshmentLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="GLNumberRefreshments"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingGLHotelLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="GLNumberHotel"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingGLCarHireLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="GLNumberCarHire"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingGLEquipmentLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="GLNumberEquipment"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label"
+                        >{{ 'Workflow::MeetingGLLanguageLabel' | abpLocalization }}
+                      </label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="GLNumberLanguageServices"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col d-flex align-items-end">
+                      <label class="form-label fw-medium">{{
+                        'Workflow::MeetingCostCenterNumberLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingCCRefreshmentLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CostCenterNumberRefreshments"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingCCHotelLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CostCenterNumberHotel"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingCCCarHireLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CostCenterNumberCarHire"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingCCEquipmentLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CostCenterNumberEquipment"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::MeetingCCLanguageLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CostCenterNumberLanguageServices"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12"><hr /></div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button fw-bold"
+                  type="button"
+                  [class.collapsed]="!isAccordionOpen(2)"
+                  [attr.aria-expanded]="isAccordionOpen(2)"
+                  aria-controls="flush-collapseTwo"
+                  (click)="toggleAccordion(2)"
+                >
+                  {{ 'Workflow::MeetingRequirementsLabel' | abpLocalization }}
+                </button>
+              </h2>
+              <div
+                id="flush-collapseTwo"
+                class="accordion-collapse collapse"
+                [class.show]="isAccordionOpen(2)"
+                data-bs-parent="#meetingPanel"
+              >
+                <div class="accordion-body">
+                  Placeholder content for this accordion, which is intended to demonstrate the
+                  <code>.accordion-flush</code> class. This is the second item’s accordion body.
+                  Let’s imagine this being filled with some actual content.
+
+                  <div class="row g-3 mb-4"></div>
+                  <div class="row g-3 mb-4"></div>
+                  <div class="row g-3 mb-4"></div>
+                  <div class="row g-3 mb-4"></div>
+
+                  <div class="col-12"><hr /></div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button fw-bold"
+                  type="button"
+                  [class.collapsed]="!isAccordionOpen(3)"
+                  [attr.aria-expanded]="isAccordionOpen(3)"
+                  aria-controls="flush-collapseThree"
+                  (click)="toggleAccordion(3)"
+                >
+                  {{ 'Workflow::MeetingManagementLabel' | abpLocalization }}
+                </button>
+              </h2>
+              <div
+                id="flush-collapseThree"
+                class="accordion-collapse collapse"
+                [class.show]="isAccordionOpen(3)"
+                data-bs-parent="#meetingPanel"
+              >
+                <div class="accordion-body">
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                      <label class="form-label fw-bold">{{
+                        'Workflow::MeetingHostLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::NameLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="HostName"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::DesignationLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="HostDesignation"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::PhoneNumberLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="HostPhoneNumber"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::EmailLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="email"
+                        formControlName="HostEmail"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                      <label class="form-label fw-bold">{{
+                        'Workflow::MeetingCoHost1Label' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::NameLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost1Name"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::DesignationLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost1Designation"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::PhoneNumberLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost1PhoneNumber"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::EmailLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="email"
+                        formControlName="CoHost1Email"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                      <label class="form-label fw-bold">{{
+                        'Workflow::MeetingCoHost2Label' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::NameLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost2Name"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::DesignationLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost2Designation"
+                      />
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <label class="form-label">{{
+                        'Workflow::PhoneNumberLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="CoHost2PhoneNumber"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::EmailLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="email"
+                        formControlName="CoHost2Email"
+                      />
+                    </div>
+                  </div>
+                  <div class="row g-3 mb-4">
+                    <div class="col col-md-2 d-flex align-items-end">
+                      <label class="form-label fw-bold">{{
+                        'Workflow::ContactFocalPersonLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <label class="form-label">{{
+                        'Workflow::NameLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="ContactName"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::PhoneNumberLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="text"
+                        formControlName="ContactPhone"
+                      />
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label class="form-label">{{
+                        'Workflow::EmailLabel' | abpLocalization
+                      }}</label>
+                      <input
+                        class="form-control border border-success p-2 rounded-0"
+                        type="email"
+                        formControlName="ContactEmail"
+                      />
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                      <label class="form-label fw-bold">{{
+                        'Workflow::MeetingRemarkObservationLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label > {{ 'Workflow::MeetingFormInformationLine1' | abpLocalization }}</label>
+          <label > {{ 'Workflow::MeetingFormInformationLine2' | abpLocalization }}</label>
+          <label > {{ 'Workflow::MeetingFormInformationLine3' | abpLocalization }}</label>
+          <label > {{ 'Workflow::MeetingFormInformationNote' | abpLocalization }}</label>
+          <label > {{ 'Workflow::MeetingFormInformationDCPEmail' | abpLocalization }}</label>
+          <label > {{ 'Workflow::MeetingFormInformationConferenceEmail' | abpLocalization }}</label>
           <!-- Separator -->
           <hr class="my-5" />
         </div>
-
+        <!-- Meeting-specific container -->
         <button
           type="submit"
           class="rounded-0 px-3 py-2"
@@ -72,6 +575,6 @@
         </button>
       </form>
     </div>
-    <div class="col-12 col-lg-4"></div>
+    <div class="col-12 col-lg-3"></div>
   </div>
 </div>

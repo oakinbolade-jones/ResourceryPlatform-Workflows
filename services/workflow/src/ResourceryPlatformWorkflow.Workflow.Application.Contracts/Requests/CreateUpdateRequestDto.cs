@@ -11,5 +11,6 @@ public class CreateUpdateRequestDto
     public string? Description { get; set; }
     public string? Comment { get; set; }
     public Guid ServiceId { get; set; }
+    public CreateUpdateMeetingDto? MeetingForm { get; set; }
     public IList<CreateUpdateRequestDocumentDto> Documents { get; set; } = new List<CreateUpdateRequestDocumentDto>();
 }

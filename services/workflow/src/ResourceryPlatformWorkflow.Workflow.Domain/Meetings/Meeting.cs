@@ -1,34 +1,40 @@
+#nullable enable
+
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using ResourceryPlatformWorkflow.Workflow.Requests;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace ResourceryPlatformWorkflow.Workflow.Meetings;
 
 public class Meeting : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
     public Guid? TenantId { get; private set; }
-    public string Title { get; private set; }
+    public Guid? RequestId { get; private set; }
+    public Request? Request { get; private set; }
+    public string Title { get; private set; } = default!;
     public DateTime DepartureDate { get; private set; }
     public DateTime StartDate { get; private set; }
     public DateTime EndDate { get; private set; }
     public MeetingType Type { get; private set; }
-    public string ReferenceNumber { get; private set; }
+    public string ReferenceNumber { get; private set; } = default!;
     public int NumberOfParticipants { get; private set; }
-    public string Location { get; private set; }
-    public string ContactPhone { get; private set; }
-    public string ContactEmail { get; private set; }
-    public string ContactName { get; private set; }
-    public string HostName { get; private set; }
-    public string HostPhoneNumber { get; private set; }
-    public string HostEmail { get; private set; }
+    public string Location { get; private set; } = default!;
+    public string ContactPhone { get; private set; } = default!;
+    public string ContactEmail { get; private set; } = default!;
+    public string ContactName { get; private set; } = default!;
+    public string HostName { get; private set; } = default!;
+    public string HostDesignation { get; private set; } = default!;
+    public string HostPhoneNumber { get; private set; } = default!;
+    public string HostEmail { get; private set; } = default!;
     public string? CoHost1Name { get; private set; }
+    public string? CoHost1Designation { get; private set; }
     public string? CoHost1PhoneNumber { get; private set; }
     public string? CoHost1Email { get; private set; }
     public string? CoHost2Name { get; private set; }
+    public string? CoHost2Designation { get; private set; }
     public string? CoHost2PhoneNumber { get; private set; }
     public string? CoHost2Email { get; private set; }
     public string? GLNumberRefreshments { get; private set; }
@@ -41,11 +47,11 @@ public class Meeting : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public string? CostCenterNumberCarHire { get; private set; }
     public string? CostCenterNumberEquipment { get; private set; }
     public string? CostCenterNumberLanguageServices { get; private set; }
-public virtual ICollection<MeetingItem> MeetingItems { get; set; }
+    public virtual ICollection<MeetingItem> MeetingItems { get; set; }
 
     protected Meeting()
     {
-         MeetingItems = new List<MeetingItem>();
+        MeetingItems = new List<MeetingItem>();
     }
 
     public Meeting(
@@ -80,7 +86,7 @@ public virtual ICollection<MeetingItem> MeetingItems { get; set; }
         SetHostName(hostName);
         SetHostPhoneNumber(hostPhoneNumber);
         SetHostEmail(hostEmail);
-          MeetingItems = new List<MeetingItem>();
+        MeetingItems = new List<MeetingItem>();
     }
 
     public void SetTitle(string title) => Title = Check.NotNullOrWhiteSpace(title, nameof(title));
@@ -102,6 +108,7 @@ public virtual ICollection<MeetingItem> MeetingItems { get; set; }
     public void SetHostName(string hostName) => HostName = Check.NotNullOrWhiteSpace(hostName, nameof(hostName));
     public void SetHostPhoneNumber(string hostPhoneNumber) => HostPhoneNumber = Check.NotNullOrWhiteSpace(hostPhoneNumber, nameof(hostPhoneNumber));
     public void SetHostEmail(string hostEmail) => HostEmail = Check.NotNullOrWhiteSpace(hostEmail, nameof(hostEmail));
+    public void SetRequestId(Guid? requestId) => RequestId = requestId;
 
     public void SetCoHost1(string? name, string? phoneNumber, string? email)
     {

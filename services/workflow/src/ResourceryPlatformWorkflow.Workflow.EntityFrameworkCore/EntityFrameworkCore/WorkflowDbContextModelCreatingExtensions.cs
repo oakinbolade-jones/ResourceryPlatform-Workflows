@@ -40,6 +40,11 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            b.HasOne(x => x.MeetingForm)
+                .WithOne(x => x.Request)
+                .HasForeignKey<Meeting>(x => x.RequestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             b.HasIndex(x => x.TenantId);
         });
 
@@ -295,6 +300,7 @@ public static class WorkflowDbContextModelCreatingExtensions
                b.ConfigureByConvention();
                b.ConfigureMultiTenant();
 
+               b.Property(x => x.RequestId);
                b.Property(x => x.Title)
                    .IsRequired()
                    .HasMaxLength(MeetingConsts.MaxTitleLength);
@@ -357,6 +363,9 @@ public static class WorkflowDbContextModelCreatingExtensions
 
                b.HasIndex(x => x.TenantId);
                b.HasIndex(x => x.ReferenceNumber).IsUnique();
+               b.HasIndex(x => x.RequestId)
+                   .IsUnique()
+                   .HasFilter("[RequestId] IS NOT NULL");
            });
 
         builder.Entity<MeetingItem>(b =>

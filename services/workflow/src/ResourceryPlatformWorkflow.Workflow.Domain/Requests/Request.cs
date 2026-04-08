@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ResourceryPlatformWorkflow.Workflow.Meetings;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
@@ -14,7 +15,8 @@ public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public RequestStatus RequestStatus { get; private set; }
     public string? Comment { get; private set; }
 
-    public ICollection<RequestDocument> Documents { get; private set; } 
+    public ICollection<RequestDocument> Documents { get; private set; }
+    public Meeting? MeetingForm { get; private set; }
     public string? DocumentSetUrl { get; private set; }
     public string? Description { get; private set; }
     public Guid ServiceId { get; private set; }
@@ -98,5 +100,10 @@ public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
         }
 
         Documents.Add(new RequestDocument(documentId, Id, normalizedTitle, description, documentUrl));
+    }
+
+    public void SetMeetingForm(Meeting? meetingForm)
+    {
+        MeetingForm = meetingForm;
     }
 }
