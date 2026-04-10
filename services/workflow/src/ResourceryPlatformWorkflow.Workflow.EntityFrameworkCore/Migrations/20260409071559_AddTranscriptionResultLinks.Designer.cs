@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ResourceryPlatformWorkflow.Workflow.Migrations
 {
     [DbContext(typeof(WorkflowDbContext))]
-    [Migration("20260406153432_Meetings_Entities_Budget")]
-    partial class Meetings_Entities_Budget
+    [Migration("20260409071559_AddTranscriptionResultLinks")]
+    partial class AddTranscriptionResultLinks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CoHost1Designation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CoHost1Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -43,6 +46,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     b.Property<string>("CoHost1PhoneNumber")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("CoHost2Designation")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoHost2Email")
                         .HasMaxLength(256)
@@ -64,14 +70,17 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("ContactEmail")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ContactName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ContactPhone")
+                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
@@ -142,15 +151,22 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("HostDesignation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HostEmail")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("HostName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("HostPhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
@@ -181,6 +197,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -200,6 +219,10 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
 
                     b.HasIndex("ReferenceNumber")
                         .IsUnique();
+
+                    b.HasIndex("RequestId")
+                        .IsUnique()
+                        .HasFilter("[RequestId] IS NOT NULL");
 
                     b.HasIndex("TenantId");
 
@@ -275,13 +298,16 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("DisplayNameItemCategory")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("DisplayNameItemName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("DisplayNameServiceCenter")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ItemCode")
                         .HasColumnType("nvarchar(max)");
@@ -1105,6 +1131,148 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     b.ToTable("ServiceCenters", (string)null);
                 });
 
+            modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.Transcriptions.Transcription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<DateTime>("DateOfTranscription")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<DateTime?>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("InputSource")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InputeFormat")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("LinkDocx")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkHtml")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkJson")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkSrt")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkTxt")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkVerbatimDocx")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("MediaFile")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("SourceReferenceId")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.Property<string>("ThumbNailImage")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceReferenceId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Transcriptions", (string)null);
+                });
+
+            modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.Meetings.Meeting", b =>
+                {
+                    b.HasOne("ResourceryPlatformWorkflow.Workflow.Requests.Request", "Request")
+                        .WithOne("MeetingForm")
+                        .HasForeignKey("ResourceryPlatformWorkflow.Workflow.Meetings.Meeting", "RequestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Request");
+                });
+
             modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.Meetings.MeetingItem", b =>
                 {
                     b.HasOne("ResourceryPlatformWorkflow.Workflow.Meetings.Meeting", "Meeting")
@@ -1160,6 +1328,8 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
             modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.Requests.Request", b =>
                 {
                     b.Navigation("Documents");
+
+                    b.Navigation("MeetingForm");
                 });
 
             modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.ServiceWorkflows.ServiceWorkflow", b =>

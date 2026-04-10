@@ -164,6 +164,23 @@ public class WorkflowPermissionDefinitionProvider : PermissionDefinitionProvider
             WorkflowPermissions.ServiceWorkflowHistory.Delete,
             L("Permission:Workflow:ServiceWorkflowHistory:Delete")
         );
+
+        var transcriptionsPermissions = workflowsGroup.AddPermission(
+            WorkflowPermissions.Transcriptions.Default,
+            L("Permission:Workflow:Transcriptions")
+        );
+        transcriptionsPermissions.AddChild(
+            WorkflowPermissions.Transcriptions.Create,
+            L("Permission:Workflow:Transcriptions:Create")
+        );
+        transcriptionsPermissions.AddChild(
+            WorkflowPermissions.Transcriptions.Update,
+            L("Permission:Workflow:Transcriptions:Update")
+        );
+        transcriptionsPermissions.AddChild(
+            WorkflowPermissions.Transcriptions.Delete,
+            L("Permission:Workflow:Transcriptions:Delete")
+        );
         
     }
 

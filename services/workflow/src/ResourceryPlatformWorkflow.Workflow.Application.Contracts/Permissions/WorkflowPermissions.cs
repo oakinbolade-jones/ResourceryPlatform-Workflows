@@ -78,6 +78,14 @@ public class WorkflowPermissions
         public const string Delete = Default + ".Delete";
     }
 
+    public static class Transcriptions
+    {
+        public const string Default = GroupName + ".Transcriptions";
+        public const string Create = Default + ".Create";
+        public const string Update = Default + ".Update";
+        public const string Delete = Default + ".Delete";
+    }
+
     public static string[] GetAll()
     {
         return ReflectionHelper.GetPublicConstantsRecursively(typeof(WorkflowPermissions));

@@ -1,0 +1,61 @@
+.transcription-page {
+  .page-description {
+    font-size: 0.92rem;
+    color: #5c6f63;
+  }
+
+  .state-banner {
+    padding: 0.85rem 1rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+  }
+
+  .state-loading {
+    background: #eef9f2;
+    border-color: #b5e0c4;
+    color: #0f5132;
+  }
+
+  .state-error {
+    background: #fff2f2;
+    border-color: #efc9c9;
+    color: #842029;
+  }
+
+  .state-empty {
+    background: #f8f9fa;
+    border-color: #d9dee2;
+    color: #495057;
+  }
+
+  .table-shell {
+    overflow: hidden;
+  }
+
+  .transcription-table {
+    thead th {
+      background: #f2f7f3;
+      color: #1f4d35;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      border-bottom-color: #d3e7d8;
+    }
+
+    tbody td {
+      color: #30443b;
+      border-bottom-color: #e6ece8;
+    }
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid #b7d9c3;
+    background: #eff8f2;
+    color: #1f6b45;
+    font-size: 0.78rem;
+    text-transform: capitalize;
+  }
+}

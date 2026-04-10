@@ -12,6 +12,25 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "MeetingRequirements",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ServiceCenterCode = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    DisplayNameItemName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    DisplayNameServiceCenter = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    DisplayNameItemCategory = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeetingRequirements", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requests",
                 columns: table => new
                 {
@@ -19,6 +38,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RequestType = table.Column<int>(type: "int", nullable: false),
                     RequestStatus = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: true),
                     DocumentSetUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     ServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -147,6 +167,39 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transcriptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    DateOfTranscription = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MediaFile = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    Language = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    InputeFormat = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    InputSource = table.Column<int>(type: "int", nullable: false),
+                    ThumbNailImage = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    SourceReferenceId = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transcriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Documents",
                 columns: table => new
                 {
@@ -174,6 +227,67 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Documents_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Meetings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    DepartureDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    NumberOfParticipants = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    ContactPhone = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    ContactEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ContactName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    HostName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    HostDesignation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HostPhoneNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    HostEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CoHost1Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CoHost1Designation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoHost1PhoneNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    CoHost1Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CoHost2Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CoHost2Designation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoHost2PhoneNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    CoHost2Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    GLNumberRefreshments = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    GLNumberHotel = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    GLNumberCarHire = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    GLNumberEquipment = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    GLNumberLanguageServices = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CostCenterNumberRefreshments = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CostCenterNumberHotel = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CostCenterNumberCarHire = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CostCenterNumberEquipment = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    CostCenterNumberLanguageServices = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meetings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Meetings_Requests_RequestId",
                         column: x => x.RequestId,
                         principalTable: "Requests",
                         principalColumn: "Id",
@@ -283,6 +397,34 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MeetingItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MeetingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ItemCode = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ServiceCenterCode = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    QuantityNo = table.Column<int>(type: "int", nullable: false),
+                    PeriodFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PeriodTo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Budget = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    RemarkObservation = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeetingItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MeetingItems_Meetings_MeetingId",
+                        column: x => x.MeetingId,
+                        principalTable: "Meetings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_RequestId",
                 table: "Documents",
@@ -291,6 +433,39 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_TenantId",
                 table: "Documents",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MeetingItems_MeetingId",
+                table: "MeetingItems",
+                column: "MeetingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MeetingItems_TenantId",
+                table: "MeetingItems",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MeetingRequirements_TenantId",
+                table: "MeetingRequirements",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meetings_ReferenceNumber",
+                table: "Meetings",
+                column: "ReferenceNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meetings_RequestId",
+                table: "Meetings",
+                column: "RequestId",
+                unique: true,
+                filter: "[RequestId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Meetings_TenantId",
+                table: "Meetings",
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
@@ -443,6 +618,16 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                 name: "IX_ServiceWorkflowTasks_TenantId",
                 table: "ServiceWorkflowTasks",
                 column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transcriptions_SourceReferenceId",
+                table: "Transcriptions",
+                column: "SourceReferenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transcriptions_TenantId",
+                table: "Transcriptions",
+                column: "TenantId");
         }
 
         /// <inheritdoc />
@@ -450,6 +635,12 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Documents");
+
+            migrationBuilder.DropTable(
+                name: "MeetingItems");
+
+            migrationBuilder.DropTable(
+                name: "MeetingRequirements");
 
             migrationBuilder.DropTable(
                 name: "ServiceCenters");
@@ -467,13 +658,19 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                 name: "ServiceWorkflowTasks");
 
             migrationBuilder.DropTable(
-                name: "Requests");
+                name: "Transcriptions");
+
+            migrationBuilder.DropTable(
+                name: "Meetings");
 
             migrationBuilder.DropTable(
                 name: "ServiceWorkflows");
 
             migrationBuilder.DropTable(
                 name: "ServiceWorkflowInstances");
+
+            migrationBuilder.DropTable(
+                name: "Requests");
         }
     }
 }

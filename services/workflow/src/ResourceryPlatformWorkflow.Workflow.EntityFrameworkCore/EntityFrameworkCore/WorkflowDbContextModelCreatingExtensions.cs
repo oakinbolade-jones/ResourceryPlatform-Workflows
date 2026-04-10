@@ -4,6 +4,7 @@ using ResourceryPlatformWorkflow.Workflow.Meetings;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
+using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
@@ -425,6 +426,54 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.DisplayNameItemCategory)
                 .HasMaxLength(MeetingRequirementConsts.MaxDisplayNameLength);
 
+            b.HasIndex(x => x.TenantId);
+        });
+
+        builder.Entity<Transcription>(b =>
+        {
+            b.ToTable(WorkflowDbProperties.DbTablePrefix + "Transcriptions", WorkflowDbProperties.DbSchema);
+
+            b.ConfigureByConvention();
+            b.ConfigureMultiTenant();
+
+            b.Property(x => x.Title)
+                .IsRequired()
+                .HasMaxLength(TranscriptionConsts.MaxTitleLength);
+            b.Property(x => x.Description)
+                .HasMaxLength(TranscriptionConsts.MaxDescriptionLength);
+            b.Property(x => x.IsPublic).IsRequired();
+            b.Property(x => x.DateOfTranscription).IsRequired();
+            b.Property(x => x.EventDate);
+            b.Property(x => x.MediaFile)
+                .HasMaxLength(TranscriptionConsts.MaxMediaFileLength);
+            b.Property(x => x.Language)
+                .IsRequired()
+                .HasMaxLength(TranscriptionConsts.MaxLanguageLength);
+            b.Property(x => x.InputeFormat)
+                .IsRequired()
+                .HasMaxLength(TranscriptionConsts.MaxInputeFormatLength);
+            b.Property(x => x.Status)
+                .IsRequired()
+                .HasMaxLength(TranscriptionConsts.MaxStatusLength);
+            b.Property(x => x.InputSource).IsRequired();
+            b.Property(x => x.ThumbNailImage)
+                .HasMaxLength(TranscriptionConsts.MaxThumbNailImageLength);
+            b.Property(x => x.SourceReferenceId)
+                .HasMaxLength(TranscriptionConsts.MaxSourceReferenceIdLength);
+            b.Property(x => x.LinkJson)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+            b.Property(x => x.LinkSrt)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+            b.Property(x => x.LinkHtml)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+            b.Property(x => x.LinkTxt)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+            b.Property(x => x.LinkDocx)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+            b.Property(x => x.LinkVerbatimDocx)
+                .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
+
+            b.HasIndex(x => x.SourceReferenceId);
             b.HasIndex(x => x.TenantId);
         });
 

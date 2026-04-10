@@ -19,4 +19,9 @@ public static class WorkflowErrorCodes
         public const string InvalidStepOrder = "Workflow:ServiceWorkflows:InvalidStepOrder";
         public const string DuplicateStepOrder = "Workflow:ServiceWorkflows:DuplicateStepOrder";
     }
+
+    public static class Transcriptions
+    {
+        public const string TranscriptionNotFound = "Workflow:Transcriptions:TranscriptionNotFound";
+    }
 }

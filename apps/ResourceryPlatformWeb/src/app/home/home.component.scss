@@ -19,9 +19,9 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
-  text-align: left;
+  text-align: center;
   overflow: hidden;
 }
 
@@ -29,7 +29,7 @@
   min-height: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex: 1 1 auto;
 
   @media (min-width: 768px) {
@@ -43,7 +43,7 @@
   padding: 16px 32px;
   display: flex;
   gap: 16px;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
@@ -60,8 +60,8 @@
 
 .home-header-title {
   font-family: "Millik", sans-serif;
-  font-weight: 700;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900;
+  font-size: clamp(3rem, 5vw, 5rem);
   line-height: 1.1;
   margin: 0;
   color: var(--oc-teal-9);
@@ -69,7 +69,7 @@
 
 .home-subtitle-text {
   font-size: 1rem;
-  color: #666666;
+  // color: #666666;
   font-weight: 500;
 }
 

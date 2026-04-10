@@ -551,12 +551,40 @@
               </div>
             </div>
           </div>
-          <label > {{ 'Workflow::MeetingFormInformationLine1' | abpLocalization }}</label>
-          <label > {{ 'Workflow::MeetingFormInformationLine2' | abpLocalization }}</label>
-          <label > {{ 'Workflow::MeetingFormInformationLine3' | abpLocalization }}</label>
-          <label > {{ 'Workflow::MeetingFormInformationNote' | abpLocalization }}</label>
-          <label > {{ 'Workflow::MeetingFormInformationDCPEmail' | abpLocalization }}</label>
-          <label > {{ 'Workflow::MeetingFormInformationConferenceEmail' | abpLocalization }}</label>
+          <!-- Separator -->
+          <hr class="my-5" />
+          <label
+            >(a) &nbsp; &nbsp;
+            {{ 'Workflow::MeetingFormInformationLine1' | abpLocalization }}</label
+          ><br />
+          <label
+            >(b) &nbsp; &nbsp;
+            {{ 'Workflow::MeetingFormInformationLine2' | abpLocalization }}</label
+          ><br />
+          <label
+            >(c) &nbsp; &nbsp;
+            {{ 'Workflow::MeetingFormInformationLine3' | abpLocalization }}</label
+          >
+          <br /><br />
+          <label
+            >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NB:
+            {{ 'Workflow::MeetingFormInformationNote' | abpLocalization }}</label
+          >
+
+          <label>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &middot; &nbsp; &nbsp;
+            <span class="fw-bold"
+              >{{ 'Workflow::MeetingFormInformationDCPEmail' | abpLocalization }}
+            </span>
+            <span class="text-primary">dconfandprot&#64;ecowas.int </span> </label
+          ><br />
+          <label>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &middot; &nbsp; &nbsp;
+            <span class="fw-bold"
+              >{{ 'Workflow::MeetingFormInformationConferenceEmail' | abpLocalization }}
+            </span>
+            <span class="text-primary">conference&#64;ecowas.int</span>
+          </label>
           <!-- Separator -->
           <hr class="my-5" />
         </div>

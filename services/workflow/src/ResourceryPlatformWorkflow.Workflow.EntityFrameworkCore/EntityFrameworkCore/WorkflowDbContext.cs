@@ -4,6 +4,7 @@ using ResourceryPlatformWorkflow.Workflow.Meetings;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
+using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -25,6 +26,7 @@ public class WorkflowDbContext(DbContextOptions<WorkflowDbContext> options)
     public DbSet<Meeting> Meetings { get; set; }
     public DbSet<MeetingRequirement> MeetingRequirements { get; set; }
     public DbSet<MeetingItem> MeetingItems { get; set; }
+    public DbSet<Transcription> Transcriptions { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -14,7 +14,7 @@ export class RequestComponent implements OnInit {
   requestForm: FormGroup;
   services: ServiceDto[] = [];
   selectedServiceCode: string = '';
-  openAccordionItems = new Set<number>([1]);
+  openAccordionItems = new Set<number>([1, 2, 3]);
 
   constructor(
     private fb: FormBuilder,
@@ -196,7 +196,7 @@ export class RequestComponent implements OnInit {
         StartDate: ['', Validators.required],
         EndDate: ['', Validators.required],
         Type: [null, Validators.required],
-        ReferenceNumber: ['', Validators.required],
+        ReferenceNumber: [''],
         NumberOfParticipants: [null, [Validators.required, Validators.min(1)]],
         ContactPhone: ['', Validators.required],
         ContactEmail: ['', [Validators.required, Validators.email]],

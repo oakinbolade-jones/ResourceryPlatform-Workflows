@@ -4,6 +4,7 @@ using ResourceryPlatformWorkflow.Workflow.Meetings;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Services;
 using ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
+using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -23,4 +24,5 @@ public interface IWorkflowDbContext : IEfCoreDbContext
     DbSet<Meeting> Meetings { get;  }
     DbSet<MeetingRequirement> MeetingRequirements { get; }
     DbSet<MeetingItem> MeetingItems { get;  }
+    DbSet<Transcription> Transcriptions { get; }
 }

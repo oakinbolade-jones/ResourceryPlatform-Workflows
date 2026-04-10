@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
   { path: 'translation', loadChildren: () => import('./translation/translation.module').then(m => m.TranslationModule) },
   { path: 'transcription', loadChildren: () => import('./transcription/transcription.module').then(m => m.TranscriptionModule) },
+  { path: 'transcribe', loadChildren: () => import('./transcribe/transcribe.module').then(m => m.TranscribeModule) },
   { path: 'interpretation', loadChildren: () => import('./interpretation/interpretation.module').then(m => m.InterpretationModule) },
   { path: 'protocol', loadChildren: () => import('./protocol/protocol.module').then(m => m.ProtocolModule) },
   { path: 'conference', loadChildren: () => import('./conference/conference.module').then(m => m.ConferenceModule) }

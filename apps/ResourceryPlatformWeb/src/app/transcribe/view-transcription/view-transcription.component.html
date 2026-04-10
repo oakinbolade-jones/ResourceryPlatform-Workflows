@@ -1,0 +1,51 @@
+<div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <h2 class="fw-bold fs-3 mb-2">Transcription Details</h2>
+      <p class="mb-0 page-description">
+        Review the current metadata and processing state for this transcription.
+      </p>
+    </div>
+    <a class="btn btn-outline-success rounded-0" routerLink="/transcribe/list">Back to List</a>
+  </div>
+
+  <div *ngIf="loading" class="state-banner state-loading">Loading transcription...</div>
+
+  <div *ngIf="error" class="state-banner state-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="transcription && !loading" class="transcription-details border border-success rounded-0 p-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4">
+      <h3 class="fs-4 fw-semibold mb-0">{{ transcription.title || 'Untitled transcription' }}</h3>
+      <span class="status-pill">{{ transcription.status || 'N/A' }}</span>
+    </div>
+
+    <div class="row g-3 details-grid">
+      <div class="col-12 col-md-6">
+        <div class="detail-item">
+          <div class="detail-label">Date</div>
+          <div class="detail-value">{{ transcription.dateOfTranscription | date: 'short' }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="detail-item">
+          <div class="detail-label">Language</div>
+          <div class="detail-value">{{ transcription.language || 'N/A' }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="detail-item">
+          <div class="detail-label">Source Reference</div>
+          <div class="detail-value">{{ transcription.sourceReferenceId || 'N/A' }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="detail-item">
+          <div class="detail-label">Input Format</div>
+          <div class="detail-value">{{ transcription.inputeFormat || 'N/A' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

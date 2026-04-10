@@ -1,0 +1,49 @@
+<div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
+  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+    <div>
+      <h2 class="fw-bold fs-3 mb-2">Transcriptions</h2>
+      <p class="mb-0 page-description">
+        Browse all submitted transcriptions and open a record to view details.
+      </p>
+    </div>
+    <a class="btn btn-outline-success rounded-0" routerLink="/transcribe">
+      New Transcription
+    </a>
+  </div>
+
+  <div *ngIf="loading" class="state-banner state-loading">Loading transcriptions...</div>
+  <div *ngIf="error" class="state-banner state-error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && transcriptions.length === 0" class="state-banner state-empty">
+    No transcriptions found.
+  </div>
+
+  <div *ngIf="!loading && !error && transcriptions.length > 0" class="table-shell border border-success rounded-0">
+    <table class="table table-hover align-middle mb-0 transcription-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Language</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of transcriptions">
+          <td class="fw-semibold">{{ item.title || 'Untitled transcription' }}</td>
+          <td>{{ item.language || 'N/A' }}</td>
+          <td>
+            <span class="status-pill">{{ item.status || 'N/A' }}</span>
+          </td>
+          <td>{{ item.dateOfTranscription | date: 'short' }}</td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-success rounded-0" [routerLink]="['/transcribe/view', item.id]">
+              View
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
