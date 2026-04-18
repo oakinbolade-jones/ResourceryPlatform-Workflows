@@ -1,12 +1,20 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
+  <div class="d-flex align-items-center gap-2 mb-4">
+    <img
+      src="assets/images/logo/ecowas-circle-logo.png"
+      alt="DCP SmartServe"
+      style="max-height: 50px; width: auto"
+    />
+    <h2 class="fw-bold fs-4 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
+  </div>
+  <p class="mb-5 text-wrap page-description">
+    Review the current metadata and processing state for this transcription.
+  </p>
   <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
     <div>
-      <h2 class="fw-bold fs-3 mb-2">Transcription Details</h2>
-      <p class="mb-0 page-description">
-        Review the current metadata and processing state for this transcription.
-      </p>
+      <h3 class="fw-semibold fs-4 mb-0">Transcription Details</h3>
     </div>
-    <a class="btn btn-outline-success rounded-0" routerLink="/transcribe/list">Back to List</a>
+    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">Back to List</a>
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading">Loading transcription...</div>
@@ -46,6 +54,39 @@
           <div class="detail-value">{{ transcription.inputeFormat || 'N/A' }}</div>
         </div>
       </div>
+    </div>
+
+    <div class="html-preview mt-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+        <h4 class="fs-5 fw-semibold mb-0">HTML Result Preview</h4>
+        <a
+          *ngIf="linkHtmlUrl"
+          class="btn btn-sm btn-outline-success rounded-0"
+          [href]="linkHtmlUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open in New Tab
+        </a>
+      </div>
+
+      <div *ngIf="linkHtmlFrameUrl; else noHtmlResult" class="html-preview-frame-shell border border-success rounded-0">
+        <iframe
+          #htmlPreviewFrame
+          class="html-preview-frame"
+          [src]="linkHtmlFrameUrl"
+          title="Transcription HTML preview"
+          allow="autoplay; fullscreen; picture-in-picture"
+          loading="lazy"
+          (load)="onHtmlPreviewFrameLoad()"
+        ></iframe>
+      </div>
+
+      <ng-template #noHtmlResult>
+        <div class="state-banner state-empty mb-0">
+          No HTML result link is available for this transcription.
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

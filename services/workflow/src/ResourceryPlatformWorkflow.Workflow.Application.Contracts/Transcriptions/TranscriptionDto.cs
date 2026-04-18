@@ -17,10 +17,10 @@ public class TranscriptionDto : FullAuditedEntityDto<Guid>
     public InputSource InputSource { get; set; }
     public string ThumbNailImage { get; set; }
     public string SourceReferenceId { get; set; }
-    public string LinkJson { get; set; }
-    public string LinkSrt { get; set; }
-    public string LinkHtml { get; set; }
-    public string LinkTxt { get; set; }
-    public string LinkDocx { get; set; }
-    public string LinkVerbatimDocx { get; set; }
+    public string LinkJson { get; set; } = string.Empty;
+    public string LinkSrt { get; set; } = string.Empty;
+    public string LinkHtml { get; set; } = string.Empty;
+    public string LinkTxt { get; set; } = string.Empty;
+    public string LinkDocx { get; set; } = string.Empty;
+    public string LinkVerbatimDocx { get; set; } = string.Empty;
 }

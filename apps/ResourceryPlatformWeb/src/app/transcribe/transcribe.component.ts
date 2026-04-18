@@ -1,15 +1,16 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalizationService } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { Tooltip } from 'bootstrap';
 
 @Component({
   selector: 'app-transcribe',
   templateUrl: './transcribe.component.html',
   styleUrls: ['./transcribe.component.scss'],
 })
-export class TranscribeComponent implements OnInit, OnDestroy {
+export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('livePreview') livePreviewRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('recordedPlayback') recordedPlaybackRef!: ElementRef<HTMLVideoElement>;
 
@@ -55,6 +56,7 @@ export class TranscribeComponent implements OnInit, OnDestroy {
   private readonly saveTranscriptionInfoEndpoint = `${environment.apis.default.url}/api/workflow/transcription/save-info`;
   private readonly transcribeSubmitEndpoint = `${environment.apis.default.url}/api/workflow/transcription/submit-to-wipo`;
   private readonly transcribeStatusEndpoint = `${environment.apis.default.url}/api/workflow/transcription/transcription-status`;
+  private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
   private readonly transcriptionDraftStorageKey = 'workflow.transcription.draft';
 
@@ -96,6 +98,17 @@ export class TranscribeComponent implements OnInit, OnDestroy {
           );
         }
       });
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips(): void {
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+      new Tooltip(tooltipTriggerEl);
     });
   }
 
@@ -304,7 +317,11 @@ export class TranscribeComponent implements OnInit, OnDestroy {
         this.transcribeStatus = `Status: ${status} (${this.transcriptionPercent}%)`;
 
         if (first.transcript_results) {
-          this.transcriptionResultLinks = first.transcript_results as { [key: string]: string };
+          this.transcriptionResultLinks = this.buildResultDownloadLinks(
+            first.transcript_results as { [key: string]: string },
+            sourceReferenceId,
+            language
+          );
         }
 
         if (status === 'finished' || status === 'done' || status === 'completed') {
@@ -608,4 +625,51 @@ export class TranscribeComponent implements OnInit, OnDestroy {
     const value = this.localizationService.instant(key);
     return value && value !== key ? value : fallback;
   }
+
+  private buildResultDownloadLinks(
+    transcriptResults: { [key: string]: string },
+    sourceReferenceId: string,
+    language: string
+  ): { [key: string]: string } {
+    return Object.keys(transcriptResults).reduce(
+      (resultLinks, resultKey) => {
+        const upstreamLink = transcriptResults[resultKey];
+        if (!upstreamLink) {
+          return resultLinks;
+        }
+
+        if (this.shouldUseDirectResultLink(resultKey, upstreamLink)) {
+          resultLinks[resultKey] = upstreamLink;
+          return resultLinks;
+        }
+
+        resultLinks[resultKey] =
+          `${this.downloadResultEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}` +
+          `&language=${encodeURIComponent(language)}` +
+          `&resultKey=${encodeURIComponent(resultKey)}`;
+
+        return resultLinks;
+      },
+      {} as { [key: string]: string }
+    );
+  }
+
+  private shouldUseDirectResultLink(resultKey: string, upstreamLink: string): boolean {
+    const normalizedKey = resultKey.toLowerCase();
+    if (normalizedKey.includes('docx')) {
+      return false;
+    }
+
+    return /^https?:\/\//i.test(upstreamLink);
+  }
+
+  goToViewPage(): void {
+    if (!this.transcriptionId) return;
+    this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
+
+   
+  }
+   goToTranscriptionListPage(): void {
+      this.router.navigate(['/transcribe/list']);
+    }
 }

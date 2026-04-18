@@ -1,5 +1,21 @@
 /* Transcribe component styles */
 
+form fieldset {
+	min-inline-size: 0;
+}
+
+form fieldset > legend.form-label {
+	float: none;
+	display: block;
+	width: auto;
+	margin-bottom: 0.35rem;
+	padding: 0;
+	font-size: 0.92rem;
+	letter-spacing: 0.01em;
+	text-transform: uppercase;
+	color: #145a32;
+}
+
 .wizard-steps {
 	display: flex;
 	gap: 0.75rem;
@@ -7,21 +23,31 @@
 }
 
 .wizard-step {
-	border: 1px solid #198754;
-	background: #fff;
-	color: #198754;
+	border: none;
+	background: transparent;
+	color: #666;
 	padding: 0.5rem 0.75rem;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
 	cursor: pointer;
+	min-width: 200px !important;
+	border-bottom: 4px solid #666;
+	margin-right: 3rem;
+}
+
+.wizard-step-label {
+	background: transparent;	
+	padding-bottom: 0.25rem;
 }
 
 .wizard-step-index {
 	width: 1.5rem;
 	height: 1.5rem;
 	border-radius: 50%;
-	border: 1px solid #198754;
+	background: #fff;
+	border: 1px solid #666;
+	color: #666;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -30,17 +56,29 @@
 }
 
 .wizard-step.active {
-	background: #198754;
-	color: #fff;
+	background: transparent;
+	color: #198754;
+		border-bottom: 4px solid #198754;
+}
+
+.wizard-step.active .wizard-step-label {
+	border-bottom-color: #198754;
+	color: #198754;
 }
 
 .wizard-step.active .wizard-step-index {
-	border-color: #fff;
+	background: #198754;
+	color: #fff;
 }
 
 .wizard-step.disabled {
 	opacity: 0.6;
 	cursor: not-allowed;
+}
+
+.form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
 }
 
 .modern-upload-dropzone {
@@ -90,4 +128,14 @@
 	font-size: 0.82rem;
 	font-weight: 600;
 	word-break: break-all;
+}
+
+.transcription-progress {
+	.progress {
+		background-color: #d9e8de;
+	}
+
+	.progress-bar {
+		transition: width 0.35s ease;
+	}
 }

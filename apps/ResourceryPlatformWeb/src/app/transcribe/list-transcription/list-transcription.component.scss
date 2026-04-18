@@ -1,7 +1,20 @@
 .transcription-page {
+  background: #fff;
+
   .page-description {
-    font-size: 0.92rem;
-    color: #5c6f63;
+    font-size: small;
+    width: 100%;
+    max-width: 980px;
+    color: #4d6659;
+  }
+
+  .list-header-content {
+    flex: 1 1 520px;
+    min-width: 280px;
+  }
+
+  .list-header-action {
+    flex: 0 0 auto;
   }
 
   .state-banner {
@@ -31,21 +44,39 @@
 
   .table-shell {
     overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(25, 135, 84, 0.05);
+  }
+
+  .filter-panel {
+    background: #f9fdfb;
+
+    .form-label {
+      color: #145a32;
+      font-size: 0.85rem;
+    }
   }
 
   .transcription-table {
     thead th {
-      background: #f2f7f3;
-      color: #1f4d35;
+      background: #eef9f2;
+      color: #145a32;
       font-size: 0.84rem;
       text-transform: uppercase;
       letter-spacing: 0.02em;
-      border-bottom-color: #d3e7d8;
+      border-bottom-color: #b7d9c3;
     }
 
     tbody td {
       color: #30443b;
       border-bottom-color: #e6ece8;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f5f5f5;
+    }
+
+    tbody tr:hover {
+      background: rgba(25, 135, 84, 0.05);
     }
   }
 
@@ -57,5 +88,13 @@
     color: #1f6b45;
     font-size: 0.78rem;
     text-transform: capitalize;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .transcription-page {
+    .page-description {
+      width: 100%;
+    }
   }
 }

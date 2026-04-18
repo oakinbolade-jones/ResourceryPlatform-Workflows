@@ -37,6 +37,12 @@
   }
 }
 
+.home-spacer {
+  display: block;
+  height: clamp(16px, 3vh, 40px);
+  width: 100%;
+}
+
 .home-footer,
 .home-footer .container {
   width: 100%;
@@ -49,7 +55,8 @@
 
 .home-footer>a,
 .home-footer .container>a {
-  font-size: 10px !important;
+  // font-size: 10px !important;
+  font-style: normal;
 }
 
 .home-row {
@@ -65,12 +72,6 @@
   line-height: 1.1;
   margin: 0;
   color: var(--oc-teal-9);
-}
-
-.home-subtitle-text {
-  font-size: 1rem;
-  // color: #666666;
-  font-weight: 500;
 }
 
 .home-card {

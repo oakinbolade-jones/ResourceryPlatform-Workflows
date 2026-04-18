@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp;
@@ -19,21 +20,37 @@ namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 [ApiExplorerSettings(IgnoreApi = false)]
 [ApiController]
 [Route("api/workflow/transcription")]
-public class TranscriptionController(ITranscriptionAppService transcriptionAppService, ILogger<TranscriptionController> logger)
+public class TranscriptionController(
+    ITranscriptionAppService transcriptionAppService,
+    ILogger<TranscriptionController> logger,
+    IConfiguration configuration)
     : WorkflowController,
         ITranscriptionAppService
 {
 private readonly ITranscriptionAppService _transcriptionAppService = transcriptionAppService ?? throw new ArgumentNullException(nameof(transcriptionAppService));
     private readonly ILogger<TranscriptionController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly IConfiguration _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
-    private const string WipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
-    private const string WipoUsername = "ecowasapis2t";
-    private const string WipoPassword = "ecowasapipwd";
-    private const string OrganizationCode = "ECOWAS";
+    private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    private const string DefaultWipoUsername = "ecowasapis2t";
+    private const string DefaultWipoPassword = "ecowasapipwd";
+    private const string DefaultOrganizationCode = "ECOWAS";
     private const int MaxWipoLogPayloadLength = 800;
+
+    private string WipoBaseUrl =>
+        (_configuration["Transcription:Wipo:BaseUrl"] ?? DefaultWipoBaseUrl).TrimEnd('/');
+
+    private string WipoUsername =>
+        _configuration["Transcription:Wipo:Username"] ?? DefaultWipoUsername;
+
+    private string WipoPassword =>
+        _configuration["Transcription:Wipo:Password"] ?? DefaultWipoPassword;
+
+    private string OrganizationCode =>
+        _configuration["Transcription:Wipo:OrganizationCode"] ?? DefaultOrganizationCode;
 
     [HttpGet("{id}")]
     public Task<TranscriptionDto> GetAsync(Guid id)
@@ -347,12 +364,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
             var parsedStatus = GetJsonStringProperty(first, "status");
             responseStatus = string.IsNullOrWhiteSpace(parsedStatus) ? responseStatus : parsedStatus;
-            responseLinkJson = GetJsonStringProperty(first, "link_json");
-            responseLinkSrt = GetJsonStringProperty(first, "link_srt");
-            responseLinkHtml = GetJsonStringProperty(first, "link_html");
-            responseLinkTxt = GetJsonStringProperty(first, "link_txt");
-            responseLinkDocx = GetJsonStringProperty(first, "link_docx");
-            responseLinkVerbatimDocx = GetJsonStringProperty(first, "link_verbatimdocx");
+            responseLinkJson = GetTranscriptResultLink(first, "link_json");
+            responseLinkSrt = GetTranscriptResultLink(first, "link_srt");
+            responseLinkHtml = GetTranscriptResultLink(first, "link_html");
+            responseLinkTxt = GetTranscriptResultLink(first, "link_txt");
+            responseLinkDocx = GetTranscriptResultLink(first, "link_docx");
+            responseLinkVerbatimDocx = GetTranscriptResultLink(first, "link_verbatimdocx");
         }
         catch (JsonException ex)
         {
@@ -494,12 +511,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 status = statusProp.GetString() ?? status;
             }
 
-            var linkJson = GetJsonStringProperty(first, "link_json");
-            var linkSrt = GetJsonStringProperty(first, "link_srt");
-            var linkHtml = GetJsonStringProperty(first, "link_html");
-            var linkTxt = GetJsonStringProperty(first, "link_txt");
-            var linkDocx = GetJsonStringProperty(first, "link_docx");
-            var linkVerbatimDocx = GetJsonStringProperty(first, "link_verbatimdocx");
+            var linkJson = GetTranscriptResultLink(first, "link_json");
+            var linkSrt = GetTranscriptResultLink(first, "link_srt");
+            var linkHtml = GetTranscriptResultLink(first, "link_html");
+            var linkTxt = GetTranscriptResultLink(first, "link_txt");
+            var linkDocx = GetTranscriptResultLink(first, "link_docx");
+            var linkVerbatimDocx = GetTranscriptResultLink(first, "link_verbatimdocx");
 
             var update = new CreateUpdateTranscriptionDto
             {
@@ -515,12 +532,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 InputSource = transcription.InputSource,
                 ThumbNailImage = transcription.ThumbNailImage,
                 SourceReferenceId = transcription.SourceReferenceId,
-                LinkJson = string.IsNullOrWhiteSpace(linkJson) ? transcription.LinkJson : linkJson,
-                LinkSrt = string.IsNullOrWhiteSpace(linkSrt) ? transcription.LinkSrt : linkSrt,
-                LinkHtml = string.IsNullOrWhiteSpace(linkHtml) ? transcription.LinkHtml : linkHtml,
-                LinkTxt = string.IsNullOrWhiteSpace(linkTxt) ? transcription.LinkTxt : linkTxt,
-                LinkDocx = string.IsNullOrWhiteSpace(linkDocx) ? transcription.LinkDocx : linkDocx,
-                LinkVerbatimDocx = string.IsNullOrWhiteSpace(linkVerbatimDocx) ? transcription.LinkVerbatimDocx : linkVerbatimDocx
+                LinkJson = linkJson,
+                LinkSrt = linkSrt,
+                LinkHtml = linkHtml,
+                LinkTxt = linkTxt,
+                LinkDocx = linkDocx,
+                LinkVerbatimDocx = linkVerbatimDocx
             };
 
             await _transcriptionAppService.UpdateAsync(transcription.Id, update);
@@ -529,7 +546,91 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         return Content(payload, "application/json");
     }
 
-    private static HttpClient CreateWipoClient()
+    [HttpGet("download-result")]
+    public async Task<IActionResult> DownloadResultAsync(
+        [FromQuery] string sourceReferenceId,
+        [FromQuery] string resultKey,
+        [FromQuery] string language = "en")
+    {
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return BadRequest(new { message = "sourceReferenceId is required." });
+        }
+
+        if (string.IsNullOrWhiteSpace(resultKey))
+        {
+            return BadRequest(new { message = "resultKey is required." });
+        }
+
+        var transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
+        if (transcription == null)
+        {
+            return NotFound(new { message = "Transcription not found.", sourceReferenceId });
+        }
+
+        var remoteUrl = ResolveResultUrl(transcription, resultKey);
+        if (string.IsNullOrWhiteSpace(remoteUrl))
+        {
+            return NotFound(new { message = "Requested result link is not available.", sourceReferenceId, resultKey });
+        }
+
+        if (!Uri.TryCreate(remoteUrl, UriKind.Absolute, out var remoteUri) ||
+            (remoteUri.Scheme != Uri.UriSchemeHttp && remoteUri.Scheme != Uri.UriSchemeHttps))
+        {
+            return BadRequest(new { message = "Invalid result URL.", sourceReferenceId, resultKey });
+        }
+
+        using var httpClient = CreateWipoClient();
+        HttpResponseMessage response;
+
+        try
+        {
+            response = await httpClient.GetAsync(remoteUri);
+        }
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(
+                ex,
+                "Result file download failed. SourceReferenceId={SourceReferenceId}, ResultKey={ResultKey}, Url={Url}, Language={Language}",
+                sourceReferenceId,
+                resultKey,
+                remoteUrl,
+                language
+            );
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
+            {
+                message = "Unable to download transcription result from upstream service.",
+                sourceReferenceId,
+                resultKey,
+                details = ex.Message
+            });
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var details = await response.Content.ReadAsStringAsync();
+            return StatusCode((int)response.StatusCode, new
+            {
+                message = "Upstream file download failed.",
+                sourceReferenceId,
+                resultKey,
+                details = TruncateForLog(details)
+            });
+        }
+
+        var contentType = response.Content.Headers.ContentType?.MediaType;
+        if (string.IsNullOrWhiteSpace(contentType))
+        {
+            contentType = "application/octet-stream";
+        }
+
+        var fileName = TryResolveDownloadFileName(response, remoteUri, resultKey);
+        var fileBytes = await response.Content.ReadAsByteArrayAsync();
+
+        return File(fileBytes, contentType, fileName);
+    }
+
+    private HttpClient CreateWipoClient()
     {
         var client = new HttpClient();
         var raw = $"{WipoUsername}:{WipoPassword}";
@@ -566,6 +667,69 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         return propertyValue.ValueKind == JsonValueKind.String
             ? propertyValue.GetString() ?? string.Empty
             : string.Empty;
+    }
+
+    private static string GetTranscriptResultLink(JsonElement element, string propertyName)
+    {
+        var direct = GetJsonStringProperty(element, propertyName);
+        if (!string.IsNullOrWhiteSpace(direct))
+        {
+            return direct;
+        }
+
+        if (element.ValueKind == JsonValueKind.Object &&
+            element.TryGetProperty("transcript_results", out var transcriptResults) &&
+            transcriptResults.ValueKind == JsonValueKind.Object)
+        {
+            return GetJsonStringProperty(transcriptResults, propertyName);
+        }
+
+        return string.Empty;
+    }
+
+    private static string ResolveResultUrl(TranscriptionDto transcription, string resultKey)
+    {
+        var normalized = NormalizeResultKey(resultKey);
+        return normalized switch
+        {
+            "linkjson" or "json" => transcription.LinkJson,
+            "linksrt" or "srt" => transcription.LinkSrt,
+            "linkhtml" or "html" or "linthtml" => transcription.LinkHtml,
+            "linktxt" or "txt" => transcription.LinkTxt,
+            "linkdocx" or "docx" => transcription.LinkDocx,
+            "linkverbatimdocx" or "verbatimdocx" => transcription.LinkVerbatimDocx,
+            _ => string.Empty
+        };
+    }
+
+    private static string NormalizeResultKey(string resultKey)
+    {
+        if (string.IsNullOrWhiteSpace(resultKey))
+        {
+            return string.Empty;
+        }
+
+        var trimmed = resultKey.Trim().ToLowerInvariant();
+        var chars = trimmed.Where(char.IsLetterOrDigit).ToArray();
+        return new string(chars);
+    }
+
+    private static string TryResolveDownloadFileName(HttpResponseMessage response, Uri remoteUri, string resultKey)
+    {
+        var fromHeader = response.Content.Headers.ContentDisposition?.FileNameStar
+            ?? response.Content.Headers.ContentDisposition?.FileName;
+        if (!string.IsNullOrWhiteSpace(fromHeader))
+        {
+            return fromHeader.Trim('"');
+        }
+
+        var fromPath = Path.GetFileName(remoteUri.LocalPath);
+        if (!string.IsNullOrWhiteSpace(fromPath))
+        {
+            return fromPath;
+        }
+
+        return $"transcription-{resultKey}.bin";
     }
 
     private static string ResolveSafeSubDirectory(string directoryHint)

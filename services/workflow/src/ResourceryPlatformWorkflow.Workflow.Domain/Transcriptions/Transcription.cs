@@ -135,31 +135,31 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
 
     public void SetLinkJson(string linkJson)
     {
-        LinkJson = string.IsNullOrWhiteSpace(linkJson) ? string.Empty : linkJson.Trim();
+        LinkJson = string.IsNullOrWhiteSpace(linkJson) ? string.Empty : linkJson;
     }
 
     public void SetLinkSrt(string linkSrt)
     {
-        LinkSrt = string.IsNullOrWhiteSpace(linkSrt) ? string.Empty : linkSrt.Trim();
+        LinkSrt = string.IsNullOrWhiteSpace(linkSrt) ? string.Empty : linkSrt;
     }
 
     public void SetLinkHtml(string linkHtml)
     {
-        LinkHtml = string.IsNullOrWhiteSpace(linkHtml) ? string.Empty : linkHtml.Trim();
+        LinkHtml = string.IsNullOrWhiteSpace(linkHtml) ? string.Empty : linkHtml;
     }
 
     public void SetLinkTxt(string linkTxt)
     {
-        LinkTxt = string.IsNullOrWhiteSpace(linkTxt) ? string.Empty : linkTxt.Trim();
+        LinkTxt = string.IsNullOrWhiteSpace(linkTxt) ? string.Empty : linkTxt;
     }
 
     public void SetLinkDocx(string linkDocx)
     {
-        LinkDocx = string.IsNullOrWhiteSpace(linkDocx) ? string.Empty : linkDocx.Trim();
+        LinkDocx = string.IsNullOrWhiteSpace(linkDocx) ? string.Empty : linkDocx;
     }
 
     public void SetLinkVerbatimDocx(string linkVerbatimDocx)
     {
-        LinkVerbatimDocx = string.IsNullOrWhiteSpace(linkVerbatimDocx) ? string.Empty : linkVerbatimDocx.Trim();
+        LinkVerbatimDocx = string.IsNullOrWhiteSpace(linkVerbatimDocx) ? string.Empty : linkVerbatimDocx;
     }
 }

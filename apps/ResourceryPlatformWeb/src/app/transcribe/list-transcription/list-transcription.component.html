@@ -1,27 +1,88 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
-  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
-    <div>
-      <h2 class="fw-bold fs-3 mb-2">Transcriptions</h2>
-      <p class="mb-0 page-description">
-        Browse all submitted transcriptions and open a record to view details.
-      </p>
-    </div>
-    <a class="btn btn-outline-success rounded-0" routerLink="/transcribe">
-      New Transcription
-    </a>
+  <div class="d-flex align-items-center gap-2 mb-5">
+    <img
+      src="assets/images/logo/ecowas-circle-logo.png"
+      alt="DCP SmartServe"
+      style="max-height: 50px; width: auto"
+    />
+    <h2 class="fw-bold fs-3 mb-0 text-emphasis">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
-  <div *ngIf="loading" class="state-banner state-loading">Loading transcriptions...</div>
+  <div class="list-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div class="list-header-content">
+      <h3 class="fw-bold fs-5 mb-2">{{ 'Workflow::Transcription:TranscriptionsLabel' | abpLocalization }}</h3>
+      <p class="mb-0 page-description text-emphasis">
+        {{ 'Workflow::Transcription:TranscriptionsDescriptionLabel' | abpLocalization }}
+      </p>
+    </div>
+    <div class="list-header-action">
+      <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe">
+        <i class="fa fa-plus me-2" aria-hidden="true"></i>
+        {{ 'Workflow::Transcription:TranscriptionNewLabel' | abpLocalization }}
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="state-banner state-loading">{{ 'Workflow::Transcription:TranscriptionLoadingLabel' | abpLocalization }}</div>
   <div *ngIf="error" class="state-banner state-error">{{ error }}</div>
 
   <div *ngIf="!loading && !error && transcriptions.length === 0" class="state-banner state-empty">
-    No transcriptions found.
+    {{ 'Workflow::Transcription:TranscriptionEmptyLabel' | abpLocalization }}
   </div>
 
-  <div *ngIf="!loading && !error && transcriptions.length > 0" class="table-shell border border-success rounded-0">
+  <div
+    *ngIf="!loading && !error && transcriptions.length > 0"
+    class="filter-panel border-none rounded-0 p-0 mb-3"
+  >
+    <div class="row g-3 align-items-end">
+      <div class="col-12 col-md-3">
+        <label for="searchTitle" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:TranscriptionSearchByTitleLabel' | abpLocalization }}</label>
+        <input
+          id="searchTitle"
+          type="text"
+          class="form-control border border-success rounded-0"
+          [value]="searchTitle"
+          (input)="onTitleSearch(($any($event.target).value ?? '').toString())"
+          placeholder="Enter title"
+        />
+      </div>
+      <div class="col-12 col-md-3">
+        <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:TranscriptionSearchByDateLabel' | abpLocalization }}</label>
+        <input
+          id="searchDate"
+          type="date"
+          class="form-control border border-success rounded-0"
+          [value]="searchDate"
+          (input)="onDateSearch(($any($event.target).value ?? '').toString())"
+        />
+      </div>
+      <div class="col-12 col-md-3 d-grid d-md-flex justify-content-md-end">
+        <button
+          type="button"
+          class="btn btn-outline-success rounded-0 px-4"
+          (click)="clearFilters()"
+        >
+          {{Clear}}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!loading && !error && transcriptions.length > 0 && filteredTranscriptions.length === 0"
+    class="state-banner state-empty"
+  >
+    {{ 'Workflow::Transcription:TranscriptionNoMatchLabel' | abpLocalization }}
+  </div>
+
+  <div
+    *ngIf="!loading && !error && filteredTranscriptions.length > 0"
+    class="table-shell border-none rounded-0"
+  >
     <table class="table table-hover align-middle mb-0 transcription-table">
       <thead>
         <tr>
+          <th class="text-center">#</th>
           <th>Title</th>
           <th>Language</th>
           <th>Status</th>
@@ -30,7 +91,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of transcriptions">
+        <tr *ngFor="let item of filteredTranscriptions; let rowIndex = index">
+          <td class="text-center fw-semibold">{{ rowIndex + 1 }}</td>
           <td class="fw-semibold">{{ item.title || 'Untitled transcription' }}</td>
           <td>{{ item.language || 'N/A' }}</td>
           <td>
@@ -38,8 +100,11 @@
           </td>
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
           <td class="text-end">
-            <a class="btn btn-sm btn-outline-success rounded-0" [routerLink]="['/transcribe/view', item.id]">
-              View
+            <a
+              class="btn btn-sm btn-success rounded-0"
+              [routerLink]="['/transcribe/view', item.id]"
+            >
+              <i class="fa fa-eye me-2" aria-hidden="true"></i>View
             </a>
           </td>
         </tr>

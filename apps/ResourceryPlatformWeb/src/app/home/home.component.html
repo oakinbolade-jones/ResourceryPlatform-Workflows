@@ -1,69 +1,97 @@
 <div class="home-bg">
+  <div class="home-container">
+    <div class="row home-row container">
+      <div>
+        <div>
+          <div class="text-center mb-5 mt-3 px-3">
+            <h1 class="home-header-title mb-3">
+              {{ 'Workflow::WelcomeToResourcery' | abpLocalization }}
+            </h1>
+            <p
+              class="home-subtitle-text text-center text-wrap mx-auto fs-5 fw-semibold"
+              style="width: 640px"
+            >
+              {{ 'Workflow::WelcomeToResourceryDescription' | abpLocalization }}
+            </p>
+            <!-- <span class="text-sm home-subtitle-text"> {{ 'Workflow::ArtificialIntelligence' | abpLocalization }} &middot; {{ 'Workflow::IntegratedWorkflows' | abpLocalization }} &middot; {{ 'Workflow::ProcessAutomation' | abpLocalization }} &middot; {{ 'Workflow::DigitalPlatforms' | abpLocalization }}</span> -->
+          </div>
 
-    <div class="home-container">
-        <div class="row home-row container">
-            <div>
-                <div>
-                    <div class="text-center mb-5 mt-3 px-3">
-                        <h1 class="home-header-title mb-3">
-                            {{ 'Workflow::WelcomeToResourcery' | abpLocalization }} 
-                        </h1>
-                        <p class="home-subtitle-text text-center text-wrap mx-auto" style="width: 640px;">
-                            {{ 'Workflow::WelcomeToResourceryDescription' | abpLocalization }}
-                        </p>
-                        <!-- <span class="text-sm home-subtitle-text"> {{ 'Workflow::ArtificialIntelligence' | abpLocalization }} &middot; {{ 'Workflow::IntegratedWorkflows' | abpLocalization }} &middot; {{ 'Workflow::ProcessAutomation' | abpLocalization }} &middot; {{ 'Workflow::DigitalPlatforms' | abpLocalization }}</span> -->
-                    </div>
-                    <!-- Cards Section -->
-                    <div class="row g-4 justify-content-center mt-5 mb-5">
-                        <div class="col-lg-4 col-md-5">
-                            <a href="/request" (click)="navigateToDashboard()" class="text-decoration-none">
-                                <div class="card h-100 home-card">
-                                    <div class="card-body p-4">
-                                        <h4 class="card-title mb-3 fw-bold">{{ 'Workflow::ServiceRequests' | abpLocalization }}</h4>
-                                        <p class="card-text  mb-4">{{ 'Workflow::ServicesDescription' | abpLocalization }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-md-5">
-                            <a href="/directorate" class="text-decoration-none">
-                                <div class="card h-100 home-card">
-                                    <div class="card-body p-4">
-                                        <h4 class="card-title mb-3 fw-bold">{{ 'Workflow::Operations' | abpLocalization }}</h4>
-                                        <p class="card-text mb-4">{{ 'Workflow::OperationsDescription' | abpLocalization }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                         <div class="col-lg-4 col-md-5">
-                            <a href="/transcribe" class="text-decoration-none">
-                                <div class="card h-100 home-card">
-                                    <div class="card-body p-4">
-                                        <h4 class="card-title mb-3 fw-bold">{{ 'Workflow::AIServices' | abpLocalization }}</h4>
-                                        <p class="card-text mb-4">{{ 'Workflow::AIServicesDescription' | abpLocalization }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+          <div class="home-spacer" aria-hidden="true"></div>
+
+          <!-- Cards Section -->
+          <div class="row g-4 justify-content-center mt-5 mb-5">
+            <div class="col-lg-4 col-md-5">
+              <a href="/request" (click)="navigateToDashboard()" class="text-decoration-none">
+                <div class="card h-100 home-card">
+                  <div class="card-body p-4">
+                    <h4 class="card-title mb-3 fs-4 fw-bold">
+                      {{ 'Workflow::ServiceRequest' | abpLocalization }}
+                    </h4>
+                    <p class="card-text mb-4 fs-5 fw-semibold">
+                      {{ 'Workflow::ServiceRequestDescription' | abpLocalization }}
+                    </p>
+                  </div>
                 </div>
+              </a>
             </div>
+            <div class="col-lg-4 col-md-5">
+              <a href="/directorate" class="text-decoration-none">
+                <div class="card h-100 home-card">
+                  <div class="card-body p-4">
+                    <h4 class="card-title mb-3 fs-4 fw-bold">
+                      {{ 'Workflow::ServiceManagement' | abpLocalization }}
+                    </h4>
+                    <p class="card-text mb-4 fs-5 fw-semibold">
+                      {{ 'Workflow::ServiceManagementDescription' | abpLocalization }}
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-lg-4 col-md-5">
+              <a href="/transcribe" class="text-decoration-none">
+                <div class="card h-100 home-card">
+                  <div class="card-body p-4">
+                    <h4 class="card-title mb-3 fs-4 fw-bold">
+                      {{ 'Workflow::ECOWASS2Title' | abpLocalization }}
+                    </h4>
+                    <p class="card-text mb-4 fs-5 fw-semibold">
+                      {{ 'Workflow::ECOWASS2Description' | abpLocalization }}
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="home-footer">
-        <div class="container">
-
-            <a href="#" class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis">
-                &copy;2026 Directrorate of Conference and Protocol, ECOWAS Commission.
-            </a>
-            <a href="" class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
-                (click)="changeLanguage('en', $event)">EN</a>
-            <a href="" class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
-                (click)="changeLanguage('fr', $event)">FR</a>
-            <a href="" class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
-                (click)="changeLanguage('pt-BR', $event)">PT</a>
-
-        </div>
+  <div class="home-footer">
+    <div class="container">
+      <a href="#" class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis">
+        {{ 'Workflow::Copyright' | abpLocalization }}&copy;2026 Directrorate of Conference and
+        Protocol, ECOWAS Commission.
+      </a>
+      <a
+        href=""
+        class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
+        (click)="changeLanguage('en', $event)"
+        >EN</a
+      >
+      <a
+        href=""
+        class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
+        (click)="changeLanguage('fr', $event)"
+        >FR</a
+      >
+      <a
+        href=""
+        class="text-bold text-decoration-none fs-6 fw-normal text-primary-emphasis"
+        (click)="changeLanguage('pt-BR', $event)"
+        >PT</a
+      >
     </div>
+  </div>
 </div>

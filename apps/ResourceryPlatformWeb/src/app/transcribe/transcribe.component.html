@@ -1,5 +1,12 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded">
-  <h2 class="fw-bold fs-3 mb-2">{{ 'Workflow::Transcription:PageTitle' | abpLocalization }}</h2>
+  <div class="d-flex align-items-center gap-2 mb-4">
+    <img
+      src="assets/images/logo/ecowas-circle-logo.png"
+      alt="DCP SmartServe"
+      style="max-height: 50px; width: auto"
+    />
+    <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
+  </div>
   <p class="mb-5 text-wrap" style="font-size: small; width: 75%">
     {{ 'Workflow::Transcription:PageDescription' | abpLocalization }}
   </p>
@@ -13,7 +20,7 @@
     >
       <span class="wizard-step-index">1</span>
       <span class="wizard-step-label">{{
-        'Workflow::Transcription:InformationLabel' | abpLocalization
+        'Workflow::Transcription:StepOne' | abpLocalization
       }}</span>
     </button>
     <button
@@ -26,7 +33,7 @@
     >
       <span class="wizard-step-index">2</span>
       <span class="wizard-step-label">{{
-        'Workflow::Transcription:MediaLabel' | abpLocalization
+        'Workflow::Transcription:StepTwo' | abpLocalization
       }}</span>
     </button>
   </div>
@@ -37,9 +44,19 @@
         <div *ngIf="currentStep === 1">
           <div class="row g-3 mb-4">
             <div class="col-12 col-md-6">
-              <label for="Title" class="form-label fw-bold">{{
-                'Workflow::Transcription:TitleLabel' | abpLocalization
-              }}</label>
+              <label for="Title" class="form-label fw-semibold fs-6">
+                {{ 'Workflow::Transcription:TitleLabel' | abpLocalization }}
+                <i
+                  class="fa fa-info-circle ms-1"
+                  style="color: #198754; cursor: help"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  [attr.data-bs-title]="
+                    'Workflow::Transcription:TitlePlaceHolder' | abpLocalization
+                  "
+                  role="tooltip"
+                ></i>
+              </label>
               <input
                 id="Title"
                 class="form-control border border-success p-2 rounded-0"
@@ -53,9 +70,17 @@
 
           <div class="row g-3 mb-4">
             <div class="col-12">
-              <label for="Description" class="form-label fw-bold">{{
-                'Workflow::Transcription:DescriptionLabel' | abpLocalization
-              }}</label>
+              <label for="Description" class="form-label fw-semibold fs-6"
+                >{{ 'Workflow::Transcription:DescriptionLabel' | abpLocalization }}
+                <i
+                  class="fa fa-info-circle ms-1"
+                  style="color: #198754; cursor: help"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  [attr.data-bs-title]="'Workflow::Transcription:DescriptionHint' | abpLocalization"
+                  role="tooltip"
+                ></i>
+              </label>
               <textarea
                 id="Description"
                 class="form-control border border-success p-2 rounded-0"
@@ -71,9 +96,17 @@
 
           <div class="row g-3 mb-5">
             <div class="col-12 col-md-4">
-              <label for="DateOfTranscription" class="form-label fw-bold">{{
-                'Workflow::Transcription:EventDateLabel' | abpLocalization
-              }}</label>
+              <label for="DateOfTranscription" class="form-label fw-semibold fs-6"
+                >{{ 'Workflow::Transcription:EventDateLabel' | abpLocalization
+                }}<i
+                  class="fa fa-info-circle ms-1"
+                  style="color: #198754; cursor: help"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  [attr.data-bs-title]="'Workflow::Transcription:EventDateHint' | abpLocalization"
+                  role="tooltip"
+                ></i>
+              </label>
               <input
                 id="EventDate"
                 class="form-control border border-success p-2 rounded-0"
@@ -83,25 +116,42 @@
               />
             </div>
             <div class="col-12 col-md-4">
-              <label for="Language" class="form-label fw-bold">{{
-                'Workflow::Transcription:LanguageLabel' | abpLocalization
-              }}</label>
+              <label for="Language" class="form-label fw-semibold fs-6"
+                >{{ 'Workflow::Transcription:LanguageLabel' | abpLocalization }}
+                <i
+                  class="fa fa-info-circle ms-1"
+                  style="color: #198754; cursor: help"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  [attr.data-bs-title]="'Workflow::Transcription:LanguageHint' | abpLocalization"
+                  role="tooltip"
+                ></i
+              ></label>
               <select
                 id="Language"
                 class="form-select border border-success p-2 rounded-0"
                 formControlName="Language"
               >
                 <option value="en">English</option>
-                <option value="fr">French</option>
-                <option value="pt">Portuguese</option>
+                <option value="fr">Français</option>
+                <option value="pt">Português</option>
+                <option value="floor">Floor (Multiple Languages)</option>
               </select>
             </div>
           </div>
           <div class="row g-3 mb-4">
             <div class="col-12 mb-4">
-              <label class="form-label fw-bold">{{
-                'Workflow::Transcription:ModeLabel' | abpLocalization
-              }}</label>
+              <label class="form-label fw-semibold fs-6"
+                >{{ 'Workflow::Transcription:ModeLabel' | abpLocalization }}
+                <i
+                  class="fa fa-info-circle ms-1"
+                  style="color: #198754; cursor: help"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="right"
+                  [attr.data-bs-title]="'Workflow::Transcription:ModeHint' | abpLocalization"
+                  role="tooltip"
+                ></i>
+              </label>
               <div class="d-flex gap-4">
                 <div class="form-check">
                   <input
@@ -140,7 +190,7 @@
           <div class="d-flex justify-content-end">
             <button
               type="button"
-              class="btn btn-success rounded-0 px-4"
+              class="btn btn-success rounded-0 px-3"
               [disabled]="isSavingStepOne"
               (click)="saveTranscriptionInfoAndContinue()"
             >
@@ -158,18 +208,16 @@
         <div *ngIf="currentStep === 2">
           <div class="row g-3 mb-1">
             <div class="col-12 col-md-12">
-              <label for="TitleReadonly" class="form-label fw-bold g-0">{{
-                'Workflow::Transcription:TitleLabel' | abpLocalization
-              }}</label>
-              <input
-                id="TitleReadonly"
-                class="form-control border-0 py-1 rounded-0"
-                [value]="transcribeForm.get('Title')?.value"
-                readonly
-              />
+                 <input
+                    id="TitleReadonly"
+                    class="form-control border-0 py-1 rounded-0 fw-semibold"
+                    [value]="transcribeForm.get('Title')?.value"
+                    readonly
+                  />              
+             
             </div>
           </div>
-          <div class="row mb-2">
+          <!-- <div class="row mb-2">
             <div class="col-12 col-md-12">
               <label for="LanguageReadonly" class="form-label fw-bold g-0">{{
                 'Workflow::Transcription:LanguageLabel' | abpLocalization
@@ -181,7 +229,7 @@
                 readonly
               />
             </div>
-          </div>
+          </div> -->
 
           <!-- Transcription mode selector -->
 
@@ -226,16 +274,19 @@
           </div>
 
           <!-- Record container -->
-          <div *ngIf="selectedMode === 'record'" class="mb-4 p-4 border border-success rounded-0">
+          <div
+            *ngIf="selectedMode === 'record'"
+            class="mb-4 p-4 border border-success rounded-0 fs-6"
+          >
             <label class="form-label fw-bold">{{
               'Workflow::Transcription:ModeRecord' | abpLocalization
             }}</label>
 
             <!-- Error -->
-            <div *ngIf="recordingError" class="alert alert-danger rounded-0 mt-2 py-2">
+            <div *ngIf="recordingError" class="alert alert-danger rounded-0 mt-2 py-2 fs-6">
               {{ recordingError }}
             </div>
-            <div *ngIf="recordingInfo" class="alert alert-warning rounded-0 mt-2 py-2">
+            <div *ngIf="recordingInfo" class="alert alert-warning rounded-0 mt-2 py-2 fs-6">
               {{ recordingInfo }}
             </div>
 
@@ -368,19 +419,34 @@
               {{ 'Workflow::Transcription:JobStatusLabel' | abpLocalization }}
             </div>
             <div class="small mt-1">{{ transcribeStatus }}</div>
-            <div *ngIf="transcriptionReferenceId" class="small mt-1">
+            <!-- <div *ngIf="transcriptionReferenceId" class="small mt-1">
               <strong>{{ 'Workflow::Transcription:ReferenceLabel' | abpLocalization }}:</strong>
               {{ transcriptionReferenceId }}
-            </div>
-            <div *ngIf="transcriptionId" class="small mt-1">
+            </div> -->
+            <!-- <div *ngIf="transcriptionId" class="small mt-1">
               <strong
                 >{{ 'Workflow::Transcription:TranscriptionIdLabel' | abpLocalization }}:</strong
               >
               {{ transcriptionId }}
-            </div>
+            </div> -->
             <div class="small mt-1">
               <strong>{{ 'Workflow::Transcription:ProgressLabel' | abpLocalization }}:</strong>
               {{ transcriptionPercent }}%
+            </div>
+            <div
+              class="transcription-progress mt-2"
+              role="progressbar"
+              aria-label="Transcription progress"
+            >
+              <div class="progress rounded-0" style="height: 0.7rem">
+                <div
+                  class="progress-bar bg-success"
+                  [style.width.%]="transcriptionPercent"
+                  [attr.aria-valuenow]="transcriptionPercent"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
             </div>
 
             <div *ngIf="transcriptionResultLinks" class="mt-2">
@@ -402,10 +468,10 @@
             <button
               type="button"
               class="btn btn-success rounded-0"
-              [disabled]="!transcriptionResultLinks"
-              (click)="goToPaymentPage()"
+              [disabled]="!transcriptionId"
+              (click)="goToTranscriptionListPage()"
             >
-              {{ 'Workflow::Transcription:ContinueToTranscriptionListsLabel' | abpLocalization }}
+              {{ 'Workflow::Transcription:ViewTranscriptionLabel' | abpLocalization }}
             </button>
           </div>
         </div>

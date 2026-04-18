@@ -284,7 +284,7 @@ abp-layout-header .navbar-nav .nav-link,
 .navbar .navbar-nav .nav-link {
   color: #4a4a4a !important;
   font-weight: 500 !important;
-  font-size: 14px !important;
+  font-size: 16px !important;
   margin-left: 25px !important;
 }
 
@@ -337,7 +337,7 @@ app-request {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
-app-transcribe {
+app-transcribe , app-view-transcription, app-list-transcription {
   background-color: var(--oc-gray-3);
   display: block;
   padding: 50px;
@@ -347,6 +347,7 @@ app-transcribe {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+
 abp-loader .progress-bar {
   background-color: var(--oc-teal-9) !important;
 }
