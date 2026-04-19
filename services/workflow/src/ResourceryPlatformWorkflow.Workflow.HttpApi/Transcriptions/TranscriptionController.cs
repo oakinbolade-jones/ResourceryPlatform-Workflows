@@ -6,8 +6,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ResourceryPlatformWorkflow.Workflow.Transcriptions;
@@ -23,13 +25,15 @@ namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 public class TranscriptionController(
     ITranscriptionAppService transcriptionAppService,
     ILogger<TranscriptionController> logger,
-    IConfiguration configuration)
+    IConfiguration configuration,
+    IDistributedCache distributedCache)
     : WorkflowController,
         ITranscriptionAppService
 {
 private readonly ITranscriptionAppService _transcriptionAppService = transcriptionAppService ?? throw new ArgumentNullException(nameof(transcriptionAppService));
     private readonly ILogger<TranscriptionController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     private readonly IConfiguration _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+    private readonly IDistributedCache _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
 
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
@@ -39,6 +43,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
     private const int MaxWipoLogPayloadLength = 800;
+    private const string PendingTranscriptionCacheKeyPrefix = "workflow:transcription:pending:";
+    private static readonly DistributedCacheEntryOptions PendingTranscriptionCacheOptions = new()
+    {
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2),
+        SlidingExpiration = TimeSpan.FromHours(6)
+    };
 
     private string WipoBaseUrl =>
         (_configuration["Transcription:Wipo:BaseUrl"] ?? DefaultWipoBaseUrl).TrimEnd('/');
@@ -132,41 +142,38 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             return BadRequest(new { message = "Title is required." });
         }
 
+        var sourceReferenceId = string.IsNullOrWhiteSpace(input.SourceReferenceId)
+            ? Guid.NewGuid().ToString()
+            : input.SourceReferenceId.Trim();
         var eventDate = input.EventDate ?? input.DateOfTranscription ?? DateTime.UtcNow;
         var inputSource = ParseInputSource(input.TranscriptionMode);
-
-        var dto = new CreateUpdateTranscriptionDto
+        var staged = await GetPendingTranscriptionAsync(sourceReferenceId) ?? new PendingTranscriptionCacheItem
         {
-            Title = input.Title.Trim(),
-            Description = input.Description,
-            IsPublic = input.IsPublic,
-            DateOfTranscription = eventDate,
-            EventDate = eventDate,
-            MediaFile = input.MediaFile ?? string.Empty,
-            Language = string.IsNullOrWhiteSpace(input.Language) ? "en" : input.Language,
-            InputeFormat = string.IsNullOrWhiteSpace(input.InputFormat) ? "webm" : input.InputFormat,
-            Status = string.IsNullOrWhiteSpace(input.Status) ? "Draft" : input.Status,
-            InputSource = inputSource,
-            ThumbNailImage = input.ThumbNailImage,
-            SourceReferenceId = input.SourceReferenceId,
+            SourceReferenceId = sourceReferenceId
         };
 
-        TranscriptionDto transcription;
-        if (input.TranscriptionId.HasValue)
-        {
-            transcription = await _transcriptionAppService.UpdateAsync(input.TranscriptionId.Value, dto);
-        }
-        else
-        {
-            transcription = await _transcriptionAppService.CreateAsync(dto);
-        }
+        staged.TranscriptionId = input.TranscriptionId ?? staged.TranscriptionId;
+        staged.Title = input.Title.Trim();
+        staged.Description = input.Description;
+        staged.IsPublic = input.IsPublic;
+        staged.DateOfTranscription = eventDate;
+        staged.EventDate = input.EventDate ?? eventDate;
+        staged.MediaFile = input.MediaFile ?? staged.MediaFile ?? string.Empty;
+        staged.Language = string.IsNullOrWhiteSpace(input.Language) ? "en" : input.Language;
+        staged.InputFormat = string.IsNullOrWhiteSpace(input.InputFormat) ? "webm" : input.InputFormat;
+        staged.Status = string.IsNullOrWhiteSpace(input.Status) ? "Draft" : input.Status;
+        staged.InputSource = inputSource;
+        staged.ThumbNailImage = input.ThumbNailImage;
+        staged.LastUpdatedUtc = DateTime.UtcNow;
+
+        await SetPendingTranscriptionAsync(staged);
 
         return Ok(new
         {
-            message = "Transcription information saved.",
-            transcriptionId = transcription.Id,
-            sourceReferenceId = transcription.SourceReferenceId,
-            status = transcription.Status,
+            message = "Transcription information staged.",
+            transcriptionId = staged.TranscriptionId,
+            sourceReferenceId = staged.SourceReferenceId,
+            status = staged.Status,
         });
     }
 
@@ -193,6 +200,27 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             $"&language={Uri.EscapeDataString(language)}" +
             $"&input_format={Uri.EscapeDataString(inputFormat)}";
         var endpoint = $"{WipoBaseUrl}/MediaUpload?{uploadQuery}";
+
+        var staged = await GetPendingTranscriptionAsync(sourceReferenceId) ?? new PendingTranscriptionCacheItem
+        {
+            SourceReferenceId = sourceReferenceId
+        };
+
+        staged.TranscriptionId = input.TranscriptionId ?? staged.TranscriptionId;
+        staged.Title = string.IsNullOrWhiteSpace(input.Title) ? (staged.Title ?? "Untitled Transcription") : input.Title.Trim();
+        staged.Description = input.Description ?? staged.Description;
+        staged.IsPublic = input.IsPublic;
+        staged.DateOfTranscription = input.DateOfTranscription ?? input.EventDate ?? staged.DateOfTranscription ?? DateTime.UtcNow;
+        staged.EventDate = input.EventDate ?? staged.EventDate;
+        staged.MediaFile = input.File.FileName;
+        staged.Language = language;
+        staged.InputFormat = inputFormat;
+        staged.InputSource = input.InputSource;
+        staged.ThumbNailImage = input.ThumbNailImage ?? staged.ThumbNailImage;
+        staged.Status = "Submitting";
+        staged.LastUpdatedUtc = DateTime.UtcNow;
+
+        await SetPendingTranscriptionAsync(staged);
 
         using var httpClient = CreateWipoClient();
 
@@ -242,6 +270,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         }
         catch (HttpRequestException ex)
         {
+            staged.Status = "SubmissionFailed";
+            staged.LastUpdatedUtc = DateTime.UtcNow;
+            await SetPendingTranscriptionAsync(staged);
             _logger.LogError(
                 ex,
                 "WIPO upload connection failed. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
@@ -260,6 +291,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         }
         catch (TaskCanceledException ex)
         {
+            staged.Status = "SubmissionFailed";
+            staged.LastUpdatedUtc = DateTime.UtcNow;
+            await SetPendingTranscriptionAsync(staged);
             _logger.LogError(
                 ex,
                 "WIPO upload timed out. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
@@ -293,6 +327,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             }
             catch (HttpRequestException ex)
             {
+                staged.Status = "SubmissionFailed";
+                staged.LastUpdatedUtc = DateTime.UtcNow;
+                await SetPendingTranscriptionAsync(staged);
                 _logger.LogError(
                     ex,
                     "WIPO upload retry connection failed. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
@@ -311,6 +348,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             }
             catch (TaskCanceledException ex)
             {
+                staged.Status = "SubmissionFailed";
+                staged.LastUpdatedUtc = DateTime.UtcNow;
+                await SetPendingTranscriptionAsync(staged);
                 _logger.LogError(
                     ex,
                     "WIPO upload retry timed out. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
@@ -337,6 +377,10 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
         if (!response.IsSuccessStatusCode)
         {
+            staged.Status = "SubmissionFailed";
+            staged.WipoUploadResponseRaw = payload;
+            staged.LastUpdatedUtc = DateTime.UtcNow;
+            await SetPendingTranscriptionAsync(staged);
             return StatusCode((int)response.StatusCode, new
             {
                 message = "WIPO upload failed",
@@ -376,42 +420,21 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             _logger.LogWarning(ex, "WIPO upload response could not be parsed as JSON. Persisting submission without result links.");
         }
 
-        var dto = new CreateUpdateTranscriptionDto
-        {
-            Title = string.IsNullOrWhiteSpace(input.Title) ? "Untitled Transcription" : input.Title.Trim(),
-            Description = input.Description,
-            IsPublic = input.IsPublic,
-            DateOfTranscription = input.DateOfTranscription ?? DateTime.UtcNow,
-            EventDate = input.EventDate,
-            MediaFile = input.File.FileName,
-            Language = language,
-            InputeFormat = inputFormat,
-            Status = responseStatus,
-            InputSource = input.InputSource,
-            ThumbNailImage = input.ThumbNailImage,
-            SourceReferenceId = sourceReferenceId,
-            LinkJson = responseLinkJson,
-            LinkSrt = responseLinkSrt,
-            LinkHtml = responseLinkHtml,
-            LinkTxt = responseLinkTxt,
-            LinkDocx = responseLinkDocx,
-            LinkVerbatimDocx = responseLinkVerbatimDocx
-        };
-
-        TranscriptionDto transcription;
-        if (input.TranscriptionId.HasValue)
-        {
-            transcription = await _transcriptionAppService.UpdateAsync(input.TranscriptionId.Value, dto);
-        }
-        else
-        {
-            transcription = await _transcriptionAppService.CreateAsync(dto);
-        }
+        staged.Status = responseStatus;
+        staged.LinkJson = responseLinkJson;
+        staged.LinkSrt = responseLinkSrt;
+        staged.LinkHtml = responseLinkHtml;
+        staged.LinkTxt = responseLinkTxt;
+        staged.LinkDocx = responseLinkDocx;
+        staged.LinkVerbatimDocx = responseLinkVerbatimDocx;
+        staged.WipoUploadResponseRaw = payload;
+        staged.LastUpdatedUtc = DateTime.UtcNow;
+        await SetPendingTranscriptionAsync(staged);
 
         return Ok(new
         {
             message = "Submitted to WIPO",
-            transcriptionId = transcription.Id,
+            transcriptionId = staged.TranscriptionId,
             sourceReferenceId,
             language,
             inputFormat,
@@ -496,27 +519,100 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 details = payload
             });
         }
-        var transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
-        if (transcription != null)
+
+        await ProcessWipoStatusPayloadAsync(sourceReferenceId, payload);
+
+        return Content(payload, "application/json");
+    }
+
+    [HttpPost("wipo-callback")]
+    [AllowAnonymous]
+    public async Task<IActionResult> WipoCallbackAsync([FromBody] JsonElement payload)
+    {
+        if (payload.ValueKind is not JsonValueKind.Array and not JsonValueKind.Object)
         {
-            var status = transcription.Status;
-            using var json = JsonDocument.Parse(payload);
+            return BadRequest(new { message = "Invalid callback payload." });
+        }
+
+        var first = payload.ValueKind == JsonValueKind.Array
+            ? payload.EnumerateArray().FirstOrDefault()
+            : payload;
+
+        var sourceReferenceId = GetJsonStringProperty(first, "source_reference_id");
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            sourceReferenceId = GetJsonStringProperty(first, "sourceReferenceId");
+        }
+
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return BadRequest(new { message = "sourceReferenceId is required in callback payload." });
+        }
+
+        var payloadText = payload.GetRawText();
+        await ProcessWipoStatusPayloadAsync(sourceReferenceId, payloadText);
+
+        return Ok(new
+        {
+            message = "Callback processed.",
+            sourceReferenceId
+        });
+    }
+
+    private async Task ProcessWipoStatusPayloadAsync(string sourceReferenceId, string payload)
+    {
+        var parsedStatus = string.Empty;
+        var linkJson = string.Empty;
+        var linkSrt = string.Empty;
+        var linkHtml = string.Empty;
+        var linkTxt = string.Empty;
+        var linkDocx = string.Empty;
+        var linkVerbatimDocx = string.Empty;
+
+        using (var json = JsonDocument.Parse(payload))
+        {
             var first = json.RootElement.ValueKind == JsonValueKind.Array
                 ? json.RootElement.EnumerateArray().FirstOrDefault()
                 : json.RootElement;
 
-            if (first.ValueKind != JsonValueKind.Undefined &&
-                first.TryGetProperty("status", out var statusProp))
-            {
-                status = statusProp.GetString() ?? status;
-            }
+            parsedStatus = GetJsonStringProperty(first, "status");
+            linkJson = GetTranscriptResultLink(first, "link_json");
+            linkSrt = GetTranscriptResultLink(first, "link_srt");
+            linkHtml = GetTranscriptResultLink(first, "link_html");
+            linkTxt = GetTranscriptResultLink(first, "link_txt");
+            linkDocx = GetTranscriptResultLink(first, "link_docx");
+            linkVerbatimDocx = GetTranscriptResultLink(first, "link_verbatimdocx");
+        }
 
-            var linkJson = GetTranscriptResultLink(first, "link_json");
-            var linkSrt = GetTranscriptResultLink(first, "link_srt");
-            var linkHtml = GetTranscriptResultLink(first, "link_html");
-            var linkTxt = GetTranscriptResultLink(first, "link_txt");
-            var linkDocx = GetTranscriptResultLink(first, "link_docx");
-            var linkVerbatimDocx = GetTranscriptResultLink(first, "link_verbatimdocx");
+        var transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
+        var staged = await GetPendingTranscriptionAsync(sourceReferenceId);
+
+        if (transcription != null)
+        {
+            var resolvedStatus = !string.IsNullOrWhiteSpace(parsedStatus)
+                ? parsedStatus
+                : transcription.Status;
+
+            if (!IsCompletedStatus(resolvedStatus))
+            {
+                // Strict mode: do not persist in-progress/failed statuses to DB.
+                // Keep staged cache (if any) updated for later completion write-through.
+                if (staged != null)
+                {
+                    staged.Status = string.IsNullOrWhiteSpace(parsedStatus) ? staged.Status : parsedStatus;
+                    staged.LinkJson = string.IsNullOrWhiteSpace(linkJson) ? staged.LinkJson : linkJson;
+                    staged.LinkSrt = string.IsNullOrWhiteSpace(linkSrt) ? staged.LinkSrt : linkSrt;
+                    staged.LinkHtml = string.IsNullOrWhiteSpace(linkHtml) ? staged.LinkHtml : linkHtml;
+                    staged.LinkTxt = string.IsNullOrWhiteSpace(linkTxt) ? staged.LinkTxt : linkTxt;
+                    staged.LinkDocx = string.IsNullOrWhiteSpace(linkDocx) ? staged.LinkDocx : linkDocx;
+                    staged.LinkVerbatimDocx = string.IsNullOrWhiteSpace(linkVerbatimDocx) ? staged.LinkVerbatimDocx : linkVerbatimDocx;
+                    staged.WipoStatusResponseRaw = payload;
+                    staged.LastUpdatedUtc = DateTime.UtcNow;
+                    await SetPendingTranscriptionAsync(staged);
+                }
+
+                return;
+            }
 
             var update = new CreateUpdateTranscriptionDto
             {
@@ -528,7 +624,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 MediaFile = transcription.MediaFile,
                 Language = transcription.Language,
                 InputeFormat = transcription.InputeFormat,
-                Status = status,
+                Status = resolvedStatus,
                 InputSource = transcription.InputSource,
                 ThumbNailImage = transcription.ThumbNailImage,
                 SourceReferenceId = transcription.SourceReferenceId,
@@ -541,9 +637,61 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             };
 
             await _transcriptionAppService.UpdateAsync(transcription.Id, update);
+            await RemovePendingTranscriptionAsync(sourceReferenceId);
         }
+        else if (staged != null)
+        {
+            staged.Status = string.IsNullOrWhiteSpace(parsedStatus) ? staged.Status : parsedStatus;
+            staged.LinkJson = string.IsNullOrWhiteSpace(linkJson) ? staged.LinkJson : linkJson;
+            staged.LinkSrt = string.IsNullOrWhiteSpace(linkSrt) ? staged.LinkSrt : linkSrt;
+            staged.LinkHtml = string.IsNullOrWhiteSpace(linkHtml) ? staged.LinkHtml : linkHtml;
+            staged.LinkTxt = string.IsNullOrWhiteSpace(linkTxt) ? staged.LinkTxt : linkTxt;
+            staged.LinkDocx = string.IsNullOrWhiteSpace(linkDocx) ? staged.LinkDocx : linkDocx;
+            staged.LinkVerbatimDocx = string.IsNullOrWhiteSpace(linkVerbatimDocx) ? staged.LinkVerbatimDocx : linkVerbatimDocx;
+            staged.WipoStatusResponseRaw = payload;
+            staged.LastUpdatedUtc = DateTime.UtcNow;
 
-        return Content(payload, "application/json");
+            if (IsCompletedStatus(staged.Status))
+            {
+                var createOrUpdateDto = new CreateUpdateTranscriptionDto
+                {
+                    Title = string.IsNullOrWhiteSpace(staged.Title) ? "Untitled Transcription" : staged.Title,
+                    Description = staged.Description,
+                    IsPublic = staged.IsPublic,
+                    DateOfTranscription = staged.DateOfTranscription ?? DateTime.UtcNow,
+                    EventDate = staged.EventDate,
+                    MediaFile = staged.MediaFile ?? string.Empty,
+                    Language = string.IsNullOrWhiteSpace(staged.Language) ? "en" : staged.Language,
+                    InputeFormat = string.IsNullOrWhiteSpace(staged.InputFormat) ? "webm" : staged.InputFormat,
+                    Status = staged.Status,
+                    InputSource = staged.InputSource,
+                    ThumbNailImage = staged.ThumbNailImage,
+                    SourceReferenceId = staged.SourceReferenceId,
+                    LinkJson = staged.LinkJson,
+                    LinkSrt = staged.LinkSrt,
+                    LinkHtml = staged.LinkHtml,
+                    LinkTxt = staged.LinkTxt,
+                    LinkDocx = staged.LinkDocx,
+                    LinkVerbatimDocx = staged.LinkVerbatimDocx
+                };
+
+                if (staged.TranscriptionId.HasValue)
+                {
+                    await _transcriptionAppService.UpdateAsync(staged.TranscriptionId.Value, createOrUpdateDto);
+                }
+                else
+                {
+                    var created = await _transcriptionAppService.CreateAsync(createOrUpdateDto);
+                    staged.TranscriptionId = created.Id;
+                }
+
+                await RemovePendingTranscriptionAsync(sourceReferenceId);
+            }
+            else
+            {
+                await SetPendingTranscriptionAsync(staged);
+            }
+        }
     }
 
     [HttpGet("download-result")]
@@ -783,6 +931,69 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             : InputSource.Upload;
     }
 
+    private static bool IsCompletedStatus(string status)
+    {
+        if (string.IsNullOrWhiteSpace(status))
+        {
+            return false;
+        }
+
+        var normalized = status.Trim().ToLowerInvariant();
+        return normalized is "finished" or "done" or "completed";
+    }
+
+    private async Task<PendingTranscriptionCacheItem> GetPendingTranscriptionAsync(string sourceReferenceId)
+    {
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return null;
+        }
+
+        var cacheKey = GetPendingTranscriptionCacheKey(sourceReferenceId);
+        var json = await _distributedCache.GetStringAsync(cacheKey);
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<PendingTranscriptionCacheItem>(json);
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
+
+    private async Task SetPendingTranscriptionAsync(PendingTranscriptionCacheItem item)
+    {
+        if (item == null || string.IsNullOrWhiteSpace(item.SourceReferenceId))
+        {
+            return;
+        }
+
+        var cacheKey = GetPendingTranscriptionCacheKey(item.SourceReferenceId);
+        var json = JsonSerializer.Serialize(item);
+        await _distributedCache.SetStringAsync(cacheKey, json, PendingTranscriptionCacheOptions);
+    }
+
+    private async Task RemovePendingTranscriptionAsync(string sourceReferenceId)
+    {
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return;
+        }
+
+        var cacheKey = GetPendingTranscriptionCacheKey(sourceReferenceId);
+        await _distributedCache.RemoveAsync(cacheKey);
+    }
+
+    private static string GetPendingTranscriptionCacheKey(string sourceReferenceId)
+    {
+        return PendingTranscriptionCacheKeyPrefix + sourceReferenceId.Trim();
+    }
+
     public class SaveRecordingInput
     {
         [FromForm(Name = "file")]
@@ -850,5 +1061,31 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         public string InputFormat { get; set; }
         public string Status { get; set; }
         public bool IsPublic { get; set; }
+    }
+
+    public class PendingTranscriptionCacheItem
+    {
+        public Guid? TranscriptionId { get; set; }
+        public string SourceReferenceId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool IsPublic { get; set; }
+        public DateTime? DateOfTranscription { get; set; }
+        public DateTime? EventDate { get; set; }
+        public string MediaFile { get; set; }
+        public string Language { get; set; }
+        public string InputFormat { get; set; }
+        public string Status { get; set; }
+        public InputSource InputSource { get; set; }
+        public string ThumbNailImage { get; set; }
+        public string LinkJson { get; set; }
+        public string LinkSrt { get; set; }
+        public string LinkHtml { get; set; }
+        public string LinkTxt { get; set; }
+        public string LinkDocx { get; set; }
+        public string LinkVerbatimDocx { get; set; }
+        public string WipoUploadResponseRaw { get; set; }
+        public string WipoStatusResponseRaw { get; set; }
+        public DateTime LastUpdatedUtc { get; set; }
     }
 }

@@ -12,48 +12,63 @@
   </p>
   <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
     <div>
-      <h3 class="fw-semibold fs-4 mb-0">Transcription Details</h3>
+      <h3 class="fw-bold fs-6 mb-0">
+        {{ 'Workflow::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
+      </h3>
     </div>
-    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">Back to List</a>
+    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">{{
+      'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization
+    }}</a>
   </div>
 
-  <div *ngIf="loading" class="state-banner state-loading">Loading transcription...</div>
+  <div *ngIf="loading" class="state-banner state-loading">
+    {{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}
+  </div>
 
   <div *ngIf="error" class="state-banner state-error">
     {{ error }}
   </div>
 
-  <div *ngIf="transcription && !loading" class="transcription-details border border-success rounded-0 p-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4">
-      <h3 class="fs-4 fw-semibold mb-0">{{ transcription.title || 'Untitled transcription' }}</h3>
-      <span class="status-pill">{{ transcription.status || 'N/A' }}</span>
+  <div
+    *ngIf="transcription && !loading"
+    class="transcription-details border-none rounded-0 px-0 py-2"
+  >
+    <div class="row mb-5">
+      <div class="col col-4">
+        <div class="fw-bold fs-6">Title</div>
+        <div class="fw-normal fw-6 ">
+          {{ transcription.title || 'Untitled transcription' }}
+        </div>
+        <span class="status-pill ">{{ transcription.status || 'N/A' }}</span>
+      </div>
+      <div class="col col-4">
+        <div class="fw-bold fs-6">Date</div>
+        <div class="fw-normal fw-6">
+          {{ transcription.dateOfTranscription | date: 'short' }}
+        </div>
+      </div>
+      <div class="col col-4"></div>
     </div>
 
     <div class="row g-3 details-grid">
-      <div class="col-12 col-md-6">
-        <div class="detail-item">
-          <div class="detail-label">Date</div>
-          <div class="detail-value">{{ transcription.dateOfTranscription | date: 'short' }}</div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6">
+      <!-- <div class="col-12 col-md-6">
         <div class="detail-item">
           <div class="detail-label">Language</div>
           <div class="detail-value">{{ transcription.language || 'N/A' }}</div>
         </div>
-      </div>
-      <div class="col-12 col-md-6">
+      </div> -->
+      <!-- <div class="col-12 col-md-6">
         <div class="detail-item">
           <div class="detail-label">Source Reference</div>
           <div class="detail-value">{{ transcription.sourceReferenceId || 'N/A' }}</div>
         </div>
-      </div>
-      <div class="col-12 col-md-6">
+      </div> -->
+      <!-- <div class="col-12 col-md-6">
         <div class="detail-item">
           <div class="detail-label">Input Format</div>
           <div class="detail-value">{{ transcription.inputeFormat || 'N/A' }}</div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="html-preview mt-4">
@@ -70,7 +85,10 @@
         </a>
       </div>
 
-      <div *ngIf="linkHtmlFrameUrl; else noHtmlResult" class="html-preview-frame-shell border border-success rounded-0">
+      <div
+        *ngIf="linkHtmlFrameUrl; else noHtmlResult"
+        class="html-preview-frame-shell border border-success rounded-0"
+      >
         <iframe
           #htmlPreviewFrame
           class="html-preview-frame"

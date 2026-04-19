@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ResourceryPlatformWorkflow.Workflow;
 
@@ -22,6 +23,11 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
+
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Limits.MaxRequestBodySize = null; // Allow large video uploads
+            });
 
             builder.AddSqlServerDbContext<AdministrationDbContext>(
                 connectionName: ResourceryPlatformWorkflowNames.AdministrationDb,

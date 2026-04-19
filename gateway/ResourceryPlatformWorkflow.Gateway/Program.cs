@@ -9,6 +9,11 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.Limits.MaxRequestBodySize = null; // Allow large video uploads
+        });
+
         builder.AddServiceDefaults();
 
         builder.Services.AddOpenApi(options =>

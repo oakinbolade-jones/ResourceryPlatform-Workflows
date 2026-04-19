@@ -1,4 +1,5 @@
 .transcription-page {
+  position: relative;
   background: #fff;
 
   .page-description {
@@ -88,6 +89,26 @@
     color: #1f6b45;
     font-size: 0.78rem;
     text-transform: capitalize;
+  }
+
+  .delete-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1050;
+  }
+
+  .delete-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 420px);
+    background: #fff;
+    border: 1px solid #d9dee2;
+    padding: 1rem;
+    z-index: 1060;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 }
 

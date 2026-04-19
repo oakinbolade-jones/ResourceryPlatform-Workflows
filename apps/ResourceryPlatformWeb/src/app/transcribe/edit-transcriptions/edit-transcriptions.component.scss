@@ -1,0 +1,26 @@
+.transcription-page {
+  .state-banner {
+    padding: 0.85rem 1rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+  }
+
+  .state-loading {
+    background: #eef9f2;
+    border-color: #b5e0c4;
+    color: #0f5132;
+  }
+
+  .state-error {
+    background: #fff2f2;
+    border-color: #efc9c9;
+    color: #842029;
+  }
+
+  .state-success {
+    background: #e9f9f0;
+    border-color: #a9d8ba;
+    color: #1c6b43;
+  }
+}

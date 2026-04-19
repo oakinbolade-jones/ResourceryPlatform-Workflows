@@ -4,6 +4,7 @@ import { LocalizationService } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Tooltip } from 'bootstrap';
+import { ApiErrorLocalizationService } from '../shared/api-error-localization.service';
 
 @Component({
   selector: 'app-transcribe',
@@ -28,7 +29,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   isTranscribing = false;
   availableCameras: MediaDeviceInfo[] = [];
   selectedCameraId: string | null = null;
-  isSwitchingCamera = false;
   recordedVideoUrl: string | null = null;
   recordingError: string | null = null;
   recordingInfo: string | null = null;
@@ -66,7 +66,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
+    private apiErrorLocalization: ApiErrorLocalizationService
   ) {
     this.transcribeForm = this.fb.group({
       Title: ['', Validators.required],
@@ -145,48 +146,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async switchCamera(): Promise<void> {
-    if (this.availableCameras.length < 2) {
-      return;
-    }
-    const currentIndex = this.availableCameras.findIndex(c => c.deviceId === this.selectedCameraId);
-    const nextIndex = (currentIndex + 1) % this.availableCameras.length;
-    this.selectedCameraId = this.availableCameras[nextIndex].deviceId;
-
-    if (this.isRecording) {
-      this.isSwitchingCamera = true;
-      try {
-        const newStream = await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: { exact: this.selectedCameraId } },
-          audio: true,
-        });
-
-        // Swap video track in the existing recorder stream
-        const oldVideoTrack = this.videoStream?.getVideoTracks()[0];
-        const newVideoTrack = newStream.getVideoTracks()[0];
-
-        if (oldVideoTrack && this.videoStream) {
-          this.videoStream.removeTrack(oldVideoTrack);
-          oldVideoTrack.stop();
-          this.videoStream.addTrack(newVideoTrack);
-        }
-
-        // Update live preview
-        const liveEl = this.livePreviewRef?.nativeElement;
-        if (liveEl && this.videoStream) {
-          liveEl.srcObject = this.videoStream;
-        }
-
-        // Stop unused audio track from new stream
-        newStream.getAudioTracks().forEach(t => t.stop());
-      } catch {
-        this.recordingError = 'Failed to switch camera.';
-      } finally {
-        this.isSwitchingCamera = false;
-      }
-    }
-  }
-
   async startRecording(): Promise<void> {
     this.recordingError = null;
     this.recordingInfo = null;
@@ -261,14 +220,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   pauseRecording(): void {
-    if (this.mediaRecorder && this.isRecording && !this.isPaused) {
+    if (this.mediaRecorder && this.mediaRecorder.state === 'recording' && !this.isPaused) {
       this.mediaRecorder.pause();
       this.isPaused = true;
     }
   }
 
   resumeRecording(): void {
-    if (this.mediaRecorder && this.isRecording && this.isPaused) {
+    if (this.mediaRecorder && this.mediaRecorder.state === 'paused' && this.isPaused) {
       this.mediaRecorder.resume();
       this.isPaused = false;
     }
@@ -290,14 +249,24 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       method: 'POST',
       body: formData,
     })
-      .then(response => {
+      .then(async response => {
         if (!response.ok) {
-          throw new Error(`Server returned ${response.status}`);
+          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+            response,
+            'Workflow::Transcription:ApiError:SaveFailed',
+            'Unable to save recording at this time.'
+          );
+          throw new Error(message);
         }
         this.saveStatus = `Saved on server (${this.saveDirectoryHint})`;
       })
-      .catch(error => {
-        this.saveStatus = `Save failed: ${error.message}`;
+      .catch((error: unknown) => {
+        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
+          'Workflow::Transcription:ApiError:SaveFailed',
+          'Unable to save recording at this time.'
+        );
+        const message = error instanceof Error && error.message ? error.message : fallbackMessage;
+        this.saveStatus = `Save failed: ${message}`;
       });
   }
 
@@ -344,7 +313,12 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        throw new Error(`Submission failed with status ${response.status}`);
+        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          response,
+          'Workflow::Transcription:ApiError:SubmitFailed',
+          'Unable to submit media for transcription right now.'
+        );
+        throw new Error(message);
       }
 
       const payload = await response.json();
@@ -354,9 +328,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.transcribeStatus = 'Submitted. Waiting for transcription progress...';
       this.beginStatusPolling(sourceReferenceId, language);
-    } catch (error: any) {
+    } catch (error: unknown) {
       this.isTranscribing = false;
-      this.transcribeStatus = `Submit failed: ${error?.message ?? 'Unknown error'}`;
+      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
+        'Workflow::Transcription:ApiError:SubmitFailed',
+        'Unable to submit media for transcription right now.'
+      );
+      const message = error instanceof Error && error.message ? error.message : fallbackMessage;
+      this.transcribeStatus = `Submit failed: ${message}`;
     }
   }
 
@@ -369,7 +348,12 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Status check failed (${response.status})`);
+          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+            response,
+            'Workflow::Transcription:ApiError:StatusCheckFailed',
+            'Unable to check transcription status right now.'
+          );
+          throw new Error(message);
         }
 
         const payload = await response.json();
@@ -403,8 +387,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.stopStatusPolling();
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
-      } catch (error: any) {
-        this.transcribeStatus = `Status poll error: ${error?.message ?? 'Unknown error'}`;
+      } catch (error: unknown) {
+        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
+          'Workflow::Transcription:ApiError:StatusCheckFailed',
+          'Unable to check transcription status right now.'
+        );
+        const message = error instanceof Error && error.message ? error.message : fallbackMessage;
+        this.transcribeStatus = `Status poll error: ${message}`;
       }
     };
 
@@ -578,12 +567,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        throw new Error(`Save failed with status ${response.status}`);
+        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          response,
+          'Workflow::Transcription:ApiError:SaveInfoFailed',
+          'Unable to save transcription information right now.'
+        );
+        throw new Error(message);
       }
 
       const responsePayload = await response.json();
       if (responsePayload?.transcriptionId) {
         this.transcriptionId = String(responsePayload.transcriptionId);
+      }
+      if (responsePayload?.sourceReferenceId) {
+        this.transcriptionReferenceId = String(responsePayload.sourceReferenceId);
       }
 
       this.persistStepOneDraft(payload, true);
@@ -593,12 +590,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       this.isStepOneSaved = true;
       this.currentStep = 2;
-    } catch {
+    } catch (error: unknown) {
       // Keep users moving by saving a local draft if API save is unavailable.
       this.persistStepOneDraft(payload, true);
+      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
+        'Workflow::Transcription:ApiError:SaveInfoFallback',
+        'Server save unavailable. Draft saved locally and moved to step 2.'
+      );
+      const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.stepOneStatus = this.t(
         'Workflow::Transcription:StepOneSavedLocal',
-        'Server save unavailable. Draft saved locally and moved to step 2.'
+        `Server save unavailable (${message}). Draft saved locally and moved to step 2.`
       );
       this.isStepOneSaved = true;
       this.currentStep = 2;
@@ -733,11 +735,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   goToViewPage(): void {
     if (!this.transcriptionId) return;
-    this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
-
-   
+    void this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
   }
-   goToTranscriptionListPage(): void {
-      this.router.navigate(['/transcribe/list']);
-    }
+
+  goToTranscriptionListPage(): void {
+    void this.router.navigate(['/transcribe/list']);
+  }
 }
