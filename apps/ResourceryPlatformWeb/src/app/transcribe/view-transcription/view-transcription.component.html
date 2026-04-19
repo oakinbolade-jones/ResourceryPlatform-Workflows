@@ -36,10 +36,9 @@
     <div class="row mb-5">
       <div class="col col-4">
         <div class="fw-bold fs-6">Title</div>
-        <div class="fw-normal fw-6 ">
+        <div class="fw-normal fw-6">
           {{ transcription.title || 'Untitled transcription' }}
         </div>
-        <span class="status-pill ">{{ transcription.status || 'N/A' }}</span>
       </div>
       <div class="col col-4">
         <div class="fw-bold fs-6">Date</div>
@@ -47,7 +46,9 @@
           {{ transcription.dateOfTranscription | date: 'short' }}
         </div>
       </div>
-      <div class="col col-4"></div>
+      <div class="col col-4">
+        <span class="status-pill">{{ transcription.status || 'N/A' }}</span>
+      </div>
     </div>
 
     <div class="row g-3 details-grid">
