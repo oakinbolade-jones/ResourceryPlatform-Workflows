@@ -1674,7 +1674,8 @@
      "Transcription:DeleteConfirmationCancelLabel": "Cancel",
      "Transcription:DeleteConfirmationSubLabel": "This action cannot be undone.",
     "Transcription:DeleteConfirmationDeletingLabel": "Deleting....",
-    "Transcription:DeleteConfirmationDeleteLabel": "Delete"
+    "Transcription:DeleteConfirmationDeleteLabel": "Delete",
+    "Transcription:HtmlResultPreviewLabel": "Transcribed Data Preview"
 
     
   }
