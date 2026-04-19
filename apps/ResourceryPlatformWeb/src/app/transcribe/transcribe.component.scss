@@ -24,6 +24,7 @@ form fieldset > legend.form-label {
 
 .wizard-step {
 	border: none;
+	border-bottom: 4px solid #666;
 	background: transparent;
 	color: #666;
 	padding: 0.5rem 0.75rem;
@@ -32,7 +33,6 @@ form fieldset > legend.form-label {
 	gap: 0.5rem;
 	cursor: pointer;
 	min-width: 200px !important;
-	border-bottom: 4px solid #666;
 	margin-right: 3rem;
 }
 
@@ -45,9 +45,9 @@ form fieldset > legend.form-label {
 	width: 1.5rem;
 	height: 1.5rem;
 	border-radius: 50%;
-	background: #fff;
-	border: 1px solid #666;
-	color: #666;
+	background: #666;
+	border: none;
+	color: #fff;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -58,7 +58,7 @@ form fieldset > legend.form-label {
 .wizard-step.active {
 	background: transparent;
 	color: #198754;
-		border-bottom: 4px solid #198754;
+	border-bottom: 4px solid #198754;
 }
 
 .wizard-step.active .wizard-step-label {
@@ -74,6 +74,21 @@ form fieldset > legend.form-label {
 .wizard-step.disabled {
 	opacity: 0.6;
 	cursor: not-allowed;
+}
+
+.tooltip-info-icon {
+	width: 1rem;
+	height: 1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	border: 1px solid #198754;
+	background: #fff;
+	color: #198754;
+	font-size: 0.65rem;
+	cursor: help;
+	line-height: 1;
 }
 
 .form-check-input:checked {
@@ -100,6 +115,7 @@ form fieldset > legend.form-label {
 	text-align: center;
 	cursor: pointer;
 	transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+	min-height: 250px;
 }
 
 .modern-upload-dropzone:hover {
@@ -138,4 +154,12 @@ form fieldset > legend.form-label {
 	.progress-bar {
 		transition: width 0.35s ease;
 	}
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    color: var(--bs-btn-disabled-color);
+    pointer-events: none;
+    background-color: var(--bs-btn-disabled-bg);
+    border-color: var(--bs-btn-disabled-border-color);
+    opacity: var(--bs-btn-disabled-opacity);
 }

@@ -44,7 +44,7 @@
   --qt-bg: #EFF2F7;
   --qt-surface: #ffffff;
   --qt-surface-2: #f0f3fa;
-  --qt-text: #02201c;
+  --qt-text: #000;
   --qt-text-muted: #666666;
   --qt-border: rgba(15, 23, 42, 0.08);
   --qt-accent: #2f6bff;
@@ -193,9 +193,9 @@
 
 body {
   background: var(--qt-bg);
-  color: var(--qt-text);
+  color: var(--qt-text) !important;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', 'Liberation Sans', sans-serif;
+    'Noto Sans', 'Liberation Sans', sans-serif !important;
 }
 
 /* Navbar menu item color */

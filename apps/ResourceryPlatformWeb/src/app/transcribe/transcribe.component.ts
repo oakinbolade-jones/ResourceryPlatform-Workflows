@@ -26,6 +26,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   isRecording = false;
   isPaused = false;
   isTranscribing = false;
+  availableCameras: MediaDeviceInfo[] = [];
+  selectedCameraId: string | null = null;
+  isSwitchingCamera = false;
   recordedVideoUrl: string | null = null;
   recordingError: string | null = null;
   recordingInfo: string | null = null;
@@ -84,6 +87,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.restoreStepOneDraft();
+    void this.loadCameraDevices();
 
     const stepOneFields = ['Title', 'Description', 'EventDate', 'Language', 'TranscriptionMode'];
     stepOneFields.forEach(fieldName => {
@@ -127,6 +131,62 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resetTranscriptionState();
   }
 
+  async loadCameraDevices(): Promise<void> {
+    try {
+      // Request permission first so labels are populated
+      await navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(s => s.getTracks().forEach(t => t.stop()));
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      this.availableCameras = devices.filter(d => d.kind === 'videoinput');
+      if (this.availableCameras.length > 0 && !this.selectedCameraId) {
+        this.selectedCameraId = this.availableCameras[0].deviceId;
+      }
+    } catch {
+      // Permissions not yet granted; cameras will be populated when recording starts
+    }
+  }
+
+  async switchCamera(): Promise<void> {
+    if (this.availableCameras.length < 2) {
+      return;
+    }
+    const currentIndex = this.availableCameras.findIndex(c => c.deviceId === this.selectedCameraId);
+    const nextIndex = (currentIndex + 1) % this.availableCameras.length;
+    this.selectedCameraId = this.availableCameras[nextIndex].deviceId;
+
+    if (this.isRecording) {
+      this.isSwitchingCamera = true;
+      try {
+        const newStream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: { exact: this.selectedCameraId } },
+          audio: true,
+        });
+
+        // Swap video track in the existing recorder stream
+        const oldVideoTrack = this.videoStream?.getVideoTracks()[0];
+        const newVideoTrack = newStream.getVideoTracks()[0];
+
+        if (oldVideoTrack && this.videoStream) {
+          this.videoStream.removeTrack(oldVideoTrack);
+          oldVideoTrack.stop();
+          this.videoStream.addTrack(newVideoTrack);
+        }
+
+        // Update live preview
+        const liveEl = this.livePreviewRef?.nativeElement;
+        if (liveEl && this.videoStream) {
+          liveEl.srcObject = this.videoStream;
+        }
+
+        // Stop unused audio track from new stream
+        newStream.getAudioTracks().forEach(t => t.stop());
+      } catch {
+        this.recordingError = 'Failed to switch camera.';
+      } finally {
+        this.isSwitchingCamera = false;
+      }
+    }
+  }
+
   async startRecording(): Promise<void> {
     this.recordingError = null;
     this.recordingInfo = null;
@@ -138,7 +198,15 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcribeForm.get('VideoFile')?.setValue(null);
 
     try {
-      this.videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      const videoConstraint: MediaTrackConstraints | boolean = this.selectedCameraId
+        ? { deviceId: { exact: this.selectedCameraId } }
+        : true;
+      this.videoStream = await navigator.mediaDevices.getUserMedia({ video: videoConstraint, audio: true });
+
+      // Refresh device list now that permission is granted
+      if (this.availableCameras.length === 0) {
+        await this.loadCameraDevices();
+      }
     } catch {
       this.recordingError = 'Camera or microphone access was denied.';
       return;
