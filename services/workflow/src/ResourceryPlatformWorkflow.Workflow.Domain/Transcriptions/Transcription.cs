@@ -11,6 +11,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public string Title { get; private set; }
     public string Description { get; private set; }
     public bool IsPublic { get; private set; }
+    public bool PublishedToWebCast { get; private set; }
     public DateTime DateOfTranscription { get; private set; }
     public DateTime? EventDate { get; private set; }
     public string MediaFile { get; private set; }
@@ -20,6 +21,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public InputSource InputSource { get; private set; }
     public string ThumbNailImage { get; private set; }
     public string SourceReferenceId { get; private set; }
+    public string Transcript { get; private set; }
     public string LinkJson { get; private set; }
     public string LinkSrt { get; private set; }
     public string LinkHtml { get; private set; }
@@ -37,6 +39,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         Status = string.Empty;
         ThumbNailImage = string.Empty;
         SourceReferenceId = string.Empty;
+        Transcript = string.Empty;
         LinkJson = string.Empty;
         LinkSrt = string.Empty;
         LinkHtml = string.Empty;
@@ -50,6 +53,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         string title,
         string description,
         bool isPublic,
+        bool publishedToWebCast,
         DateTime dateOfTranscription,
         DateTime? eventDate,
         string mediaFile,
@@ -63,6 +67,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         SetTitle(title);
         SetDescription(description);
         SetIsPublic(isPublic);
+        SetPublishedToWebCast(publishedToWebCast);
         SetDateOfTranscription(dateOfTranscription);
         SetEventDate(eventDate);
         SetMediaFile(mediaFile);
@@ -86,6 +91,11 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public void SetIsPublic(bool isPublic)
     {
         IsPublic = isPublic;
+    }
+
+    public void SetPublishedToWebCast(bool publishedToWebCast)
+    {
+        PublishedToWebCast = publishedToWebCast;
     }
 
     public void SetDateOfTranscription(DateTime dateOfTranscription)
@@ -131,6 +141,11 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public void SetSourceReferenceId(string sourceReferenceId)
     {
         SourceReferenceId = string.IsNullOrWhiteSpace(sourceReferenceId) ? string.Empty : sourceReferenceId.Trim();
+    }
+
+    public void SetTranscript(string transcript)
+    {
+        Transcript = string.IsNullOrWhiteSpace(transcript) ? string.Empty : transcript;
     }
 
     public void SetLinkJson(string linkJson)

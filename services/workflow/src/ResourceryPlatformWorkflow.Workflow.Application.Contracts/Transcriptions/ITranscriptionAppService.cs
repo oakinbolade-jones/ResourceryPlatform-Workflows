@@ -13,4 +13,5 @@ public interface ITranscriptionAppService : IApplicationService
     Task<TranscriptionDto> UpdateAsync(Guid id, CreateUpdateTranscriptionDto input);
     Task DeleteAsync(Guid id);
     Task<TranscriptionDto> GetBySourceReferenceIdAsync(string sourceReferenceId);
+    Task<TranscriptionDto> SaveTranscriptAsync(string sourceReferenceId, string transcript);
 }

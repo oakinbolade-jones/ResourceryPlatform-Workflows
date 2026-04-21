@@ -55,41 +55,72 @@
       </div>
     </div>
 
-   
-    <div class="html-preview mt-4">
-      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
-        <h4 class="fs-5 fw-semibold mb-0">{{ 'Workflow::Transcription:HtmlResultPreviewLabel' | abpLocalization }}</h4>
-        <a
-          *ngIf="linkHtmlUrl"
-          class="btn btn-sm btn-outline-success rounded-0"
-          [href]="linkHtmlUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open in New Tab
-        </a>
-      </div>
+    <div class="player-transcript-layout mt-4">
+      <section class="player-panel border-none rounded-0 p-3">
+        <h4 class="fs-b fw-bold mb-3">Video Player</h4>
 
-      <div
-        *ngIf="linkHtmlFrameUrl; else noHtmlResult"
-        class="html-preview-frame-shell border border-success rounded-0"
-      >
-        <iframe
-          #htmlPreviewFrame
-          class="html-preview-frame"
-          [src]="linkHtmlFrameUrl"
-          title="Transcription HTML preview"
-          allow="autoplay; fullscreen; picture-in-picture"
-          loading="lazy"
-          (load)="onHtmlPreviewFrameLoad()"
-        ></iframe>
-      </div>
+        <video
+          #videoPlayer
+          class="transcription-video"
+          [src]="mediaUrl || null"
+          controls
+          preload="metadata"
+          (play)="onVideoPlay()"
+          (pause)="onVideoPause()"
+          (seeked)="onVideoSeeked()"
+        ></video>
 
-      <ng-template #noHtmlResult>
-        <div class="state-banner state-empty mb-0">
-          No HTML result link is available for this transcription.
+        <div *ngIf="!mediaUrl" class="state-banner state-empty mb-0 mt-3">
+          No video source is available on this transcription.
         </div>
-      </ng-template>
+      </section>
+
+      <section class="transcript-panel border-none rounded-0 p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="fs-6 fw-bold mb-0">Transcript</h4>
+          <small class="text-muted">Hover to highlight, click to seek</small>
+        </div>
+
+        <div *ngIf="transcriptParseError" class="state-banner state-error mb-3">
+          {{ transcriptParseError }}
+        </div>
+
+        <div *ngIf="!transcriptParseError && !hasTranscript" class="state-banner state-empty mb-3">
+          No transcript JSON was found in this transcription record.
+        </div>
+
+        <div
+          *ngIf="hasTranscript"
+          #transcriptScrollHost
+          class="transcript-scroll-host"
+        >
+          <div
+            *ngFor="let line of transcriptLines; trackBy: trackByLine"
+            class="transcript-line"
+            [class.line-active]="isLineActive(line.id)"
+            [class.line-hover]="hoveredLineId === line.id"
+            (mouseenter)="onLineHover(line.id)"
+            (mouseleave)="onLineHover(null)"
+            (click)="onLineClick(line)"
+          >
+            <ng-container *ngFor="let segment of line.segments; trackBy: trackBySegment">
+              <span
+                *ngIf="segment.word; else plainText"
+                class="transcript-word"
+                [attr.data-word-id]="segment.word?.id"
+                [class.word-active]="segment.word ? isWordActive(segment.word.id) : false"
+                [class.word-hover]="segment.word ? hoveredWordId === segment.word.id : false"
+                (mouseenter)="segment.word && onWordHover(segment.word.id, line.id)"
+                (mouseleave)="onWordHover(null, null)"
+                (click)="segment.word && onWordClick(segment.word); $event.stopPropagation()"
+              >
+                {{ segment.text }}
+              </span>
+              <ng-template #plainText>{{ segment.text }}</ng-template>
+            </ng-container>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>

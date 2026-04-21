@@ -442,6 +442,7 @@ public static class WorkflowDbContextModelCreatingExtensions
             b.Property(x => x.Description)
                 .HasMaxLength(TranscriptionConsts.MaxDescriptionLength);
             b.Property(x => x.IsPublic).IsRequired();
+            b.Property(x => x.PublishedToWebCast).IsRequired();
             b.Property(x => x.DateOfTranscription).IsRequired();
             b.Property(x => x.EventDate);
             b.Property(x => x.MediaFile)
@@ -460,6 +461,7 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .HasMaxLength(TranscriptionConsts.MaxThumbNailImageLength);
             b.Property(x => x.SourceReferenceId)
                 .HasMaxLength(TranscriptionConsts.MaxSourceReferenceIdLength);
+            b.Property(x => x.Transcript);
             b.Property(x => x.LinkJson)
                 .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);
             b.Property(x => x.LinkSrt)

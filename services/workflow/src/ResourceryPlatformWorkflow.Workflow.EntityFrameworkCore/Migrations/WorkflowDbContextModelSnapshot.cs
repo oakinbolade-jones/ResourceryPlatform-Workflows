@@ -1229,6 +1229,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
+                    b.Property<bool>("PublishedToWebCast")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SourceReferenceId")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -1250,6 +1253,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Transcript")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -17,6 +17,7 @@ export interface CreateUpdateTranscriptionDto {
   linkJson?: string;
   linkSrt?: string;
   linkHtml?: string;
+  linkToVideo?: string;
   linkTxt?: string;
   linkDocx?: string;
   linkVerbatimDocx?: string;
@@ -38,6 +39,7 @@ export interface TranscriptionDto extends FullAuditedEntityDto<string> {
   linkJson?: string;
   linkSrt?: string;
   linkHtml?: string;
+  linkToVideo?: string;
   linkTxt?: string;
   linkDocx?: string;
   linkVerbatimDocx?: string;

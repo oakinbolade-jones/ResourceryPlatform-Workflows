@@ -8,6 +8,7 @@ public class TranscriptionDto : FullAuditedEntityDto<Guid>
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public bool IsPublic { get; set; }
+    public bool PublishedToWebCast { get; set; }
     public DateTime DateOfTranscription { get; set; }
     public DateTime? EventDate { get; set; }
     public string MediaFile { get; set; }
@@ -17,9 +18,11 @@ public class TranscriptionDto : FullAuditedEntityDto<Guid>
     public InputSource InputSource { get; set; }
     public string ThumbNailImage { get; set; }
     public string SourceReferenceId { get; set; }
+    public string Transcript { get; set; } = string.Empty;
     public string LinkJson { get; set; } = string.Empty;
     public string LinkSrt { get; set; } = string.Empty;
     public string LinkHtml { get; set; } = string.Empty;
+    public string LinkToVideo { get; set; } = string.Empty;
     public string LinkTxt { get; set; } = string.Empty;
     public string LinkDocx { get; set; } = string.Empty;
     public string LinkVerbatimDocx { get; set; } = string.Empty;

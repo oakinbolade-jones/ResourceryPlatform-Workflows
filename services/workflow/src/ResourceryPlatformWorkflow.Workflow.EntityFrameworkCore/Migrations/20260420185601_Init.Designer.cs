@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ResourceryPlatformWorkflow.Workflow.Migrations
 {
     [DbContext(typeof(WorkflowDbContext))]
-    [Migration("20260409063613_Init")]
+    [Migration("20260420185601_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -1204,9 +1204,36 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
+                    b.Property<string>("LinkDocx")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkHtml")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkJson")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkSrt")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkTxt")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<string>("LinkVerbatimDocx")
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
                     b.Property<string>("MediaFile")
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
+
+                    b.Property<bool>("PublishedToWebCast")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SourceReferenceId")
                         .HasMaxLength(128)
@@ -1229,6 +1256,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Transcript")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
