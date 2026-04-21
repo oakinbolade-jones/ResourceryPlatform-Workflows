@@ -1,24 +1,26 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
-  <div class="d-flex align-items-center gap-2 mb-4">
+  <div class="d-flex align-items-center gap-2 mb-5">
     <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
       style="max-height: 50px; width: auto"
     />
-    <h2 class="fw-bold fs-4 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
+    <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
-  <p class="mb-5 text-wrap page-description">
-    Review the current metadata and processing state for this transcription.
-  </p>
-  <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
-    <div>
+
+  <div class="list-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div class="list-header-content">
       <h3 class="fw-bold fs-5 mb-0">
         {{ 'Workflow::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
       </h3>
+      <p class="mb-0 page-description text-emphasis">
+        {{ 'Workflow::Transcription:DetailsDescriptionLabel' | abpLocalization }}
+      </p>
     </div>
-    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">{{
-      'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization
-    }}</a>
+    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">
+      <i class="fa fa-list me-2" aria-hidden="true"></i>
+      {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
+    >
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading">
@@ -31,9 +33,9 @@
 
   <div
     *ngIf="transcription && !loading"
-    class="transcription-details border-none rounded-0 px-0 py-2"
+    class="transcription-details border-none rounded-0 px-0 py-0"
   >
-    <div class="row mb-5">
+    <!-- <div class="row mb-5">
       <div class="col-12 col-md-4">
         <div class="fw-bold fs-6">Title</div>
         <div class="fw-normal fw-6">
@@ -53,11 +55,11 @@
         </div>
        
       </div>
-    </div>
+    </div> -->
 
     <div class="player-transcript-layout mt-4">
-      <section class="player-panel border-none rounded-0 p-3">
-        <h4 class="fs-b fw-bold mb-3">Video Player</h4>
+      <section class="player-panel border-none rounded-0 py-3">
+        <h4 class="fs-6 fw-bold mb-3">{{ transcription.title || 'Untitled transcription' }}</h4>
 
         <video
           #videoPlayer
@@ -69,16 +71,49 @@
           (pause)="onVideoPause()"
           (seeked)="onVideoSeeked()"
         ></video>
-
+        <p class="fs-6 fw-semibold text-muted">
+          {{ transcription.dateOfTranscription | date: 'long' }}
+        </p>
         <div *ngIf="!mediaUrl" class="state-banner state-empty mb-0 mt-3">
-          No video source is available on this transcription.
+          {{ 'Workflow::Transcription:NoVideoAudioSourceLabel' | abpLocalization }}
         </div>
       </section>
 
-      <section class="transcript-panel border-none rounded-0 p-3">
+      <section class="transcript-panel border-none rounded-0 py-3">
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <h4 class="fs-6 fw-bold mb-0">Transcript</h4>
-          <small class="text-muted">Hover to highlight, click to seek</small>
+          <h4 class="fs-6 fw-bold mb-3">
+            {{ 'Workflow::Transcription:TranscriptLabel' | abpLocalization }}
+          </h4>
+          <!-- <small class="text-muted">Hover to highlight, click to seek</small> -->
+          <div class="d-inline-flex gap-2">
+            <a
+              class="btn btn-sm btn-outline-success rounded-0"
+              
+            >
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              .docx
+              <i class="fa fa-file-word-o" aria-hidden="true"></i>
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success rounded-0"
+               
+            >
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              .pdf
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success rounded-0"
+            
+            >
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              .txt
+              <i class="fa fa-file-text-o" aria-hidden="true"></i>
+              <!-- {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }} -->
+            </button>
+          </div>
         </div>
 
         <div *ngIf="transcriptParseError" class="state-banner state-error mb-3">
@@ -86,14 +121,10 @@
         </div>
 
         <div *ngIf="!transcriptParseError && !hasTranscript" class="state-banner state-empty mb-3">
-          No transcript JSON was found in this transcription record.
+          {{ 'Workflow::Transcription:NoTranscriptLabel' | abpLocalization }}
         </div>
 
-        <div
-          *ngIf="hasTranscript"
-          #transcriptScrollHost
-          class="transcript-scroll-host"
-        >
+        <div *ngIf="hasTranscript" #transcriptScrollHost class="transcript-scroll-host">
           <div
             *ngFor="let line of transcriptLines; trackBy: trackByLine"
             class="transcript-line"

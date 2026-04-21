@@ -1,4 +1,4 @@
-import type { CreateUpdateTranscriptionDto, TranscriptionDto } from './models';
+import type { CreateUpdateTranscriptionDto, TranscriptionDto, UpdateTranscriptionDto } from './models';
 import { Rest, RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
@@ -55,7 +55,7 @@ export class TranscriptionService {
       { apiName: this.apiName, ...config }
     );
 
-  update = (id: string, input: CreateUpdateTranscriptionDto, config?: Partial<Rest.Config>) =>
+  update = (id: string, input: UpdateTranscriptionDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, TranscriptionDto>(
       {
         method: 'PUT',

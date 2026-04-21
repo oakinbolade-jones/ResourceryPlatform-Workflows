@@ -82,7 +82,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     }
 
     [HttpPut("{id}")]
-    public Task<TranscriptionDto> UpdateAsync(Guid id, CreateUpdateTranscriptionDto input)
+    public Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
         input.LinkToVideo = DeriveLinkToVideo(input.LinkToVideo, input.LinkJson, input.LinkHtml);
         return _transcriptionAppService.UpdateAsync(id, input);
@@ -706,7 +706,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 ? fetchedTranscriptJson
                 : transcription.Transcript;
 
-            var update = new CreateUpdateTranscriptionDto
+            var update = new UpdateTranscriptionDto
             {
                 Title = transcription.Title,
                 Description = transcription.Description,
@@ -721,7 +721,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 InputSource = transcription.InputSource,
                 ThumbNailImage = transcription.ThumbNailImage,
                 SourceReferenceId = transcription.SourceReferenceId,
-                Transcript = resolvedTranscript,
                 LinkJson = linkJson,
                 LinkSrt = linkSrt,
                 LinkHtml = linkHtml,
@@ -732,6 +731,10 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             };
 
             await _transcriptionAppService.UpdateAsync(transcription.Id, update);
+            if (!string.IsNullOrWhiteSpace(fetchedTranscriptJson))
+            {
+                await _transcriptionAppService.SaveTranscriptAsync(transcription.SourceReferenceId, fetchedTranscriptJson);
+            }
             await RemovePendingTranscriptionAsync(sourceReferenceId);
         }
         else
@@ -791,7 +794,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                     InputSource = staged.InputSource,
                     ThumbNailImage = staged.ThumbNailImage,
                     SourceReferenceId = staged.SourceReferenceId,
-                    Transcript = staged.Transcript,
                     LinkJson = staged.LinkJson,
                     LinkSrt = staged.LinkSrt,
                     LinkHtml = staged.LinkHtml,
@@ -805,12 +807,46 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 {
                     if (staged.TranscriptionId.HasValue)
                     {
-                        await _transcriptionAppService.UpdateAsync(staged.TranscriptionId.Value, createOrUpdateDto);
+                        var updateDto = new UpdateTranscriptionDto
+                        {
+                            Title = createOrUpdateDto.Title,
+                            Description = createOrUpdateDto.Description,
+                            IsPublic = createOrUpdateDto.IsPublic,
+                            PublishedToWebCast = createOrUpdateDto.PublishedToWebCast,
+                            DateOfTranscription = createOrUpdateDto.DateOfTranscription,
+                            EventDate = createOrUpdateDto.EventDate,
+                            MediaFile = createOrUpdateDto.MediaFile,
+                            Language = createOrUpdateDto.Language,
+                            InputeFormat = createOrUpdateDto.InputeFormat,
+                            Status = createOrUpdateDto.Status,
+                            InputSource = createOrUpdateDto.InputSource,
+                            ThumbNailImage = createOrUpdateDto.ThumbNailImage,
+                            SourceReferenceId = createOrUpdateDto.SourceReferenceId,
+                            LinkJson = createOrUpdateDto.LinkJson,
+                            LinkSrt = createOrUpdateDto.LinkSrt,
+                            LinkHtml = createOrUpdateDto.LinkHtml,
+                            LinkToVideo = createOrUpdateDto.LinkToVideo,
+                            LinkTxt = createOrUpdateDto.LinkTxt,
+                            LinkDocx = createOrUpdateDto.LinkDocx,
+                            LinkVerbatimDocx = createOrUpdateDto.LinkVerbatimDocx
+                        };
+
+                        await _transcriptionAppService.UpdateAsync(staged.TranscriptionId.Value, updateDto);
+
+                        if (!string.IsNullOrWhiteSpace(staged.Transcript))
+                        {
+                            await _transcriptionAppService.SaveTranscriptAsync(staged.SourceReferenceId, staged.Transcript);
+                        }
                     }
                     else
                     {
                         var created = await _transcriptionAppService.CreateAsync(createOrUpdateDto);
                         staged.TranscriptionId = created.Id;
+
+                        if (!string.IsNullOrWhiteSpace(staged.Transcript))
+                        {
+                            await _transcriptionAppService.SaveTranscriptAsync(staged.SourceReferenceId, staged.Transcript);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -912,32 +948,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             });
         }
 
-        var update = new CreateUpdateTranscriptionDto
-        {
-            Title = transcription.Title,
-            Description = transcription.Description,
-            IsPublic = transcription.IsPublic,
-            PublishedToWebCast = transcription.PublishedToWebCast,
-            DateOfTranscription = transcription.DateOfTranscription,
-            EventDate = transcription.EventDate,
-            MediaFile = transcription.MediaFile,
-            Language = transcription.Language,
-            InputeFormat = transcription.InputeFormat,
-            Status = transcription.Status,
-            InputSource = transcription.InputSource,
-            ThumbNailImage = transcription.ThumbNailImage,
-            SourceReferenceId = transcription.SourceReferenceId,
-            Transcript = fetchedTranscriptJson,
-            LinkJson = transcription.LinkJson,
-            LinkSrt = transcription.LinkSrt,
-            LinkHtml = transcription.LinkHtml,
-            LinkToVideo = DeriveLinkToVideo(transcription.LinkToVideo, transcription.LinkJson, transcription.LinkHtml),
-            LinkTxt = transcription.LinkTxt,
-            LinkDocx = transcription.LinkDocx,
-            LinkVerbatimDocx = transcription.LinkVerbatimDocx
-        };
-
-        await _transcriptionAppService.UpdateAsync(transcription.Id, update);
+        await _transcriptionAppService.SaveTranscriptAsync(sourceReferenceId, fetchedTranscriptJson);
 
         return Ok(new
         {

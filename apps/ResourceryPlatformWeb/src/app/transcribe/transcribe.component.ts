@@ -42,6 +42,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStep = 1;
   isSavingStepOne = false;
   isStepOneSaved = false;
+  transcriptionCompleted = false;
 
   private mediaRecorder: MediaRecorder | null = null;
   private recordedChunks: Blob[] = [];
@@ -279,6 +280,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.stopStatusPolling();
     this.isTranscribing = true;
+    this.transcriptionCompleted = false;
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
@@ -295,6 +297,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       formData.append('transcriptionId', this.transcriptionId);
     }
     formData.append('title', this.transcribeForm.get('Title')?.value ?? 'Untitled Transcription');
+    formData.append('description', this.transcribeForm.get('Description')?.value ?? '');
     const eventDate = this.transcribeForm.get('EventDate')?.value;
     formData.append('dateOfTranscription', eventDate);
     formData.append('eventDate', eventDate);
@@ -363,7 +366,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
 
-        const status = String(first.status ?? 'unknown').toLowerCase();
+        const status = String(first.status ?? 'unknown').trim().toLowerCase();
         const percent = Number(first.percent ?? 0);
         this.transcriptionPercent = Number.isFinite(percent) ? percent : 0;
         this.transcribeStatus = `Status: ${status} (${this.transcriptionPercent}%)`;
@@ -376,14 +379,16 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }
 
-        if (status === 'finished' || status === 'done' || status === 'completed') {
+        if (this.isSuccessfulCompletionStatus(status) || this.transcriptionPercent >= 100) {
           this.isTranscribing = false;
+          this.transcriptionCompleted = true;
           this.stopStatusPolling();
           this.transcribeStatus = `Transcription completed (${this.transcriptionPercent}%).`;
         }
 
-        if (status === 'failed' || status === 'error') {
+        if (this.isFailedStatus(status)) {
           this.isTranscribing = false;
+          this.transcriptionCompleted = false;
           this.stopStatusPolling();
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
@@ -413,11 +418,28 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private resetTranscriptionState(): void {
     this.stopStatusPolling();
     this.isTranscribing = false;
+    this.transcriptionCompleted = false;
     this.transcribeStatus = null;
     this.transcriptionPercent = 0;
     this.transcriptionId = null;
     this.transcriptionReferenceId = null;
     this.transcriptionResultLinks = null;
+  }
+
+  get canViewTranscription(): boolean {
+    return !!this.transcriptionId && this.transcriptionCompleted;
+  }
+
+  get viewTranscriptionButtonClass(): string {
+    return this.canViewTranscription ? 'btn btn-success rounded-0 fs-5' : 'btn btn-outline-success rounded-0 fs-5';
+  }
+
+  private isSuccessfulCompletionStatus(status: string): boolean {
+    return ['finished', 'done', 'completed', 'complete', 'success', 'succeeded'].includes(status);
+  }
+
+  private isFailedStatus(status: string): boolean {
+    return ['failed', 'error'].includes(status);
   }
 
   private getInputFormat(videoData: Blob | File): string {
@@ -734,8 +756,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToViewPage(): void {
-    if (!this.transcriptionId) return;
-    void this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
+    if (!this.canViewTranscription || !this.transcriptionId) {
+      return;
+    }
+
+    void this.router.navigate(['/transcribe/view', this.transcriptionId]);
   }
 
   goToTranscriptionListPage(): void {

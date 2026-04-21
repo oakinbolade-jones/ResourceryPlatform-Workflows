@@ -82,7 +82,14 @@
     border: none;
     background: #fff;
   }
+.list-header-content {
+    flex: 1 1 520px;
+    min-width: 280px;
+  }
 
+  .list-header-action {
+    flex: 0 0 auto;
+  }
   .player-transcript-layout {
     display: grid;
     grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
@@ -99,6 +106,7 @@
     max-height: 420px;
     background: #0b1d16;
     border: 1px solid #d9e8de;
+    box-shadow: 0 10px 24px rgba(11, 29, 22, 0.2);
     outline: none;
   }
 

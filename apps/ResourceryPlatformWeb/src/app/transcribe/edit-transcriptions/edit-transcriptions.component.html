@@ -10,9 +10,10 @@
 
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h3 class="fw-bold fs-5 mb-0">{{ 'Workflow::Transcription:EditLabel' | abpLocalization }}</h3>
-    <button type="button" class="btn btn-outline-success rounded-0" (click)="goBack()">
-      Back to list
-    </button>
+       <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">
+      <i class="fa fa-list me-2" aria-hidden="true"></i>
+      {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
+    >
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>

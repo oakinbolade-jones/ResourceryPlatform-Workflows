@@ -1,5 +1,5 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded">
-  <div class="d-flex align-items-center gap-2 mb-4">
+  <div class="d-flex align-items-center gap-2 mb-5">
     <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
@@ -7,9 +7,20 @@
     />
     <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
-  <p class="mb-5 text-wrap fs-5" style="width: 100%">
+  <!-- <p class="mb-5 text-wrap fs-6" style="width: 100%">
     {{ 'Workflow::Transcription:PageDescription' | abpLocalization }}
-  </p>
+  </p> -->
+  <div class="list-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div class="list-header-content">
+      <!-- <h3 class="fw-bold fs-5 mb-0">
+        {{ 'Workflow::Transcription:TranscribeTitleLabel' | abpLocalization }}
+      </h3> -->
+      <p class="mb-0 page-description text-emphasis">
+        {{ 'Workflow::Transcription:PageDescription' | abpLocalization }}
+      </p>
+    </div>
+   
+  </div>
 
   <div class="wizard-steps mb-4">
     <div class="wizard-steps-left">
@@ -522,14 +533,14 @@
               </div>
             </div>
 
-            <div *ngIf="transcriptionResultLinks" class="mt-2">
+            <!-- <div *ngIf="transcriptionResultLinks" class="mt-2">
               <div class="fw-bold small mb-1">
                 {{ 'Workflow::Transcription:ResultsLabel' | abpLocalization }}
               </div>
               <div *ngFor="let link of transcriptionResultLinks | keyvalue" class="small">
                 <a [href]="link.value" target="_blank" rel="noopener noreferrer">{{ link.key }}</a>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <hr class="my-5" />
@@ -544,20 +555,20 @@
             </button>
             <button
               type="button"
-              class="btn btn-success rounded-0 fs-5"
-              [disabled]="!transcriptionId"
-              (click)="goToTranscriptionListPage()"
+              [class]="viewTranscriptionButtonClass"
+              [disabled]="!canViewTranscription"
+              (click)="goToViewPage()"
             >
               {{ 'Workflow::Transcription:ViewTranscriptionLabel' | abpLocalization }}
             </button>
-            <button
+            <!-- <button
               type="button"
               class="btn btn-success rounded-0 fs-5"
               [disabled]="!transcriptionId"
               (click)="goToTranscriptionListPage()"
             >
               {{ 'Workflow::Transcription:ViewTranscriptionListLabel' | abpLocalization }}
-            </button>
+            </button> -->
           </div>
         </div>
       </form>

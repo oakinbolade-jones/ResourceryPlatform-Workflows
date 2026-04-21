@@ -74,7 +74,7 @@ public class TranscriptionAppService(
 
     [Authorize(WorkflowPermissions.Transcriptions.Update)]
     [AllowAnonymous]
-    public async Task<TranscriptionDto> UpdateAsync(Guid id, CreateUpdateTranscriptionDto input)
+    public async Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
         Check.NotNull(input, nameof(input));
 
@@ -99,8 +99,6 @@ public class TranscriptionAppService(
         transcription.SetInputSource(input.InputSource);
         transcription.SetThumbNailImage(input.ThumbNailImage);
         transcription.SetSourceReferenceId(input.SourceReferenceId);
-        transcription.SetTranscript(input.Transcript);
-        transcription.SetTranscript(input.Transcript);
         transcription.SetLinkJson(input.LinkJson);
         transcription.SetLinkSrt(input.LinkSrt);
         transcription.SetLinkHtml(input.LinkHtml);

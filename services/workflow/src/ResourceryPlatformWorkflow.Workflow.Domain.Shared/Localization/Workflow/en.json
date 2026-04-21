@@ -1622,9 +1622,12 @@
     "Transcription:StepTwo": "Step Two",
     "Transcription:StepTwoDescription": "Transcribe your media to text",
     "Transcription:TranscriptionsLabel": "Transcriptions",
+    "Transcription:TranscribeTitleLabel": "Transcribe",
+    "Transcription:TranscriptLabel": "Transcript",
     "Transcription:TranscriptionDetailsLabel": "Transcription Details",
     "Transcription:BackToTranscriptionListLabel": "Back to Transcription List",
-    "Transcription:ListDescriptionLabel": "Browse all submitted transcriptions and open a record to view details.",
+    "Transcription:ListDescriptionLabel": "View all submitted transcriptions and select a record to see its details.",
+    "Transcription:DetailsDescriptionLabel": "Access and review detailed information about your transcribed media.",
     "Transcription:NewLabel": "New Transcription",
     "Transcription:ViewLabel": "View",
     "Transcription:ViewHint": "Click to view transcription page in action.",
@@ -1680,6 +1683,10 @@
     "Transcription:DeleteConfirmationDeletingLabel": "Deleting....",
     "Transcription:DeleteConfirmationDeleteLabel": "Delete",
     "Transcription:HtmlResultPreviewLabel": "Transcribed Data Preview",
-    "Transcription:NotFound": "Transcription not found."
+    "Transcription:NotFound": "Transcription not found.",
+    "Transcription:NoVideoAudioSourceLabel": "No video or audio source is available on this transcription. Please upload a video or audio file, or record an event to transcribe.",
+    "Transcription:NoTranscriptLabel": "No transcript JSON was found in this transcription record. Please submit media for transcription or record an event to transcribe.",
+    "Transcription:TranscriptionUnavailableLabel": "Transcription is currently unavailable. Please try again later."
+
   }
 }
