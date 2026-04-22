@@ -457,10 +457,12 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .IsRequired()
                 .HasMaxLength(TranscriptionConsts.MaxStatusLength);
             b.Property(x => x.InputSource).IsRequired();
-            b.Property(x => x.ThumbNailImage)
-                .HasMaxLength(TranscriptionConsts.MaxThumbNailImageLength);
-            b.Property(x => x.SourceReferenceId)
-                .HasMaxLength(TranscriptionConsts.MaxSourceReferenceIdLength);
+                b.Property(x => x.SourceReferenceId)
+                    .HasMaxLength(TranscriptionConsts.MaxSourceReferenceIdLength);
+                b.Property(x => x.DocumentData);
+                b.Property(x => x.DocumentExtension)
+                    .HasMaxLength(TranscriptionConsts.MaxDocumentExtensionLength);
+
             b.Property(x => x.Transcript);
             b.Property(x => x.LinkJson)
                 .HasMaxLength(TranscriptionConsts.MaxResultLinkLength);

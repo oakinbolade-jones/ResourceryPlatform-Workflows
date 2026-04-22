@@ -19,8 +19,9 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public string InputeFormat { get; private set; }
     public string Status { get; private set; }
     public InputSource InputSource { get; private set; }
-    public string ThumbNailImage { get; private set; }
     public string SourceReferenceId { get; private set; }
+    public byte[] DocumentData { get; private set; }
+    public string DocumentExtension { get; private set; }
     public string Transcript { get; private set; }
     public string LinkJson { get; private set; }
     public string LinkSrt { get; private set; }
@@ -37,8 +38,9 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         Language = string.Empty;
         InputeFormat = string.Empty;
         Status = string.Empty;
-        ThumbNailImage = string.Empty;
         SourceReferenceId = string.Empty;
+        DocumentData = Array.Empty<byte>();
+        DocumentExtension = string.Empty;
         Transcript = string.Empty;
         LinkJson = string.Empty;
         LinkSrt = string.Empty;
@@ -60,8 +62,7 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         string language,
         string inputeFormat,
         string status,
-        InputSource inputSource,
-        string thumbNailImage
+        InputSource inputSource
     ) : base(id)
     {
         SetTitle(title);
@@ -75,7 +76,6 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         SetInputeFormat(inputeFormat);
         SetStatus(status);
         SetInputSource(inputSource);
-        SetThumbNailImage(thumbNailImage);
     }
 
     public void SetTitle(string title)
@@ -133,14 +133,19 @@ public class Transcription : FullAuditedAggregateRoot<Guid>, IMultiTenant
         InputSource = inputSource;
     }
 
-    public void SetThumbNailImage(string thumbNailImage)
-    {
-        ThumbNailImage = string.IsNullOrWhiteSpace(thumbNailImage) ? string.Empty : thumbNailImage.Trim();
-    }
-
     public void SetSourceReferenceId(string sourceReferenceId)
     {
         SourceReferenceId = string.IsNullOrWhiteSpace(sourceReferenceId) ? string.Empty : sourceReferenceId.Trim();
+    }
+
+    public void SetDocumentData(byte[] documentData)
+    {
+        DocumentData = documentData ?? Array.Empty<byte>();
+    }
+
+    public void SetDocumentExtension(string documentExtension)
+    {
+        DocumentExtension = string.IsNullOrWhiteSpace(documentExtension) ? string.Empty : documentExtension.Trim().ToLowerInvariant();
     }
 
     public void SetTranscript(string transcript)

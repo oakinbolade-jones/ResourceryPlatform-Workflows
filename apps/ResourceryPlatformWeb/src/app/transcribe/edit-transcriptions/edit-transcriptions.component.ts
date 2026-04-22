@@ -34,7 +34,6 @@ export class EditTranscriptionsComponent implements OnInit {
       description: ['', Validators.required],
       eventDate: ['', Validators.required],
       language: ['en', Validators.required],
-      thumbNailImage: [''],
       isPublic: [false],
       status: [''],
     });
@@ -125,7 +124,6 @@ export class EditTranscriptionsComponent implements OnInit {
       description: transcription.description ?? '',
       eventDate: this.toDateInputValue(transcription.eventDate ?? transcription.dateOfTranscription),
       language: transcription.language ?? 'en',
-      thumbNailImage: transcription.thumbNailImage ?? '',
       isPublic: !!transcription.isPublic,
       status: transcription.status ?? '',
     });
@@ -142,7 +140,6 @@ export class EditTranscriptionsComponent implements OnInit {
       description: string;
       eventDate: string;
       language: string;
-      thumbNailImage: string;
       isPublic: boolean;
       status: string;
     }
@@ -158,7 +155,6 @@ export class EditTranscriptionsComponent implements OnInit {
       inputeFormat: existing.inputeFormat,
       status: formValue.status || existing.status,
       inputSource: existing.inputSource ?? InputSource.Upload,
-      thumbNailImage: formValue.thumbNailImage,
       sourceReferenceId: existing.sourceReferenceId,
       linkJson: existing.linkJson,
       linkSrt: existing.linkSrt,

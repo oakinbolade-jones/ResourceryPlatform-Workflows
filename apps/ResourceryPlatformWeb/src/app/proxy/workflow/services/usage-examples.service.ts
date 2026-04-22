@@ -1,59 +1,56 @@
 import { Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { CreateUpdateServiceDto, ServiceDto } from './models';
-import { ServiceEntityService } from './service-entity.service';
+import { WorkflowService } from './workflow.service';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceClientProxyUsageExamples {
-  constructor(private readonly serviceEntityService: ServiceEntityService) {}
+  constructor(private readonly workflowService: WorkflowService) {}
 
   createServiceExample(name = 'Access Management Service'): Observable<ServiceDto> {
     const payload: CreateUpdateServiceDto = {
       name,
+      code: 'ACCESS-MGMT',
+      displayName: name,
+      serviceCenterId: undefined,
       description: 'Service endpoint ownership group for workflow definitions',
       isActive: true,
-      serviceWorkflowIds: [],
     };
 
-    return this.serviceEntityService.create(payload);
+    return this.workflowService.create(payload);
   }
 
   updateServiceExample(serviceId: string): Observable<ServiceDto> {
-    return this.serviceEntityService.get(serviceId).pipe(
-      switchMap(service =>
-        this.serviceEntityService.update(serviceId, {
+    return this.workflowService.get(serviceId).pipe(
+      switchMap((service: ServiceDto) =>
+        this.workflowService.update(serviceId, {
+          serviceCenterId: service.serviceCenterId,
           name: service.name,
+          code: service.code,
+          displayName: service.displayName,
           description: `${service.description ?? ''} (updated)`.trim(),
           isActive: service.isActive,
-          serviceWorkflowIds: (service.relations ?? [])
-            .map(x => x.serviceWorkflowId)
-            .filter((x): x is string => !!x),
         })
       )
     );
   }
 
-  attachWorkflowExample(serviceId: string, serviceWorkflowId: string): Observable<ServiceDto> {
-    return this.serviceEntityService.get(serviceId).pipe(
-      switchMap(service => {
-        const ids = new Set<string>(
-          (service.relations ?? [])
-            .map(x => x.serviceWorkflowId)
-            .filter((x): x is string => !!x)
-        );
-        ids.add(serviceWorkflowId);
-
-        return this.serviceEntityService.update(serviceId, {
+  setServiceCenterExample(serviceId: string, serviceCenterId: string): Observable<ServiceDto> {
+    return this.workflowService.get(serviceId).pipe(
+      switchMap((service: ServiceDto) =>
+        this.workflowService.update(serviceId, {
+          serviceCenterId,
           name: service.name,
+          code: service.code,
+          displayName: service.displayName,
           description: service.description,
           isActive: service.isActive,
-          serviceWorkflowIds: Array.from(ids),
-        });
-      })
+        })
+      )
     );
   }
 
   deleteServiceExample(serviceId: string) {
-    return this.serviceEntityService.delete(serviceId);
+    return this.workflowService.delete(serviceId);
   }
 }

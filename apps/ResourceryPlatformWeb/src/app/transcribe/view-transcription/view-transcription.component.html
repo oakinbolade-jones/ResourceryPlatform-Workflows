@@ -17,8 +17,8 @@
         {{ 'Workflow::Transcription:DetailsDescriptionLabel' | abpLocalization }}
       </p>
     </div>
-    <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe/list">
-      <i class="fa fa-list me-2" aria-hidden="true"></i>
+    <a class="btn btn-success rounded-1 px-4" routerLink="/transcribe/list">
+      <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
       {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
     >
   </div>
@@ -86,32 +86,91 @@
           </h4>
           <!-- <small class="text-muted">Hover to highlight, click to seek</small> -->
           <div class="d-inline-flex gap-2">
-            <a
-              class="btn btn-sm btn-outline-success rounded-0"
-              
-            >
-              <i class="fa fa-arrow-down" aria-hidden="true"></i>
-              .docx
-              <i class="fa fa-file-word-o" aria-hidden="true"></i>
-            </a>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-0"
-               
+              class="btn btn-sm btn-outline-success rounded-1"
+              [disabled]="!canDownload('docx') || downloadingFormat !== null"
+              (click)="downloadResult('docx')"
             >
               <i class="fa fa-arrow-down" aria-hidden="true"></i>
-              .pdf
+              <span class="px-1 text-uppercase fs-6 fw-bold">docx</span> 
+              <i class="fa fa-file-word-o" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success rounded-1"
+              [disabled]="!canDownload('pdf') || downloadingFormat !== null"
+              (click)="downloadResult('pdf')"
+            >
+              <i class="fa fa-arrow-down" aria-hidden="true">
+                
+              </i>
+              <span class="px-1 text-uppercase fs-6 fw-bold">pdf</span> 
               <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
             </button>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-0"
-            
+              class="btn btn-sm btn-outline-success rounded-1"
+              [disabled]="!canDownload('txt') || downloadingFormat !== null"
+              (click)="downloadResult('txt')"
             >
               <i class="fa fa-arrow-down" aria-hidden="true"></i>
-              .txt
+              <span class="px-1 text-uppercase fs-6 fw-bold">txt</span> 
               <i class="fa fa-file-text-o" aria-hidden="true"></i>
               <!-- {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }} -->
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="downloadError" class="state-banner state-error mb-3">
+          {{ downloadError }}
+        </div>
+
+        <!-- Search bar -->
+        <div class="transcript-search-bar mb-3">
+          <div class="transcript-search-input-wrap">
+            <i class="fa fa-search transcript-search-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              class="form-control border border-success rounded-0 ps-4 fs-6 transcript-search-input"
+              placeholder="Search in transcript..."
+              [value]="searchQuery"
+              (input)="onSearchChange($any($event.target).value)"
+            />
+            <button
+              *ngIf="searchQuery"
+              type="button"
+              class="transcript-search-clear"
+              (click)="clearSearch()"
+              aria-label="Clear search"
+            >
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="transcript-search-nav" *ngIf="searchQuery">
+            <span class="transcript-search-count fs-6">
+              <ng-container *ngIf="searchMatchCount > 0">
+                {{ currentMatchIndex + 1 }} / {{ searchMatchCount }}
+              </ng-container>
+              <ng-container *ngIf="searchMatchCount === 0">No results</ng-container>
+            </span>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success rounded-0"
+              [disabled]="searchMatchCount === 0"
+              (click)="navigateSearch(-1)"
+              aria-label="Previous match"
+            >
+              <i class="fa fa-chevron-up" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-success rounded-0"
+              [disabled]="searchMatchCount === 0"
+              (click)="navigateSearch(1)"
+              aria-label="Next match"
+            >
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -134,20 +193,27 @@
             (mouseleave)="onLineHover(null)"
             (click)="onLineClick(line)"
           >
-            <ng-container *ngFor="let segment of line.segments; trackBy: trackBySegment">
+            <ng-container *ngFor="let segment of getDisplaySegments(line); trackBy: trackBySegment">
               <span
                 *ngIf="segment.word; else plainText"
                 class="transcript-word"
+                [class.search-match]="segment.isSearchMatch"
+                [class.search-match-current]="segment.isSearchMatch && segment.searchMatchIndex === currentMatchIndex"
                 [attr.data-word-id]="segment.word?.id"
+                [attr.data-search-idx]="segment.searchMatchIndex ?? null"
                 [class.word-active]="segment.word ? isWordActive(segment.word.id) : false"
                 [class.word-hover]="segment.word ? hoveredWordId === segment.word.id : false"
                 (mouseenter)="segment.word && onWordHover(segment.word.id, line.id)"
                 (mouseleave)="onWordHover(null, null)"
                 (click)="segment.word && onWordClick(segment.word); $event.stopPropagation()"
-              >
-                {{ segment.text }}
-              </span>
-              <ng-template #plainText>{{ segment.text }}</ng-template>
+              >{{ segment.text }}</span>
+              <ng-template #plainText>
+                <span
+                  [class.search-match]="segment.isSearchMatch"
+                  [class.search-match-current]="segment.isSearchMatch && segment.searchMatchIndex === currentMatchIndex"
+                  [attr.data-search-idx]="segment.searchMatchIndex ?? null"
+                >{{ segment.text }}</span>
+              </ng-template>
             </ng-container>
           </div>
         </div>

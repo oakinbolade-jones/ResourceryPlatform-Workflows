@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
+import { environment } from '../../../environments/environment';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 type TranscriptWord = {
   id: number;
@@ -17,6 +20,8 @@ type TranscriptWord = {
 type TranscriptSegment = {
   text: string;
   word?: TranscriptWord;
+  isSearchMatch?: boolean;
+  searchMatchIndex?: number;
 };
 
 type TranscriptLine = {
@@ -50,32 +55,47 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   hoveredWordId: number | null = null;
   hoveredLineId: number | null = null;
 
+  searchQuery = '';
+  searchMatchCount = 0;
+  currentMatchIndex = -1;
+  downloadError: string | null = null;
+  downloadingFormat: 'docx' | 'pdf' | 'txt' | null = null;
+
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
+  private searchMatchPositions: Array<{ lineId: number }> = [];
+  private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
 
   constructor(
     private route: ActivatedRoute,
-    private transcriptionService: TranscriptionService
+    private transcriptionService: TranscriptionService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.transcriptionId = this.route.snapshot.paramMap.get('id') ?? '';
+    const sourceReferenceId = this.route.snapshot.queryParamMap.get('sourceReferenceId') ?? '';
 
-    if (!this.transcriptionId) {
-      this.error = 'Missing transcription id.';
-      this.loading = false;
+    if (this.transcriptionId && this.transcriptionId !== 'lookup') {
+      this.loadTranscriptionById(this.transcriptionId);
       return;
     }
 
-    this.loadTranscription(this.transcriptionId);
+    if (sourceReferenceId) {
+      this.loadTranscriptionBySourceReferenceId(sourceReferenceId);
+      return;
+    }
+
+    this.error = 'Missing transcription identifier.';
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
     this.stopPlaybackTracking();
   }
 
-  private loadTranscription(transcriptionId: string): void {
-    if (!this.transcriptionId) {
+  private loadTranscriptionById(transcriptionId: string): void {
+    if (!transcriptionId) {
       this.error = 'Transcription id is missing.';
       this.loading = false;
       return;
@@ -84,23 +104,46 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = null;
 
-    this.transcriptionService.get(this.transcriptionId).subscribe({
+    this.transcriptionService.get(transcriptionId).subscribe({
       next: transcription => {
-        this.transcription = transcription;
-        this.mediaUrl = this.resolveMediaUrl(transcription);
-        this.bindTranscriptFromField(transcription);
-        this.loading = false;
+        this.bindLoadedTranscription(transcription);
       },
       error: () => {
-        this.error = 'Unable to load transcription.';
-        this.transcription = null;
-        this.mediaUrl = null;
-        this.hasTranscript = false;
-        this.transcriptLines = [];
-        this.allWords = [];
-        this.loading = false;
+        this.handleLoadError('Unable to load transcription.');
       },
     });
+  }
+
+  private loadTranscriptionBySourceReferenceId(sourceReferenceId: string): void {
+    this.loading = true;
+    this.error = null;
+
+    this.transcriptionService.getBySourceReferenceId(sourceReferenceId).subscribe({
+      next: transcription => {
+        this.transcriptionId = transcription.id ?? this.transcriptionId;
+        this.bindLoadedTranscription(transcription);
+      },
+      error: () => {
+        this.handleLoadError('Unable to load transcription.');
+      },
+    });
+  }
+
+  private bindLoadedTranscription(transcription: TranscriptionDto): void {
+    this.transcription = transcription;
+    this.mediaUrl = this.resolveMediaUrl(transcription);
+    this.bindTranscriptFromField(transcription);
+    this.loading = false;
+  }
+
+  private handleLoadError(message: string): void {
+    this.error = message;
+    this.transcription = null;
+    this.mediaUrl = null;
+    this.hasTranscript = false;
+    this.transcriptLines = [];
+    this.allWords = [];
+    this.loading = false;
   }
 
   private resolveMediaUrl(transcription: TranscriptionDto): string | null {
@@ -337,6 +380,92 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.onWordClick(firstWord);
   }
 
+  canDownload(format: 'docx' | 'pdf' | 'txt'): boolean {
+    if (!this.transcription) {
+      return false;
+    }
+
+    const transcriptValue = (this.transcription as unknown as { transcript?: string }).transcript;
+    const hasTranscript = !!(transcriptValue && transcriptValue.trim());
+    return hasTranscript;
+  }
+
+  async downloadResult(format: 'docx' | 'pdf' | 'txt'): Promise<void> {
+    if (!this.transcription) {
+      return;
+    }
+
+    const sourceReferenceId = (this.transcription.sourceReferenceId ?? '').trim();
+    const transcriptionId = (this.transcription.id ?? '').trim();
+    if (!sourceReferenceId && !transcriptionId) {
+      this.downloadError = 'Download is unavailable because transcription identifiers are missing.';
+      return;
+    }
+
+    const language = (this.transcription.language ?? 'en').trim() || 'en';
+    const identifierQuery = sourceReferenceId
+      ? `sourceReferenceId=${encodeURIComponent(sourceReferenceId)}`
+      : `transcriptionId=${encodeURIComponent(transcriptionId)}`;
+    const url =
+      `${this.downloadResultEndpoint}?${identifierQuery}` +
+      `&language=${encodeURIComponent(language)}` +
+      `&resultKey=${encodeURIComponent(format)}`;
+
+    this.downloadError = null;
+    this.downloadingFormat = format;
+
+    try {
+      const response = await firstValueFrom(
+        this.http.get(url, {
+          observe: 'response',
+          responseType: 'blob',
+        })
+      );
+
+      const blob = response.body;
+      if (!blob) {
+        throw new Error('Download failed because the response body was empty.');
+      }
+
+      const objectUrl = window.URL.createObjectURL(blob);
+
+      const fileName = this.resolveFileName(response, format);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      this.downloadError =
+        error instanceof Error ? error.message : 'Unable to download the selected transcription file.';
+    } finally {
+      this.downloadingFormat = null;
+    }
+  }
+
+  private resolveFileName(response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
+    const contentDisposition = response.headers.get('content-disposition') ?? '';
+    const starMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+    if (starMatch?.[1]) {
+      return decodeURIComponent(starMatch[1]);
+    }
+
+    const match = contentDisposition.match(/filename="?([^\";]+)"?/i);
+    if (match?.[1]) {
+      return match[1];
+    }
+
+    const fallbackTitle = (this.transcription?.title ?? 'transcription')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'transcription';
+
+    return `${fallbackTitle}.${format}`;
+  }
+
   isLineActive(lineId: number): boolean {
     return this.activeLineId === lineId;
   }
@@ -349,6 +478,118 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   trackBySegment = (_: number, segment: TranscriptSegment): string =>
     segment.word ? `word-${segment.word.id}` : `txt-${segment.text}`;
+
+  onSearchChange(query: string): void {
+    this.searchQuery = query;
+    this.searchMatchPositions = [];
+    this.currentMatchIndex = -1;
+
+    const q = query.trim().toLowerCase();
+    if (!q) {
+      this.searchMatchCount = 0;
+      return;
+    }
+
+    for (const line of this.transcriptLines) {
+      const text = line.text.toLowerCase();
+      let idx = 0;
+      while ((idx = text.indexOf(q, idx)) !== -1) {
+        this.searchMatchPositions.push({ lineId: line.id });
+        idx += q.length;
+      }
+    }
+
+    this.searchMatchCount = this.searchMatchPositions.length;
+    if (this.searchMatchCount > 0) {
+      this.currentMatchIndex = 0;
+      this.scrollToSearchMatch(0);
+    }
+  }
+
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.searchMatchCount = 0;
+    this.currentMatchIndex = -1;
+    this.searchMatchPositions = [];
+  }
+
+  navigateSearch(dir: 1 | -1): void {
+    if (!this.searchMatchCount) {
+      return;
+    }
+    this.currentMatchIndex =
+      (this.currentMatchIndex + dir + this.searchMatchCount) % this.searchMatchCount;
+    this.scrollToSearchMatch(this.currentMatchIndex);
+  }
+
+  getDisplaySegments(
+    line: TranscriptLine
+  ): Array<TranscriptSegment> {
+    const q = this.searchQuery.trim().toLowerCase();
+    if (!q) {
+      return line.segments;
+    }
+
+    // Count how many matches exist in lines before this one
+    let globalOffset = 0;
+    for (const l of this.transcriptLines) {
+      if (l.id === line.id) {
+        break;
+      }
+      const t = l.text.toLowerCase();
+      let i = 0;
+      while ((i = t.indexOf(q, i)) !== -1) {
+        globalOffset++;
+        i += q.length;
+      }
+    }
+
+    const result: Array<TranscriptSegment> = [];
+    let localMatchIdx = 0;
+
+    for (const seg of line.segments) {
+      const lower = seg.text.toLowerCase();
+      const parts: Array<TranscriptSegment> = [];
+      let cursor = 0;
+      let matchPos = lower.indexOf(q, cursor);
+
+      while (matchPos !== -1) {
+        if (matchPos > cursor) {
+          parts.push({ text: seg.text.slice(cursor, matchPos), word: seg.word });
+        }
+        parts.push({
+          text: seg.text.slice(matchPos, matchPos + q.length),
+          word: seg.word,
+          isSearchMatch: true,
+          searchMatchIndex: globalOffset + localMatchIdx,
+        });
+        localMatchIdx++;
+        cursor = matchPos + q.length;
+        matchPos = lower.indexOf(q, cursor);
+      }
+
+      if (cursor < seg.text.length) {
+        parts.push({ text: seg.text.slice(cursor), word: seg.word });
+      }
+
+      result.push(...(parts.length ? parts : [{ text: seg.text, word: seg.word }]));
+    }
+
+    return result;
+  }
+
+  private scrollToSearchMatch(index: number): void {
+    setTimeout(() => {
+      const host = this.transcriptScrollHost?.nativeElement;
+      if (!host) {
+        return;
+      }
+      const el = host.querySelector(`[data-search-idx="${index}"]`) as HTMLElement | null;
+      if (el) {
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }, 0);
+  }
 
   private startPlaybackTracking(): void {
     this.stopPlaybackTracking();

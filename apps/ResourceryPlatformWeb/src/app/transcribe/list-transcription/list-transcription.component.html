@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="list-header-action">
-      <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe">
+      <a class="btn btn-success rounded-1 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
         {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
       </a>
@@ -59,7 +59,7 @@
       <div class="col-12 col-md-3 d-grid d-md-flex justify-content-md-end">
         <button
           type="button"
-          class="btn btn-outline-success rounded-0 px-4"
+          class="btn btn-outline-success rounded-1 px-4"
           (click)="clearFilters()"
         >
           {{ 'Workflow::Transcription:ClearFilterLabel' | abpLocalization }}
@@ -102,7 +102,7 @@
           <td class="text-end">
             <div class="d-inline-flex gap-2">
               <a
-                class="btn btn-sm btn-outline-success rounded-0"
+                class="btn btn-sm btn-outline-success rounded-1"
                 [routerLink]="['/transcribe/view', item.id]"
                 [attr.title]="'Workflow::Transcription:ViewHint' | abpLocalization"
                 [attr.aria-label]="'Workflow::Transcription:ViewLabel' | abpLocalization"
@@ -111,7 +111,7 @@
               </a>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-success rounded-0"
+                class="btn btn-sm btn-outline-success rounded-1"
                 (click)="goToEdit(item.id)"
                 [attr.title]="'Workflow::Transcription:EditHint' | abpLocalization"
                 [attr.aria-label]="'Workflow::Transcription:EditLabel' | abpLocalization"
@@ -120,7 +120,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-success rounded-0"
+                class="btn btn-sm btn-outline-success rounded-1"
                 [disabled]="deletingId === item.id"
                 (click)="requestDelete(item)"
                 [attr.title]="'Workflow::Transcription:DeleteHint' | abpLocalization"

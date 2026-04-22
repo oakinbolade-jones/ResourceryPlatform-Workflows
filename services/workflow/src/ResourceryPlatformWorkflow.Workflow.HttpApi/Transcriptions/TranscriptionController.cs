@@ -1,17 +1,25 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp;
 
@@ -134,6 +142,8 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             {
                 Id = staged.TranscriptionId ?? Guid.Empty,
                 SourceReferenceId = resolvedSourceReferenceId,
+                DocumentData = staged.DocumentData,
+                DocumentExtension = staged.DocumentExtension ?? string.Empty,
                 Transcript = transcript,
                 Status = string.IsNullOrWhiteSpace(staged.Status) ? "Draft" : staged.Status,
                 Title = staged.Title ?? string.Empty,
@@ -146,7 +156,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 Language = staged.Language ?? "en",
                 InputeFormat = staged.InputFormat ?? "webm",
                 InputSource = staged.InputSource,
-                ThumbNailImage = staged.ThumbNailImage,
                 LinkJson = staged.LinkJson ?? string.Empty,
                 LinkSrt = staged.LinkSrt ?? string.Empty,
                 LinkHtml = staged.LinkHtml ?? string.Empty,
@@ -234,7 +243,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         staged.InputFormat = string.IsNullOrWhiteSpace(input.InputFormat) ? "webm" : input.InputFormat;
         staged.Status = string.IsNullOrWhiteSpace(input.Status) ? "Draft" : input.Status;
         staged.InputSource = inputSource;
-        staged.ThumbNailImage = input.ThumbNailImage;
         staged.LastUpdatedUtc = DateTime.UtcNow;
 
         await SetPendingTranscriptionAsync(staged);
@@ -264,6 +272,8 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         var inputFormat = string.IsNullOrWhiteSpace(input.InputFormat)
             ? NormalizeExtension(null, input.File.FileName)
             : NormalizeExtension(input.InputFormat, input.File.FileName);
+        var uploadedDocumentData = await ReadFileBytesAsync(input.File);
+        var uploadedDocumentExtension = NormalizeDocumentExtension(input.File.FileName);
 
         var uploadQuery =
             $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
@@ -285,11 +295,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         staged.DateOfTranscription = input.DateOfTranscription ?? input.EventDate ?? staged.DateOfTranscription ?? DateTime.UtcNow;
         staged.EventDate = input.EventDate ?? staged.EventDate;
         staged.MediaFile = input.File.FileName;
+        staged.DocumentData = uploadedDocumentData;
+        staged.DocumentExtension = uploadedDocumentExtension;
         staged.Transcript = input.Transcript ?? staged.Transcript;
         staged.Language = language;
         staged.InputFormat = inputFormat;
         staged.InputSource = input.InputSource;
-        staged.ThumbNailImage = input.ThumbNailImage ?? staged.ThumbNailImage;
         staged.Status = "Submitting";
         staged.LastUpdatedUtc = DateTime.UtcNow;
 
@@ -719,8 +730,11 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 InputeFormat = transcription.InputeFormat,
                 Status = resolvedStatus,
                 InputSource = transcription.InputSource,
-                ThumbNailImage = transcription.ThumbNailImage,
                 SourceReferenceId = transcription.SourceReferenceId,
+                DocumentData = staged?.DocumentData?.Length > 0 ? staged.DocumentData : transcription.DocumentData,
+                DocumentExtension = !string.IsNullOrWhiteSpace(staged?.DocumentExtension)
+                    ? staged.DocumentExtension
+                    : transcription.DocumentExtension,
                 LinkJson = linkJson,
                 LinkSrt = linkSrt,
                 LinkHtml = linkHtml,
@@ -792,8 +806,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                     InputeFormat = string.IsNullOrWhiteSpace(staged.InputFormat) ? "webm" : staged.InputFormat,
                     Status = staged.Status,
                     InputSource = staged.InputSource,
-                    ThumbNailImage = staged.ThumbNailImage,
                     SourceReferenceId = staged.SourceReferenceId,
+                    DocumentData = staged.DocumentData,
+                    DocumentExtension = staged.DocumentExtension,
                     LinkJson = staged.LinkJson,
                     LinkSrt = staged.LinkSrt,
                     LinkHtml = staged.LinkHtml,
@@ -820,8 +835,9 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                             InputeFormat = createOrUpdateDto.InputeFormat,
                             Status = createOrUpdateDto.Status,
                             InputSource = createOrUpdateDto.InputSource,
-                            ThumbNailImage = createOrUpdateDto.ThumbNailImage,
                             SourceReferenceId = createOrUpdateDto.SourceReferenceId,
+                            DocumentData = createOrUpdateDto.DocumentData,
+                            DocumentExtension = createOrUpdateDto.DocumentExtension,
                             LinkJson = createOrUpdateDto.LinkJson,
                             LinkSrt = createOrUpdateDto.LinkSrt,
                             LinkHtml = createOrUpdateDto.LinkHtml,
@@ -963,12 +979,13 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     [HttpGet("download-result")]
     public async Task<IActionResult> DownloadResultAsync(
         [FromQuery] string sourceReferenceId,
+        [FromQuery] Guid? transcriptionId,
         [FromQuery] string resultKey,
         [FromQuery] string language = "en")
     {
-        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        if (string.IsNullOrWhiteSpace(sourceReferenceId) && !transcriptionId.HasValue)
         {
-            return BadRequest(new { message = "sourceReferenceId is required." });
+            return BadRequest(new { message = "sourceReferenceId or transcriptionId is required." });
         }
 
         if (string.IsNullOrWhiteSpace(resultKey))
@@ -976,10 +993,38 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             return BadRequest(new { message = "resultKey is required." });
         }
 
-        var transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
+        TranscriptionDto transcription;
+        if (transcriptionId.HasValue)
+        {
+            transcription = await _transcriptionAppService.GetAsync(transcriptionId.Value);
+        }
+        else
+        {
+            transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
+        }
+
         if (transcription == null)
         {
-            return NotFound(new { message = "Transcription not found.", sourceReferenceId });
+            return NotFound(new { message = "Transcription not found.", sourceReferenceId, transcriptionId });
+        }
+
+        var normalizedResultKey = NormalizeResultKey(resultKey);
+        var transcriptDownload = TryResolveStoredDocumentDownload(transcription, normalizedResultKey);
+        if (transcriptDownload.HasValue)
+        {
+            var (bytes, storedContentType, storedFileName) = transcriptDownload.Value;
+            return File(bytes, storedContentType, storedFileName);
+        }
+
+        if (normalizedResultKey is "docx" or "txt" or "linkdocx" or "linktxt")
+        {
+            return UnprocessableEntity(new
+            {
+                message = "Download was not successful. Transcript text is unavailable.",
+                sourceReferenceId,
+                transcriptionId,
+                resultKey
+            });
         }
 
         var remoteUrl = ResolveResultUrl(transcription, resultKey);
@@ -1041,7 +1086,66 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         var fileName = TryResolveDownloadFileName(response, remoteUri, resultKey);
         var fileBytes = await response.Content.ReadAsByteArrayAsync();
 
+        if (normalizedResultKey == "pdf" && !IsPdfContentType(contentType))
+        {
+            var upstreamText = DecodeResponseText(fileBytes, response.Content.Headers.ContentType?.CharSet);
+            var plainText = HtmlToPlainText(upstreamText);
+
+            if (!string.IsNullOrWhiteSpace(plainText))
+            {
+                var pdfBytes = BuildPdfBytesFromText(plainText);
+                return File(pdfBytes, ResolveContentType("pdf"), BuildDownloadFileName(transcription, "pdf"));
+            }
+        }
+
         return File(fileBytes, contentType, fileName);
+    }
+
+    private static bool IsPdfContentType(string contentType)
+    {
+        return !string.IsNullOrWhiteSpace(contentType) &&
+               contentType.Contains("application/pdf", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string DecodeResponseText(byte[] bytes, string charset)
+    {
+        if (bytes == null || bytes.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(charset))
+            {
+                return Encoding.GetEncoding(charset).GetString(bytes);
+            }
+        }
+        catch (ArgumentException)
+        {
+            // Fallback to UTF-8 below when the upstream charset is invalid/unknown.
+        }
+
+        return Encoding.UTF8.GetString(bytes);
+    }
+
+    private static string HtmlToPlainText(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+        {
+            return string.Empty;
+        }
+
+        var withLineBreaks = Regex.Replace(html, "<(br|BR)\\s*/?>", "\n");
+        withLineBreaks = Regex.Replace(withLineBreaks, "</(p|P|div|DIV|li|LI|h1|H2|H3|H4|H5|H6)>", "\n");
+        var noTags = Regex.Replace(withLineBreaks, "<[^>]+>", " ");
+        var decoded = WebUtility.HtmlDecode(noTags);
+        var normalized = Regex.Replace(decoded ?? string.Empty, "[ \t]+", " ");
+
+        return normalized
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\r', '\n')
+            .Trim();
     }
 
     private HttpClient CreateWipoClient()
@@ -1112,8 +1216,221 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             "linktovideo" or "video" or "mp4" => transcription.LinkToVideo,
             "linktxt" or "txt" => transcription.LinkTxt,
             "linkdocx" or "docx" => transcription.LinkDocx,
+            "pdf" => transcription.LinkHtml,
             "linkverbatimdocx" or "verbatimdocx" => transcription.LinkVerbatimDocx,
             _ => string.Empty
+        };
+    }
+
+    private (byte[] bytes, string contentType, string fileName)? TryResolveStoredDocumentDownload(
+        TranscriptionDto transcription,
+        string normalizedResultKey)
+    {
+        var requestedExtension = normalizedResultKey switch
+        {
+            "linkdocx" or "docx" => "docx",
+            "pdf" => "pdf",
+            "linktxt" or "txt" => "txt",
+            _ => string.Empty
+        };
+
+        if (string.IsNullOrWhiteSpace(requestedExtension))
+        {
+            return null;
+        }
+
+        var transcriptText = ExtractTranscriptTextFromStoredField(transcription.Transcript);
+        if (!string.IsNullOrWhiteSpace(transcriptText))
+        {
+            var downloadableText = BuildEcowasTranscriptDownloadContent(transcriptText);
+            var bytes = requestedExtension switch
+            {
+                "pdf" => BuildPdfBytesFromText(downloadableText),
+                "docx" => BuildDocxBytesFromText(downloadableText),
+                _ => Encoding.UTF8.GetBytes(downloadableText)
+            };
+
+            return (bytes, ResolveContentType(requestedExtension), BuildDownloadFileName(transcription, requestedExtension));
+        }
+
+        return null;
+    }
+
+    private string BuildEcowasTranscriptDownloadContent(string transcriptText)
+    {
+        var normalizedText = (transcriptText ?? string.Empty).Trim();
+
+        return string.Join("\n", new[]
+        {
+            L["Transcription:DownloadHeaderTitle"],
+            L["Transcription:DownloadHeaderSubtitle"],
+            L["Transcription:DownloadHeaderOrganization"],
+            L["Transcription:DownloadHeaderCopyright"],
+            ".................................................",
+            string.Empty,
+            string.Empty,
+            normalizedText,
+            string.Empty,
+            string.Empty,
+            L["Transcription:DownloadSupportLabel"],
+            L["Transcription:DownloadSupportEmail1"],
+            // L["Transcription:DownloadSupportEmail2"]
+        });
+    }
+
+    private static byte[] BuildPdfBytesFromText(string content)
+    {
+        QuestPDF.Settings.License = LicenseType.Community;
+
+        return QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(24);
+                    page.DefaultTextStyle(style => style.FontSize(11));
+
+                    page.Content().Column(column =>
+                    {
+                        column.Spacing(4);
+                        foreach (var line in SplitLinesPreserveBlank(content))
+                        {
+                            column.Item().Text(line);
+                        }
+                    });
+                });
+            })
+            .GeneratePdf();
+    }
+
+    private static byte[] BuildDocxBytesFromText(string content)
+    {
+        using var memoryStream = new MemoryStream();
+        using (var document = WordprocessingDocument.Create(memoryStream, WordprocessingDocumentType.Document, true))
+        {
+            var mainPart = document.AddMainDocumentPart();
+            mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document();
+            var body = new Body();
+
+            foreach (var line in SplitLinesPreserveBlank(content))
+            {
+                var text = new Text(line) { Space = SpaceProcessingModeValues.Preserve };
+                var run = new Run(text);
+                body.AppendChild(new Paragraph(run));
+            }
+
+            mainPart.Document.AppendChild(body);
+            mainPart.Document.Save();
+        }
+
+        return memoryStream.ToArray();
+    }
+
+    private static string[] SplitLinesPreserveBlank(string content)
+    {
+        return (content ?? string.Empty)
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\r', '\n')
+            .Split('\n');
+    }
+
+    private static string ExtractTranscriptTextFromStoredField(string rawTranscript)
+    {
+        if (string.IsNullOrWhiteSpace(rawTranscript))
+        {
+            return string.Empty;
+        }
+
+        object current = rawTranscript;
+        for (var depth = 0; depth < 3; depth++)
+        {
+            if (current is not string jsonText)
+            {
+                break;
+            }
+
+            var trimmed = jsonText.Trim();
+            if (string.IsNullOrWhiteSpace(trimmed))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                current = JsonSerializer.Deserialize<JsonElement>(trimmed);
+            }
+            catch (JsonException)
+            {
+                return trimmed;
+            }
+        }
+
+        if (current is not JsonElement element || element.ValueKind != JsonValueKind.Object)
+        {
+            return current?.ToString()?.Trim() ?? string.Empty;
+        }
+
+        var transcript = GetTranscriptTextFromJsonElement(element);
+        return string.IsNullOrWhiteSpace(transcript)
+            ? rawTranscript.Trim()
+            : transcript.Trim();
+    }
+
+    private static string GetTranscriptTextFromJsonElement(JsonElement element)
+    {
+        if (element.TryGetProperty("transcript", out var transcriptValue) && transcriptValue.ValueKind == JsonValueKind.String)
+        {
+            return transcriptValue.GetString() ?? string.Empty;
+        }
+
+        if (element.TryGetProperty("result", out var resultValue) &&
+            resultValue.ValueKind == JsonValueKind.Object &&
+            resultValue.TryGetProperty("transcript", out var nestedTranscriptValue) &&
+            nestedTranscriptValue.ValueKind == JsonValueKind.String)
+        {
+            return nestedTranscriptValue.GetString() ?? string.Empty;
+        }
+
+        if (element.TryGetProperty("results", out var resultsValue) &&
+            resultsValue.ValueKind == JsonValueKind.Array &&
+            resultsValue.GetArrayLength() > 0)
+        {
+            var first = resultsValue[0];
+            if (first.ValueKind == JsonValueKind.Object &&
+                first.TryGetProperty("transcript", out var firstTranscriptValue) &&
+                firstTranscriptValue.ValueKind == JsonValueKind.String)
+            {
+                return firstTranscriptValue.GetString() ?? string.Empty;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static string BuildDownloadFileName(TranscriptionDto transcription, string extension)
+    {
+        var slug = string.IsNullOrWhiteSpace(transcription.Title)
+            ? "transcription"
+            : transcription.Title.Trim().ToLowerInvariant();
+
+        var safeChars = slug.Select(ch => char.IsLetterOrDigit(ch) ? ch : '-').ToArray();
+        slug = new string(safeChars).Trim('-');
+        if (string.IsNullOrWhiteSpace(slug))
+        {
+            slug = "transcription";
+        }
+
+        return $"{slug}.{extension}";
+    }
+
+    private static string ResolveContentType(string extension)
+    {
+        return extension switch
+        {
+            "txt" => "text/plain",
+            "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "pdf" => "application/pdf",
+            _ => "application/octet-stream"
         };
     }
 
@@ -1235,6 +1552,36 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         return "webm";
     }
 
+    private static string NormalizeDocumentExtension(string fileNameOrExtension)
+    {
+        if (string.IsNullOrWhiteSpace(fileNameOrExtension))
+        {
+            return string.Empty;
+        }
+
+        var extension = fileNameOrExtension.Trim();
+        extension = extension.StartsWith(".", StringComparison.Ordinal) ? extension[1..] : extension;
+
+        if (extension.Contains('.'))
+        {
+            extension = Path.GetExtension(extension).TrimStart('.');
+        }
+
+        return extension.Trim().ToLowerInvariant();
+    }
+
+    private static async Task<byte[]> ReadFileBytesAsync(IFormFile file)
+    {
+        if (file == null || file.Length <= 0)
+        {
+            return Array.Empty<byte>();
+        }
+
+        await using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        return memoryStream.ToArray();
+    }
+
     private static InputSource ParseInputSource(string transcriptionMode)
     {
         return string.Equals(transcriptionMode, "record", StringComparison.OrdinalIgnoreCase)
@@ -1340,9 +1687,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         [FromForm(Name = "eventDate")]
         public DateTime? EventDate { get; set; }
 
-        [FromForm(Name = "thumbNailImage")]
-        public string ThumbNailImage { get; set; }
-
         [FromForm(Name = "inputSource")]
         public InputSource InputSource { get; set; } = InputSource.Upload;
 
@@ -1373,7 +1717,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         public string Language { get; set; }
         public string TranscriptionMode { get; set; }
         public string DocumentSetUrl { get; set; }
-        public string ThumbNailImage { get; set; }
         public string MediaFile { get; set; }
         public string InputFormat { get; set; }
         public string Status { get; set; }
@@ -1404,9 +1747,10 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         public string MediaFile { get; set; }
         public string Language { get; set; }
         public string InputFormat { get; set; }
+        public byte[] DocumentData { get; set; }
+        public string DocumentExtension { get; set; }
         public string Status { get; set; }
         public InputSource InputSource { get; set; }
-        public string ThumbNailImage { get; set; }
         public string Transcript { get; set; }
         public string LinkJson { get; set; }
         public string LinkSrt { get; set; }

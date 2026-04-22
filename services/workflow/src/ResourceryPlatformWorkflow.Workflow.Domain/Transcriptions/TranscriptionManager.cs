@@ -21,8 +21,7 @@ public class TranscriptionManager(IRepository<Transcription, Guid> transcription
         string language,
         string inputeFormat,
         string status,
-        InputSource inputSource,
-        string thumbNailImage
+        InputSource inputSource
     )
     {
         var transcription = new Transcription(
@@ -37,8 +36,7 @@ public class TranscriptionManager(IRepository<Transcription, Guid> transcription
             language,
             inputeFormat,
             status,
-            inputSource,
-            thumbNailImage
+            inputSource
         );
 
         return Task.FromResult(transcription);

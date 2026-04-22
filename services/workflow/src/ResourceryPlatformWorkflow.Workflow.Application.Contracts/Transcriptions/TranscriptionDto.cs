@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using Volo.Abp.Application.Dtos;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
@@ -16,8 +17,10 @@ public class TranscriptionDto : FullAuditedEntityDto<Guid>
     public string InputeFormat { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
     public InputSource InputSource { get; set; }
-    public string ThumbNailImage { get; set; }
     public string SourceReferenceId { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public byte[] DocumentData { get; set; }
+        public string DocumentExtension { get; set; } = string.Empty;
     public string Transcript { get; set; } = string.Empty;
     public string LinkJson { get; set; } = string.Empty;
     public string LinkSrt { get; set; } = string.Empty;

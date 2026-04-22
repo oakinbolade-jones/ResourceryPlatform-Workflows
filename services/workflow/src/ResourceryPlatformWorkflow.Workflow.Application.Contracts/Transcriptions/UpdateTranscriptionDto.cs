@@ -15,8 +15,9 @@ public class UpdateTranscriptionDto
     public string InputeFormat { get; set; } = "webm";
     public string Status { get; set; } = "Pending";
     public InputSource InputSource { get; set; } = InputSource.Upload;
-    public string ThumbNailImage { get; set; }
     public string SourceReferenceId { get; set; }
+        public byte[] DocumentData { get; set; }
+        public string DocumentExtension { get; set; } = string.Empty;
     public string LinkJson { get; set; } = string.Empty;
     public string LinkSrt { get; set; } = string.Empty;
     public string LinkHtml { get; set; } = string.Empty;

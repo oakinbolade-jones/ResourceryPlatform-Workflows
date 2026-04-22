@@ -56,8 +56,7 @@ public class TranscriptionAppService(
             input.Language,
             input.InputeFormat,
             input.Status,
-            input.InputSource,
-            input.ThumbNailImage
+            input.InputSource
         );
 
         transcription.SetSourceReferenceId(input.SourceReferenceId);
@@ -67,6 +66,8 @@ public class TranscriptionAppService(
         transcription.SetLinkTxt(input.LinkTxt);
         transcription.SetLinkDocx(input.LinkDocx);
         transcription.SetLinkVerbatimDocx(input.LinkVerbatimDocx);
+        transcription.SetDocumentData(input.DocumentData);
+        transcription.SetDocumentExtension(input.DocumentExtension);
 
         transcription = await _transcriptionRepository.InsertAsync(transcription, autoSave: true);
         return Map(transcription);
@@ -97,7 +98,6 @@ public class TranscriptionAppService(
         transcription.SetInputeFormat(input.InputeFormat);
         transcription.SetStatus(input.Status);
         transcription.SetInputSource(input.InputSource);
-        transcription.SetThumbNailImage(input.ThumbNailImage);
         transcription.SetSourceReferenceId(input.SourceReferenceId);
         transcription.SetLinkJson(input.LinkJson);
         transcription.SetLinkSrt(input.LinkSrt);
@@ -105,6 +105,8 @@ public class TranscriptionAppService(
         transcription.SetLinkTxt(input.LinkTxt);
         transcription.SetLinkDocx(input.LinkDocx);
         transcription.SetLinkVerbatimDocx(input.LinkVerbatimDocx);
+        transcription.SetDocumentData(input.DocumentData);
+        transcription.SetDocumentExtension(input.DocumentExtension);
 
         transcription = await _transcriptionRepository.UpdateAsync(transcription, autoSave: true);
         return Map(transcription);
@@ -171,8 +173,9 @@ public class TranscriptionAppService(
             InputeFormat = transcription.InputeFormat,
             Status = transcription.Status,
             InputSource = transcription.InputSource,
-            ThumbNailImage = transcription.ThumbNailImage,
             SourceReferenceId = transcription.SourceReferenceId,
+                DocumentData = transcription.DocumentData,
+                DocumentExtension = transcription.DocumentExtension,
             Transcript = transcription.Transcript,
             LinkJson = transcription.LinkJson,
             LinkSrt = transcription.LinkSrt,
