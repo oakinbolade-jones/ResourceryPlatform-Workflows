@@ -1,5 +1,6 @@
 import { AuthService, SessionStateService } from '@abp/ng.core';
 import { AfterViewInit, Component } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 declare global {
   interface Window {
@@ -20,15 +21,29 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-    private sessionStateService: SessionStateService
+    private sessionStateService: SessionStateService,
+    private oAuthService: OAuthService
   ) {}
 
   ngAfterViewInit(): void {
     this.loadTawkWidget();
   }
 
-  login() {
-    this.authService.navigateToLogin();
+  async login() {
+    const popupLogin = (this.oAuthService as any).initLoginFlowInPopup;
+
+    if (typeof popupLogin === 'function') {
+      try {
+        await popupLogin.call(this.oAuthService);
+        window.location.reload();
+        return;
+      } catch {
+        // Popup blocked/cancelled or popup flow unavailable at runtime.
+      }
+    }
+
+    const returnUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    this.authService.navigateToLogin({ returnUrl });
   }
 
   navigateToDashboard() {

@@ -1,8 +1,16 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Middleware;
@@ -64,6 +72,8 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+        ConfigureMicrosoftExternalLogin(context, configuration);
+
         Configure<AbpBundlingOptions>(options =>
         {
             options.StyleBundles.Configure(
@@ -104,6 +114,89 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         });
     }
 
+    private static void ConfigureMicrosoftExternalLogin(
+        ServiceConfigurationContext context,
+        IConfiguration configuration
+    )
+    {
+        var microsoftSection = configuration.GetSection("Authentication:Microsoft");
+        var clientId = microsoftSection["ClientId"];
+        var clientSecret = microsoftSection["ClientSecret"];
+
+        if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
+        {
+            return;
+        }
+
+        var tenantId = microsoftSection["TenantId"] ?? "organizations";
+        var callbackPath = microsoftSection["CallbackPath"] ?? "/signin-oidc-microsoft";
+        var allowedEmailDomain =
+            (microsoftSection["AllowedEmailDomain"] ?? "ecowas.int").Trim().ToLowerInvariant();
+
+        context
+            .Services.AddAuthentication()
+            .AddOpenIdConnect("Microsoft", options =>
+            {
+                options.SignInScheme = IdentityConstants.ExternalScheme;
+                options.Authority = $"https://login.microsoftonline.com/{tenantId}/v2.0";
+                options.ClientId = clientId;
+                options.ClientSecret = clientSecret;
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                options.CallbackPath = callbackPath;
+                options.UsePkce = true;
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name",
+                    ValidateIssuer =
+                        !tenantId.Equals("common", StringComparison.OrdinalIgnoreCase)
+                        && !tenantId.Equals("organizations", StringComparison.OrdinalIgnoreCase),
+                };
+
+                options.Events = new OpenIdConnectEvents
+                {
+                    OnTokenValidated = tokenValidatedContext =>
+                    {
+                        var principal = tokenValidatedContext.Principal;
+                        var identity = principal?.Identity as ClaimsIdentity;
+
+                        var email = principal?.FindFirstValue(ClaimTypes.Email)
+                            ?? principal?.FindFirstValue("preferred_username")
+                            ?? principal?.FindFirstValue("upn");
+
+                        if (string.IsNullOrWhiteSpace(email))
+                        {
+                            tokenValidatedContext.Fail("Microsoft account did not provide a valid email.");
+                            return Task.CompletedTask;
+                        }
+
+                        var domain = email.Split('@').LastOrDefault()?.Trim().ToLowerInvariant();
+                        if (!string.Equals(domain, allowedEmailDomain, StringComparison.OrdinalIgnoreCase))
+                        {
+                            tokenValidatedContext.Fail(
+                                $"Only {allowedEmailDomain} accounts are allowed to sign in."
+                            );
+                            return Task.CompletedTask;
+                        }
+
+                        if (identity != null && !identity.HasClaim(c => c.Type == ClaimTypes.Email))
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Email, email));
+                        }
+
+                        return Task.CompletedTask;
+                    },
+                };
+            });
+    }
+
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         IdentityModelEventSource.ShowPII = true;
@@ -128,7 +221,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
         app.UseCors();
         app.UseAuthentication();
-        app.UseAbpOpenIddictValidation();
+        app. mergeUseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)
         {
