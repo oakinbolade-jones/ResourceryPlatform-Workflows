@@ -1,0 +1,128 @@
+[
+  {
+    "ServiceCode": "PID",
+    "Name": "Preparation of Internal Memoranda on behalf of Directorate/Management",
+    "DisplayName": "Service:PID",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD",
+    "Requrements":" • Management’s approval • Draft from surbodinate Presence in DCP approved activity plan/Management’s directives (Statutory Meeting deliverables), etc. •  Reference documents when necessary •  Outcome of HODs meeting/Division meetings • Request for response from Management •  Management’s instructions •  Request from Client Directorate/DCP staff",
+    "Order":"0"
+  },
+  {
+    "ServiceCode": "RICR",
+    "Name": "Receipt of Incoming Correspondences and Requests",
+    "DisplayName": "Service:RICR",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD", 
+    "Requrements":"•  Verification of addressee •  Verification of required supporting documents (Released PR number, completed meeting request form)", 
+    "Order":"1"
+  },
+  {
+    "ServiceCode": "PCNTR",
+    "Name": "Preparation of Concept Notes/Terms of Reference",
+    "DisplayName": "Service:PCNTR",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "OFD", 
+    "Requrements":"" ,
+    "Order":"2"
+
+  },
+  {
+    "ServiceCode": "MEET",
+    "Name": "Meeting  - Meeting Related Services",
+    "DisplayName": "Service:MEET",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "CONF", 
+    "Requrements":"" ,
+    "Order":"3"
+  },
+  {
+    "ServiceCode": "TS",
+    "Name": "Translation Services",
+    "DisplayName": "Service:TS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "TRANS", 
+    "Requrements":"" ,
+    "Order":"4"
+
+  },
+  {
+    "ServiceCode": "IS",
+    "Name": "Interpretation Services",
+    "DisplayName": "Service:IS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "INT", 
+    "Requrements":"" ,
+    "Order":"5"
+
+  },
+  {
+    "ServiceCode": "GTS",
+    "Name": "Ground Transportation Services",
+    "DisplayName": "Service:GTS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "VP",
+    "Name": "Visa Procurement Services",
+    "DisplayName": "Service:VP",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "AHM",
+    "Name": "Accreditation of Heads of Mission to ECOWAS, Presentation of Letter of Credence",
+    "DisplayName": "Service:AHM",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "DC",
+    "Name": "Diplomatic Cocktail, Reception of the ECOWAS President",
+    "DisplayName": "Service:DC",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "RLNS",
+    "Name": "Reception and Lodging of New Staff",
+    "DisplayName": "Service:RLNS",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "CDW",
+    "Name": "Customs Duties Waiver",
+    "DisplayName": "Service:CDW",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  },
+  {
+    "ServiceCode": "EOM",
+    "Name": "Election Observation Mission",
+    "DisplayName": "Service:EOM",
+    "Description": "",
+    "IsActive": true,
+    "ServiceCenterCode": "PROT", 
+    "Requrements":"" 
+  }
+]

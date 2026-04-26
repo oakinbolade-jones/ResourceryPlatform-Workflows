@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Authenticating...</title>
+    <style>
+      body { margin: 0; display: flex; align-items: center; justify-content: center;
+             min-height: 100vh; font-family: sans-serif; background: #f4f4f4; color: #555; }
+    </style>
+  </head>
+  <body>
+    <p>Authentication complete. You can close this window.</p>
+    <script>
+      (function () {
+        if (window.opener && window.opener !== window) {
+          window.opener.postMessage(
+            { type: 'auth-popup-callback', href: window.location.href },
+            window.location.origin
+          );
+        }
+        window.close();
+      })();
+    </script>
+  </body>
+</html>

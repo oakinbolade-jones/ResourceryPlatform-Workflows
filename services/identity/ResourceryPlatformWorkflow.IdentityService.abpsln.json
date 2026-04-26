@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "ResourceryPlatformWorkflow.IdentityService": {
+      "path": "ResourceryPlatformWorkflow.IdentityService.abpmdl.json"
+    }
+  }
+}

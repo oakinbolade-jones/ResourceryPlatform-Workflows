@@ -1,0 +1,281 @@
+[
+    {
+        "ItemCode": "MEET-VEN-MH",
+        "ItemCategory": "Venue Requirement",
+        "ItemName": "Meeting Hall",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemHall",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementVenue"
+    },
+    {
+        "ItemCode": "MEET-VEN-CR",
+        "ItemCategory": "Venue Requirement",
+        "ItemName": "Committee Room",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemCommitteeRoom",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementVenue"
+    },
+    {
+        "ItemCode": "MEET-VEN-AUD",
+        "ItemCategory": "Venue Requirement",
+        "ItemName": "Auditorium",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemAuditorium",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementVenue"
+    },
+    {
+        "ItemCode": "MEET-VEN-SEC",
+        "ItemCategory": "Venue Requirement",
+        "ItemName": "Secretariat",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemSecretariat",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementVenue"
+    },
+    {
+        "ItemCode": "MEET-VEN-TR",
+        "ItemCategory": "Venue Requirement",
+        "ItemName": "Translation Room",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTranslationRoom",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementVenue"
+    },
+    {
+        "ItemCode": "MEET-HTL-SNG",
+        "ItemCategory": "Hotel Requirement",
+        "ItemName": "Single Room",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemHotelSingle",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementHotel"
+    },
+    {
+        "ItemCode": "MEET-HTL-SUI",
+        "ItemCategory": "Hotel Requirement",
+        "ItemName": "Suite",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemHotelSuite",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementHotel"
+    },
+    {
+        "ItemCode": "MEET-LANG-SIE",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Simultaneous Interpretation Equipment",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemSimultaneousInterpretationEquipment",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-INTENG",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Interpreter - English",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemInterpreterEnglish",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-INTFR",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Interpreter - French",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemInterpreterFrench",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-INTPT",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Interpreter - Portuguese",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemInterpreterPortuguese",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-TRNENG",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Translator - English",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTranslatorEnglish",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-TRNFR",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Translator - French",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTranslatorFrench",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-LANG-TRNPT",
+        "ItemCategory": "Language Requirement",
+        "ItemName": "Translator - Portuguese",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTranslatorPortuguese",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLanguage"
+    },
+    {
+        "ItemCode": "MEET-EQP-CPT",
+        "ItemCategory": "Equipment Requirement",
+        "ItemName": "Computer/Printer",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemComputerPrinter",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementEquipment"
+    },
+    {
+        "ItemCode": "MEET-EQP-PHSC",
+        "ItemCategory": "Equipment Requirement",
+        "ItemName": "Photocopier/Scanner",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemPhotocopierScanner",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementEquipment"
+    },
+    {
+        "ItemCode": "MEET-EQP-PRJ",
+        "ItemCategory": "Equipment Requirement",
+        "ItemName": "Projector",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemProjector",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementEquipment"
+    },
+    {
+        "ItemCode": "MEET-EQP-STA",
+        "ItemCategory": "Equipment Requirement",
+        "ItemName": "Stationery",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemStationery",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementEquipment"
+    },
+    {
+        "ItemCode": "MEET-REF-TCM",
+        "ItemCategory": "Refreshment Requirement",
+        "ItemName": "Tea/Coffee Morning",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTeaCoffeeMorning",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementRefreshment"
+    },
+    {
+        "ItemCode": "MEET-REF-TCA",
+        "ItemCategory": "Refreshment Requirement",
+        "ItemName": "Tea/Coffee Afternoon",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemTeaCoffeeAfternoon",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementRefreshment"
+    },
+    {
+        "ItemCode": "MEET-REF-LNCH",
+        "ItemCategory": "Refreshment Requirement",
+        "ItemName": "Lunch",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemLunch",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementRefreshment"
+    },
+    {
+        "ItemCode": "MEET-REF-CKT",
+        "ItemCategory": "Refreshment Requirement",
+        "ItemName": "Cocktail",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemCocktail",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementRefreshment"
+    },
+    {
+        "ItemCode": "MEET-REF-DIN",
+        "ItemCategory": "Refreshment Requirement",
+        "ItemName": "Dinner",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemDinner",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementRefreshment"
+    },
+    {
+        "ItemCode": "MEET-TRN-SC",
+        "ItemCategory": "Transport Requirement",
+        "ItemName": "Saloon Car",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemSaloonCar",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementTransport"
+    },
+    {
+        "ItemCode": "MEET-TRN-15SB",
+        "ItemCategory": "Transport Requirement",
+        "ItemName": "15-Seater Bus",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItem15SeaterBus",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementTransport"
+    },
+    {
+        "ItemCode": "MEET-TRN-30SB",
+        "ItemCategory": "Transport Requirement",
+        "ItemName": "30-Seater Bus",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItem30SeaterBus",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementTransport"
+    },
+    {
+        "ItemCode": "MEET-TRN-EXEC",
+        "ItemCategory": "Transport Requirement",
+        "ItemName": "Executive Car",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemExecutiveCar",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementTransport"
+    },
+    {
+        "ItemCode": "MEET-LA-HST",
+        "ItemCategory": "Local Assistance Requirement",
+        "ItemName": "Hostess",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemHostess",
+        "DisplayNameServiceCenter": "MeetingServiceCenterConference",
+        "DisplayNameItemCategory": "MeetingRequirementLocalAssistance"
+    },
+    {
+        "ItemCode": "MEET-LA-APA",
+        "ItemCategory": "Local Assistance Requirement",
+        "ItemName": "Airport Assistance",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemAirportAssistance",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementLocalAssistance"
+    },
+    {
+        "ItemCode": "MEET-LA-RPA",
+        "ItemCategory": "Local Assistance Requirement",
+        "ItemName": "Reproduction Assistance",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemReproductionAssistant",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementLocalAssistance"
+    },
+    {
+        "ItemCode": "MEET-LA-ITA",
+        "ItemCategory": "Local Assistance Requirement",
+        "ItemName": "IT Assistance",
+        "ServiceCenterCode": "CONF",
+        "DisplayNameItemName": "MeetingItemITAssistant",
+        "DisplayNameServiceCenter": "MeetingServiceCenterProtocol",
+        "DisplayNameItemCategory": "MeetingRequirementLocalAssistance"
+    }
+]

@@ -1,0 +1,215 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@using ResourceryPlatformWorkflow.Workflow.Localization
+@using Volo.Abp.Account.Settings
+@using Volo.Abp.Identity
+@using Volo.Abp.Settings
+@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+
+<!--
+    FULLY CUSTOMIZABLE LOGIN LAYOUT
+    You control all markup below, including .lpx-content-container, .lpx-content, and all grid/row/col classes. Change, add, or remove any Bootstrap or custom classes as you wish.
+    Example: Change col-md-8 to col-md-12, or use your own classes.
+-->
+
+<div class="lpx-content-container">
+    <div class="lpx-content">
+        <div class="container my-5">
+            <div class="row justify-content-start w-75 my-4">
+                <img src="/images/logo/ecw-smartserve-logo.png" alt="DCP Smart Serve Platform" class="mb-4"
+                     style="max-width: 220px;" />
+                      
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start">
+                    
+                    <div
+                        class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
+                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5">
+                            <!-- Hero/branding section (edit freely) -->
+                            
+                            <h2 class="h3 mb-3 fs-2 fw-bold">@LW["Account:GetStarted"]</h2>
+                            
+                            @* <p class="fw-bold fs-4 mb-2 text-success-subtle">@LW["Account:LoginContinue"]</p> *@
+                            
+                            @if (await SettingProvider.IsTrueAsync(AccountSettingNames.IsSelfRegistrationEnabled))
+                            {
+                                <p class=" fw-normal fs-6 text-body-secondary">
+                                    @LW["Account:NewUser?"]
+                                    <a href="@Url.Page("./Register", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })"
+                                       class="text-decoration-none text-emphasis">@LW["Account:CreateAccount"]</a>
+                                </p>
+                            }
+                           
+                            @* <ul class="ps-3 mb-4">
+                                    <li>Centralized task and workflow registry</li>
+                                    <li>Role-based authorization and approval controls</li>
+                                    <li>Traceable records for audit and compliance</li>
+                                </ul> *@
+                            @* <p class="mt-auto mb-0 small opacity-75">Access is protected through centralized identity
+                                and managed session security.</p> *@
+                        </div>
+                        <div class="col-12 col-md-7 bg-white p-5">
+                            <!-- Login form section (edit freely) -->
+                            <div class="mb-4">
+                                @* <h4 class="mb-1">@L["Login"]</h4> *@
+                                @if (Model.VisibleExternalProviders.Any())
+                                {
+                                    <div class="mt-4">
+                                        <h5>@L["OrLoginWith"]</h5>
+                                        <div class="w-100 d-flex justify-content-start">
+                                            
+                                            <form asp-page="./Login" asp-page-handler="ExternalLogin"
+                                                  asp-route-returnUrl="@Model.ReturnUrl"
+                                                  asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
+                                                  class="d-flex flex-wrap gap-2">
+                                                @foreach (var provider in Model.VisibleExternalProviders)
+                                                {
+                                                    
+                                                    @if (@provider.AuthenticationScheme == "Microsoft")
+                                                    {
+
+                                                       
+                                                        <button type="submit" class="btn btn-outline-success text-succ" name="provider"
+                                                                value="@provider.AuthenticationScheme"
+                                                                title="@L["LogInUsingYourProviderAccount", provider.AuthenticationScheme]">
+                                                            <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission"
+                                                                 class="mb-2 d-inline-block align-text-center"
+                                                                 style="max-width: 35px;" /> @LW["Account:LoginWithECOWASMail"]
+                                                        </button>
+                                                           
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="btn btn-outline-secondary mb-" name="provider"
+                                                                value="@provider.AuthenticationScheme"
+                                                                title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
+                                                             
+                                                    }
+                                                }
+                                            </form>
+                                            <hr>
+                                        </div>
+                                        
+                                        @* <a class="navbar-brand" href="#">
+                                            <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30"
+                                                 height="24" class="d-inline-block align-text-top">
+                                            Bootstrap
+                                        </a> *@
+                                        
+                                    </div>
+                                }
+
+                                @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+                                {
+                                    <div class="alert alert-warning mt-3">
+                                        <strong>@L["InvalidLoginRequest"]</strong>
+                                        @L["ThereAreNoLoginSchemesConfiguredForThisClient"]
+                                                      
+                                    </div>
+                                }
+                            </div>
+
+                            @if (Model.EnableLocalLogin)
+                            {
+                                <form method="post" class="mt-4" id="loginForm">
+                                    <abp-validation-summary />
+                                    <div class="mb-3">
+                                        <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label"></label>
+                                        <input asp-for="LoginInput.UserNameOrEmailAddress"
+                                               class="form-control border border-success rounded-1" autocomplete="off"
+                                               placeholder="Enter username or email" />
+                                        <span asp-validation-for="LoginInput.UserNameOrEmailAddress"
+                                              class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="LoginInput.Password" class="form-label"></label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control border border-success rounded-1"
+                                                   autocomplete="new-password"
+                                                   maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)"
+                                                   asp-for="LoginInput.Password" placeholder="Enter account password" />
+                                            <button class="btn btn-outline-success rounded-1" type="button"
+                                                    id="PasswordVisibilityButton"><i class="fa fa-eye-slash text-dark"
+                                                                                 aria-hidden="true"></i></button>
+                                              
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                    // Password visibility toggle
+                                                    const pwdInput = document.querySelector('input[asp-for="LoginInput.Password"]');
+                                                    const btn = document.getElementById('PasswordVisibilityButton');
+                                                    const icon = btn ? btn.querySelector('i') : null;
+                                                    if (btn && pwdInput && icon) {
+                                                    btn.addEventListener('click', function () {
+                                                    if (pwdInput.type === 'password') {
+                                                    pwdInput.type = 'text';
+                                                    icon.classList.remove('fa-eye-slash');
+                                                    icon.classList.add('fa-eye');
+                                                    } else {
+                                                    pwdInput.type = 'password';
+                                                    icon.classList.remove('fa-eye');
+                                                    icon.classList.add('fa-eye-slash');
+                                                    }
+                                                    });
+                                                    }
+                                                    // Prevent submit if invalid
+                                                    const form = document.getElementById('loginForm');
+                                                    if (form) {
+                                                    form.addEventListener('submit', function (e) {
+                                                    if (!form.checkValidity()) {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    form.classList.add('was-validated');
+                                                    }
+                                                    }, false);
+                                                    }
+                                                    });
+                                                </script>
+                                            </div>
+                                            <span asp-validation-for="LoginInput.Password"></span>
+                                        </div>
+
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col">
+                                                <abp-input asp-for="LoginInput.RememberMe" class="mb-0 border border-success" />
+                                            </div>
+                                            <div class="col text-end">
+                                                <a class="text-success semi-bold"
+                                                   href="@Url.Page("./ForgotPassword", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["ForgotPassword"]</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <abp-button type="submit" name="Action" value="Login"
+                                                        class="btn btn-success mt-3 rounded-0">@L["Login"]</abp-button>
+                                            @if (Model.ShowCancelButton)
+                                            {
+                                                <abp-button type="submit" formnovalidate="formnovalidate" name="Action"
+                                                            value="Cancel"
+                                                            class="btn-md btn-success rounded-0 mt-3">@L["Cancel"]</abp-button>
+                                            }
+                                        </div>
+                                    </form>
+                                }
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+              
+</div>
+            
+</div>
+</div>
+</div>
+</div>
+</div>

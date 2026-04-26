@@ -1,0 +1,16 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<link rel="stylesheet" href="~/libs/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/styles.css" />
+<link rel="stylesheet" href="~/libs/fortawesome/fontawesome-free/css/all.css" />
+<script src="~/libs/bootstrap/js/bootstrap.bundle.js"></script>
+
+<nav class="navbar navbar-expand navbar-light bg-light border-bottom mb-3">
+	<div class="container-fluid justify-content-end">
+		<abp-language-switcher></abp-language-switcher>
+	</div>
+</nav>
+
+@{
+	IgnoreSection("scripts");
+}
+@RenderBody()

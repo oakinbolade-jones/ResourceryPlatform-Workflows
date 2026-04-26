@@ -1,0 +1,121 @@
+.transcription-page {
+  position: relative;
+  background: #fff;
+
+  .page-description {
+    font-size: small;
+    width: 100%;
+    max-width: 980px;
+    color: #4d6659;
+  }
+
+  .list-header-content {
+    flex: 1 1 520px;
+    min-width: 280px;
+  }
+
+  .list-header-action {
+    flex: 0 0 auto;
+  }
+
+  .state-banner {
+    padding: 0.85rem 1rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+  }
+
+  .state-loading {
+    background: #eef9f2;
+    border-color: #b5e0c4;
+    color: #0f5132;
+  }
+
+  .state-error {
+    background: #fff2f2;
+    border-color: #efc9c9;
+    color: #842029;
+  }
+
+  .state-empty {
+    background: #f8f9fa;
+    border-color: #d9dee2;
+    color: #495057;
+  }
+
+  .table-shell {
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(25, 135, 84, 0.05);
+  }
+
+  .filter-panel {
+    background: #f9fdfb;
+
+    .form-label {
+      color: #145a32;
+      font-size: 0.85rem;
+    }
+  }
+
+  .transcription-table {
+    thead th {
+      background: #eef9f2;
+      color: #145a32;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      border-bottom-color: #b7d9c3;
+    }
+
+    tbody td {
+      color: #30443b;
+      border-bottom-color: #e6ece8;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f5f5f5;
+    }
+
+    tbody tr:hover {
+      background: rgba(25, 135, 84, 0.05);
+    }
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid #b7d9c3;
+    background: #eff8f2;
+    color: #1f6b45;
+    font-size: 0.78rem;
+    text-transform: capitalize;
+  }
+
+  .delete-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1050;
+  }
+
+  .delete-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 420px);
+    background: #fff;
+    border: 1px solid #d9dee2;
+    padding: 1rem;
+    z-index: 1060;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .transcription-page {
+    .page-description {
+      width: 100%;
+    }
+  }
+}

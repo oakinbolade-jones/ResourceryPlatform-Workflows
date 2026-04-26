@@ -1,0 +1,372 @@
+/* Your Global Styles */
+html, body {
+    min-height: 100vh;
+    background-color: #161616;
+    background-image: url('/images/background/landing.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+:root .lpx-brand-logo {
+    --lpx-logo: url('/images/logo/leptonx/logo-light.png');
+    --lpx-logo-icon: url('/images/logo/leptonx/logo-light-thumbnail.png');
+}
+
+:root {
+    --rp-auth-font-head: "Segoe UI Variable Display", "Bahnschrift", "Trebuchet MS", sans-serif;
+    --rp-auth-font-body: "Segoe UI Variable Text", "Calibri", "Trebuchet MS", sans-serif;
+    --rp-auth-gradient-start: #0d3b66;
+    --rp-auth-gradient-end: #1f7a8c;
+    --rp-auth-accent: #ff7d00;
+    --rp-auth-panel: #ffffff;
+    --rp-auth-text: #0f172a;
+    --rp-auth-muted: #475569;
+    --rp-account-col-md-8-width: 66.66666667%;
+    --rp-account-row-gutter-x: 1.5rem;
+    --rp-account-row-gutter-y: 0;
+    --rp-account-col-padding-x: calc(var(--rp-account-row-gutter-x) * 0.5);
+    --rp-account-col-padding-y: var(--rp-account-row-gutter-y);
+    --rp-account-custom-col-width: 100%;
+}
+
+/*
+  Configurable replacement for Bootstrap's .col-md-8 on account pages.
+  Change --rp-account-col-md-8-width in :root to any value (e.g. 75%, 80%, 900px).
+*/
+@media (min-width: 768px) {
+    body .abp-account-layout .col-md-8,
+    body .account-layout .col-md-8 {
+        flex: 0 0 auto;
+        width: var(--rp-account-col-md-8-width) !important;
+        max-width: var(--rp-account-col-md-8-width) !important;
+    }
+}
+
+/*
+  Account grid controls:
+  - All .row gutter spacing is controlled by --rp-account-row-gutter-x/y
+  - All Bootstrap column div paddings in account pages are controlled by --rp-account-col-padding-x/y
+  - Optional helper classes .rp-account-row and .rp-account-col allow custom row/col layouts
+*/
+body .abp-account-layout .row,
+body .account-layout .row {
+    --bs-gutter-x: var(--rp-account-row-gutter-x);
+    --bs-gutter-y: var(--rp-account-row-gutter-y);
+}
+
+body .abp-account-layout [class^="col-"],
+body .abp-account-layout [class*=" col-"],
+body .account-layout [class^="col-"],
+body .account-layout [class*=" col-"] {
+    padding-right: var(--rp-account-col-padding-x);
+    padding-left: var(--rp-account-col-padding-x);
+    padding-top: var(--rp-account-col-padding-y);
+}
+
+body .abp-account-layout .rp-account-row,
+body .account-layout .rp-account-row {
+    --bs-gutter-x: var(--rp-account-row-gutter-x);
+    --bs-gutter-y: var(--rp-account-row-gutter-y);
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+
+body .abp-account-layout .rp-account-col,
+body .account-layout .rp-account-col {
+    flex: 0 0 auto;
+    width: var(--rp-account-custom-col-width);
+    max-width: var(--rp-account-custom-col-width);
+    padding-right: var(--rp-account-col-padding-x);
+    padding-left: var(--rp-account-col-padding-x);
+    margin-top: var(--bs-gutter-y);
+}
+
+/* Higher-level account container layer (above custom auth card). */
+ .lpx-content-container {
+    background-color: transparent !important;
+ }
+
+
+
+.auth-entry-shell {
+    border: 5px solid rgba(15, 23, 42, 0.08) !important;
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+}
+
+.auth-entry-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.1fr);
+    min-height: 520px;
+      border: 5px solid rgba(15, 23, 42, 0.08) !important;
+}
+
+.auth-entry-hero {
+    position: relative;
+    padding: 2.2rem 2rem;
+    color: #e2e8f0;
+    background:
+        radial-gradient(circle at 85% 18%, rgba(255, 125, 0, 0.22), transparent 42%),
+        radial-gradient(circle at 18% 78%, rgba(31, 122, 140, 0.28), transparent 46%),
+        linear-gradient(160deg, #0b2545 0%, #134074 52%, #1f7a8c 100%);
+    animation: auth-panel-rise 420ms ease-out;
+}
+
+.auth-entry-hero::after {
+    content: "";
+    position: absolute;
+    right: -36px;
+    bottom: -36px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 72%);
+    pointer-events: none;
+}
+
+.auth-entry-kicker {
+    color: var(--rp-auth-gradient-end);
+    letter-spacing: 0.1em;
+    font-family: var(--rp-auth-font-head);
+}
+
+.auth-entry-hero .auth-entry-kicker {
+    color: #93c5fd;
+}
+
+.auth-entry-title {
+    font-family: var(--rp-auth-font-head);
+    font-size: clamp(1.55rem, 2.2vw, 2.1rem);
+    line-height: 1.2;
+    margin-bottom: 0.95rem;
+}
+
+.auth-entry-copy {
+    font-family: var(--rp-auth-font-body);
+    color: rgba(226, 232, 240, 0.9);
+    max-width: 34ch;
+    margin-bottom: 1.1rem;
+}
+
+.auth-entry-list {
+    padding-left: 1.1rem;
+    margin: 0;
+}
+
+.auth-entry-list li {
+    margin-bottom: 0.55rem;
+    animation: auth-item-rise 420ms ease both;
+}
+
+.auth-entry-list li:nth-child(1) {
+    animation-delay: 80ms;
+}
+
+.auth-entry-list li:nth-child(2) {
+    animation-delay: 140ms;
+}
+
+.auth-entry-list li:nth-child(3) {
+    animation-delay: 200ms;
+}
+
+.auth-entry-form-pane {
+    padding: 2rem;
+    background: #ffffff;
+    animation: auth-panel-rise 520ms ease-out;
+    font-family: var(--rp-auth-font-body);
+}
+
+.auth-entry-form-head p {
+    color: var(--rp-auth-muted);
+}
+
+.custom-login-override-flag {
+    display: inline-block;
+    margin-bottom: 0.85rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(31, 122, 140, 0.12);
+    color: #0f766e;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.auth-entry-form-head a {
+    font-weight: 700;
+}
+
+.auth-entry-form-pane h4,
+.auth-entry-form-pane h5 {
+    font-family: var(--rp-auth-font-head);
+    color: var(--rp-auth-text);
+}
+
+.auth-entry-form-pane .btn-outline-primary {
+    border-width: 2px;
+    border-color: rgba(13, 59, 102, 0.45);
+    color: #12345b;
+    font-weight: 700;
+}
+
+.auth-entry-form-pane .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #12345b;
+    border-color: #12345b;
+}
+
+.auth-entry-form-pane .form-control,
+.auth-entry-form-pane .form-select,
+.auth-entry-form-pane .btn {
+    font-family: var(--rp-auth-font-body);
+}
+
+.auth-entry-form-pane .form-control:focus,
+.auth-entry-form-pane .form-select:focus,
+.auth-entry-form-pane .btn:focus-visible,
+.auth-entry-form-pane a:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(31, 122, 140, 0.24);
+}
+
+@keyframes auth-panel-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes auth-item-rise {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style ABP account forms without replacing module pages. */
+form[action*="/Account/Login"],
+form[action*="/Account/Register"] {
+    background: var(--rp-auth-panel);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(13, 59, 102, 0.16);
+    padding: 1.5rem;
+}
+
+form[action*="/Account/Login"]::before,
+form[action*="/Account/Register"]::before {
+    content: "";
+    display: block;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        var(--rp-auth-gradient-start),
+        var(--rp-auth-gradient-end),
+        var(--rp-auth-accent)
+    );
+    margin-bottom: 1.2rem;
+}
+
+form[action*="/Account/Login"] .form-label,
+form[action*="/Account/Register"] .form-label,
+form[action*="/Account/Login"] label,
+form[action*="/Account/Register"] label {
+    color: var(--rp-auth-muted);
+    font-weight: 600;
+}
+
+form[action*="/Account/Login"] .form-control,
+form[action*="/Account/Register"] .form-control,
+form[action*="/Account/Login"] .form-select,
+form[action*="/Account/Register"] .form-select {
+    border-radius: 10px;
+    border-color: rgba(31, 122, 140, 0.28);
+    min-height: 44px;
+}
+
+form[action*="/Account/Login"] .form-control:focus,
+form[action*="/Account/Register"] .form-control:focus,
+form[action*="/Account/Login"] .form-select:focus,
+form[action*="/Account/Register"] .form-select:focus {
+    border-color: var(--rp-auth-gradient-end);
+    box-shadow: 0 0 0 0.18rem rgba(31, 122, 140, 0.18);
+}
+
+form[action*="/Account/Login"] .btn-primary,
+form[action*="/Account/Register"] .btn-primary {
+    border: none;
+    border-radius: 10px;
+    min-height: 44px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(
+        135deg,
+        var(--rp-auth-gradient-start),
+        var(--rp-auth-gradient-end)
+    );
+}
+
+form[action*="/Account/Login"] .btn-primary:hover,
+form[action*="/Account/Register"] .btn-primary:hover {
+    filter: brightness(1.03);
+    transform: translateY(-1px);
+}
+
+form[action*="/Account/Login"] .btn,
+form[action*="/Account/Register"] .btn {
+    transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+form[action*="/Account/Login"] a,
+form[action*="/Account/Register"] a {
+    color: var(--rp-auth-gradient-end);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+form[action*="/Account/Login"] a:hover,
+form[action*="/Account/Register"] a:hover {
+    color: var(--rp-auth-gradient-start);
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    form[action*="/Account/Login"],
+    form[action*="/Account/Register"] {
+        padding: 1.1rem;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 992px) {
+    .auth-entry-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-entry-hero,
+    .auth-entry-form-pane {
+        padding: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-entry-hero,
+    .auth-entry-form-pane,
+    .auth-entry-list li {
+        animation: none !important;
+    }
+}

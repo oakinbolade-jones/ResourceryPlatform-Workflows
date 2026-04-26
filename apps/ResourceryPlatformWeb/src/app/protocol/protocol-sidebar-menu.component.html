@@ -1,0 +1,104 @@
+<nav class="qt-nav">
+  <a class="qt-nav-item" routerLink="/protocol" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <!-- <i class="fa fa-book" aria-hidden="true"></i> -->
+    <span>
+      <strong>
+        {{ 'Workflow::ProtocolServices' | abpLocalization }}
+      </strong>
+    </span>
+  </a>
+ <a class="qt-nav-item" routerLink="/protocol/protocol-requests" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolRequests' | abpLocalization }}">
+    <i class="fa fa-wpforms" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-ground-transportation" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolGroundTransportation' | abpLocalization }}">
+    <i class="fa fa-bus" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolGroundTransportation' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-visa-procurement" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolVisaProcurement' | abpLocalization }}">
+    <i class="fa fa-id-card" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolVisaProcurement' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-accreditation-hom" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolAccreditationHo' | abpLocalization }}">
+    <i class="fa fa-certificate" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolAccreditationHom' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-preparation-diplomatic-cocktail-reception"
+    routerLinkActive="active" title="{{ 'Workflow::ProtocolDiplomaticCocktailReception' | abpLocalization }}">
+    <i class="fa fa-glass-martini" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolDiplomaticCocktailReception' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-reception-staff" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolReceptionStaff' | abpLocalization }}">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolReceptionStaff' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-custom-duty-waiver" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolCustomDutyWaiver' | abpLocalization }}">
+    <i class="fa fa-archive" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolCustomDutyWaiver' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/protocol-election-observation" routerLinkActive="active"
+    title="{{ 'Workflow::ProtocolElectionObservation' | abpLocalization }}">
+    <i class="fa fa-eye" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ProtocolElectionObservation' | abpLocalization }}
+    </span>
+  </a>
+
+ 
+
+  <div class="qt-nav-section">Pipeline</div>
+  <a class="qt-nav-item" routerLink="/protocol/approved-requests" routerLinkActive="active"
+    title="{{ 'Workflow::ApprovedRequests' | abpLocalization }}">
+    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::ApprovedRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/in-process-requests" routerLinkActive="active"
+    title="{{ 'Workflow::InProcessRequests' | abpLocalization }}">
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::InProcessRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/rejected-requests" routerLinkActive="active"
+    title="{{ 'Workflow::RejectedRequests' | abpLocalization }}">
+    <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::RejectedRequests' | abpLocalization }}
+    </span>
+  </a>
+  <a class="qt-nav-item" routerLink="/protocol/sla" routerLinkActive="active"
+    title="{{ 'Workflow::SLA' | abpLocalization }}">
+    <i class="fa fa-balance-scale" aria-hidden="true"></i>
+    <span>
+      {{ 'Workflow::SLA' | abpLocalization }}
+    </span>
+  </a>
+
+  <div class="qt-nav-section">Team</div>
+  <a class="qt-nav-item" href="javascript:void(0)">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    <span>{{ 'Workflow::Settings' | abpLocalization }}</span>
+  </a>
+</nav>

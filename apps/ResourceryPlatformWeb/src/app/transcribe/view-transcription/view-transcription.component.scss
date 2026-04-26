@@ -1,0 +1,248 @@
+.transcription-page {
+  background: #fff;
+
+  .page-description {
+    font-size: small;
+    width: 75%;
+    color: #4d6659;
+  }
+
+  .state-banner {
+    padding: 0.85rem 1rem;
+    border-radius: 0;
+    border: 1px solid transparent;
+    margin-bottom: 1rem;
+  }
+
+  .state-loading {
+    background: #eef9f2;
+    border-color: #b5e0c4;
+    color: #0f5132;
+  }
+
+  .state-error {
+    background: #fff2f2;
+    border-color: #efc9c9;
+    color: #842029;
+  }
+
+  .state-empty {
+    background: #f8f9fa;
+    border-color: #d9dee2;
+    color: #495057;
+  }
+
+  .transcription-details {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(25, 135, 84, 0.05);
+  }
+
+  .details-grid {
+    .detail-item {
+      border: 1px solid #d9e8de;
+      background: #f7fbf8;
+      padding: 0.75rem 0.9rem;
+      min-height: 78px;
+    }
+
+    .detail-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: #55806a;
+      margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+      color: #244737;
+      font-weight: 600;
+      word-break: break-word;
+    }
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid #b7d9c3;
+    background: #eff8f2;
+    color: #1f6b45;
+    font-size: 0.78rem;
+    text-transform: capitalize;
+  }
+
+  .html-preview-frame-shell {
+    overflow: hidden;
+    background: #fff;
+    min-height: 640px;
+  }
+
+  .html-preview-frame {
+    width: 100%;
+    min-height: 900px;
+    border: none;
+    background: #fff;
+  }
+.list-header-content {
+    flex: 1 1 520px;
+    min-width: 280px;
+  }
+
+  .list-header-action {
+    flex: 0 0 auto;
+  }
+  .player-transcript-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+    gap: 1rem;
+  }
+
+  .player-panel,
+  .transcript-panel {
+    background: #fefefe;
+  }
+
+  .transcription-video {
+    width: 100%;
+    max-height: 420px;
+    background: #0b1d16;
+    border: 1px solid #d9e8de;
+    box-shadow: 0 10px 24px rgba(11, 29, 22, 0.2);
+    outline: none;
+  }
+
+  .transcript-scroll-host {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 0.25rem;
+    border: 1px solid #d9e8de;
+    background: #fff;
+  }
+
+  .transcript-line {
+    padding: 0.45rem 0.5rem;
+    margin: 0.2rem 0;
+    line-height: 1.8;
+    border-left: 3px solid transparent;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
+    cursor: pointer;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .transcript-line.line-hover {
+    background: #eef9f2;
+  }
+
+  .transcript-line.line-active {
+    background: #e4f5ec;
+    border-left-color: #198754;
+  }
+
+  .transcript-word {
+    border-radius: 3px;
+    padding: 0 0.05rem;
+    transition: background-color 0.1s ease, color 0.1s ease;
+    cursor: pointer;
+  }
+
+  .transcript-word.word-hover {
+    background: #fff0c7;
+  }
+
+  .transcript-word.word-active {
+    background: #ffe08a;
+    color: #2a2a2a;
+    font-weight: 700;
+  }
+
+  .search-match {
+    background: rgba(255, 214, 0, 0.35);
+    border-radius: 2px;
+    outline: 1px solid rgba(255, 193, 7, 0.5);
+  }
+
+  .search-match-current {
+    background: #ffc107;
+    color: #1a1a1a;
+    border-radius: 2px;
+    outline: 2px solid #e0a800;
+    font-weight: 600;
+  }
+
+  .transcript-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .transcript-search-input-wrap {
+    position: relative;
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+
+  .transcript-search-icon {
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #198754;
+    pointer-events: none;
+    font-size: 0.8rem;
+  }
+
+  .transcript-search-input {
+    padding-left: 1.9rem !important;
+    padding-right: 2rem !important;
+    height: 2rem;
+    font-size: 0.85rem !important;
+  }
+
+  .transcript-search-clear {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+      color: #198754;
+    }
+  }
+
+  .transcript-search-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .transcript-search-count {
+    color: #495057;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .transcription-page {
+    .page-description {
+      width: 100%;
+    }
+
+    .player-transcript-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .transcript-scroll-host {
+      max-height: 320px;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+html, body {
+    min-height: 100vh;
+    background-color: #161616;
+    background-image: url('/images/background/landing.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

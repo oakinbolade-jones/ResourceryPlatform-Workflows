@@ -1,0 +1,20 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.Account.Web.Pages.Account
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@model Volo.Abp.Account.Web.Pages.Account.RegisterModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IThemeManager ThemeManager
+@inject IOptions<ResourceryPlatformWorkflow.AuthUiOptions> AuthUiOptions
+
+
+@{
+    Layout = "_AccountLayout.Custom";
+    var registerTemplate = AuthUiOptions.Value.Register.TemplatePartial;
+    var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Register" : registerTemplate;
+}
+
+<partial name="@templateName" model="Model" />
+}

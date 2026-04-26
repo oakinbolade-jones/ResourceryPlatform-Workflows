@@ -1,0 +1,16 @@
+<aside class="qt-sidebar" [class.is-collapsed]="collapsed">
+
+  <div class="qt-search" *ngIf="showSearch">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <input type="text" placeholder="Search" aria-label="Search" />
+  </div>
+
+  <ng-content></ng-content>
+
+  
+  <!-- <div class="qt-upgrade">
+    <div class="qt-upgrade-title">Upgrade your plan</div>
+    <div class="qt-upgrade-text">Unlock advanced analytics & team insights.</div>
+    <button class="btn btn-light btn-sm">Upgrade</button>
+  </div> -->
+</aside>

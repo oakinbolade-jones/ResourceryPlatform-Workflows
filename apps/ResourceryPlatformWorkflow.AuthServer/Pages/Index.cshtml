@@ -1,0 +1,95 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Extensions
+@using ResourceryPlatformWorkflow.Pages
+@using Volo.Abp.Users
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.Ui.Branding
+@model IndexModel
+@inject ICurrentUser CurrentUser
+@inject IBrandingProvider BrandingProvider
+@inject ITheme Theme
+
+@{
+    Layout = Theme.GetEmptyLayout();
+}
+
+<div class="auth-shell">
+    <div class="container py-5">
+        <div class="auth-header mb-4 text-center">
+            @if (!BrandingProvider.LogoUrl.IsNullOrEmpty())
+            {
+                <a class="navbar-brand" href="/" alt="@BrandingProvider.AppName"></a>
+            }
+            else
+            {
+                <h1 class="auth-title">@BrandingProvider.AppName</h1>
+            }
+            <p class="auth-subtitle">Secure identity gateway for Resourcery workflows.</p>
+        </div>
+
+        <abp-card class="auth-panel shadow-lg border-0">
+            <abp-card-body class="p-4 p-md-5">
+                <div class="d-flex justify-content-end mb-3">
+                    <abp-dropdown>
+                        <abp-dropdown-button text="@Model.CurrentLanguage" />
+                        <abp-dropdown-menu>
+                            @foreach (var language in Model.Languages)
+                            {
+                                <abp-dropdown-item href="~/Abp/Languages/Switch?culture=@(language.CultureName)&uiCulture=@(language.UiCultureName)&returnUrl=@(System.Net.WebUtility.UrlEncode(Request.GetEncodedPathAndQuery()))">@language.DisplayName</abp-dropdown-item>
+                            }
+                        </abp-dropdown-menu>
+                    </abp-dropdown>
+                </div>
+
+                <section class="account-summary mb-4">
+                    <div class="account-icon-wrap">
+                        <i class="fa fa-shield d-block account-icon" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        @if (CurrentUser.IsAuthenticated)
+                        {
+                            <h2 class="h4 mb-1">Welcome, @CurrentUser.UserName</h2>
+                            <p class="text-muted mb-3">@CurrentUser.Email</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a abp-button="Outline_Primary" asp-controller="Manage" asp-action="Index" asp-area="Account">My Account</a>
+                                <a abp-button="Primary" asp-controller="Logout" asp-action="Index" asp-area="Account">Logout</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <h2 class="h4 mb-2">Welcome</h2>
+                            <p class="text-muted mb-3">Sign in to access your authorized applications.</p>
+                            <a abp-button="Primary" asp-controller="Login" asp-action="Index" asp-area="Account">Login</a>
+                        }
+                    </div>
+                </section>
+
+                <hr class="my-4" />
+
+                <section>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3 class="h5 mb-0">Available Applications</h3>
+                        <span class="badge rounded-pill text-bg-light">@Model.Applications.Count</span>
+                    </div>
+
+                    <abp-row>
+                        @foreach (var application in Model.Applications)
+                        {
+                            <abp-column size-md="_4" class="mb-3">
+                                <div class="app-tile h-100 p-3">
+                                    @if (!application.LogoUri.IsNullOrEmpty())
+                                    {
+                                        <img src="@application.LogoUri" class="app-logo mb-3" alt="@application.DisplayName logo" />
+                                    }
+                                    <h4 class="h6 mb-1">@application.DisplayName</h4>
+                                    <div class="small text-muted text-truncate mb-3">@application.ClientUri</div>
+                                    <a abp-button="Outline_Secondary" href="@application.ClientUri">Open App</a>
+                                </div>
+                            </abp-column>
+                        }
+                    </abp-row>
+                </section>
+            </abp-card-body>
+        </abp-card>
+    </div>
+</div>

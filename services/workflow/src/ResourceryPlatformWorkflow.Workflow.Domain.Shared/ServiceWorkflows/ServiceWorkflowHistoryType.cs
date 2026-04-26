@@ -1,0 +1,13 @@
+namespace ResourceryPlatformWorkflow.Workflow.ServiceWorkflows;
+
+public enum ServiceWorkflowHistoryType
+{
+    InstanceCreated = 0,
+    StepStarted = 1,
+    TaskCreated = 2,
+    TaskCompleted = 3,
+    TaskRejected = 4,
+    InstanceCompleted = 5,
+    InstanceCancelled = 6,
+    CommentAdded = 7
+}

@@ -1,0 +1,37 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.Account.Settings
+@using Volo.Abp.Account.Web.Pages.Account
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.Identity
+@using Volo.Abp.Settings
+@using Microsoft.Extensions.Options
+@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IThemeManager ThemeManager
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+@inject IOptions<ResourceryPlatformWorkflow.AuthUiOptions> AuthUiOptions
+
+@{
+    Layout = "~/Pages/Account/_AccountLayout.Custom.cshtml";
+    var loginTemplate = AuthUiOptions.Value.Login.TemplatePartial;
+    var templateName = string.IsNullOrWhiteSpace(loginTemplate) ? "Login" : loginTemplate;
+}
+
+@section scripts
+{
+    <abp-script-bundle name="@typeof(LoginModel).FullName">
+        <abp-script src="/Pages/Account/Login.js" />
+    </abp-script-bundle>
+}
+
+@if (Model.ShowRequireMigrateSeedMessage)
+{
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">@L["RequireMigrateSeedTitle"]</h4>
+        <p>@L["RequireMigrateSeedMessage"]</p>
+    </div>
+}
+
+<partial name="@templateName" model="Model" />
