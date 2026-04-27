@@ -1701,7 +1701,14 @@
     "Account:GetStarted": "Commencez ici",
 "Account:LoginContinue": "Connectez-vous pour continuer",
 "Account:NewUser?": "Êtes-vous un nouvel utilisateur ?",
-"Account:CreateAccount": "Créez un compte"
+"Account:CreateAccount": "Créez un compte",
+"Account:RegisterWithECOWASMail": "S'inscrire avec la messagerie de la CEDEAO",
+"Account:LoginWithECOWASMail": "Se connecter avec la messagerie de la CEDEAO",
+"Account:RegistrationInfo": "L'inscription suit des normes de sécurité pour les environnements opérationnels.",
+"ECOWAS": "Communauté économique des États de l'Afrique de l'Ouest (CEDEAO)",
+"ECOWASCommission": "Commission de la CEDEAO",
+"ECOWASCopyright": "Copyright (c) Commission de la CEDEAO. Tous droits réservés."
+
 
   }
 }

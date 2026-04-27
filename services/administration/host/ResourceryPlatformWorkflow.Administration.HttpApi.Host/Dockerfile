@@ -1,7 +1,7 @@
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -9,12 +9,14 @@ EXPOSE 8081
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Build.props", "."]
 COPY ["services/administration/NuGet.Config", "services/administration/"]
 COPY ["services/identity/NuGet.Config", "services/identity/"]
 COPY ["services/saas/NuGet.Config", "services/saas/"]
+COPY ["services/workflow/NuGet.Config", "services/workflow/"]
 COPY ["services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj", "services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/"]
 COPY ["shared/ResourceryPlatformWorkflow.Microservice.Shared/ResourceryPlatformWorkflow.Microservice.Shared.csproj", "shared/ResourceryPlatformWorkflow.Microservice.Shared/"]
 COPY ["services/administration/src/ResourceryPlatformWorkflow.Administration.EntityFrameworkCore/ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj", "services/administration/src/ResourceryPlatformWorkflow.Administration.EntityFrameworkCore/"]
@@ -30,6 +32,8 @@ COPY ["services/identity/src/ResourceryPlatformWorkflow.IdentityService.Domain/R
 COPY ["services/saas/src/ResourceryPlatformWorkflow.SaaS.Application.Contracts/ResourceryPlatformWorkflow.SaaS.Application.Contracts.csproj", "services/saas/src/ResourceryPlatformWorkflow.SaaS.Application.Contracts/"]
 COPY ["services/administration/src/ResourceryPlatformWorkflow.Administration.Application.Contracts/ResourceryPlatformWorkflow.Administration.Application.Contracts.csproj", "services/administration/src/ResourceryPlatformWorkflow.Administration.Application.Contracts/"]
 COPY ["services/saas/src/ResourceryPlatformWorkflow.SaaS.Domain.Shared/ResourceryPlatformWorkflow.SaaS.Domain.Shared.csproj", "services/saas/src/ResourceryPlatformWorkflow.SaaS.Domain.Shared/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.Application.Contracts/ResourceryPlatformWorkflow.Workflow.Application.Contracts.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.Application.Contracts/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain.Shared/ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain.Shared/"]
 COPY ["services/administration/src/ResourceryPlatformWorkflow.Administration.HttpApi/ResourceryPlatformWorkflow.Administration.HttpApi.csproj", "services/administration/src/ResourceryPlatformWorkflow.Administration.HttpApi/"]
 COPY ["services/administration/src/ResourceryPlatformWorkflow.Administration.Application/ResourceryPlatformWorkflow.Administration.Application.csproj", "services/administration/src/ResourceryPlatformWorkflow.Administration.Application/"]
 RUN dotnet restore "./services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj"

@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="list-header-action">
-      <a class="btn btn-success rounded-1 px-4" routerLink="/transcribe">
+      <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
         {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
       </a>
@@ -59,7 +59,7 @@
       <div class="col-12 col-md-3 d-grid d-md-flex justify-content-md-end">
         <button
           type="button"
-          class="btn btn-outline-success rounded-1 px-4"
+          class="btn btn-outline-success rounded-0 px-4"
           (click)="clearFilters()"
         >
           {{ 'Workflow::Transcription:ClearFilterLabel' | abpLocalization }}
@@ -83,11 +83,11 @@
       <thead>
         <tr>
           <th class="text-center">#</th>
-          <th>{{ 'Workflow::Transcription:TitleHeaderLabel' | abpLocalization }}</th>
-          <th>{{ 'Workflow::Transcription:LanguageHeaderLabel' | abpLocalization }}</th>
-          <th>{{ 'Workflow::Transcription:StatusHeaderLabel' | abpLocalization }}</th>
-          <th>{{ 'Workflow::Transcription:DateHeaderLabel' | abpLocalization }}</th>
-          <th class="text-end">{{ 'Workflow::Transcription:ActionHeaderLabel' | abpLocalization }}</th>
+          <th>Title</th>
+          <th>Language</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th class="text-end">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -100,67 +100,26 @@
           </td>
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
           <td class="text-end">
-            <div class="d-inline-flex gap-2">
-              <a
-                class="btn btn-sm btn-outline-success rounded-1"
-                [routerLink]="['/transcribe/view', item.id]"
-                [attr.title]="'Workflow::Transcription:ViewHint' | abpLocalization"
-                [attr.aria-label]="'Workflow::Transcription:ViewLabel' | abpLocalization"
-              >
-                <i class="fa fa-eye" aria-hidden="true"></i>
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-success rounded-1"
-                (click)="goToEdit(item.id)"
-                [attr.title]="'Workflow::Transcription:EditHint' | abpLocalization"
-                [attr.aria-label]="'Workflow::Transcription:EditLabel' | abpLocalization"
-              >
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-success rounded-1"
-                [disabled]="deletingId === item.id"
-                (click)="requestDelete(item)"
-                [attr.title]="'Workflow::Transcription:DeleteHint' | abpLocalization"
-                [attr.aria-label]="'Workflow::Transcription:DeleteLabel' | abpLocalization"
-              >
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                <!-- {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }} -->
-              </button>
-            </div>
+            <a
+              class="btn btn-sm btn-success rounded-0"
+              [routerLink]="['/transcribe/view', item.id]"
+            >
+              <i class="fa fa-eye me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:ViewLabel' | abpLocalization }}
+            </a>
+             <a
+              class="btn btn-sm btn-success rounded-0"
+              [routerLink]="['/transcribe/edit', item.id]"
+            >
+              <i class="fa fa-pencil me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:EditLabel' | abpLocalization }}
+            </a> <a
+              class="btn btn-sm btn-success rounded-0"
+              [routerLink]="['/transcribe/delete', item.id]"
+            >
+              <i class="fa fa-trash me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:DeleteLabel' | abpLocalization }}
+            </a>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div *ngIf="pendingDeleteTranscription" class="delete-modal-backdrop" (click)="cancelDelete()"></div>
-  <div *ngIf="pendingDeleteTranscription" class="delete-modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
-    <h4 id="deleteModalTitle" class="fs-6 fw-bold mb-2">{{ 'Workflow::Transcription:DeleteConfirmationHeader' | abpLocalization }}</h4>
-    <p class="mb-4">
-     {{ 'Workflow::Transcription:DeleteConfirmationBody' | abpLocalization }}
-      <span class="fw-semibold">{{ pendingDeleteTranscription.title || 'this transcription' }}</span>?
-      {{'Workflow::Transcription:DeleteConfirmationSubLabel' | abpLocalization }}
-    </p>
-    <div class="d-flex justify-content-end gap-2">
-      <button
-        type="button"
-        class="btn btn-outline-success rounded-0"
-        [disabled]="!!deletingId"
-        (click)="cancelDelete()"
-      >
-        {{ "Workflow::Transcription:DeleteConfirmationCancelLabel" | abpLocalization }}
-      </button>
-      <button
-        type="button"
-        class="btn btn-success rounded-0"
-        [disabled]="!!deletingId"
-        (click)="confirmDelete()"
-      >
-        {{ deletingId ? ('Workflow::Transcription:DeleteConfirmationDeletingLabel' | abpLocalization) : ('Workflow::Transcription:DeleteConfirmationDeleteLabel' | abpLocalization) }}
-      </button>
-    </div>
   </div>
 </div>

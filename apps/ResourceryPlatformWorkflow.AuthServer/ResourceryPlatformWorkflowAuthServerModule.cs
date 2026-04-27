@@ -35,6 +35,7 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.Localization;
 using ResourceryPlatformWorkflow.Workflow;
@@ -166,6 +167,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
                 options.ClaimActions.MapUniqueJsonKey(ClaimTypes.GivenName, "given_name");
                 options.ClaimActions.MapUniqueJsonKey(ClaimTypes.Surname, "family_name");
+                options.ClaimActions.MapUniqueJsonKey(ClaimTypes.Name, "name");
                 options.ClaimActions.MapUniqueJsonKey("picture", "picture");
 
                 options.Scope.Clear();
@@ -183,6 +185,75 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
                 options.Events = new OpenIdConnectEvents
                 {
+                    OnUserInformationReceived = userInfoContext =>
+                    {
+                        var identity = userInfoContext.Principal?.Identity as ClaimsIdentity;
+                        if (identity == null) return Task.CompletedTask;
+
+                        // Read given_name / family_name directly from the UserInfo JSON payload.
+                        // These arrive here AFTER GetClaimsFromUserInfoEndpoint fetches them,
+                        // so this fires at the right time (unlike OnTokenValidated which is too early).
+                        string givenName = null;
+                        string surname = null;
+
+                        if (userInfoContext.User.RootElement.TryGetProperty("given_name", out var givenNameEl)
+                            && givenNameEl.ValueKind == System.Text.Json.JsonValueKind.String)
+                        {
+                            givenName = givenNameEl.GetString();
+                        }
+
+                        if (userInfoContext.User.RootElement.TryGetProperty("family_name", out var familyNameEl)
+                            && familyNameEl.ValueKind == System.Text.Json.JsonValueKind.String)
+                        {
+                            surname = familyNameEl.GetString();
+                        }
+
+                        // Fallback: split the "name" claim (display name) if individual parts are missing.
+                        if (string.IsNullOrWhiteSpace(givenName) || string.IsNullOrWhiteSpace(surname))
+                        {
+                            var fullName = identity.FindFirst(ClaimTypes.Name)?.Value
+                                ?? (userInfoContext.User.RootElement.TryGetProperty("name", out var nameEl)
+                                    && nameEl.ValueKind == System.Text.Json.JsonValueKind.String
+                                    ? nameEl.GetString()
+                                    : null);
+
+                            if (!string.IsNullOrWhiteSpace(fullName))
+                            {
+                                var parts = fullName.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                                if (string.IsNullOrWhiteSpace(givenName) && parts.Length >= 1)
+                                    givenName = parts[0];
+                                if (string.IsNullOrWhiteSpace(surname) && parts.Length >= 2)
+                                    surname = parts[1];
+                            }
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(givenName)
+                            && !identity.HasClaim(c => c.Type == ClaimTypes.GivenName))
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.GivenName, givenName));
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(givenName)
+                            && !identity.HasClaim(c => c.Type == AbpClaimTypes.Name))
+                        {
+                            identity.AddClaim(new Claim(AbpClaimTypes.Name, givenName));
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(surname)
+                            && !identity.HasClaim(c => c.Type == ClaimTypes.Surname))
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Surname, surname));
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(surname)
+                            && !identity.HasClaim(c => c.Type == AbpClaimTypes.SurName))
+                        {
+                            identity.AddClaim(new Claim(AbpClaimTypes.SurName, surname));
+                        }
+
+                        return Task.CompletedTask;
+                    },
+
                     OnTokenValidated = tokenValidatedContext =>
                     {
                         var principal = tokenValidatedContext.Principal;
@@ -214,6 +285,28 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
                         var givenName = principal?.FindFirstValue(ClaimTypes.GivenName)
                             ?? principal?.FindFirstValue("given_name");
+                        var surname = principal?.FindFirstValue(ClaimTypes.Surname)
+                            ?? principal?.FindFirstValue("family_name");
+
+                        if (string.IsNullOrWhiteSpace(givenName) || string.IsNullOrWhiteSpace(surname))
+                        {
+                            var fullName = principal?.FindFirstValue(ClaimTypes.Name)
+                                ?? principal?.FindFirstValue("name");
+                            if (!string.IsNullOrWhiteSpace(fullName))
+                            {
+                                var parts = fullName.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+                                if (string.IsNullOrWhiteSpace(givenName) && parts.Length >= 1)
+                                {
+                                    givenName = parts[0];
+                                }
+
+                                if (string.IsNullOrWhiteSpace(surname) && parts.Length >= 2)
+                                {
+                                    surname = parts[1];
+                                }
+                            }
+                        }
+
                         if (
                             identity != null
                             && !string.IsNullOrWhiteSpace(givenName)
@@ -223,8 +316,15 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                             identity.AddClaim(new Claim(ClaimTypes.GivenName, givenName));
                         }
 
-                        var surname = principal?.FindFirstValue(ClaimTypes.Surname)
-                            ?? principal?.FindFirstValue("family_name");
+                        if (
+                            identity != null
+                            && !string.IsNullOrWhiteSpace(givenName)
+                            && !identity.HasClaim(c => c.Type == AbpClaimTypes.Name)
+                        )
+                        {
+                            identity.AddClaim(new Claim(AbpClaimTypes.Name, givenName));
+                        }
+
                         if (
                             identity != null
                             && !string.IsNullOrWhiteSpace(surname)
@@ -232,6 +332,15 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                         )
                         {
                             identity.AddClaim(new Claim(ClaimTypes.Surname, surname));
+                        }
+
+                        if (
+                            identity != null
+                            && !string.IsNullOrWhiteSpace(surname)
+                            && !identity.HasClaim(c => c.Type == AbpClaimTypes.SurName)
+                        )
+                        {
+                            identity.AddClaim(new Claim(AbpClaimTypes.SurName, surname));
                         }
 
                         var picture = principal?.FindFirstValue("picture")
@@ -275,6 +384,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
         app.UseCors();
         app.UseAuthentication();
+        app.UseMiddleware<ExternalProfileSynchronizationMiddleware>();
         app.UseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)

@@ -18,20 +18,18 @@
 
 <div class="lpx-content-container">
     <div class="lpx-content">
-        <div class="container my-5">
-            <div class="row justify-content-start w-75 my-4">
-                <img src="/images/logo/ecw-smartserve-logo.png" alt="DCP Smart Serve Platform" class="mb-4"
+        <div class="container-fluid my-5">
+            <div class="row justify-content-center my-5">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
+                    <img src="/images/logo/ecw-smartserve-logo.png" alt="DCP Smart Serve Platform" 
                      style="max-width: 220px;" />
-                      
+                </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start">
-                    
-                    <div
-                        class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
-                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5">
-                            <!-- Hero/branding section (edit freely) -->
-                            
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">                    
+                    <div class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
+                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 w-50">
+                            <!-- Hero/branding section (edit freely) -->                            
                             <h2 class="h3 mb-3 fs-2 fw-bold">@LW["Account:GetStarted"]</h2>
                             
                             @* <p class="fw-bold fs-4 mb-2 text-success-subtle">@LW["Account:LoginContinue"]</p> *@
@@ -45,62 +43,53 @@
                                 </p>
                             }
                            
-                            @* <ul class="ps-3 mb-4">
+                            @* <ul class="ps-3 mb-4 fs-6">
                                     <li>Centralized task and workflow registry</li>
                                     <li>Role-based authorization and approval controls</li>
                                     <li>Traceable records for audit and compliance</li>
                                 </ul> *@
-                            @* <p class="mt-auto mb-0 small opacity-75">Access is protected through centralized identity
-                                and managed session security.</p> *@
+                            <p class="mt-auto mb-0 small opacity-75">
+                            <hr />
+                                 @LW["ECOWASCopyright"] <br />
+                                   @LW["ECOWAS"] 
+                            </p>
                         </div>
-                        <div class="col-12 col-md-7 bg-white p-5">
+                        <div class="col-12 col-md-7 bg-white p-5 w-50">
                             <!-- Login form section (edit freely) -->
                             <div class="mb-4">
                                 @* <h4 class="mb-1">@L["Login"]</h4> *@
                                 @if (Model.VisibleExternalProviders.Any())
                                 {
                                     <div class="mt-4">
-                                        <h5>@L["OrLoginWith"]</h5>
-                                        <div class="w-100 d-flex justify-content-start">
-                                            
+                                        @* <h5>@L["OrLoginWith"]</h5> *@
+                                        <div class="w-100 d-flex justify-content-start">                                            
                                             <form asp-page="./Login" asp-page-handler="ExternalLogin"
                                                   asp-route-returnUrl="@Model.ReturnUrl"
                                                   asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
                                                   class="d-flex flex-wrap gap-2">
                                                 @foreach (var provider in Model.VisibleExternalProviders)
-                                                {
-                                                    
+                                                {                                                    
                                                     @if (@provider.AuthenticationScheme == "Microsoft")
-                                                    {
-
-                                                       
-                                                        <button type="submit" class="btn btn-outline-success text-succ" name="provider"
+                                                    {                                                       
+                                                        <button type="submit" class="btn btn-outline-success rounded-1 fw-semibold" name="provider"
                                                                 value="@provider.AuthenticationScheme"
                                                                 title="@L["LogInUsingYourProviderAccount", provider.AuthenticationScheme]">
                                                             <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission"
-                                                                 class="mb-2 d-inline-block align-text-center"
+                                                                 class="d-inline-block align-text-center"
                                                                  style="max-width: 35px;" /> @LW["Account:LoginWithECOWASMail"]
-                                                        </button>
-                                                           
+                                                        </button>                                                           
                                                     }
                                                     else
                                                     {
-                                                        <button type="submit" class="btn btn-outline-secondary mb-" name="provider"
+                                                        <button type="submit" class="btn btn-outline-secondary rounded-1" name="provider"
                                                                 value="@provider.AuthenticationScheme"
-                                                                title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
-                                                             
+                                                                title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>                                                             
                                                     }
                                                 }
                                             </form>
                                             <hr>
-                                        </div>
-                                        
-                                        @* <a class="navbar-brand" href="#">
-                                            <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30"
-                                                 height="24" class="d-inline-block align-text-top">
-                                            Bootstrap
-                                        </a> *@
-                                        
+                                        </div>                                      
+                                     
                                     </div>
                                 }
 
@@ -121,7 +110,7 @@
                                     <div class="mb-3">
                                         <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label"></label>
                                         <input asp-for="LoginInput.UserNameOrEmailAddress"
-                                               class="form-control border border-success rounded-1" autocomplete="off"
+                                               class="form-control border border-success rounded-0 p-2" autocomplete="off"
                                                placeholder="Enter username or email" />
                                         <span asp-validation-for="LoginInput.UserNameOrEmailAddress"
                                               class="text-danger"></span>
@@ -130,7 +119,7 @@
                                     <div class="mb-3">
                                         <label asp-for="LoginInput.Password" class="form-label"></label>
                                         <div class="input-group">
-                                            <input type="password" class="form-control border border-success rounded-1"
+                                            <input type="password" class="form-control border border-success rounded-0 p-2"
                                                    autocomplete="new-password"
                                                    maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)"
                                                    asp-for="LoginInput.Password" placeholder="Enter account password" />
@@ -186,12 +175,12 @@
 
                                         <div class="d-grid gap-2">
                                             <abp-button type="submit" name="Action" value="Login"
-                                                        class="btn btn-success mt-3 rounded-0">@L["Login"]</abp-button>
+                                                        class="btn btn-lg btn-success mt-3 rounded-0">@L["Login"]</abp-button>
                                             @if (Model.ShowCancelButton)
                                             {
                                                 <abp-button type="submit" formnovalidate="formnovalidate" name="Action"
                                                             value="Cancel"
-                                                            class="btn-md btn-success rounded-0 mt-3">@L["Cancel"]</abp-button>
+                                                            class="btn btn-lg btn-success rounded-0 mt-3">@L["Cancel"]</abp-button>
                                             }
                                         </div>
                                     </form>

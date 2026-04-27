@@ -1,0 +1,34 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ResourceryPlatformWorkflow
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.Account.Settings
+@using Volo.Abp.Account.Web.Pages.Account
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.Identity
+@using Volo.Abp.Settings
+@using Microsoft.Extensions.Options
+@model ResourceryPlatformWorkflow.AuthServer.Pages.Account.ManageModel
+@{
+    Layout = "~/Pages/Account/_AccountLayout.Custom.cshtml";
+    var templateName = "~/Pages/Account/Templates/_Manage.Custom.cshtml"; // Define the template name here
+}
+
+ 
+
+@section scripts
+{
+    <abp-script-bundle name="@typeof(ManageModel).FullName">
+        <abp-script src="/Pages/Account/Manage.js" />
+    </abp-script-bundle>
+}
+
+@* @if (Model.ShowRequireMigrateSeedMessage)
+{
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">@L["RequireMigrateSeedTitle"]</h4>
+        <p>@L["RequireMigrateSeedMessage"]</p>
+    </div>
+} *@
+
+<partial name="@templateName" model="Model" />

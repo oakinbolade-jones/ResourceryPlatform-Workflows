@@ -1,13 +1,13 @@
-version: '3.4'
-
 services:
   migrations:
     build:
       context: ../../
-      dockerfile: templates/service/database/Dockerfile
+      dockerfile: shared/ResourceryPlatformWorkflow.DbMigrator/Dockerfile
     depends_on:
-      - sqlserver
+      sqlserver:
+        condition: service_healthy
     environment:
-      - IdentityServer_DB=Workflow_Identity
-      - Workflow_DB=Workflow_ModuleDb
-      - SA_PASSWORD=yourStrong(!)Password
+      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123!};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123!};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowSaaSDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123!};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123!};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;

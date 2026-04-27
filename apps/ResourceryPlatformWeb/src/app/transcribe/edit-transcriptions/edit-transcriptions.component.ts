@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  CreateUpdateTranscriptionDto,
   InputSource,
   TranscriptionDto,
   TranscriptionService,
-  UpdateTranscriptionDto,
 } from '../../proxy/workflow/transcriptions';
 
 @Component({
@@ -87,50 +87,22 @@ export class EditTranscriptionsComponent implements OnInit {
 
     this.transcriptionService.get(id).subscribe({
       next: transcription => {
-        if (this.hasValue(transcription.description)) {
-          this.transcription = transcription;
-          this.patchForm(transcription);
-          this.loading = false;
-          return;
-        }
-
-        this.transcriptionService.getList().subscribe({
-          next: transcriptions => {
-            const matchingDescription = transcriptions.find(item => item.id === transcription.id)?.description;
-            this.transcription = {
-              ...transcription,
-              description: this.hasValue(matchingDescription) ? matchingDescription : transcription.description,
-            };
-            this.patchForm(this.transcription);
-            this.loading = false;
-          },
-          error: () => {
-            this.transcription = transcription;
-            this.patchForm(transcription);
-            this.loading = false;
-          },
+        this.transcription = transcription;
+        this.form.patchValue({
+          title: transcription.title ?? '',
+          description: transcription.description ?? '',
+          eventDate: this.toDateInputValue(transcription.eventDate ?? transcription.dateOfTranscription),
+          language: transcription.language ?? 'en',
+          isPublic: !!transcription.isPublic,
+          status: transcription.status ?? '',
         });
+        this.loading = false;
       },
       error: () => {
         this.error = 'Unable to load transcription.';
         this.loading = false;
       },
     });
-  }
-
-  private patchForm(transcription: TranscriptionDto): void {
-    this.form.patchValue({
-      title: transcription.title ?? '',
-      description: transcription.description ?? '',
-      eventDate: this.toDateInputValue(transcription.eventDate ?? transcription.dateOfTranscription),
-      language: transcription.language ?? 'en',
-      isPublic: !!transcription.isPublic,
-      status: transcription.status ?? '',
-    });
-  }
-
-  private hasValue(value?: string | null): boolean {
-    return !!value?.trim();
   }
 
   private buildUpdatePayload(
@@ -143,7 +115,7 @@ export class EditTranscriptionsComponent implements OnInit {
       isPublic: boolean;
       status: string;
     }
-  ): UpdateTranscriptionDto {
+  ): CreateUpdateTranscriptionDto {
     return {
       title: formValue.title,
       description: formValue.description,

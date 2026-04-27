@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
 
 @Component({
@@ -13,13 +12,8 @@ export class ListTranscriptionComponent implements OnInit {
   transcriptions: TranscriptionDto[] = [];
   searchTitle = '';
   searchDate = '';
-  deletingId: string | null = null;
-  pendingDeleteTranscription: TranscriptionDto | null = null;
 
-  constructor(
-    private transcriptionService: TranscriptionService,
-    private router: Router
-  ) {}
+  constructor(private transcriptionService: TranscriptionService) {}
 
   ngOnInit(): void {
     this.loadTranscriptions();
@@ -48,48 +42,6 @@ export class ListTranscriptionComponent implements OnInit {
   clearFilters(): void {
     this.searchTitle = '';
     this.searchDate = '';
-  }
-
-  goToEdit(transcriptionId?: string): void {
-    if (!transcriptionId) {
-      return;
-    }
-
-    void this.router.navigate(['/transcribe/edit', transcriptionId]);
-  }
-
-  requestDelete(transcription?: TranscriptionDto): void {
-    if (!transcription?.id || this.deletingId) {
-      return;
-    }
-
-    this.pendingDeleteTranscription = transcription;
-  }
-
-  cancelDelete(): void {
-    this.pendingDeleteTranscription = null;
-  }
-
-  confirmDelete(): void {
-    const transcription = this.pendingDeleteTranscription;
-    if (!transcription?.id || this.deletingId) {
-      return;
-    }
-
-    this.deletingId = transcription.id;
-    this.error = null;
-
-    this.transcriptionService.delete(transcription.id).subscribe({
-      next: () => {
-        this.transcriptions = this.transcriptions.filter(item => item.id !== transcription.id);
-        this.pendingDeleteTranscription = null;
-        this.deletingId = null;
-      },
-      error: () => {
-        this.error = 'Unable to delete transcription.';
-        this.deletingId = null;
-      },
-    });
   }
 
   private loadTranscriptions(): void {

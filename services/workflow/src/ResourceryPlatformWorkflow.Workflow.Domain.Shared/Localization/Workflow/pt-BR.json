@@ -1701,6 +1701,14 @@
 "Account:GetStarted": "Comece aqui",
 "Account:LoginContinue": "Faça login para continuar",
 "Account:NewUser?": "É um novo usuário?",
-"Account:CreateAccount": "Crie uma conta"
+"Account:CreateAccount": "Crie uma conta",
+"Account:RegisterWithECOWASMail": "Inscreva-se com o e-mail da CEDEAO",
+"Account:LoginWithECOWASMail": "Faça login com o e-mail da CEDEAO",
+"Account:RegistrationInfo": "O registro segue padrões de segurança para ambientes operacionais.",
+"ECOWAS": "Comunidade Econômica dos Estados da África Ocidental (CEDEAO)",
+"ECOWASCommission": "Comissão da CEDEAO",
+"ECOWASCopyright": "Copyright (c) Comissão da CEDEAO. Todos os direitos reservados."
+
+
   }
 }

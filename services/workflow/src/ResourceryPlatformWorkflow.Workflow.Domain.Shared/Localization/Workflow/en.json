@@ -1703,8 +1703,12 @@
 "Account:LoginContinue": "Login to continue",
 "Account:NewUser?": "Are you a new user?",
 "Account:CreateAccount": "Create an account",
-"Account:LoginWithECOWASMail": "Login with ECOWAS Mail"
-
+"Account:RegisterWithECOWASMail": "Register with ECOWAS Mail",
+"Account:LoginWithECOWASMail": "Login with ECOWAS Mail",
+"Account:RegistrationInfo": "Registration follows secure onboarding standards for operational environments.",
+"ECOWAS": "Economic Community of West African States (ECOWAS)",
+"ECOWASCommission": "ECOWAS Commission",
+"ECOWASCopyright": "Copyright (c) ECOWAS Commission. All rights reserved."
 
   }
 }

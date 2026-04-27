@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalizationService } from '@abp/ng.core';
-import { ToasterService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Tooltip } from 'bootstrap';
@@ -28,7 +27,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   isRecording = false;
   isPaused = false;
   isTranscribing = false;
-  wipoSubmitSucceeded = false;
   availableCameras: MediaDeviceInfo[] = [];
   selectedCameraId: string | null = null;
   recordedVideoUrl: string | null = null;
@@ -44,7 +42,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStep = 1;
   isSavingStepOne = false;
   isStepOneSaved = false;
-  transcriptionCompleted = false;
 
   private mediaRecorder: MediaRecorder | null = null;
   private recordedChunks: Blob[] = [];
@@ -70,14 +67,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private localizationService: LocalizationService,
-    private toaster: ToasterService,
     private apiErrorLocalization: ApiErrorLocalizationService
   ) {
     this.transcribeForm = this.fb.group({
       Title: ['', Validators.required],
       Description: ['', Validators.required],
       DocumentSetUrl: [''],
-      EventDate: [new Date().toISOString().slice(0, 16), Validators.required],
+      EventDate: [new Date().toISOString().split('T')[0], Validators.required],
+      ThumbNailImage: [''],
       TranscriptionMode: ['upload', Validators.required],
       Language: ['en', Validators.required],
       OutputFormat: ['mp4', Validators.required],
@@ -282,8 +279,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.stopStatusPolling();
     this.isTranscribing = true;
-    this.transcriptionCompleted = false;
-    this.wipoSubmitSucceeded = false;
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
@@ -300,10 +295,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       formData.append('transcriptionId', this.transcriptionId);
     }
     formData.append('title', this.transcribeForm.get('Title')?.value ?? 'Untitled Transcription');
-    formData.append('description', this.transcribeForm.get('Description')?.value ?? '');
     const eventDate = this.transcribeForm.get('EventDate')?.value;
     formData.append('dateOfTranscription', eventDate);
     formData.append('eventDate', eventDate);
+    formData.append('thumbNailImage', this.transcribeForm.get('ThumbNailImage')?.value ?? '');
     formData.append('inputSource', this.selectedMode === 'record' ? 'Recording' : 'Upload');
     formData.append('sourceReferenceId', sourceReferenceId);
     formData.append('language', language);
@@ -331,7 +326,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.transcriptionId = String(payload.transcriptionId);
       }
 
-      this.wipoSubmitSucceeded = true;
       this.transcribeStatus = 'Submitted. Waiting for transcription progress...';
       this.beginStatusPolling(sourceReferenceId, language);
     } catch (error: unknown) {
@@ -369,7 +363,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
 
-        const status = String(first.status ?? 'unknown').trim().toLowerCase();
+        const status = String(first.status ?? 'unknown').toLowerCase();
         const percent = Number(first.percent ?? 0);
         this.transcriptionPercent = Number.isFinite(percent) ? percent : 0;
         this.transcribeStatus = `Status: ${status} (${this.transcriptionPercent}%)`;
@@ -382,28 +376,16 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }
 
-        if (this.isSuccessfulCompletionStatus(status) || this.transcriptionPercent >= 100) {
+        if (status === 'finished' || status === 'done' || status === 'completed') {
           this.isTranscribing = false;
-          this.transcriptionCompleted = true;
           this.stopStatusPolling();
           this.transcribeStatus = `Transcription completed (${this.transcriptionPercent}%).`;
-          this.toaster.success(
-            this.t('Workflow::Transcription:ToastCompleted', 'Transcription completed successfully. You can now view the result.'),
-            this.t('Workflow::Transcription:ToastCompletedTitle', 'Transcription Complete'),
-            { life: 8000 }
-          );
         }
 
-        if (this.isFailedStatus(status)) {
+        if (status === 'failed' || status === 'error') {
           this.isTranscribing = false;
-          this.transcriptionCompleted = false;
           this.stopStatusPolling();
           this.transcribeStatus = 'Transcription failed on remote service.';
-          this.toaster.error(
-            this.t('Workflow::Transcription:ToastFailed', 'The transcription job failed on the remote service. Please try again.'),
-            this.t('Workflow::Transcription:ToastFailedTitle', 'Transcription Failed'),
-            { life: 10000 }
-          );
         }
       } catch (error: unknown) {
         const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
@@ -431,29 +413,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private resetTranscriptionState(): void {
     this.stopStatusPolling();
     this.isTranscribing = false;
-    this.transcriptionCompleted = false;
-    this.wipoSubmitSucceeded = false;
     this.transcribeStatus = null;
     this.transcriptionPercent = 0;
     this.transcriptionId = null;
     this.transcriptionReferenceId = null;
     this.transcriptionResultLinks = null;
-  }
-
-  get canViewTranscription(): boolean {
-    return !!(this.transcriptionId || this.transcriptionReferenceId) && this.transcriptionCompleted;
-  }
-
-  get viewTranscriptionButtonClass(): string {
-    return this.canViewTranscription ? 'btn btn-success rounded-0 fs-5' : 'btn btn-outline-success rounded-0 fs-5';
-  }
-
-  private isSuccessfulCompletionStatus(status: string): boolean {
-    return ['finished', 'done', 'completed', 'complete', 'success', 'succeeded'].includes(status);
-  }
-
-  private isFailedStatus(status: string): boolean {
-    return ['failed', 'error'].includes(status);
   }
 
   private getInputFormat(videoData: Blob | File): string {
@@ -590,6 +554,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       language: this.transcribeForm.get('Language')?.value,
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
+      thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
     };
 
     try {
@@ -613,9 +578,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       const responsePayload = await response.json();
       if (responsePayload?.transcriptionId) {
         this.transcriptionId = String(responsePayload.transcriptionId);
-      }
-      if (responsePayload?.sourceReferenceId) {
-        this.transcriptionReferenceId = String(responsePayload.sourceReferenceId);
       }
 
       this.persistStepOneDraft(payload, true);
@@ -692,6 +654,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       language: this.transcribeForm.get('Language')?.value,
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
+      thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
       isSaved: isSaved ?? this.isStepOneSaved,
       ...payload,
     };
@@ -714,6 +677,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         Language: draft?.language ?? 'en',
         TranscriptionMode: draft?.transcriptionMode ?? 'upload',
         DocumentSetUrl: draft?.documentSetUrl ?? '',
+        ThumbNailImage: draft?.thumbNailImage ?? '',
       });
 
       this.transcriptionId = draft?.transcriptionId ?? null;
@@ -767,26 +731,12 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToViewPage(): void {
-    if (!this.canViewTranscription) {
-      return;
-    }
+    if (!this.transcriptionId) return;
+    this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
 
-    if (this.transcriptionId) {
-      void this.router.navigate(['/transcribe/view', this.transcriptionId]);
-      return;
-    }
-
-    if (this.transcriptionReferenceId) {
-      void this.router.navigate(['/transcribe/view', 'lookup'], {
-        queryParams: {
-          sourceReferenceId: this.transcriptionReferenceId,
-        },
-      });
-    }
+   
   }
-
-  goToTranscriptionListPage(): void {
-    const url = this.router.serializeUrl(this.router.createUrlTree(['/transcribe/list']));
-    window.open(url, '_blank');
-  }
+   goToTranscriptionListPage(): void {
+      this.router.navigate(['/transcribe/list']);
+    }
 }

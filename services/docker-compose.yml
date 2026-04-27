@@ -1,0 +1,170 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: rp-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQLSERVER_PASSWORD:-P@ssw0rd123}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - rp-sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -Q \"SELECT 1\" -C"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: rp-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - rp-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rp-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rp-rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  identity-service:
+    build:
+      context: ..
+      dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
+    image: rp/identity-service:local
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__redis: "redis:6379"
+      RabbitMQ__Connections__Default__HostName: "rabbitmq"
+      RabbitMQ__Connections__Default__Port: "5672"
+      RabbitMQ__Connections__Default__UserName: "guest"
+      RabbitMQ__Connections__Default__Password: "guest"
+      App__CorsOrigins: "http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004"
+    ports:
+      - "7004:8080"
+
+  administration-service:
+    build:
+      context: ..
+      dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
+    image: rp/administration-service:local
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      AuthServer__Authority: "http://identity-service:8080/"
+      AuthServer__RequireHttpsMetadata: "false"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__redis: "redis:6379"
+      RabbitMQ__Connections__Default__HostName: "rabbitmq"
+      RabbitMQ__Connections__Default__Port: "5672"
+      RabbitMQ__Connections__Default__UserName: "guest"
+      RabbitMQ__Connections__Default__Password: "guest"
+      App__CorsOrigins: "http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004"
+    ports:
+      - "7001:8080"
+
+  saas-service:
+    build:
+      context: ..
+      dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
+    image: rp/saas-service:local
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      AuthServer__Authority: "http://identity-service:8080/"
+      AuthServer__RequireHttpsMetadata: "false"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__redis: "redis:6379"
+      RabbitMQ__Connections__Default__HostName: "rabbitmq"
+      RabbitMQ__Connections__Default__Port: "5672"
+      RabbitMQ__Connections__Default__UserName: "guest"
+      RabbitMQ__Connections__Default__Password: "guest"
+      App__CorsOrigins: "http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004"
+    ports:
+      - "7002:8080"
+
+  workflow-service:
+    build:
+      context: ..
+      dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
+    image: rp/workflow-service:local
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      identity-service:
+        condition: service_started
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      AuthServer__Authority: "http://identity-service:8080/"
+      AuthServer__RequireHttpsMetadata: "false"
+      RemoteServices__Default__BaseUrl: "http://identity-service:8080/"
+      RemoteServices__IdentityService__BaseUrl: "http://identity-service:8080/"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__redis: "redis:6379"
+      RabbitMQ__Connections__Default__HostName: "rabbitmq"
+      RabbitMQ__Connections__Default__Port: "5672"
+      RabbitMQ__Connections__Default__UserName: "guest"
+      RabbitMQ__Connections__Default__Password: "guest"
+      App__CorsOrigins: "http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004"
+    ports:
+      - "7003:8080"
+
+volumes:
+  rp-sql-data:
+  rp-redis-data:
+  rp-rabbitmq-data:
