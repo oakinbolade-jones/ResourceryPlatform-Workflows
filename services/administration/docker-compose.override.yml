@@ -5,7 +5,7 @@ services:
       - ConnectionStrings__Default=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};Database=Administration_Cache;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
     ports:
-      - "51600:80"
+      - "${ADMIN_STACK_IDENTITY_SERVER_PORT:-51600}:80"
 
   administration:
     environment:
@@ -15,6 +15,6 @@ services:
       - ConnectionStrings__AbpPermissionManagement=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
       - ConnectionStrings__AbpAuditLogging=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};Database=Administration_Cache;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
-      - AuthServer__Authority=http://identity-server
+      - AuthServer__Authority=${IDENTITY_SERVER_INTERNAL_URL:-http://identity-server}
     ports:
-      - "51601:80"
+      - "${ADMIN_STACK_SERVICE_PORT:-51601}:80"

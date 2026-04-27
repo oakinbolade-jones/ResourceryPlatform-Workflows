@@ -1,24 +1,24 @@
 services:
   redis:
     ports:
-      - "6379:6379"
+      - "${IDENTITY_STACK_REDIS_PORT:-6379}:6379"
 
   rabbitmq:
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "${IDENTITY_STACK_RABBITMQ_PORT:-5672}:5672"
+      - "${IDENTITY_STACK_RABBITMQ_MGMT_PORT:-15672}:15672"
 
   identity-service:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8080
       - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
       - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
-      - ConnectionStrings__redis=redis:6379
-      - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RabbitMQ__Connections__Default__Port=5672
-      - RabbitMQ__Connections__Default__UserName=guest
-      - RabbitMQ__Connections__Default__Password=guest
-      - AuthServer__Authority=http://identity-service:8080/
+      - ConnectionStrings__redis=${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}
+      - RabbitMQ__Connections__Default__HostName=${RABBITMQ_HOST:-rabbitmq}
+      - RabbitMQ__Connections__Default__Port=${RABBITMQ_PORT_INTERNAL:-5672}
+      - RabbitMQ__Connections__Default__UserName=${RABBITMQ_USER:-guest}
+      - RabbitMQ__Connections__Default__Password=${RABBITMQ_PASSWORD:-guest}
+      - AuthServer__Authority=${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080/}
       - AuthServer__RequireHttpsMetadata=false
     ports:
-      - "7004:8080"
+      - "${IDENTITY_STACK_SERVICE_PORT:-7004}:8080"
