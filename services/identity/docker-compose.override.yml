@@ -1,11 +1,4 @@
 services:
-  sqlserver:
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${SQLSERVER_PASSWORD:-P@ssw0rd123}
-    ports:
-      - "51599:1433"
-
   redis:
     ports:
       - "6379:6379"
@@ -18,8 +11,8 @@ services:
   identity-service:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8080
-      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
-      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-sqlserver},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
       - ConnectionStrings__redis=redis:6379
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - RabbitMQ__Connections__Default__Port=5672
