@@ -1,14 +1,12 @@
-version: '3.4'
-
 services:
   identity-server:
     build:
-      context: ../../
-      dockerfile: templates/service/host/IdentityServerHost/Dockerfile
+      context: ../..
+      dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
   
-  projects:
+  workflow-service:
     build:
-      context: ../../
-      dockerfile: templates/service/host/ResourceryPlatformWorkflow.Workflow.Host/Dockerfile
+      context: ../..
+      dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
     depends_on:
       - identity-server

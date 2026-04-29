@@ -1,28 +1,32 @@
 services:
   redis:
     ports:
-      - "6380:6379"
+      - "${AUTHSERVER_REDIS_PORT:-6380}:6379"
 
   rabbitmq:
     ports:
-      - "5673:5672"
-      - "15673:15672"
+      - "${AUTHSERVER_RABBITMQ_PORT:-5673}:5672"
+      - "${AUTHSERVER_RABBITMQ_MGMT_PORT:-15673}:15672"
 
   auth-server:
+    extra_hosts:
+      - "CONF-AJCHIGBU:host-gateway"
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8080
-      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
-      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
-      - ConnectionStrings__ResourceryPlatformWorkflowSaaSDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;
-      - ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowSaaSDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;
       - ConnectionStrings__redis=redis:6379
+      - ConnectionStrings__rabbitmq=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD:-guest}@rabbitmq:${RABBITMQ_PORT_INTERNAL:-5672}/
+      - ConnectionStrings__seq=${SEQ_URL:-http://host.docker.internal:5341}
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - RabbitMQ__Connections__Default__Port=5672
       - RabbitMQ__Connections__Default__UserName=guest
       - RabbitMQ__Connections__Default__Password=guest
-      - App__SelfUrl=http://localhost:7600
-      - App__ClientUrl=http://localhost:4200
-      - App__CorsOrigins=http://localhost:4200,https://localhost:5000,https://localhost:5001,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7005,https://localhost:7500,http://localhost:7600
+      - App__SelfUrl=http://localhost:${AUTHSERVER_PORT:-7600}
+      - App__ClientUrl=http://localhost:${ANGULAR_WEB_PORT:-4200}
+      - App__CorsOrigins=${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500},http://localhost:${AUTHSERVER_PORT:-7600}
       - App__RedirectAllowedUrls=http://localhost:4200,https://localhost:5000,https://localhost:7002
     ports:
-      - "7600:8080"
+      - "${AUTHSERVER_PORT:-7600}:8080"

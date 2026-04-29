@@ -52,25 +52,6 @@
                                 @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
                                 {
                                     <div class="mt-4">
-                                        @* <h5>@L["OrRegisterWith"]</h5> *@
-                                        @* <form asp-page="./Login" asp-page-handler="ExternalLogin"
-                                              asp-route-returnUrl="@Model.ReturnUrl"
-                                              asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
-                                              class="d-flex flex-wrap gap-2">
-                                            @foreach (var provider in Model.VisibleExternalProviders)
-                                            {
-                                                <button type="submit" class="btn btn-outline-success rounded-1 fw-semibold"
-                                                        name="provider" value="@provider.AuthenticationScheme"
-                                                        title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
-                                                
-                                                    @provider.DisplayName
-                                                
-                                                </button>
-                                            }
-
-                                        </form> *@
-
-
                                         <div class="w-100 d-flex justify-content-start">                                            
                                         <form asp-page="./Login" asp-page-handler="ExternalLogin"
                                                   asp-route-returnUrl="@Model.ReturnUrl"
@@ -100,14 +81,15 @@
                                         </div> 
 
                                     </div>
-                                }
-
-
-
-   
+                                }  
 
                             </div>
-                            <form method="post" class="mt-4">
+                            <div class="mb-3">
+                                    <p class="fw-semibold fs-4">@LW["Account|OR"]</p>
+                                    <hr class=""/>
+                                </div>
+                                
+                            <form method="post" class="mt-4">                                
                                 <abp-validation-summary />
                                 @if (Model.EnableLocalRegister || Model.IsExternalLogin)
                                 {

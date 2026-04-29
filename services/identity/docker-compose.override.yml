@@ -11,8 +11,8 @@ services:
   identity-service:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:8080
-      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
-      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
       - ConnectionStrings__redis=${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}
       - RabbitMQ__Connections__Default__HostName=${RABBITMQ_HOST:-rabbitmq}
       - RabbitMQ__Connections__Default__Port=${RABBITMQ_PORT_INTERNAL:-5672}

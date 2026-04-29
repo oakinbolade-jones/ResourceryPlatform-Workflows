@@ -26,6 +26,17 @@ services:
       timeout: 5s
       retries: 10
 
+  seq:
+    image: datalust/seq:latest
+    container_name: rp-seq
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "${SEQ_PORT:-5341}:5341"
+      - "${SEQ_UI_PORT:-5342}:80"
+    volumes:
+      - rp-seq-data:/data
+
   identity-service:
     build:
       context: ..
@@ -36,18 +47,21 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      seq:
+        condition: service_started
     environment:
       ASPNETCORE_URLS: "http://+:8080"
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
       ConnectionStrings__redis: "${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}"
+      ConnectionStrings__seq: "${SEQ_URL:-http://seq:5341}"
       RabbitMQ__Connections__Default__HostName: "${RABBITMQ_HOST:-rabbitmq}"
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
       - "${IDENTITY_SERVICE_PORT:-7004}:8080"
 
@@ -61,22 +75,25 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      seq:
+        condition: service_started
       identity-service:
         condition: service_started
     environment:
       ASPNETCORE_URLS: "http://+:8080"
       AuthServer__Authority: "${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080/}"
       AuthServer__RequireHttpsMetadata: "false"
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
       ConnectionStrings__redis: "${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}"
+      ConnectionStrings__seq: "${SEQ_URL:-http://seq:5341}"
       RabbitMQ__Connections__Default__HostName: "${RABBITMQ_HOST:-rabbitmq}"
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
       - "${ADMINISTRATION_SERVICE_PORT:-7001}:8080"
 
@@ -90,22 +107,25 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      seq:
+        condition: service_started
       identity-service:
         condition: service_started
     environment:
       ASPNETCORE_URLS: "http://+:8080"
       AuthServer__Authority: "${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080/}"
       AuthServer__RequireHttpsMetadata: "false"
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
       ConnectionStrings__redis: "${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}"
+      ConnectionStrings__seq: "${SEQ_URL:-http://seq:5341}"
       RabbitMQ__Connections__Default__HostName: "${RABBITMQ_HOST:-rabbitmq}"
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
       - "${SAAS_SERVICE_PORT:-7002}:8080"
 
@@ -119,6 +139,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      seq:
+        condition: service_started
       identity-service:
         condition: service_started
     environment:
@@ -127,19 +149,32 @@ services:
       AuthServer__RequireHttpsMetadata: "false"
       RemoteServices__Default__BaseUrl: "${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080/}"
       RemoteServices__IdentityService__BaseUrl: "${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080/}"
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;"
       ConnectionStrings__redis: "${REDIS_HOST:-redis}:${REDIS_PORT_INTERNAL:-6379}"
+      ConnectionStrings__seq: "${SEQ_URL:-http://seq:5341}"
       RabbitMQ__Connections__Default__HostName: "${RABBITMQ_HOST:-rabbitmq}"
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
       - "${WORKFLOW_SERVICE_PORT:-7003}:8080"
+
+  angular-web:
+    build:
+      context: ..
+      dockerfile: apps/ResourceryPlatformWeb/Dockerfile
+    image: rp/angular-web:local
+    depends_on:
+      identity-service:
+        condition: service_started
+    ports:
+      - "${ANGULAR_WEB_PORT:-4200}:80"
 
 volumes:
   rp-redis-data:
   rp-rabbitmq-data:
+  rp-seq-data:

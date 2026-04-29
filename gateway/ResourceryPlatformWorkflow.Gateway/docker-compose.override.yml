@@ -1,0 +1,11 @@
+services:
+  gateway:
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
+      - ReverseProxy__Clusters__administration__Destinations__administration__Address=${GATEWAY_ADMINISTRATION_INTERNAL_URL:-http://host.docker.internal:7001}
+      - ReverseProxy__Clusters__identity__Destinations__identity__Address=${GATEWAY_IDENTITY_INTERNAL_URL:-http://host.docker.internal:7002}
+      - ReverseProxy__Clusters__account__Destinations__account__Address=${GATEWAY_ACCOUNT_INTERNAL_URL:-http://host.docker.internal:7002}
+      - ReverseProxy__Clusters__saas__Destinations__saas__Address=${GATEWAY_SAAS_INTERNAL_URL:-http://host.docker.internal:7003}
+      - ReverseProxy__Clusters__workflow__Destinations__workflow__Address=${GATEWAY_WORKFLOW_INTERNAL_URL:-http://host.docker.internal:7004}
+    ports:
+      - "${GATEWAY_PORT:-7500}:8080"

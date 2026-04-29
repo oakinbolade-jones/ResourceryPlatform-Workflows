@@ -105,6 +105,10 @@
 
                             @if (Model.EnableLocalLogin)
                             {
+                                <div class="mb-3">
+                                    <p class="fw-semibold fs-4">@LW["Account|OR"]</p>
+                                    <hr class=""/>
+                                </div>
                                 <form method="post" class="mt-4" id="loginForm">
                                     <abp-validation-summary />
                                     <div class="mb-3">
