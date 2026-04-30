@@ -1,13 +1,4 @@
 services:
-  redis:
-    ports:
-      - "${AUTHSERVER_REDIS_PORT:-6380}:6379"
-
-  rabbitmq:
-    ports:
-      - "${AUTHSERVER_RABBITMQ_PORT:-5673}:5672"
-      - "${AUTHSERVER_RABBITMQ_MGMT_PORT:-15673}:15672"
-
   auth-server:
     extra_hosts:
       - "CONF-AJCHIGBU:host-gateway"
@@ -17,10 +8,10 @@ services:
       - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
       - ConnectionStrings__ResourceryPlatformWorkflowSaaSDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;
       - ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;
-      - ConnectionStrings__redis=redis:6379
-      - ConnectionStrings__rabbitmq=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD:-guest}@rabbitmq:${RABBITMQ_PORT_INTERNAL:-5672}/
-      - ConnectionStrings__seq=${SEQ_URL:-http://host.docker.internal:5341}
-      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - ConnectionStrings__redis=${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
+      - ConnectionStrings__rabbitmq=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD:-guest}@${RABBITMQ_HOST:-smartserve-rabbitmq}:${RABBITMQ_PORT_INTERNAL:-5672}/
+      - ConnectionStrings__seq=${SEQ_URL:-http://smartserve-seq:5341}
+      - RabbitMQ__Connections__Default__HostName=${RABBITMQ_HOST:-smartserve-rabbitmq}
       - RabbitMQ__Connections__Default__Port=5672
       - RabbitMQ__Connections__Default__UserName=guest
       - RabbitMQ__Connections__Default__Password=guest

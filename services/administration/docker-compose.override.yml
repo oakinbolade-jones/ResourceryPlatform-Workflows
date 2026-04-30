@@ -1,12 +1,4 @@
 services:
-  identity-server:
-    environment:
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__Default=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
-      - ConnectionStrings__SqlServerCache=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};Database=Administration_Cache;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
-    ports:
-      - "${ADMIN_STACK_IDENTITY_SERVER_PORT:-51600}:80"
-
   administration-service:
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:80
@@ -15,6 +7,13 @@ services:
       - ConnectionStrings__AbpPermissionManagement=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
       - ConnectionStrings__AbpAuditLogging=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};Database=Administration_Identity;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
       - ConnectionStrings__SqlServerCache=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};Database=Administration_Cache;Trusted_Connection=True;User=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};Integrated Security=false
-      - AuthServer__Authority=${IDENTITY_SERVER_INTERNAL_URL:-http://identity-server}
+      - ConnectionStrings__redis=${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
+      - ConnectionStrings__rabbitmq=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASSWORD:-guest}@${RABBITMQ_HOST:-smartserve-rabbitmq}:${RABBITMQ_PORT_INTERNAL:-5672}/
+      - ConnectionStrings__seq=${SEQ_URL:-http://smartserve-seq:5341}
+      - RabbitMQ__Connections__Default__HostName=${RABBITMQ_HOST:-smartserve-rabbitmq}
+      - RabbitMQ__Connections__Default__Port=${RABBITMQ_PORT_INTERNAL:-5672}
+      - RabbitMQ__Connections__Default__UserName=${RABBITMQ_USER:-guest}
+      - RabbitMQ__Connections__Default__Password=${RABBITMQ_PASSWORD:-guest}
+      - AuthServer__Authority=${IDENTITY_SERVER_INTERNAL_URL:-http://host.docker.internal:7600/}
     ports:
-      - "${ADMIN_STACK_SERVICE_PORT:-51601}:80"
+      - "${ADMINISTRATION_SERVICE_PORT:-7001}:80"

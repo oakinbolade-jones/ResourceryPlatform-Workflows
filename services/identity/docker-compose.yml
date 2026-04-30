@@ -1,26 +1,13 @@
 services:
-  redis:
-    image: redis:7-alpine
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
   identity-service:
     build:
       context: ../../
       dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+    networks:
+      - default
+      - shared-infra
+
+networks:
+  shared-infra:
+    external: true
+    name: services_default

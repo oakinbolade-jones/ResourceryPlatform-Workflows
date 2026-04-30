@@ -1,11 +1,11 @@
 services:
   redis:
     image: redis:7-alpine
-    container_name: rp-redis
+    container_name: smartserve-redis
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
-      - rp-redis-data:/data
+      - smartserve-redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -14,12 +14,12 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: rp-rabbitmq
+    container_name: smartserve-rabbitmq
     ports:
       - "${RABBITMQ_PORT:-5672}:5672"
       - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
     volumes:
-      - rp-rabbitmq-data:/var/lib/rabbitmq
+      - smartserve-rabbitmq-data:/var/lib/rabbitmq
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
@@ -28,20 +28,22 @@ services:
 
   seq:
     image: datalust/seq:latest
-    container_name: rp-seq
+    container_name: smartserve-seq
     environment:
       ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_NOAUTHENTICATION: "${SEQ_FIRSTRUN_NOAUTHENTICATION:-false}"
+      SEQ_FIRSTRUN_ADMINPASSWORD: "${SEQ_FIRSTRUN_ADMINPASSWORD:-ChangeMe_SeqAdmin_2026!}"
     ports:
       - "${SEQ_PORT:-5341}:5341"
       - "${SEQ_UI_PORT:-5342}:80"
     volumes:
-      - rp-seq-data:/data
+      - smartserve-seq-data:/data
 
   identity-service:
     build:
       context: ..
       dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
-    image: rp/identity-service:local
+    image: smartserve/identity-service:local
     depends_on:
       redis:
         condition: service_healthy
@@ -63,13 +65,13 @@ services:
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
       App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
-      - "${IDENTITY_SERVICE_PORT:-7004}:8080"
+      - "${IDENTITY_SERVICE_PORT:-7002}:8080"
 
   administration-service:
     build:
       context: ..
       dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
-    image: rp/administration-service:local
+    image: smartserve/administration-service:local
     depends_on:
       redis:
         condition: service_healthy
@@ -101,7 +103,7 @@ services:
     build:
       context: ..
       dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
-    image: rp/saas-service:local
+    image: smartserve/saas-service:local
     depends_on:
       redis:
         condition: service_healthy
@@ -127,13 +129,13 @@ services:
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
       App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
-      - "${SAAS_SERVICE_PORT:-7002}:8080"
+      - "${SAAS_SERVICE_PORT:-7003}:8080"
 
   workflow-service:
     build:
       context: ..
       dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
-    image: rp/workflow-service:local
+    image: smartserve/workflow-service:local
     depends_on:
       redis:
         condition: service_healthy
@@ -161,13 +163,13 @@ services:
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
       App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
     ports:
-      - "${WORKFLOW_SERVICE_PORT:-7003}:8080"
+      - "${WORKFLOW_SERVICE_PORT:-7004}:8080"
 
   angular-web:
     build:
       context: ..
       dockerfile: apps/ResourceryPlatformWeb/Dockerfile
-    image: rp/angular-web:local
+    image: smartserve/angular-web:local
     depends_on:
       identity-service:
         condition: service_started
@@ -175,6 +177,6 @@ services:
       - "${ANGULAR_WEB_PORT:-4200}:80"
 
 volumes:
-  rp-redis-data:
-  rp-rabbitmq-data:
-  rp-seq-data:
+  smartserve-redis-data:
+  smartserve-rabbitmq-data:
+  smartserve-seq-data:

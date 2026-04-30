@@ -10,16 +10,16 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:7600/',
+    issuer: 'http://localhost:7600/',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
-    scope: 'ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+    scope: 'profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
     requireHttps: false,
   },
   apis: {
     default: {
-      url: 'https://localhost:7500',
+      url: 'http://localhost:7500',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },

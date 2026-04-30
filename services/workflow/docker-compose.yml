@@ -1,12 +1,13 @@
 services:
-  identity-server:
-    build:
-      context: ../..
-      dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
-  
   workflow-service:
     build:
       context: ../..
       dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
-    depends_on:
-      - identity-server
+    networks:
+      - default
+      - shared-infra
+
+networks:
+  shared-infra:
+    external: true
+    name: services_default

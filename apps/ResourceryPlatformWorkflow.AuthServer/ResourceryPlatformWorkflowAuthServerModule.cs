@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Server.AspNetCore;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Middleware;
@@ -62,6 +63,8 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
         PreConfigure<OpenIddictBuilder>(builder =>
@@ -72,6 +75,14 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
+
+            if (hostingEnvironment.IsDevelopment())
+            {
+                builder.AddServer(options =>
+                {
+                    options.UseAspNetCore().DisableTransportSecurityRequirement();
+                });
+            }
         });
     }
 
