@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Server;
 using OpenIddict.Server.AspNetCore;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
@@ -90,6 +91,23 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
+
+        Configure<OpenIddictServerOptions>(options =>
+        {
+            var accessTokenLifetimeInMinutes = configuration.GetValue<int?>(
+                "OpenIddict:AccessTokenLifetimeInMinutes"
+            );
+            var refreshTokenLifetimeInDays = configuration.GetValue<int?>(
+                "OpenIddict:RefreshTokenLifetimeInDays"
+            );
+
+            options.AccessTokenLifetime = TimeSpan.FromMinutes(
+                accessTokenLifetimeInMinutes.GetValueOrDefault(30)
+            );
+            options.RefreshTokenLifetime = TimeSpan.FromDays(
+                refreshTokenLifetimeInDays.GetValueOrDefault(30)
+            );
+        });
 
         ConfigureMicrosoftExternalLogin(context, configuration);
 

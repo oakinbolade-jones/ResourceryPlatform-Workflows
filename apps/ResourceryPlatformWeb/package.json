@@ -1,8 +1,9 @@
 {
-  "name": "ResourceryPlatformWorkflow",
+  "name": "Smart",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "powershell -ExecutionPolicy Bypass -File ./scripts/ensure-dev-cert.ps1",
     "start": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --configuration production",

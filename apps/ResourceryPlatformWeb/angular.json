@@ -109,6 +109,13 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl": true,
+            "sslCert": ".cert/localhost.pem",
+            "sslKey": ".cert/localhost.key",
+            "host": "localhost",
+            "port": 4200
+          },
           "configurations": {
             "production": {
               "buildTarget": "ResourceryPlatformWorkflow:build:production"

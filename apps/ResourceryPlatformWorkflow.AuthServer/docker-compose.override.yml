@@ -15,9 +15,9 @@ services:
       - RabbitMQ__Connections__Default__Port=5672
       - RabbitMQ__Connections__Default__UserName=guest
       - RabbitMQ__Connections__Default__Password=guest
-      - App__SelfUrl=http://localhost:${AUTHSERVER_PORT:-7600}
-      - App__ClientUrl=http://localhost:${ANGULAR_WEB_PORT:-4200}
-      - App__CorsOrigins=${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500},http://localhost:${AUTHSERVER_PORT:-7600}
-      - App__RedirectAllowedUrls=http://localhost:4200,https://localhost:5000,https://localhost:7002
+      - App__SelfUrl=https://localhost:${AUTHSERVER_PORT:-7600}
+      - App__ClientUrl=https://localhost:${ANGULAR_WEB_PORT:-4200}
+      - App__CorsOrigins=${APP_CORS_ORIGINS:-https://localhost:4200,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7500},https://localhost:${AUTHSERVER_PORT:-7600}
+      - App__RedirectAllowedUrls=https://localhost:4200,https://localhost:5000,https://localhost:7002
     ports:
       - "${AUTHSERVER_PORT:-7600}:8080"

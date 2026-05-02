@@ -63,7 +63,7 @@ services:
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-https://localhost:4200,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7500}"
     ports:
       - "${IDENTITY_SERVICE_PORT:-7002}:8080"
 
@@ -95,7 +95,7 @@ services:
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-https://localhost:4200,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7500}"
     ports:
       - "${ADMINISTRATION_SERVICE_PORT:-7001}:8080"
 
@@ -127,7 +127,7 @@ services:
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-https://localhost:4200,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7500}"
     ports:
       - "${SAAS_SERVICE_PORT:-7003}:8080"
 
@@ -161,7 +161,7 @@ services:
       RabbitMQ__Connections__Default__Port: "${RABBITMQ_PORT_INTERNAL:-5672}"
       RabbitMQ__Connections__Default__UserName: "${RABBITMQ_USER:-guest}"
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
-      App__CorsOrigins: "${APP_CORS_ORIGINS:-http://localhost:4200,http://localhost:7001,http://localhost:7002,http://localhost:7003,http://localhost:7004,http://localhost:7500}"
+      App__CorsOrigins: "${APP_CORS_ORIGINS:-https://localhost:4200,https://localhost:7001,https://localhost:7002,https://localhost:7003,https://localhost:7004,https://localhost:7500}"
     ports:
       - "${WORKFLOW_SERVICE_PORT:-7004}:8080"
 
