@@ -9,6 +9,7 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
 export class ListTranscriptionComponent implements OnInit {
   loading = false;
   error: string | null = null;
+  deletingId: string | null = null;
   transcriptions: TranscriptionDto[] = [];
   searchTitle = '';
   searchDate = '';
@@ -42,6 +43,31 @@ export class ListTranscriptionComponent implements OnInit {
   clearFilters(): void {
     this.searchTitle = '';
     this.searchDate = '';
+  }
+
+  deleteTranscription(item: TranscriptionDto): void {
+    if (!item?.id || this.deletingId) {
+      return;
+    }
+
+    const confirmed = window.confirm('Are you sure you want to delete this transcription?');
+    if (!confirmed) {
+      return;
+    }
+
+    this.deletingId = item.id;
+    this.error = null;
+
+    this.transcriptionService.delete(item.id).subscribe({
+      next: () => {
+        this.transcriptions = this.transcriptions.filter(x => x.id !== item.id);
+        this.deletingId = null;
+      },
+      error: () => {
+        this.error = 'Unable to delete transcription.';
+        this.deletingId = null;
+      },
+    });
   }
 
   private loadTranscriptions(): void {

@@ -12,18 +12,13 @@
 <div class="lpx-content-container">
     <div class="lpx-content">
         <div class="container-fluid my-5">
-            <div class="row justify-content-center my-5">
-                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
-                    <img src="/images/logo/ecw-smartserve-logo.png" alt="DCP Smart Serve Platform"
-                         style="max-width: 220px;" />
-                </div>
-            </div>
+          
             <div class="row justify-content-center">
                 <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
                     <div  class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
-                        <div  class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 w-50">                         ">
+                        <div  class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 w-50">                        
                             <!-- Hero/branding section (edit freely) -->
-                            <h2 class="h3 mb-3 fs-2 fw-bold">@L["Register"]</h2>
+                            <h2 class="h3 mb-3 fs-2 fw-normal title">@L["Register"]</h2>
                             <p class="fw-normal fs-6 text-body-secondary">
                                 @L["AlreadyRegistered"]
                                 <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })"
@@ -56,7 +51,7 @@
                                         <form asp-page="./Login" asp-page-handler="ExternalLogin"
                                                   asp-route-returnUrl="@Model.ReturnUrl"
                                                   asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
-                                                  class="d-flex flex-wrap gap-2">
+                                                  class="d-flex flex-wrap gap-2 p-0">
                                                 @foreach (var provider in Model.VisibleExternalProviders)
                                                 {                                                    
                                                     @if (@provider.AuthenticationScheme == "Microsoft")
@@ -65,7 +60,7 @@
                                                                 value="@provider.AuthenticationScheme"
                                                                 title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
                                                             <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission"
-                                                                 class="d-inline-block align-text-center"
+                                                                 class="d-inline-block align-text-center me-2"
                                                                  style="max-width: 35px;" /> @LW["Account:RegisterWithECOWASMail"]
                                                         </button>                                                           
                                                     }
@@ -85,7 +80,7 @@
 
                             </div>
                             <div class="mb-3">
-                                    <p class="fw-semibold fs-4">@LW["Account|OR"]</p>
+                                    <p class="fw-semibold fs-4">@LW["ECOWASAccountOR"]</p>
                                     <hr class=""/>
                                 </div>
                                 

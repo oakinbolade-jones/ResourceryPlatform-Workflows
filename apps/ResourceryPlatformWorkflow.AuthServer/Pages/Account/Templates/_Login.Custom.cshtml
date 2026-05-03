@@ -19,18 +19,13 @@
 <div class="lpx-content-container">
     <div class="lpx-content">
         <div class="container-fluid my-5">
-            <div class="row justify-content-center my-5">
-                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
-                    <img src="/images/logo/ecw-smartserve-logo.png" alt="DCP Smart Serve Platform" 
-                     style="max-width: 220px;" />
-                </div>
-            </div>
+          
             <div class="row justify-content-center">
                 <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">                    
                     <div class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
                         <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 w-50">
                             <!-- Hero/branding section (edit freely) -->                            
-                            <h2 class="h3 mb-3 fs-2 fw-bold">@LW["Account:GetStarted"]</h2>
+                            <h2 class="h3 mb-3 fs-2 fw-normal title">@LW["Account:GetStarted"]</h2>
                             
                             @* <p class="fw-bold fs-4 mb-2 text-success-subtle">@LW["Account:LoginContinue"]</p> *@
                             
@@ -66,7 +61,7 @@
                                             <form asp-page="./Login" asp-page-handler="ExternalLogin"
                                                   asp-route-returnUrl="@Model.ReturnUrl"
                                                   asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
-                                                  class="d-flex flex-wrap gap-2">
+                                                  class="d-flex flex-wrap gap-2 p-0">
                                                 @foreach (var provider in Model.VisibleExternalProviders)
                                                 {                                                    
                                                     @if (@provider.AuthenticationScheme == "Microsoft")
@@ -106,7 +101,7 @@
                             @if (Model.EnableLocalLogin)
                             {
                                 <div class="mb-3">
-                                    <p class="fw-semibold fs-4">@LW["Account|OR"]</p>
+                                    <p class="fw-semibold fs-4">@LW["ECOWASAccountOR"]</p>
                                     <hr class=""/>
                                 </div>
                                 <form method="post" class="mt-4" id="loginForm">

@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Millik';
+    src: url('/fonts/millik/Millik.otf') format('opentype'),
+         url('/fonts/millik/Millik.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
     min-height: 100vh;
     background-color: #fff;
@@ -6,9 +14,7 @@ html, body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-.left-side{
- background-image: url('/images/background/bg-home.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+
+.title{
+    font-family: Millik !important;
 }

@@ -47,6 +47,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
   mediaUrl: string | null = null;
+  mediaError: string | null = null;
   transcriptLines: TranscriptLine[] = [];
   hasTranscript = false;
   transcriptParseError: string | null = null;
@@ -131,6 +132,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private bindLoadedTranscription(transcription: TranscriptionDto): void {
     this.transcription = transcription;
+    this.mediaError = null;
     this.mediaUrl = this.resolveMediaUrl(transcription);
     this.bindTranscriptFromField(transcription);
     this.loading = false;
@@ -140,6 +142,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.error = message;
     this.transcription = null;
     this.mediaUrl = null;
+    this.mediaError = null;
     this.hasTranscript = false;
     this.transcriptLines = [];
     this.allWords = [];
@@ -148,7 +151,23 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private resolveMediaUrl(transcription: TranscriptionDto): string | null {
     const linkToVideo = (transcription.linkToVideo ?? '').trim();
-    return linkToVideo || null;
+    if (!linkToVideo) {
+      return null;
+    }
+
+    try {
+      const parsedUrl = new URL(linkToVideo, window.location.origin);
+
+      if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
+        this.mediaError =
+          'This media source is served over HTTP and is blocked on secure pages. Please use an HTTPS media URL.';
+        return null;
+      }
+
+      return parsedUrl.toString();
+    } catch {
+      return linkToVideo;
+    }
   }
 
   private bindTranscriptFromField(transcription: TranscriptionDto): void {
@@ -368,8 +387,32 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
 
     player.currentTime = Math.max(0, word.start || 0);
-    void player.play();
+    const playResult = player.play();
+    if (playResult && typeof playResult.catch === 'function') {
+      playResult.catch(() => {
+        this.mediaError =
+          'Unable to play the selected media source. Verify the media URL is reachable and served over HTTPS.';
+      });
+    }
     this.syncToVideoTime();
+  }
+
+  onVideoError(): void {
+    const mediaElement = this.videoPlayer?.nativeElement;
+    const mediaErrorCode = mediaElement?.error?.code;
+
+    if (mediaErrorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+      this.mediaError =
+        'The media source is not supported or could not be loaded. Verify format and HTTPS availability.';
+      return;
+    }
+
+    this.mediaError =
+      'Unable to load media for playback. Verify the media URL is reachable and served over HTTPS.';
+  }
+
+  onVideoCanPlay(): void {
+    this.mediaError = null;
   }
 
   onLineClick(line: TranscriptLine): void {

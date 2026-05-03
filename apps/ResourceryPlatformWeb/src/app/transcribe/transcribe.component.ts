@@ -689,8 +689,22 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private t(key: string, fallback: string): string {
-    const value = this.localizationService.instant(key);
-    return value && value !== key ? value : fallback;
+    const normalizedKey = this.normalizeLocalizationKey(key);
+    if (!normalizedKey) {
+      return fallback;
+    }
+
+    const value = this.localizationService.instant(normalizedKey);
+    return value && value !== normalizedKey ? value : fallback;
+  }
+
+  private normalizeLocalizationKey(key: string): string {
+    const trimmed = (key ?? '').trim();
+    if (!trimmed) {
+      return '';
+    }
+
+    return trimmed.includes('::') ? trimmed : `Workflow::${trimmed}`;
   }
 
   private buildResultDownloadLinks(

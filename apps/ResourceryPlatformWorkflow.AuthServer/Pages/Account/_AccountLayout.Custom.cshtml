@@ -3,36 +3,65 @@
 @inject Volo.Abp.Localization.ILanguageProvider LanguageProvider
 
 @{
-    var languages = await LanguageProvider.GetLanguagesAsync();
-    var currentLanguage = CultureInfo.CurrentUICulture.Name;
-    var returnUrl = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
+	var languages = await LanguageProvider.GetLanguagesAsync();
+	var currentLanguage = CultureInfo.CurrentUICulture.Name;
+	var returnUrl = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
 }
 
 <link rel="stylesheet" href="~/libs/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/styles.css" />
+<link rel="stylesheet" href="~/global-styles.css" />
 <link rel="stylesheet" href="~/libs/fortawesome/fontawesome-free/css/all.css" />
 <script src="~/libs/bootstrap/js/bootstrap.bundle.js"></script>
 
 <nav class="navbar navbar-expand navbar-light bg-light border-bottom mb-3">
-	<div class="container-fluid justify-content-end">
-		@if (languages != null && languages.Count > 0)
-		{
-			<div class="dropdown">
-				<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					@(languages.FirstOrDefault(x => x.CultureName == currentLanguage)?.DisplayName ?? currentLanguage)
-				</button>
-				<ul class="dropdown-menu dropdown-menu-end">
-					@foreach (var language in languages)
-					{
-						<li>
-							<a class="dropdown-item" href="~/Abp/Languages/Switch?culture=@language.CultureName&uiCulture=@language.UiCultureName&returnUrl=@returnUrl">
-								@language.DisplayName
-							</a>
-						</li>
-					}
-				</ul>
+	<div class="container-fluid my-5">
+		<div class="row justify-content-center w-100">
+			<div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
+
+				<div class="row w-75 justify-content-center align-items-center g-0">
+					<div class="col">
+						<a class="navbar-brand d-flex align-items-center" >
+							<img src="/images/logo/ecw-smartserve-logo.png" alt="SmartServe" class="me-2"
+								 style="max-width: 220px;" />
+						</a>
+					</div>
+					<div class="col">
+						<div class="row justify-content-end">
+							<div class="col d-flex justify-content-end">
+								@if (languages != null && languages.Count > 0)
+								{
+									<div class="dropdown">
+										<button
+											class="btn btn-outline-success dropdown-toggle d-inline-flex align-items-center"
+											type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				
+											@(languages.FirstOrDefault(x => x.CultureName == currentLanguage)?.DisplayName
+												??
+												currentLanguage)
+										</button>
+										<ul class="dropdown-menu dropdown-menu-end">
+											@foreach (var language in languages)
+											{
+												<li>
+													<a class="dropdown-item"
+														   href="~/Abp/Languages/Switch?culture=@language.CultureName&uiCulture=@language.UiCultureName&returnUrl=@returnUrl">
+														@language.DisplayName
+													</a>
+												</li>
+											}
+										</ul>
+									</div>
+								}
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
 			</div>
-		}
+				
+		</div>
 	</div>
 </nav>
 

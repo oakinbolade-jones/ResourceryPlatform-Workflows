@@ -1,4 +1,12 @@
 /* Your Global Styles */
+@font-face {
+    font-family: 'Millik';
+    src: url('/fonts/millik/Millik.otf') format('opentype'),
+         url('/fonts/millik/Millik.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html, body {
     min-height: 100vh;
     background-color: #161616;
@@ -40,6 +48,9 @@ html, body {
         width: var(--rp-account-col-md-8-width) !important;
         max-width: var(--rp-account-col-md-8-width) !important;
     }
+}
+.title{
+    font-family: Millik !important;
 }
 
 /*

@@ -21,7 +21,7 @@ export class ApiErrorLocalizationService {
   }
 
   resolveStatusMessage(status: number, defaultKey: string, defaultFallback: string): string {
-    const key = `Workflow::Transcription:ApiError:Status${status}`;
+    const key = this.normalizeLocalizationKey(`Workflow::Transcription:ApiError:Status${status}`);
     const localizedStatusMessage = this.localizationService.instant(key);
 
     if (localizedStatusMessage && localizedStatusMessage !== key) {
@@ -73,7 +73,21 @@ export class ApiErrorLocalizationService {
   }
 
   private t(key: string, fallback: string): string {
-    const value = this.localizationService.instant(key);
-    return value && value !== key ? value : fallback;
+    const normalizedKey = this.normalizeLocalizationKey(key);
+    if (!normalizedKey) {
+      return fallback;
+    }
+
+    const value = this.localizationService.instant(normalizedKey);
+    return value && value !== normalizedKey ? value : fallback;
+  }
+
+  private normalizeLocalizationKey(key: string): string {
+    const trimmed = (key ?? '').trim();
+    if (!trimmed) {
+      return '';
+    }
+
+    return trimmed.includes('::') ? trimmed : `Workflow::${trimmed}`;
   }
 }
