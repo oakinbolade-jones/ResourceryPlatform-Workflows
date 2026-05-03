@@ -1,0 +1,13 @@
+services:
+  identity-service:
+    build:
+      context: ../../
+      dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
+    networks:
+      - default
+      - shared-infra
+
+networks:
+  shared-infra:
+    external: true
+    name: services_default

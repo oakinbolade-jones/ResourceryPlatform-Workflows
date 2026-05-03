@@ -14,7 +14,11 @@ public static class HostApplicationBuilderExtensions
                 )
         );
         builder.AddRedisDistributedCache(connectionName: ResourceryPlatformWorkflowNames.Redis);
-        builder.AddSeqEndpoint(connectionName: ResourceryPlatformWorkflowNames.Seq);
+
+        if (!string.IsNullOrEmpty(builder.Configuration.GetConnectionString(ResourceryPlatformWorkflowNames.Seq)))
+        {
+            builder.AddSeqEndpoint(connectionName: ResourceryPlatformWorkflowNames.Seq);
+        }
 
         return builder;
     }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { Router } from '@angular/router';
+=======
+>>>>>>> refs/heads/development
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
 
 @Component({
@@ -10,6 +13,7 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
 export class ListTranscriptionComponent implements OnInit {
   loading = false;
   error: string | null = null;
+<<<<<<< HEAD
   transcriptions: TranscriptionDto[] = [];
   searchTitle = '';
   searchDate = '';
@@ -20,6 +24,14 @@ export class ListTranscriptionComponent implements OnInit {
     private transcriptionService: TranscriptionService,
     private router: Router
   ) {}
+=======
+  deletingId: string | null = null;
+  transcriptions: TranscriptionDto[] = [];
+  searchTitle = '';
+  searchDate = '';
+
+  constructor(private transcriptionService: TranscriptionService) {}
+>>>>>>> refs/heads/development
 
   ngOnInit(): void {
     this.loadTranscriptions();
@@ -50,6 +62,7 @@ export class ListTranscriptionComponent implements OnInit {
     this.searchDate = '';
   }
 
+<<<<<<< HEAD
   goToEdit(transcriptionId?: string): void {
     if (!transcriptionId) {
       return;
@@ -83,6 +96,24 @@ export class ListTranscriptionComponent implements OnInit {
       next: () => {
         this.transcriptions = this.transcriptions.filter(item => item.id !== transcription.id);
         this.pendingDeleteTranscription = null;
+=======
+  deleteTranscription(item: TranscriptionDto): void {
+    if (!item?.id || this.deletingId) {
+      return;
+    }
+
+    const confirmed = window.confirm('Are you sure you want to delete this transcription?');
+    if (!confirmed) {
+      return;
+    }
+
+    this.deletingId = item.id;
+    this.error = null;
+
+    this.transcriptionService.delete(item.id).subscribe({
+      next: () => {
+        this.transcriptions = this.transcriptions.filter(x => x.id !== item.id);
+>>>>>>> refs/heads/development
         this.deletingId = null;
       },
       error: () => {

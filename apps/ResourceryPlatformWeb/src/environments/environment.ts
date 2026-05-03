@@ -7,14 +7,22 @@ export const environment = {
   application: {
     baseUrl,
     name: 'ResourceryPlatformWorkflow',
+<<<<<<< HEAD
     logoUrl: '',
+=======
+    logoUrl: 'https://localhost:7600/Account/Login',
+>>>>>>> refs/heads/development
   },
   oAuthConfig: {
     issuer: 'https://localhost:7600/',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
+<<<<<<< HEAD
     scope: 'ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+=======
+    scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+>>>>>>> refs/heads/development
     requireHttps: false,
   },
   apis: {

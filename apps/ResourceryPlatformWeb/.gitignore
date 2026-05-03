@@ -40,6 +40,10 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+<<<<<<< HEAD
+=======
+/.cert
+>>>>>>> refs/heads/development
 
 # System Files
 .DS_Store

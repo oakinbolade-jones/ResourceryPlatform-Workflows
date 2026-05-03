@@ -47,6 +47,10 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
   mediaUrl: string | null = null;
+<<<<<<< HEAD
+=======
+  mediaError: string | null = null;
+>>>>>>> refs/heads/development
   transcriptLines: TranscriptLine[] = [];
   hasTranscript = false;
   transcriptParseError: string | null = null;
@@ -131,6 +135,10 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private bindLoadedTranscription(transcription: TranscriptionDto): void {
     this.transcription = transcription;
+<<<<<<< HEAD
+=======
+    this.mediaError = null;
+>>>>>>> refs/heads/development
     this.mediaUrl = this.resolveMediaUrl(transcription);
     this.bindTranscriptFromField(transcription);
     this.loading = false;
@@ -140,6 +148,10 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.error = message;
     this.transcription = null;
     this.mediaUrl = null;
+<<<<<<< HEAD
+=======
+    this.mediaError = null;
+>>>>>>> refs/heads/development
     this.hasTranscript = false;
     this.transcriptLines = [];
     this.allWords = [];
@@ -148,7 +160,27 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private resolveMediaUrl(transcription: TranscriptionDto): string | null {
     const linkToVideo = (transcription.linkToVideo ?? '').trim();
+<<<<<<< HEAD
     return linkToVideo || null;
+=======
+    if (!linkToVideo) {
+      return null;
+    }
+
+    try {
+      const parsedUrl = new URL(linkToVideo, window.location.origin);
+
+      if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
+        this.mediaError =
+          'This media source is served over HTTP and is blocked on secure pages. Please use an HTTPS media URL.';
+        return null;
+      }
+
+      return parsedUrl.toString();
+    } catch {
+      return linkToVideo;
+    }
+>>>>>>> refs/heads/development
   }
 
   private bindTranscriptFromField(transcription: TranscriptionDto): void {
@@ -368,10 +400,41 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
 
     player.currentTime = Math.max(0, word.start || 0);
+<<<<<<< HEAD
     void player.play();
     this.syncToVideoTime();
   }
 
+=======
+    const playResult = player.play();
+    if (playResult && typeof playResult.catch === 'function') {
+      playResult.catch(() => {
+        this.mediaError =
+          'Unable to play the selected media source. Verify the media URL is reachable and served over HTTPS.';
+      });
+    }
+    this.syncToVideoTime();
+  }
+
+  onVideoError(): void {
+    const mediaElement = this.videoPlayer?.nativeElement;
+    const mediaErrorCode = mediaElement?.error?.code;
+
+    if (mediaErrorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+      this.mediaError =
+        'The media source is not supported or could not be loaded. Verify format and HTTPS availability.';
+      return;
+    }
+
+    this.mediaError =
+      'Unable to load media for playback. Verify the media URL is reachable and served over HTTPS.';
+  }
+
+  onVideoCanPlay(): void {
+    this.mediaError = null;
+  }
+
+>>>>>>> refs/heads/development
   onLineClick(line: TranscriptLine): void {
     const firstWord = line.words[0];
     if (!firstWord) {
@@ -445,6 +508,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
   }
 
+<<<<<<< HEAD
   private resolveFileName(response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
     const contentDisposition = response.headers.get('content-disposition') ?? '';
     const starMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
@@ -464,6 +528,35 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
       .replace(/^-+|-+$/g, '') || 'transcription';
 
     return `${fallbackTitle}.${format}`;
+=======
+  private resolveFileName(_response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
+    const baseDate = this.transcription?.dateOfTranscription
+      ? new Date(this.transcription.dateOfTranscription)
+      : new Date();
+
+    const timestamp = [
+      baseDate.getFullYear().toString(),
+      (baseDate.getMonth() + 1).toString().padStart(2, '0'),
+      baseDate.getDate().toString().padStart(2, '0'),
+      baseDate.getHours().toString().padStart(2, '0'),
+      baseDate.getMinutes().toString().padStart(2, '0'),
+      baseDate.getSeconds().toString().padStart(2, '0'),
+    ].join('');
+
+    let slug = (this.transcription?.title ?? 'transcription').trim().toLowerCase();
+    slug = slug.replace(/transription/g, 'transcription').replace(/transcriptiontion/g, 'transcription');
+    slug = slug.replace(/[^a-z0-9]+/g, '');
+    if (!slug) {
+      slug = 'transcription';
+    }
+
+    const language = ((this.transcription?.language ?? 'en').trim().toLowerCase() || 'en').replace(
+      /[^a-z0-9]+/g,
+      ''
+    );
+
+    return `${timestamp}-${slug}_${language || 'en'}.${format}`;
+>>>>>>> refs/heads/development
   }
 
   isLineActive(lineId: number): boolean {

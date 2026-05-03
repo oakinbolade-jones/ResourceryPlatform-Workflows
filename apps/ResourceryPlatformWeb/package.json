@@ -1,9 +1,18 @@
 {
+<<<<<<< HEAD
   "name": "ResourceryPlatformWorkflow",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
+=======
+  "name": "SmartServe",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "prestart": "powershell -ExecutionPolicy Bypass -File ./scripts/ensure-dev-cert.ps1",
+    "start": "ng serve --ssl false --open",
+>>>>>>> refs/heads/development
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",

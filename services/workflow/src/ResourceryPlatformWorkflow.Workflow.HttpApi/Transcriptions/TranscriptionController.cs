@@ -1083,7 +1083,11 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             contentType = "application/octet-stream";
         }
 
+<<<<<<< HEAD
         var fileName = TryResolveDownloadFileName(response, remoteUri, resultKey);
+=======
+        var fileName = TryResolveDownloadFileName(response, remoteUri, resultKey, transcription);
+>>>>>>> refs/heads/development
         var fileBytes = await response.Content.ReadAsByteArrayAsync();
 
         if (normalizedResultKey == "pdf" && !IsPdfContentType(contentType))
@@ -1274,7 +1278,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             string.Empty,
             L["Transcription:DownloadSupportLabel"],
             L["Transcription:DownloadSupportEmail1"],
+<<<<<<< HEAD
             // L["Transcription:DownloadSupportEmail2"]
+=======
+            // L["Transcription:DownloadSupportEmail2"],
+            
+>>>>>>> refs/heads/development
         });
     }
 
@@ -1409,18 +1418,43 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
     private static string BuildDownloadFileName(TranscriptionDto transcription, string extension)
     {
+<<<<<<< HEAD
+=======
+        var timestamp = (transcription.DateOfTranscription == default
+            ? DateTime.UtcNow
+            : transcription.DateOfTranscription).ToString("yyyyMMddHHmmss");
+
+>>>>>>> refs/heads/development
         var slug = string.IsNullOrWhiteSpace(transcription.Title)
             ? "transcription"
             : transcription.Title.Trim().ToLowerInvariant();
 
+<<<<<<< HEAD
         var safeChars = slug.Select(ch => char.IsLetterOrDigit(ch) ? ch : '-').ToArray();
         slug = new string(safeChars).Trim('-');
+=======
+        // Normalize common typo variants users reported for default transcription title.
+        slug = slug
+            .Replace("transription", "transcription", StringComparison.OrdinalIgnoreCase)
+            .Replace("transcriptiontion", "transcription", StringComparison.OrdinalIgnoreCase);
+
+        var safeChars = slug.Select(ch => char.IsLetterOrDigit(ch) ? ch : '_').ToArray();
+        slug = new string(safeChars).Trim('_');
+>>>>>>> refs/heads/development
         if (string.IsNullOrWhiteSpace(slug))
         {
             slug = "transcription";
         }
 
+<<<<<<< HEAD
         return $"{slug}.{extension}";
+=======
+        var language = string.IsNullOrWhiteSpace(transcription.Language)
+            ? "en"
+            : transcription.Language.Trim().ToLowerInvariant();
+
+        return $"{timestamp}-{slug}_{language}.{extension}";
+>>>>>>> refs/heads/development
     }
 
     private static string ResolveContentType(string extension)
@@ -1490,8 +1524,27 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         return new string(chars);
     }
 
+<<<<<<< HEAD
     private static string TryResolveDownloadFileName(HttpResponseMessage response, Uri remoteUri, string resultKey)
     {
+=======
+    private static string TryResolveDownloadFileName(HttpResponseMessage response, Uri remoteUri, string resultKey, TranscriptionDto transcription = null)
+    {
+        var normalizedResultKey = NormalizeResultKey(resultKey);
+
+        if (transcription != null && (normalizedResultKey is "docx" or "pdf" or "txt" or "linkdocx" or "linktxt"))
+        {
+            var extension = normalizedResultKey switch
+            {
+                "linkdocx" => "docx",
+                "linktxt" => "txt",
+                _ => normalizedResultKey
+            };
+
+            return BuildDownloadFileName(transcription, extension);
+        }
+
+>>>>>>> refs/heads/development
         var fromHeader = response.Content.Headers.ContentDisposition?.FileNameStar
             ?? response.Content.Headers.ContentDisposition?.FileName;
         if (!string.IsNullOrWhiteSpace(fromHeader))
@@ -1505,6 +1558,15 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             return fromPath;
         }
 
+<<<<<<< HEAD
+=======
+        if (transcription != null)
+        {
+            var ext = string.IsNullOrWhiteSpace(normalizedResultKey) ? "bin" : normalizedResultKey;
+            return BuildDownloadFileName(transcription, ext);
+        }
+
+>>>>>>> refs/heads/development
         return $"transcription-{resultKey}.bin";
     }
 

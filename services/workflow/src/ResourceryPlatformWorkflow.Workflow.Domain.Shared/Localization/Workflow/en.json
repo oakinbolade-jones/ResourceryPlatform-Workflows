@@ -7,6 +7,10 @@
     "WorkflowSystem": "Workflow Systems",
     "WorkflowDescription": "Supporting ERPs with custom apps and automated workflows for consistent, efficient processes.",
     "Workflows": "Workflows",
+<<<<<<< HEAD
+=======
+    "SignInWithMicrosoft": "Sign in with Microsoft",
+>>>>>>> refs/heads/development
     "WelcomeToResourcery": "Welcome to DCP SmartServe",
     "WelcomeToResourceryDescription": "A flagship digital platform by the Directorate of Conference and Protocol, driving seamless service delivery through intelligent workflows, automated service requests, and AI-powered operations.",
     "GetStarted": "Get Started",
@@ -1659,7 +1663,12 @@
     "Transcription:LanguagePortuguese": "Portuguese",
     "Transcription:LanguageFloor": "Floor (Multiple Languages)",
     "Transcription:CameraLabel": "Camera",
+<<<<<<< HEAD
     "Transcription:CameraHint": "Select the desired camera for recording.",
+=======
+    "Transcription:CameraHint": "Select the desired camera for recording.",    
+    "Transcription:CameraAddLabel": "Add a camera to your PC.",
+>>>>>>> refs/heads/development
     "Transcription:OutputFormatLabel": "Output Format",
     "Transcription:OutputFormatHint": "Select the desired output format for recording.",
     "Transcription:SwitchCameraLabel": "Switch Camera",
@@ -1695,7 +1704,23 @@
     "Transcription:NoTranscriptLabel": "No transcript JSON was found in this transcription record. Please submit media for transcription or record an event to transcribe.",
     "Transcription:TranscriptionUnavailableLabel": "Transcription is currently unavailable. Please try again later.",
     "Transcription:SelectCameraHint": "Select the desired camera for recording.",
+<<<<<<< HEAD
     "Transcription:LivePreviewLabel": "Live Preview"
+=======
+    "Transcription:LivePreviewLabel": "Live Preview",
+    
+    "Account:GetStarted": "Get started here",
+"Account:LoginContinue": "Login to continue",
+"Account:NewUser?": "Are you a new user?",
+"Account:CreateAccount": "Create an account",
+"Account:RegisterWithECOWASMail": "Register with ECOWAS Mail",
+"Account:LoginWithECOWASMail": "Login with ECOWAS Mail",
+"Account:RegistrationInfo": "Registration follows secure onboarding standards for operational environments.",
+"ECOWAS": "Economic Community of West African States (ECOWAS)",
+"ECOWASCommission": "ECOWAS Commission",
+"ECOWASCopyright": "Copyright (c) ECOWAS Commission. All rights reserved.",
+"ECOWASAccountOR": "OR"
+>>>>>>> refs/heads/development
 
   }
 }

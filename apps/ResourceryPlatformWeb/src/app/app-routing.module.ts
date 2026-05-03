@@ -9,11 +9,22 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
       data: { 
         layout: eLayoutType.empty,
+<<<<<<< HEAD
         title: 'Home'
       },
   },
   { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) },
   { path: 'resourcery', loadChildren: () => import('./resourcery/resourcery.module').then(m => m.ResourceryModule) },
+=======
+        title: 'Workflow::Home'
+      },
+  },
+  { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) },
+  { path: 'get-started', loadChildren: () => import('./get-started/get-started.module').then(m => m.GetStartedModule) },
+  { path: 'documentation', loadChildren: () => import('./documentation/documentation.module').then(m => m.DocumentationModule) },
+  { path: 'webcast', loadChildren: () => import('./webcast/webcast.module').then(m => m.WebcastModule) },
+  { path: 'support', loadChildren: () => import('./support/support.module').then(m => m.SupportModule) },
+>>>>>>> refs/heads/development
   
   {
     path: 'account',

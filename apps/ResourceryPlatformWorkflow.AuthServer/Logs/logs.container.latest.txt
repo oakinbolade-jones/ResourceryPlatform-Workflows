@@ -1,0 +1,66 @@
+2026-04-29 10:05:24.761 +00:00 [INF] Starting ResourceryPlatformWorkflow.AuthServer.
+2026-04-29 10:05:29.532 +00:00 [INF] Connecting (sync) on .NET 10.0.7 (StackExchange.Redis: v2.8.16.12844)
+2026-04-29 10:05:29.535 +00:00 [INF] redis:6379
+2026-04-29 10:05:29.535 +00:00 [INF] redis:6379/Interactive: Connecting...
+2026-04-29 10:05:29.535 +00:00 [INF] redis:6379: BeginConnectAsync
+2026-04-29 10:05:29.536 +00:00 [INF] 1 unique nodes specified (with tiebreaker)
+2026-04-29 10:05:29.536 +00:00 [INF] redis:6379/Interactive: Connected 
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: Server handshake
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: Setting client name: cefe2dca81d2(SE.Redis-v2.8.16.12844)
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: Setting client lib/ver
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: Auto-configuring...
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: OnConnectedAsync init (State=Connecting)
+2026-04-29 10:05:29.537 +00:00 [INF] redis:6379: Requesting tie-break (Key="__Booksleeve_TieBreak")...
+2026-04-29 10:05:29.538 +00:00 [INF] Allowing 1 endpoint(s) 00:00:05 to respond...
+2026-04-29 10:05:29.538 +00:00 [INF] redis:6379: Sending critical tracer (handshake): ECHO
+2026-04-29 10:05:29.538 +00:00 [INF] redis:6379: Flushing outbound buffer
+2026-04-29 10:05:29.538 +00:00 [INF] redis:6379: OnEstablishingAsync complete
+2026-04-29 10:05:29.538 +00:00 [INF] redis:6379: Starting read
+2026-04-29 10:05:29.539 +00:00 [INF] Awaiting 1 available task completion(s) for 5000ms, IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=2,Free=32765,Min=12,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=24,Timers=3)
+2026-04-29 10:05:29.539 +00:00 [INF] redis:6379: Auto-configured (CLIENT) connection-id: 92
+2026-04-29 10:05:29.540 +00:00 [INF] redis:6379: Auto-configured (CONFIG) read-only replica: true
+2026-04-29 10:05:29.540 +00:00 [INF] redis:6379: Auto-configured (CONFIG) databases: 16
+2026-04-29 10:05:29.540 +00:00 [INF] redis:6379: Auto-configured (INFO) role: primary
+2026-04-29 10:05:29.540 +00:00 [INF] redis:6379: Auto-configured (INFO) version: 7.4.8
+2026-04-29 10:05:29.540 +00:00 [INF] redis:6379: Auto-configured (INFO) server-type: Standalone
+2026-04-29 10:05:29.541 +00:00 [INF] Response from redis:6379/Interactive / GET __Booksleeve_TieBreak: (null)
+2026-04-29 10:05:29.541 +00:00 [INF] Response from redis:6379/Interactive / ECHO: BulkString: 16 bytes
+2026-04-29 10:05:29.541 +00:00 [INF] redis:6379: OnConnectedAsync completed (From command: ECHO)
+2026-04-29 10:05:29.541 +00:00 [INF] All 1 available tasks completed cleanly, IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=2,Free=32765,Min=12,Max=32767), POOL: (Threads=5,QueuedItems=0,CompletedItems=27,Timers=3)
+2026-04-29 10:05:29.541 +00:00 [INF] Endpoint summary:
+2026-04-29 10:05:29.542 +00:00 [INF]   redis:6379: Endpoint is (Interactive: ConnectedEstablished, Subscription: ConnectedEstablished)
+2026-04-29 10:05:29.542 +00:00 [INF] Task summary:
+2026-04-29 10:05:29.542 +00:00 [INF]   redis:6379: Returned with success as Standalone primary (Source: From command: ECHO)
+2026-04-29 10:05:29.542 +00:00 [INF] Election summary:
+2026-04-29 10:05:29.542 +00:00 [INF]   Election: redis:6379 had no tiebreaker set
+2026-04-29 10:05:29.542 +00:00 [INF]   Election: Single primary detected: redis:6379
+2026-04-29 10:05:29.542 +00:00 [INF] redis:6379: Clearing as RedundantPrimary
+2026-04-29 10:05:29.542 +00:00 [INF] Endpoint Summary:
+2026-04-29 10:05:29.542 +00:00 [INF]   redis:6379: Standalone v7.4.8, primary; 16 databases; keep-alive: 00:01:00; int: ConnectedEstablished; sub: ConnectedEstablished, 1 active
+2026-04-29 10:05:29.543 +00:00 [INF]   redis:6379: int ops=13, qu=0, qs=0, qc=0, wr=0, socks=1; sub ops=6, qu=0, qs=0, qc=0, wr=0, subs=1, socks=1
+2026-04-29 10:05:29.552 +00:00 [INF]   redis:6379: Circular op-count snapshot; int: 0+13=13 (1.30 ops/s; spans 10s); sub: 0+6=6 (0.60 ops/s; spans 10s)
+2026-04-29 10:05:29.552 +00:00 [INF] Sync timeouts: 0; async timeouts: 0; fire and forget: 0; last heartbeat: -1s ago
+2026-04-29 10:05:29.552 +00:00 [INF] Starting heartbeat...
+2026-04-29 10:05:29.552 +00:00 [INF] Total connect time: 22 ms
+2026-04-29 10:05:30.055 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+2026-04-29 10:05:30.353 +00:00 [INF] Initialized all ABP modules.
+2026-04-29 10:05:30.567 +00:00 [WRN] No XML encryptor configured. Key {952b8a60-d0a0-4419-af38-a3c12fe70ae1} may be persisted to storage in unencrypted form.
+2026-04-29 10:05:30.589 +00:00 [WRN] Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://0.0.0.0:8080'.
+2026-04-29 10:05:57.109 +00:00 [INF] The request URI matched a server endpoint: "Configuration".
+2026-04-29 10:05:57.135 +00:00 [INF] The response was successfully returned as a JSON document: {
+  "error": "invalid_request",
+  "error_description": "This server only accepts HTTPS requests.",
+  "error_uri": "https://documentation.openiddict.com/errors/ID2083"
+}.
+2026-04-29 10:08:52.765 +00:00 [INF] Skipping the execution of current filter as its not the most effective filter implementing the policy Microsoft.AspNetCore.Mvc.ViewFeatures.IAntiforgeryPolicy
+2026-04-29 10:08:55.906 +00:00 [ERR] Could not find the bundle file '/libs/@fortawesome/fontawesome-free/css/all.css' for the bundle 'LeptonXLite.Global'!
+2026-04-29 10:08:55.907 +00:00 [ERR] Could not find the bundle file '/libs/@fortawesome/fontawesome-free/css/v4-shims.css' for the bundle 'LeptonXLite.Global'!
+2026-04-29 10:10:43.445 +00:00 [INF] Skipping the execution of current filter as its not the most effective filter implementing the policy Microsoft.AspNetCore.Mvc.ViewFeatures.IAntiforgeryPolicy
+2026-04-29 10:10:43.691 +00:00 [ERR] Could not find the bundle file '/libs/@fortawesome/fontawesome-free/css/all.css' for the bundle 'LeptonXLite.Global'!
+2026-04-29 10:10:43.692 +00:00 [ERR] Could not find the bundle file '/libs/@fortawesome/fontawesome-free/css/v4-shims.css' for the bundle 'LeptonXLite.Global'!
+2026-04-29 10:10:43.750 +00:00 [INF] The request URI matched a server endpoint: "Configuration".
+2026-04-29 10:10:43.758 +00:00 [INF] The response was successfully returned as a JSON document: {
+  "error": "invalid_request",
+  "error_description": "This server only accepts HTTPS requests.",
+  "error_uri": "https://documentation.openiddict.com/errors/ID2083"
+}.

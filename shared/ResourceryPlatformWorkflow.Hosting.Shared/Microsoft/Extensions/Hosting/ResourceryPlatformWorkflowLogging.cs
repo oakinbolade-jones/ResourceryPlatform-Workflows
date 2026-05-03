@@ -10,8 +10,14 @@ namespace Microsoft.Extensions.Hosting
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+<<<<<<< HEAD
                 .WriteTo.Async(c => c.File("Logs/logs.txt"))
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+=======
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                .WriteTo.Async(c => c.Console())
+>>>>>>> refs/heads/development
                 .Enrich.FromLogContext()
                 .CreateLogger();
         }

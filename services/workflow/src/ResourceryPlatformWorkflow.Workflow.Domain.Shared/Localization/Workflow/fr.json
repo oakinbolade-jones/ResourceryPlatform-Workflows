@@ -1660,6 +1660,10 @@
     "Transcription:LanguageFloor": "Floor (plusieurs langues)",
     "Transcription:CameraLabel": "Caméra",
     "Transcription:CameraHint": "Selectionnez la camera souhaitee pour l'enregistrement.",
+<<<<<<< HEAD
+=======
+    "Transcription:CameraAddLabel": "Ajoutez une caméra à votre PC.",
+>>>>>>> refs/heads/development
     "Transcription:OutputFormatLabel": "Format de sortie",
     "Transcription:OutputFormatHint": "Selectionnez le format de sortie souhaite pour l'enregistrement.",
     "Transcription:SwitchCameraLabel": "Changer de camera",
@@ -1695,7 +1699,24 @@
     "Transcription:NoTranscriptLabel": "Aucun JSON de transcription n'a ete trouve dans cet enregistrement. Veuillez soumettre un media pour transcription ou enregistrer un evenement a transcrire.",
     "Transcription:TranscriptionUnavailableLabel": "La transcription est actuellement indisponible. Veuillez reessayer plus tard.",
       "Transcription:SelectCameraHint": "Selectionnez la camera souhaitee pour l'enregistrement.",
+<<<<<<< HEAD
     "Transcription:LivePreviewLabel": "Apercu en direct"
+=======
+    "Transcription:LivePreviewLabel": "Apercu en direct",
+
+    "Account:GetStarted": "Commencez ici",
+"Account:LoginContinue": "Connectez-vous pour continuer",
+"Account:NewUser?": "Êtes-vous un nouvel utilisateur ?",
+"Account:CreateAccount": "Créez un compte",
+"Account:RegisterWithECOWASMail": "S'inscrire avec la messagerie de la CEDEAO",
+"Account:LoginWithECOWASMail": "Se connecter avec la messagerie de la CEDEAO",
+"Account:RegistrationInfo": "L'inscription suit des normes de sécurité pour les environnements opérationnels.",
+"ECOWAS": "Communauté économique des États de l'Afrique de l'Ouest (CEDEAO)",
+"ECOWASCommission": "Commission de la CEDEAO",
+"ECOWASCopyright": "Copyright (c) Commission de la CEDEAO. Tous droits réservés.",
+"ECOWASAccountOR": "OU"
+
+>>>>>>> refs/heads/development
 
   }
 }

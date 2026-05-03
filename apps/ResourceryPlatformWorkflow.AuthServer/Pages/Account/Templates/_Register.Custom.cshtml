@@ -1,0 +1,134 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@model Volo.Abp.Account.Web.Pages.Account.RegisterModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+
+
+
+<!--
+    FORMATTED TO MATCH LOGIN PAGE LAYOUT
+-->
+<div class="lpx-content-container">
+    <div class="lpx-content">
+        <div class="container-fluid my-5">
+          
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
+                    <div  class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
+                        <div  class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 w-50">                        
+                            <!-- Hero/branding section (edit freely) -->
+                            <h2 class="h3 mb-3 fs-2 fw-normal title">@L["Register"]</h2>
+                            <p class="fw-normal fs-6 text-body-secondary">
+                                @L["AlreadyRegistered"]
+                                <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })"
+                                   class="text-decoration-none text-emphasis">@L["Login"]</a>
+                            </p>
+                            @* <ul class="ps-3 mb-4">
+                                <li>Unified identity for authorized workflow modules</li>
+                                <li>Structured onboarding with secure baseline controls</li>
+                                <li>Support for approval routing and escalation paths</li>
+                            </ul> *@
+                          
+                            <p class="mt-auto mb-0 small opacity-75">
+                                <hr />
+                                @LW["ECOWASCopyright"] <br />
+                                @LW["ECOWAS"]
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-7 bg-white p-5 w-50">
+                            <!-- Register form section (edit freely) -->
+                            <div class="mb-4">
+                                @* <h4 class="mb-1">@L["Register"]</h4> *@
+
+
+
+
+                                @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
+                                {
+                                    <div class="mt-4">
+                                        <div class="w-100 d-flex justify-content-start">                                            
+                                        <form asp-page="./Login" asp-page-handler="ExternalLogin"
+                                                  asp-route-returnUrl="@Model.ReturnUrl"
+                                                  asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
+                                                  class="d-flex flex-wrap gap-2 p-0">
+                                                @foreach (var provider in Model.VisibleExternalProviders)
+                                                {                                                    
+                                                    @if (@provider.AuthenticationScheme == "Microsoft")
+                                                    {                                                       
+                                                        <button type="submit" class="btn btn-outline-success rounded-1 fw-semibold" name="provider"
+                                                                value="@provider.AuthenticationScheme"
+                                                                title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
+                                                            <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission"
+                                                                 class="d-inline-block align-text-center me-2"
+                                                                 style="max-width: 35px;" /> @LW["Account:RegisterWithECOWASMail"]
+                                                        </button>                                                           
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="btn btn-outline-secondary rounded-1" name="provider"
+                                                                value="@provider.AuthenticationScheme"
+                                                                title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>                                                             
+                                                    }
+                                                }
+                                            </form>
+                                            <hr>
+                                        </div> 
+
+                                    </div>
+                                }  
+
+                            </div>
+                            <div class="mb-3">
+                                    <p class="fw-semibold fs-4">@LW["ECOWASAccountOR"]</p>
+                                    <hr class=""/>
+                                </div>
+                                
+                            <form method="post" class="mt-4">                                
+                                <abp-validation-summary />
+                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
+                                {
+                                    <div class="mb-3">
+                                        <label asp-for="Input.UserName" class="form-label"></label>
+                                        <input asp-for="Input.UserName"
+                                               class="form-control border border-success rounded-0 p-2" autocomplete="off"
+                                               placeholder="Enter username" />
+                                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
+                                {
+                                    <div class="mb-3">
+                                        <label asp-for="Input.EmailAddress" class="form-label"></label>
+                                        <input asp-for="Input.EmailAddress"
+                                               class="form-control border border-success rounded-0 p-2" autocomplete="off"
+                                               placeholder="Enter email address" />
+                                        <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
+                                {
+                                    <div class="mb-3">
+                                        <label asp-for="Input.Password" class="form-label"></label>
+                                        <input asp-for="Input.Password" type="password"
+                                               class="form-control border border-success rounded-0 p-2"
+                                               autocomplete="new-password" placeholder="Enter password" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
+                                {
+                                    <div class="d-grid gap-2">
+                                        <abp-button button-type="Primary" type="submit"
+                                                    class="btn-lg mt-4 btn btn-success rounded-0">@L["Register"]</abp-button>
+                                    </div>
+                                }
+                            </form>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1660,6 +1660,10 @@
     "Transcription:LanguageFloor": "Andar (vários idiomas)",
     "Transcription:CameraLabel": "Câmera",
     "Transcription:CameraHint": "Selecione a câmera desejada para gravação.",
+<<<<<<< HEAD
+=======
+    "Transcription:CameraAddLabel": "Adicione uma câmera ao seu PC.",
+>>>>>>> refs/heads/development
     "Transcription:OutputFormatLabel": "Formato de saída",
     "Transcription:OutputFormatHint": "Selecione o formato de saída desejado para gravação.",
     "Transcription:SwitchCameraLabel": "Trocar câmera",
@@ -1694,8 +1698,29 @@
     "Transcription:NoVideoAudioSourceLabel": "Nenhuma fonte de vídeo ou áudio está disponível nesta transcrição. Envie um arquivo de vídeo ou áudio ou grave um evento para transcrever.",
     "Transcription:NoTranscriptLabel": "Nenhuma transcrição JSON foi encontrada neste registro de transcrição. Envie mídia para transcrição ou grave um evento para transcrever.",
     "Transcription:TranscriptionUnavailableLabel": "A transcrição não está disponível no momento. Por favor, tente novamente mais tarde.",
+<<<<<<< HEAD
       "Transcription:SelectCameraHint": "Selecione a câmera desejada para gravação.",
     "Transcription:LivePreviewLabel": "Visualização ao vivo"
 
   }
 }
+=======
+    "Transcription:SelectCameraHint": "Selecione a câmera desejada para gravação.",
+    "Transcription:LivePreviewLabel": "Visualização ao vivo",
+
+"Account:GetStarted": "Comece aqui",
+"Account:LoginContinue": "Faça login para continuar",
+"Account:NewUser?": "É um novo usuário?",
+"Account:CreateAccount": "Crie uma conta",
+"Account:RegisterWithECOWASMail": "Inscreva-se com o e-mail da CEDEAO",
+"Account:LoginWithECOWASMail": "Faça login com o e-mail da CEDEAO",
+"Account:RegistrationInfo": "O registro segue padrões de segurança para ambientes operacionais.",
+"ECOWAS": "Comunidade Econômica dos Estados da África Ocidental (CEDEAO)",
+"ECOWASCommission": "Comissão da CEDEAO",
+"ECOWASCopyright": "Copyright (c) Comissão da CEDEAO. Todos os direitos reservados.",
+"ECOWASAccountOR": "OU"
+
+
+  }
+}
+>>>>>>> refs/heads/development

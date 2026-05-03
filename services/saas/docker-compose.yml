@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.4'
 
 services:
@@ -23,3 +24,18 @@ services:
 
 volumes:
   dbdata:
+=======
+services:
+  saas-service:
+    build:
+      context: ../../
+      dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
+    networks:
+      - default
+      - shared-infra
+
+networks:
+  shared-infra:
+    external: true
+    name: services_default
+>>>>>>> refs/heads/development

@@ -23,6 +23,24 @@ internal class Program
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
+<<<<<<< HEAD
+=======
+        var corsOrigins = builder.Configuration["App:CorsOrigins"]?
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? [];
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy
+                    .WithOrigins(corsOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+
+>>>>>>> refs/heads/development
         builder
             .Services.AddReverseProxy()
             .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
@@ -37,6 +55,11 @@ internal class Program
 
         app.UseHttpsRedirection();
 
+<<<<<<< HEAD
+=======
+        app.UseCors();
+
+>>>>>>> refs/heads/development
         app.UseAuthentication();
 
         app.UseAuthorization();

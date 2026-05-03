@@ -1,6 +1,18 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded">
+<<<<<<< HEAD
   <h2 class="fw-bold fs-3 mb-2">{{ 'Workflow::ServiceRequestLabel' | abpLocalization }}</h2>
   <p class="mb-5 text-wrap" style="font-size: small; width: 75%">
+=======
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <img
+      src="assets/images/logo/ecowas-circle-logo.png"
+      alt="DCP SmartServe"
+      style="max-height: 50px; width: auto"
+    />
+    <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ServiceRequestLabel' | abpLocalization }}</h2>
+  </div>
+  <p class="mb-5 text-wrap" style="width: 75%">
+>>>>>>> refs/heads/development
     {{ 'Workflow::RequestsInfo' | abpLocalization }}
   </p>
   <div class="row">
@@ -26,6 +38,11 @@
               {{ 'Workflow::' + service.displayName | abpLocalization }}
             </option>
             <!-- <option *ngFor="let service of services" [value]="service.id">
+<<<<<<< HEAD
+=======
+
+              
+>>>>>>> refs/heads/development
               {{ 'Workflow::service.displayName' | abpLocalization }} 
             </option> -->
           </select>

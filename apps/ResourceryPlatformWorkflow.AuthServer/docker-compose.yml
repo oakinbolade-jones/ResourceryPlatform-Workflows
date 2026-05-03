@@ -1,0 +1,29 @@
+services:
+  auth-server:
+    build:
+      context: ../../
+      dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;Pooling=false;
+      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
+      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
+      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
+      RabbitMQ__Connections__Default__Port: "5672"
+      RabbitMQ__Connections__Default__UserName: guest
+      RabbitMQ__Connections__Default__Password: guest
+    networks:
+      - default
+      - shared-infra
+
+networks:
+  shared-infra:
+    external: true
+    name: services_default

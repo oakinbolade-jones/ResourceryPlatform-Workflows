@@ -8,6 +8,14 @@
 **/.toolstarget
 **/.vs
 **/.vscode
+<<<<<<< HEAD
+=======
+**/.venv
+**/.angular
+**/dist
+**/coverage
+**/Logs
+>>>>>>> refs/heads/development
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm

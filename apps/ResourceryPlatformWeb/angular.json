@@ -67,11 +67,14 @@
                 "bundleName": "bootstrap-ltr.min"
               },
               {
+<<<<<<< HEAD
                 "input": "node_modules/ng-zorro-antd/tree/style/index.min.css",
                 "inject": false,
                 "bundleName": "ng-zorro-antd-tree"
               },
               {
+=======
+>>>>>>> refs/heads/development
                 "input": "src/styles.scss",
                 "inject": true,
                 "bundleName": "styles"
@@ -114,6 +117,14 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+<<<<<<< HEAD
+=======
+          "options": {
+            "ssl": false,
+            "host": "localhost",
+            "port": 4200
+          },
+>>>>>>> refs/heads/development
           "configurations": {
             "production": {
               "buildTarget": "ResourceryPlatformWorkflow:build:production"

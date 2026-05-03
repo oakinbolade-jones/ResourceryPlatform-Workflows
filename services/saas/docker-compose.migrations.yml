@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 version: '3.4'
 
+=======
+>>>>>>> refs/heads/development
 services:
   migrations:
     build:
       context: ../../
+<<<<<<< HEAD
       dockerfile: templates/service/database/Dockerfile
     depends_on:
       - sqlserver
@@ -11,3 +15,11 @@ services:
       - IdentityServer_DB=SaaS_Identity
       - SaaS_DB=SaaS_ModuleDb
       - SA_PASSWORD=yourStrong(!)Password
+=======
+      dockerfile: shared/ResourceryPlatformWorkflow.DbMigrator/Dockerfile
+    environment:
+      - ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowSaaSDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;
+      - ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb=Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_WorkflowDb;
+>>>>>>> refs/heads/development
