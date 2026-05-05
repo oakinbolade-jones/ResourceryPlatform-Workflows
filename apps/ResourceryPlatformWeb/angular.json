@@ -97,6 +97,27 @@
               ],
               "outputHashing": "all"
             },
+            "staging": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "2.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -118,7 +139,12 @@
           },
           "configurations": {
             "production": {
+
+              
               "buildTarget": "ResourceryPlatformWorkflow:build:production"
+            },
+            "staging": {
+              "buildTarget": "ResourceryPlatformWorkflow:build:staging"
             },
             "development": {
               "buildTarget": "ResourceryPlatformWorkflow:build:development"

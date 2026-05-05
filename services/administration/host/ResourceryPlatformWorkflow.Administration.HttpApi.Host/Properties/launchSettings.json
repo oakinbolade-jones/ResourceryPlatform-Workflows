@@ -5,7 +5,7 @@
             "commandName": "Project",
             "launchBrowser": false,
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Staging"
+                "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "applicationUrl": "https://localhost:7001"
         },
@@ -13,9 +13,17 @@
             "commandName": "Project",
             "launchBrowser": true,
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Staging"
+                "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "applicationUrl": "https://localhost:7001"
+        },
+        "Docker": {
+            "commandName": "Docker",
+            "launchBrowser": true,
+            "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+            "publishAllPorts": true,
+            "useSSL": true
         }
+    
     }
 }
