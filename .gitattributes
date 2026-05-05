@@ -2,3 +2,7 @@
 
 # Always keep local version of launchSettings on merge
 **/launchSettings.json merge=ours
+
+# Always keep local .env on merge
+.env merge=ours
+**/.env merge=ours
