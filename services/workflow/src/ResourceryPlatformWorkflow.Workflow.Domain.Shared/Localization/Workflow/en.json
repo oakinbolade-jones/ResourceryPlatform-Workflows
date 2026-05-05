@@ -1699,13 +1699,50 @@
     "Transcription:SelectCameraHint": "Select the desired camera for recording.",
     "Transcription:LivePreviewLabel": "Live Preview",
     
-    "Account:GetStarted": "Get started here",
+"Account:FirstName": "Firstname",
+    "Account:LastName": "Lastname",
+    "Account:Username": "Username",
+    "Account:UsernameOrEmail": "Username or Email",
+    "Account:Email": "Email",
+    "Account:Password": "Password",
+   "Account:CurrentPassword": "Current Password",
+    "Account:PhoneNumber": "Phone Number",    
+    "Account:ManageAccount": "Manage Account",
+"Account:ManageAccountDescription": "Manage your account settings and security options.",
+"Account:SaveChanges": "Save Changes",
+"Account:BackToPreviousPage": "Back to previous page",
+"Account:EnterUsername": "Enter username",
+"Account:EnterEmailAddress": "Enter email address",
+"Account:EnterPassword": "Enter password",
+"Account:EnterUsernameOrEmail": "Enter username or email",
+"Account:EnterAccountPassword": "Enter account password",
+"Account:EnterFirstName": "Enter first name",
+"Account:EnterLastName": "Enter last name",
+"Account:EnterPhoneNumber": "Enter phone number",
+"Account:EnterCurrentPassword": "Enter current password",
+"Account:EnterNewPassword": "Enter new password",
+"Account:ConfirmPassword": "Confirm new password",
+"Account:ChangePassword": "Change Password",
+"Account:AccountInformation": "Account Information",
+"Account:ResetPassword": "Reset Password",
+"Account:ResetPasswordDescription": "Enter your new password below to reset your account password.",
+"Account:NewPassword": "New Password",
+"Account:EnterConfirmPassword": "Confirm new password",
+
+
+
+
+
+
+
+    "Account:GetStarted": "Get started here",    
 "Account:LoginContinue": "Login to continue",
 "Account:NewUser?": "Are you a new user?",
 "Account:CreateAccount": "Create an account",
 "Account:RegisterWithECOWASMail": "Register with ECOWAS Mail",
 "Account:LoginWithECOWASMail": "Login with ECOWAS Mail",
 "Account:RegistrationInfo": "Registration follows secure onboarding standards for operational environments.",
+
 "ECOWAS": "Economic Community of West African States (ECOWAS)",
 "ECOWASCommission": "ECOWAS Commission",
 "ECOWASCopyright": "Copyright (c) ECOWAS Commission. All rights reserved.",

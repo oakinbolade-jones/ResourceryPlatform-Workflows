@@ -15,9 +15,10 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
+import { AccountManageRedirectComponent } from './account/account-manage-redirect.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AccountManageRedirectComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
