@@ -1,10 +1,4 @@
 using System;
-<<<<<<< HEAD
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
-=======
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,23 +15,16 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Server;
 using OpenIddict.Server.AspNetCore;
->>>>>>> refs/heads/development
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Middleware;
 using ResourceryPlatformWorkflow.MultiTenancy;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/heads/development
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
@@ -47,20 +34,16 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
-<<<<<<< HEAD
-using Volo.Abp.UI.Navigation.Urls;
 
-namespace ResourceryPlatformWorkflow;
-
-=======
-using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.Localization;
 using ResourceryPlatformWorkflow.Workflow;
+using Volo.Abp.Security.Claims;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+
 namespace ResourceryPlatformWorkflow;
 
-// ...existing code...
->>>>>>> refs/heads/development
+
 [DependsOn(typeof(AbpAccountApplicationModule))]
 [DependsOn(typeof(AbpAccountHttpApiModule))]
 [DependsOn(typeof(AbpAccountWebOpenIddictModule))]
@@ -75,20 +58,14 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(SaaSEntityFrameworkCoreModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
-<<<<<<< HEAD
-=======
 [DependsOn(typeof(WorkflowDomainSharedModule))]
 [DependsOn(typeof(WorkflowDomainSharedModule))]
->>>>>>> refs/heads/development
 public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-<<<<<<< HEAD
-=======
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
->>>>>>> refs/heads/development
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
         PreConfigure<OpenIddictBuilder>(builder =>
@@ -99,8 +76,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
-<<<<<<< HEAD
-=======
 
             if (hostingEnvironment.IsDevelopment())
             {
@@ -109,7 +84,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                     options.UseAspNetCore().DisableTransportSecurityRequirement();
                 });
             }
->>>>>>> refs/heads/development
         });
     }
 
@@ -118,8 +92,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
-<<<<<<< HEAD
-=======
         Configure<OpenIddictServerOptions>(options =>
         {
             var accessTokenLifetimeInMinutes = configuration.GetValue<int?>(
@@ -144,7 +116,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         // Ensure Razor Pages are enabled
         context.Services.AddRazorPages();
 
->>>>>>> refs/heads/development
         Configure<AbpBundlingOptions>(options =>
         {
             options.StyleBundles.Configure(
@@ -185,8 +156,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         });
     }
 
-<<<<<<< HEAD
-=======
     private static void ConfigureMicrosoftExternalLogin(
         ServiceConfigurationContext context,
         IConfiguration configuration
@@ -420,7 +389,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             });
     }
 
->>>>>>> refs/heads/development
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         IdentityModelEventSource.ShowPII = true;
@@ -445,10 +413,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
         app.UseCors();
         app.UseAuthentication();
-<<<<<<< HEAD
-=======
         app.UseMiddleware<ExternalProfileSynchronizationMiddleware>();
->>>>>>> refs/heads/development
         app.UseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)
@@ -461,14 +426,11 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
-<<<<<<< HEAD
-=======
 
         // Ensure Razor Pages are mapped
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapRazorPages();
         });
->>>>>>> refs/heads/development
     }
 }

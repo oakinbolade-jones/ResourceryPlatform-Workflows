@@ -16,7 +16,7 @@
 @{
     Layout = "~/Pages/Account/_AccountLayout.Custom.cshtml";
     var loginTemplate = AuthUiOptions.Value.Login.TemplatePartial;
-    var templateName = string.IsNullOrWhiteSpace(loginTemplate) ? "Login" : loginTemplate;
+    var templateName = string.IsNullOrWhiteSpace(loginTemplate) ? "Templates/_Login.Custom" : loginTemplate;
 }
 
 @section scripts

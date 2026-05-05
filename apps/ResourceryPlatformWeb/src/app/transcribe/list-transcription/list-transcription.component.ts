@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-import { Router } from '@angular/router';
-=======
->>>>>>> refs/heads/development
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
 
 @Component({
@@ -13,25 +9,12 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
 export class ListTranscriptionComponent implements OnInit {
   loading = false;
   error: string | null = null;
-<<<<<<< HEAD
-  transcriptions: TranscriptionDto[] = [];
-  searchTitle = '';
-  searchDate = '';
-  deletingId: string | null = null;
-  pendingDeleteTranscription: TranscriptionDto | null = null;
-
-  constructor(
-    private transcriptionService: TranscriptionService,
-    private router: Router
-  ) {}
-=======
   deletingId: string | null = null;
   transcriptions: TranscriptionDto[] = [];
   searchTitle = '';
   searchDate = '';
 
   constructor(private transcriptionService: TranscriptionService) {}
->>>>>>> refs/heads/development
 
   ngOnInit(): void {
     this.loadTranscriptions();
@@ -62,41 +45,6 @@ export class ListTranscriptionComponent implements OnInit {
     this.searchDate = '';
   }
 
-<<<<<<< HEAD
-  goToEdit(transcriptionId?: string): void {
-    if (!transcriptionId) {
-      return;
-    }
-
-    void this.router.navigate(['/transcribe/edit', transcriptionId]);
-  }
-
-  requestDelete(transcription?: TranscriptionDto): void {
-    if (!transcription?.id || this.deletingId) {
-      return;
-    }
-
-    this.pendingDeleteTranscription = transcription;
-  }
-
-  cancelDelete(): void {
-    this.pendingDeleteTranscription = null;
-  }
-
-  confirmDelete(): void {
-    const transcription = this.pendingDeleteTranscription;
-    if (!transcription?.id || this.deletingId) {
-      return;
-    }
-
-    this.deletingId = transcription.id;
-    this.error = null;
-
-    this.transcriptionService.delete(transcription.id).subscribe({
-      next: () => {
-        this.transcriptions = this.transcriptions.filter(item => item.id !== transcription.id);
-        this.pendingDeleteTranscription = null;
-=======
   deleteTranscription(item: TranscriptionDto): void {
     if (!item?.id || this.deletingId) {
       return;
@@ -113,7 +61,6 @@ export class ListTranscriptionComponent implements OnInit {
     this.transcriptionService.delete(item.id).subscribe({
       next: () => {
         this.transcriptions = this.transcriptions.filter(x => x.id !== item.id);
->>>>>>> refs/heads/development
         this.deletingId = null;
       },
       error: () => {

@@ -1,10 +1,5 @@
-/* Your Global Styles */
-<<<<<<< HEAD
+﻿/* Your Global Styles */
 
-:root .lpx-brand-logo {
-    --lpx-logo: url('/images/logo/leptonx/logo-light.png');
-    --lpx-logo-icon: url('/images/logo/leptonx/logo-light-thumbnail.png');
-=======
 @font-face {
     font-family: 'Millik';
     src: url('/fonts/millik/Millik.otf') format('opentype'),
@@ -386,5 +381,4 @@ form[action*="/Account/Register"] a:hover {
     .auth-entry-list li {
         animation: none !important;
     }
->>>>>>> refs/heads/development
 }

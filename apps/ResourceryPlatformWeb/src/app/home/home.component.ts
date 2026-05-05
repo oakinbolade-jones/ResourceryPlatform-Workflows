@@ -1,9 +1,6 @@
 import { AuthService, SessionStateService } from '@abp/ng.core';
 import { AfterViewInit, Component } from '@angular/core';
-<<<<<<< HEAD
-=======
 import { AuthPopupService } from '../shared/services/auth-popup.service';
->>>>>>> refs/heads/development
 
 declare global {
   interface Window {
@@ -24,22 +21,14 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-<<<<<<< HEAD
-    private sessionStateService: SessionStateService
-=======
     private sessionStateService: SessionStateService,
     private authPopupService: AuthPopupService
->>>>>>> refs/heads/development
   ) {}
 
   ngAfterViewInit(): void {
     this.loadTawkWidget();
   }
 
-<<<<<<< HEAD
-  login() {
-    this.authService.navigateToLogin();
-=======
   async login() {
     try {
       await this.authPopupService.loginWithPopup();
@@ -49,7 +38,6 @@ export class HomeComponent implements AfterViewInit {
       const returnUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
       this.authService.navigateToLogin({ returnUrl });
     }
->>>>>>> refs/heads/development
   }
 
   navigateToDashboard() {

@@ -283,10 +283,6 @@ public class OpenIddictDataSeeder(
                 OpenIddictConstants.Permissions.Scopes.Phone,
                 OpenIddictConstants.Permissions.Scopes.Profile,
                 OpenIddictConstants.Permissions.Scopes.Roles,
-<<<<<<< HEAD
-                "offline_access",
-=======
->>>>>>> refs/heads/development
             };
 
             foreach (var scope in scopes)

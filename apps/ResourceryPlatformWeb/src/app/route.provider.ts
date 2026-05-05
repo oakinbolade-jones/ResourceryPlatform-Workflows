@@ -23,12 +23,6 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-<<<<<<< HEAD
-        path: '/dashboard',
-        name: 'Workflow::ServiceCenters',
-        iconClass: '',
-        order: 2,
-=======
         path: '/webcast',
         name: 'Workflow::Webcasts',
         iconClass: '',
@@ -40,28 +34,19 @@ function configureRoutes(routesService: RoutesService) {
         name: 'Workflow::ServiceCenters',
         iconClass: '',
         order: 3,
->>>>>>> refs/heads/development
         layout: eLayoutType.application,
       }, {
         path: '/documentation',
         name: 'Workflow::Documentation',
         iconClass: '',
-<<<<<<< HEAD
-        order: 3,
-=======
         order: 4,
->>>>>>> refs/heads/development
         layout: eLayoutType.application,
       },
       {
         path: '/support',
         name: 'Workflow::Support',
         iconClass: '',
-<<<<<<< HEAD
-        order: 4,
-=======
         order: 5,
->>>>>>> refs/heads/development
         layout: eLayoutType.application,
       },
 

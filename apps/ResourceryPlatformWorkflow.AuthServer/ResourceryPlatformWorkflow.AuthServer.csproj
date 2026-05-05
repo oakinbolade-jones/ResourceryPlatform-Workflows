@@ -22,13 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-=======
     <Content Include="Pages\**\*.cshtml.cs" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
->>>>>>> refs/heads/development
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
@@ -48,11 +45,8 @@
     <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="10.0.2" />
     <PackageReference Include="Volo.Abp.Account.HttpApi" Version="10.0.2" />
-<<<<<<< HEAD
-=======
     
     <ProjectReference Include="..\..\services\workflow\src\ResourceryPlatformWorkflow.Workflow.Domain.Shared\ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj" />
->>>>>>> refs/heads/development
     <ProjectReference Include="..\..\services\administration\src\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\services\identity\src\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\services\saas\src\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.csproj" />

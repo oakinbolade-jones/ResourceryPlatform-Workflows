@@ -47,10 +47,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
   mediaUrl: string | null = null;
-<<<<<<< HEAD
-=======
   mediaError: string | null = null;
->>>>>>> refs/heads/development
   transcriptLines: TranscriptLine[] = [];
   hasTranscript = false;
   transcriptParseError: string | null = null;
@@ -135,10 +132,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private bindLoadedTranscription(transcription: TranscriptionDto): void {
     this.transcription = transcription;
-<<<<<<< HEAD
-=======
     this.mediaError = null;
->>>>>>> refs/heads/development
     this.mediaUrl = this.resolveMediaUrl(transcription);
     this.bindTranscriptFromField(transcription);
     this.loading = false;
@@ -148,10 +142,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.error = message;
     this.transcription = null;
     this.mediaUrl = null;
-<<<<<<< HEAD
-=======
     this.mediaError = null;
->>>>>>> refs/heads/development
     this.hasTranscript = false;
     this.transcriptLines = [];
     this.allWords = [];
@@ -160,9 +151,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
   private resolveMediaUrl(transcription: TranscriptionDto): string | null {
     const linkToVideo = (transcription.linkToVideo ?? '').trim();
-<<<<<<< HEAD
-    return linkToVideo || null;
-=======
     if (!linkToVideo) {
       return null;
     }
@@ -180,7 +168,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     } catch {
       return linkToVideo;
     }
->>>>>>> refs/heads/development
   }
 
   private bindTranscriptFromField(transcription: TranscriptionDto): void {
@@ -400,12 +387,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
 
     player.currentTime = Math.max(0, word.start || 0);
-<<<<<<< HEAD
-    void player.play();
-    this.syncToVideoTime();
-  }
-
-=======
     const playResult = player.play();
     if (playResult && typeof playResult.catch === 'function') {
       playResult.catch(() => {
@@ -434,7 +415,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.mediaError = null;
   }
 
->>>>>>> refs/heads/development
   onLineClick(line: TranscriptLine): void {
     const firstWord = line.words[0];
     if (!firstWord) {
@@ -508,27 +488,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
-  private resolveFileName(response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
-    const contentDisposition = response.headers.get('content-disposition') ?? '';
-    const starMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
-    if (starMatch?.[1]) {
-      return decodeURIComponent(starMatch[1]);
-    }
-
-    const match = contentDisposition.match(/filename="?([^\";]+)"?/i);
-    if (match?.[1]) {
-      return match[1];
-    }
-
-    const fallbackTitle = (this.transcription?.title ?? 'transcription')
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '') || 'transcription';
-
-    return `${fallbackTitle}.${format}`;
-=======
   private resolveFileName(_response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
     const baseDate = this.transcription?.dateOfTranscription
       ? new Date(this.transcription.dateOfTranscription)
@@ -556,7 +515,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     );
 
     return `${timestamp}-${slug}_${language || 'en'}.${format}`;
->>>>>>> refs/heads/development
   }
 
   isLineActive(lineId: number): boolean {

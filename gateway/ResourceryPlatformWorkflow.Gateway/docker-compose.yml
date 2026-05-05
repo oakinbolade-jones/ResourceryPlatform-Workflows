@@ -1,5 +1,0 @@
-services:
-  gateway:
-    build:
-      context: ../../
-      dockerfile: gateway/ResourceryPlatformWorkflow.Gateway/Dockerfile

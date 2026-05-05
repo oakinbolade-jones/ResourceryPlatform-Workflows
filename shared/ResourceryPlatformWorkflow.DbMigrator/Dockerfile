@@ -1,18 +1,19 @@
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/runtime:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Build.props", "."]
 COPY ["services/administration/NuGet.Config", "services/administration/"]
 COPY ["services/identity/NuGet.Config", "services/identity/"]
-COPY ["services/projects/NuGet.Config", "services/projects/"]
+COPY ["services/workflow/NuGet.Config", "services/workflow/"]
 COPY ["services/saas/NuGet.Config", "services/saas/"]
 COPY ["shared/ResourceryPlatformWorkflow.DbMigrator/ResourceryPlatformWorkflow.DbMigrator.csproj", "shared/ResourceryPlatformWorkflow.DbMigrator/"]
 COPY ["services/administration/src/ResourceryPlatformWorkflow.Administration.Application.Contracts/ResourceryPlatformWorkflow.Administration.Application.Contracts.csproj", "services/administration/src/ResourceryPlatformWorkflow.Administration.Application.Contracts/"]
@@ -24,10 +25,10 @@ COPY ["services/identity/src/ResourceryPlatformWorkflow.IdentityService.Applicat
 COPY ["services/identity/src/ResourceryPlatformWorkflow.IdentityService.Domain.Shared/ResourceryPlatformWorkflow.IdentityService.Domain.Shared.csproj", "services/identity/src/ResourceryPlatformWorkflow.IdentityService.Domain.Shared/"]
 COPY ["services/identity/src/ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore/ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.csproj", "services/identity/src/ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore/"]
 COPY ["services/identity/src/ResourceryPlatformWorkflow.IdentityService.Domain/ResourceryPlatformWorkflow.IdentityService.Domain.csproj", "services/identity/src/ResourceryPlatformWorkflow.IdentityService.Domain/"]
-COPY ["services/projects/src/ResourceryPlatformWorkflow.Projects.Application.Contracts/ResourceryPlatformWorkflow.Projects.Application.Contracts.csproj", "services/projects/src/ResourceryPlatformWorkflow.Projects.Application.Contracts/"]
-COPY ["services/projects/src/ResourceryPlatformWorkflow.Projects.Domain.Shared/ResourceryPlatformWorkflow.Projects.Domain.Shared.csproj", "services/projects/src/ResourceryPlatformWorkflow.Projects.Domain.Shared/"]
-COPY ["services/projects/src/ResourceryPlatformWorkflow.Projects.EntityFrameworkCore/ResourceryPlatformWorkflow.Projects.EntityFrameworkCore.csproj", "services/projects/src/ResourceryPlatformWorkflow.Projects.EntityFrameworkCore/"]
-COPY ["services/projects/src/ResourceryPlatformWorkflow.Projects.Domain/ResourceryPlatformWorkflow.Projects.Domain.csproj", "services/projects/src/ResourceryPlatformWorkflow.Projects.Domain/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.Application.Contracts/ResourceryPlatformWorkflow.Workflow.Application.Contracts.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.Application.Contracts/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain.Shared/ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain.Shared/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore/ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore/"]
+COPY ["services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain/ResourceryPlatformWorkflow.Workflow.Domain.csproj", "services/workflow/src/ResourceryPlatformWorkflow.Workflow.Domain/"]
 COPY ["services/saas/src/ResourceryPlatformWorkflow.SaaS.Application.Contracts/ResourceryPlatformWorkflow.SaaS.Application.Contracts.csproj", "services/saas/src/ResourceryPlatformWorkflow.SaaS.Application.Contracts/"]
 COPY ["services/saas/src/ResourceryPlatformWorkflow.SaaS.Domain.Shared/ResourceryPlatformWorkflow.SaaS.Domain.Shared.csproj", "services/saas/src/ResourceryPlatformWorkflow.SaaS.Domain.Shared/"]
 COPY ["services/saas/src/ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore/ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.csproj", "services/saas/src/ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore/"]

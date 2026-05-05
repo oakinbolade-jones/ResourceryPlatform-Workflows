@@ -1,8 +1,0 @@
-services:
-  angular-web:
-    build:
-      context: ../../
-      dockerfile: apps/ResourceryPlatformWeb/Dockerfile
-    image: smartserve/angular-web:local
-    ports:
-      - "${ANGULAR_WEB_PORT:-4200}:80"

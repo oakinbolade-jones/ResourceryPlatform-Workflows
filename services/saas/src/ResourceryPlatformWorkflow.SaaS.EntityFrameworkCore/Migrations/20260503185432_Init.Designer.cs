@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ResourceryPlatformWorkflow.SaaS.Migrations
 {
     [DbContext(typeof(SaaSDbContext))]
-    [Migration("20260330123615_Init")]
+    [Migration("20260503185432_Init")]
     partial class Init
     {
         /// <inheritdoc />

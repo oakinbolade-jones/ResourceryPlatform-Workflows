@@ -75,14 +75,10 @@ public class ResourceryPlatformWorkflowHostingModule : AbpModule
         Configure<AbpRabbitMqOptions>(options =>
         {
             var cstr = configuration.GetConnectionString(ResourceryPlatformWorkflowNames.RabbitMq);
-<<<<<<< HEAD
-            options.Connections.Default = new ConnectionFactory() { Uri = new Uri(cstr!) };
-=======
             if (!string.IsNullOrEmpty(cstr))
             {
                 options.Connections.Default = new ConnectionFactory() { Uri = new Uri(cstr) };
             }
->>>>>>> refs/heads/development
         });
 
         Configure<AbpRabbitMqEventBusOptions>(options =>

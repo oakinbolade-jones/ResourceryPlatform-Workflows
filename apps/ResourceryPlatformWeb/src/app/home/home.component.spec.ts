@@ -1,32 +1,23 @@
-import { CoreTestingModule } from "@abp/ng.core/testing";
+﻿import { CoreTestingModule } from "@abp/ng.core/testing";
 import { ThemeSharedTestingModule } from "@abp/ng.theme.shared/testing";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { NgxValidateCoreModule } from "@ngx-validate/core";
 import { HomeComponent } from "./home.component";
 import { OAuthService } from 'angular-oauth2-oidc';
-<<<<<<< HEAD
-import { AuthService } from '@abp/ng.core';
-=======
+
 import { AuthService, SessionStateService } from '@abp/ng.core';
->>>>>>> refs/heads/development
 
 
 
 describe("HomeComponent", () => {
   let fixture: ComponentFixture<HomeComponent>;
-<<<<<<< HEAD
-  const mockOAuthService = jasmine.createSpyObj('OAuthService', ['hasValidAccessToken'])
-  const mockAuthService = jasmine.createSpyObj('AuthService', ['navigateToLogin'])
-  beforeEach(
-    waitForAsync(() => {
-=======
+
   const mockOAuthService = jasmine.createSpyObj('OAuthService', ['hasValidAccessToken', 'initLoginFlowInPopup'])
   const mockAuthService = jasmine.createSpyObj('AuthService', ['navigateToLogin'], { isAuthenticated: false })
   const mockSessionStateService = jasmine.createSpyObj('SessionStateService', ['setLanguage'])
   beforeEach(
     waitForAsync(() => {
       mockOAuthService.initLoginFlowInPopup.and.returnValue(Promise.reject(new Error('popup blocked')));
->>>>>>> refs/heads/development
       TestBed.configureTestingModule({
         declarations: [HomeComponent],
         imports: [
@@ -43,13 +34,11 @@ describe("HomeComponent", () => {
           {
             provide: AuthService,
             useValue: mockAuthService
-<<<<<<< HEAD
-=======
+
           },
           {
             provide: SessionStateService,
             useValue: mockSessionStateService
->>>>>>> refs/heads/development
           }
         ],
       }).compileComponents();
@@ -104,18 +93,12 @@ describe("HomeComponent", () => {
     })
     describe('when button clicked', () => {
 
-<<<<<<< HEAD
-      beforeEach(() => {
-        const element = fixture.nativeElement
-        const button = element.querySelector('[role="button"]')
-        button.click()
-=======
+
       beforeEach(async () => {
         const element = fixture.nativeElement
         const button = element.querySelector('[role="button"]')
         button.click()
         await fixture.whenStable();
->>>>>>> refs/heads/development
       });
 
       it("navigateToLogin have been called", () => {

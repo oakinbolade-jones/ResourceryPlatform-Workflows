@@ -70,21 +70,15 @@
           (play)="onVideoPlay()"
           (pause)="onVideoPause()"
           (seeked)="onVideoSeeked()"
-<<<<<<< HEAD
-=======
           (error)="onVideoError()"
           (canplay)="onVideoCanPlay()"
->>>>>>> refs/heads/development
         ></video>
         <p class="fs-6 fw-semibold text-muted">
           {{ transcription.dateOfTranscription | date: 'long' }}
         </p>
-<<<<<<< HEAD
-=======
         <div *ngIf="mediaError" class="state-banner state-error mb-0 mt-3">
           {{ mediaError }}
         </div>
->>>>>>> refs/heads/development
         <div *ngIf="!mediaUrl" class="state-banner state-empty mb-0 mt-3">
           {{ 'Workflow::Transcription:NoVideoAudioSourceLabel' | abpLocalization }}
         </div>

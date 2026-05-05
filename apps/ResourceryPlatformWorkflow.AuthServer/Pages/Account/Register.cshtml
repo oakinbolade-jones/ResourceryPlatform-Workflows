@@ -13,8 +13,7 @@
 @{
     Layout = "_AccountLayout.Custom";
     var registerTemplate = AuthUiOptions.Value.Register.TemplatePartial;
-    var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Register" : registerTemplate;
+    var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Templates/_Register.Custom" : registerTemplate;
 }
 
 <partial name="@templateName" model="Model" />
-}
