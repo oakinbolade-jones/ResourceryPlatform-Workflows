@@ -1,6 +1,7 @@
 import { eLayoutType } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountManageRedirectComponent } from './account/account-manage-redirect.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,12 @@ const routes: Routes = [
   { path: 'documentation', loadChildren: () => import('./documentation/documentation.module').then(m => m.DocumentationModule) },
   { path: 'webcast', loadChildren: () => import('./webcast/webcast.module').then(m => m.WebcastModule) },
   { path: 'support', loadChildren: () => import('./support/support.module').then(m => m.SupportModule) },
+
+  {
+    path: 'account/manage',
+    component: AccountManageRedirectComponent,
+    data: { layout: eLayoutType.empty },
+  },
   
   {
     path: 'account',
