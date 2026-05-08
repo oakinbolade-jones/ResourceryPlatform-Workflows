@@ -39,6 +39,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   transcriptionId: string | null = null;
   transcriptionReferenceId: string | null = null;
   transcriptionResultLinks: { [key: string]: string } | null = null;
+  isTranscriptionCompleted = false;
   currentStep = 1;
   isSavingStepOne = false;
   isStepOneSaved = false;
@@ -51,6 +52,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private recordedExtension = 'webm';
   private activeMimeType = 'video/webm';
   private statusPollingHandle: ReturnType<typeof setInterval> | null = null;
+  private tooltipInstances: InstanceType<typeof Tooltip>[] = [];
 
   // Configure where server-side saving should happen.
   // 1) Update saveEndpoint to your API route.
@@ -112,12 +114,18 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initializeTooltips(): void {
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(tooltipTriggerEl => {
-      new Tooltip(tooltipTriggerEl);
+    this.tooltipInstances = tooltipTriggerList.map(el => new Tooltip(el));
+  }
+
+  private disposeTooltips(): void {
+    this.tooltipInstances.forEach(t => {
+      try { t.hide(); t.dispose(); } catch { /* already removed */ }
     });
+    this.tooltipInstances = [];
   }
 
   ngOnDestroy(): void {
+    this.disposeTooltips();
     this.stopStatusPolling();
     this.stopStream();
     if (this.objectUrl) {
@@ -279,6 +287,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.stopStatusPolling();
     this.isTranscribing = true;
+    this.isTranscriptionCompleted = false;
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
@@ -376,14 +385,16 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }
 
-        if (status === 'finished' || status === 'done' || status === 'completed') {
+        if (this.isCompletionStatus(status, this.transcriptionPercent)) {
           this.isTranscribing = false;
+          this.isTranscriptionCompleted = true;
           this.stopStatusPolling();
           this.transcribeStatus = `Transcription completed (${this.transcriptionPercent}%).`;
         }
 
-        if (status === 'failed' || status === 'error') {
+        if (this.isFailureStatus(status)) {
           this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
           this.stopStatusPolling();
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
@@ -413,6 +424,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private resetTranscriptionState(): void {
     this.stopStatusPolling();
     this.isTranscribing = false;
+    this.isTranscriptionCompleted = false;
     this.transcribeStatus = null;
     this.transcriptionPercent = 0;
     this.transcriptionId = null;
@@ -627,6 +639,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  get canViewTranscription(): boolean {
+    return this.isTranscriptionCompleted && (!!this.transcriptionId || !!this.transcriptionReferenceId);
+  }
+
+  get viewTranscriptionButtonClass(): string {
+    return this.canViewTranscription ? 'btn-success' : 'btn-outline-success disabled';
+  }
+
   get isStepOneValid(): boolean {
     return (
       !!this.transcribeForm.get('Title')?.valid &&
@@ -744,13 +764,28 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     return /^https?:\/\//i.test(upstreamLink);
   }
 
-  goToViewPage(): void {
-    if (!this.transcriptionId) return;
-    this.router.navigate(['/transcribe/view-transcription', this.transcriptionId]);
-
-   
+  private isCompletionStatus(status: string, percent: number): boolean {
+    return status === 'finished' || status === 'done' || status === 'completed' || percent >= 100;
   }
-   goToTranscriptionListPage(): void {
-      this.router.navigate(['/transcribe/list']);
+
+  private isFailureStatus(status: string): boolean {
+    return status === 'failed' || status === 'error' || status === 'submissionfailed';
+  }
+
+  goToViewPage(): void {
+    if (this.transcriptionId) {
+      void this.router.navigate(['/transcribe/view', this.transcriptionId]);
+      return;
     }
+
+    if (this.transcriptionReferenceId) {
+      void this.router.navigate(['/transcribe/view', 'lookup'], {
+        queryParams: { sourceReferenceId: this.transcriptionReferenceId },
+      });
+    }
+  }
+
+  goToTranscriptionListPage(): void {
+    void this.router.navigate(['/transcribe/list']);
+  }
 }

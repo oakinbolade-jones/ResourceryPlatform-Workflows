@@ -53,7 +53,7 @@ services:
       seq:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "http://+:8080;https://+:8443"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -78,7 +78,7 @@ services:
     build:
       context: .
       dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
-    image: smartserve/administration-service:local
+    image: smartserve/administration-service:local:v1
     depends_on:
       redis:
         condition: service_healthy
@@ -89,7 +89,7 @@ services:
       identity-service:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "http://+:8080;https://+:8443"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -127,7 +127,7 @@ services:
       identity-service:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "http://+:8080;https://+:8443"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -165,7 +165,7 @@ services:
       identity-service:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "http://+:8080;https://+:8443"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -203,7 +203,7 @@ services:
       seq:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "https://+:7600"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -244,7 +244,7 @@ services:
       workflow-service:
         condition: service_started
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ASPNETCORE_URLS: "https://+:8081"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}"
@@ -272,7 +272,7 @@ services:
     image: smartserve/db-migrator:local
     profiles: ["migrations"]
     environment:
-      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_ENVIRONMENT: "Staging"
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_AdministrationDb;"
       ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_IdentityServiceDb;"
       ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: "Server=${SQLSERVER_HOST:-CONF-AJCHIGBU},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_SaaSDb;"
