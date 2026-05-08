@@ -7,3 +7,7 @@
 # Always keep local .env on merge
 .env merge=ours
 **/.env merge=ours
+
+# Always keep local docker-compose on merge
+docker-compose.yml merge=ours
+**/docker-compose.yml merge=ours
