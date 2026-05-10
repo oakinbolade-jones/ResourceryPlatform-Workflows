@@ -5,7 +5,7 @@
             "launchBrowser": false,
             "applicationUrl": "https://localhost:5000",
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Staging"
             }
         },
         "ResourceryPlatformWorkflow.WebApp.Blazor": {
@@ -13,8 +13,9 @@
             "launchBrowser": true,
             "applicationUrl": "https://localhost:5000",
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Staging"
             }
         }
     }
 }
+
