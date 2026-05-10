@@ -1,6 +1,17 @@
 **/wwwroot/libs/** linguist-vendored
 
 # Always keep local version of launchSettings on merge
+**/launchSettings.json merge=keepOurs
+
+# Always keep local .env on merge
+.env merge=keepOurs
+**/.env merge=keepOurs
+
+# Always keep local docker-compose on merge
+docker-compose.yml merge=keepOurs
+**/docker-compose.yml merge=keepOurs
+
+# Always keep local version of launchSettings on merge
 **/launchSettings.json merge=ours
 
 
