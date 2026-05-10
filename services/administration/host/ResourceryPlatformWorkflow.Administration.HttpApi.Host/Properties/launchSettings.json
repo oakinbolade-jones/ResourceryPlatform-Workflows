@@ -1,0 +1,29 @@
+{
+    "$schema": "https://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "Aspire": {
+            "commandName": "Project",
+            "launchBrowser": false,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            },
+            "applicationUrl": "https://localhost:7001"
+        },
+        "ResourceryPlatformWorkflow.Administration.Host": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            },
+            "applicationUrl": "https://localhost:7001"
+        },
+        "Docker": {
+            "commandName": "Docker",
+            "launchBrowser": true,
+            "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+            "publishAllPorts": true,
+            "useSSL": true
+        }
+    }
+    
+}
