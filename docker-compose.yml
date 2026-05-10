@@ -78,7 +78,7 @@ services:
     build:
       context: .
       dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
-    image: smartserve/administration-service:local
+    image: smartserve/administration-service:local:v1
     depends_on:
       redis:
         condition: service_healthy

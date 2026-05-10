@@ -107,21 +107,21 @@
                                 <form method="post" class="mt-4" id="loginForm">
                                     <abp-validation-summary />
                                     <div class="mb-3">
-                                        <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label"></label>
+                                        <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label">@LW["Account:UsernameOrEmail"]</label>
                                         <input asp-for="LoginInput.UserNameOrEmailAddress"
                                                class="form-control border border-success rounded-0 p-2" autocomplete="off"
-                                               placeholder="Enter username or email" />
+                                               placeholder="@LW["Account:EnterUsernameOrEmail"]" />
                                         <span asp-validation-for="LoginInput.UserNameOrEmailAddress"
                                               class="text-danger"></span>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label asp-for="LoginInput.Password" class="form-label"></label>
+                                        <label asp-for="LoginInput.Password" class="form-label">@LW["Account:Password"]</label>
                                         <div class="input-group">
                                             <input type="password" class="form-control border border-success rounded-0 p-2"
                                                    autocomplete="new-password"
                                                    maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)"
-                                                   asp-for="LoginInput.Password" placeholder="Enter account password" />
+                                                   asp-for="LoginInput.Password" placeholder="@LW["Account:EnterAccountPassword"]" />
                                             <button class="btn btn-outline-success rounded-1" type="button"
                                                     id="PasswordVisibilityButton"><i class="fa fa-eye-slash text-dark"
                                                                                  aria-hidden="true"></i></button>
@@ -159,7 +159,7 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <span asp-validation-for="LoginInput.Password"></span>
+                                            <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
                                         </div>
 
                                         <div class="row align-items-center mb-3">

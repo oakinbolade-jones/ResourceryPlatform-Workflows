@@ -1,4 +1,25 @@
 **/wwwroot/libs/** linguist-vendored
 
-# Always keep local version of launchSettings on merge
-**/launchSettings.json merge=ours
+# Always keep local version of environment-specific files on merge
+# These files contain environment-specific settings that should not be overwritten
+
+# launchSettings - IDE launch profiles
+**/launchSettings.json merge=keepOurs
+
+# appsettings - Configuration files (environment-specific)
+appsettings.json merge=keepOurs
+appsettings.*.json merge=keepOurs
+**/appsettings.json merge=keepOurs
+**/appsettings.*.json merge=keepOurs
+
+# .env files - Environment variables
+.env merge=keepOurs
+**/.env merge=keepOurs
+
+# docker-compose - Docker service definitions (environment-specific)
+docker-compose.yml merge=keepOurs
+**/docker-compose.yml merge=keepOurs
+
+# Always keep local docker-compose on merge
+docker-compose.yml merge=ours
+**/docker-compose.yml merge=ours

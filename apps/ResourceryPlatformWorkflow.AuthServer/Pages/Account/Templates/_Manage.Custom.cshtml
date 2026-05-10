@@ -9,6 +9,9 @@
 @inject IHtmlLocalizer<AccountResource> L
 @inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
 @inject Volo.Abp.Settings.ISettingProvider SettingProvider
+@{
+    var isPasswordTab = string.Equals(Model.Tab, "password", StringComparison.OrdinalIgnoreCase);
+}
 
 <!-- FORMATTED TO MATCH LOGIN/REGISTER PAGE LAYOUT -->
 <div class="lpx-content-container">
@@ -23,8 +26,8 @@
                 <div class="col-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-start w-50">
                     <div class="row g-0 shadow-lg border border-success rounded-1 overflow-hidden w-75 justify-content-center">
                         <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-5 left-side">
-                            <h2 class="h3 mb-3 fs-2 fw-bold">@L["ManageAccount"]</h2>
-                            <p class="fw-normal fs-6 text-body-secondary">@L["Manage your account settings and security options."]</p>
+                            <h2 class="h3 mb-3 fs-2 fw-bold">@LW["Account:ManageAccount"]</h2>
+                            <p class="fw-normal fs-6 text-body-secondary">@LW["Account:ManageAccountDescription"]</p>
                             <p class="mt-auto mb-0 small opacity-75">
                                 <hr />
                                 @LW["ECOWASCopyright"] <br />
@@ -33,23 +36,126 @@
                         </div>
                         <div class="col-12 col-md-7 bg-white p-5 w-50">
                             <!-- Manage form section (edit freely) -->
-                            <form method="post" class="mt-4">
-                                <abp-validation-summary />
-                                <!-- Add your account management fields here -->
-                                <div class="mb-3">
-                                    <label asp-for="Input.Email" class="form-label"></label>
-                                    <input asp-for="Input.Email" class="form-control border border-success rounded-0 p-2" autocomplete="off" placeholder="Email address" />
-                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <div class="mb-3">
+                                <a href="@Model.SafeReturnUrl" onclick="window.location.href='@Model.SafeReturnUrl'; return false;" class="text-success text-decoration-none">
+                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                    @LW["Account:BackToPreviousPage"]
+                                </a>
+                            </div>
+
+                            <style>
+                                .manage-tabs .nav-link {
+                                    color: var(--bs-success);
+                                    background-color: #fff;
+                                    border: 1px solid var(--bs-success);
+                                    border-bottom: 0;
+                                }
+
+                                .manage-tabs .nav-link.active,
+                                .manage-tabs .nav-link[aria-selected="true"] {
+                                    color: #fff;
+                                    background-color: var(--bs-success);
+                                    border-color: var(--bs-success);
+                                    font-weight: 600;
+                                }
+                            </style>
+
+                            <ul class="nav nav-tabs mb-4 border-success manage-tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-0 px-4 py-2 @(!isPasswordTab ? "active" : string.Empty)"
+                                            id="profile-tab"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#profile-tab-pane"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="profile-tab-pane"
+                                            aria-selected="@(!isPasswordTab)">
+                                        @LW["Account:AccountInformation"]
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-0 px-4 py-2 @(isPasswordTab ? "active" : string.Empty)"
+                                            id="password-tab"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#password-tab-pane"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="password-tab-pane"
+                                            aria-selected="@(isPasswordTab)">
+                                        @LW["Account:ResetPassword"]
+                                    </button>
+                                </li>
+                            </ul>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+                            {
+                                <div class="alert alert-success" role="alert">@Model.StatusMessage</div>
+                            }
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade @(isPasswordTab ? string.Empty : "show active")" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                    <form method="post" class="mt-4">
+                                        <input type="hidden" asp-for="ReturnUrl" />
+                                        <input type="hidden" name="Tab" value="profile" />
+                                        <abp-validation-summary />
+                                        <div class="mb-3">
+                                            <label asp-for="Input.FirstName" class="form-label">@LW["Account:FirstName"]</label>
+                                            <input asp-for="Input.FirstName" class="form-control border border-success rounded-0 p-2" autocomplete="given-name" placeholder="@LW["Account:EnterFirstName"]" />
+                                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Input.LastName" class="form-label">@LW["Account:LastName"]</label>
+                                            <input asp-for="Input.LastName" class="form-control border border-success rounded-0 p-2" autocomplete="family-name" placeholder="@LW["Account:EnterLastName"]" />
+                                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Input.Email" class="form-label">@LW["Account:Email"]</label>
+                                            <input asp-for="Input.Email" class="form-control border border-success rounded-0 p-2" autocomplete="off" placeholder="@LW["Account:EnterEmailAddress"]" />
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Input.PhoneNumber" class="form-label"> @LW["Account:PhoneNumber"]</label>
+                                            <input asp-for="Input.PhoneNumber" class="form-control border border-success rounded-0 p-2" autocomplete="off" placeholder="@LW["Account:EnterPhoneNumber"]" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <abp-button button-type="Primary" type="submit" class="btn-lg mt-4 btn btn-success rounded-0">@LW["Account:SaveChanges"]</abp-button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                                    <input asp-for="Input.PhoneNumber" class="form-control border border-success rounded-0 p-2" autocomplete="off" placeholder="Phone number" />
-                                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+
+                                <div class="tab-pane fade @(isPasswordTab ? "show active" : string.Empty)" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
+                                    <form method="post" asp-page-handler="ChangePassword" class="mt-4">
+                                        <input type="hidden" asp-for="ReturnUrl" />
+                                        <input type="hidden" name="Tab" value="password" />
+                                        <abp-validation-summary />
+
+                                        <div class="mb-3">
+                                            <label asp-for="ChangePasswordInput.CurrentPassword" class="form-label">@LW["Account:CurrentPassword"]</label>
+                                            <input asp-for="ChangePasswordInput.CurrentPassword" class="form-control border border-success rounded-0 p-2" autocomplete="current-password" placeholder="@LW["Account:EnterCurrentPassword"]" />
+                                            <span asp-validation-for="ChangePasswordInput.CurrentPassword" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label asp-for="ChangePasswordInput.NewPassword" class="form-label">@LW["Account:NewPassword"]</label>
+                                            <input asp-for="ChangePasswordInput.NewPassword" class="form-control border border-success rounded-0 p-2" autocomplete="new-password" placeholder="@LW["Account:EnterNewPassword"]" />
+                                            <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label asp-for="ChangePasswordInput.ConfirmNewPassword" class="form-label">
+                                                      @LW["Account:ConfirmPassword"]
+                                            </label>
+                                            <input asp-for="ChangePasswordInput.ConfirmNewPassword" class="form-control border border-success rounded-0 p-2" autocomplete="new-password" placeholder="@LW["Account:ConfirmPassword"]" />
+                                            <span asp-validation-for="ChangePasswordInput.ConfirmNewPassword" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <abp-button button-type="Primary" type="submit" class="btn-lg mt-4 btn btn-success rounded-0">@LW["Account:ChangePassword"]</abp-button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="d-grid gap-2">
-                                    <abp-button button-type="Primary" type="submit" class="btn-lg mt-4 btn btn-success rounded-0">@L["SaveChanges"]</abp-button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

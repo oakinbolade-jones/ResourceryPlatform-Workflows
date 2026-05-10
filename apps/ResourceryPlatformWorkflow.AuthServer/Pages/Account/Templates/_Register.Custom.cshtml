@@ -89,30 +89,30 @@
                                 @if (Model.EnableLocalRegister || Model.IsExternalLogin)
                                 {
                                     <div class="mb-3">
-                                        <label asp-for="Input.UserName" class="form-label"></label>
+                                        <label asp-for="Input.UserName" class="form-label">@LW["Account:Username"]</label>
                                         <input asp-for="Input.UserName"
                                                class="form-control border border-success rounded-0 p-2" autocomplete="off"
-                                               placeholder="Enter username" />
+                                               placeholder="@LW["Account:EnterUsername"]" />
                                         <span asp-validation-for="Input.UserName" class="text-danger"></span>
                                     </div>
                                 }
                                 @if (Model.EnableLocalRegister || Model.IsExternalLogin)
                                 {
                                     <div class="mb-3">
-                                        <label asp-for="Input.EmailAddress" class="form-label"></label>
+                                        <label asp-for="Input.EmailAddress" class="form-label">@LW["Account:Email"]</label>
                                         <input asp-for="Input.EmailAddress"
                                                class="form-control border border-success rounded-0 p-2" autocomplete="off"
-                                               placeholder="Enter email address" />
+                                               placeholder="@LW["Account:EnterEmailAddress"]" />
                                         <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
                                     </div>
                                 }
                                 @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
                                 {
                                     <div class="mb-3">
-                                        <label asp-for="Input.Password" class="form-label"></label>
+                                        <label asp-for="Input.Password" class="form-label">@LW["Account:Password"]</label>
                                         <input asp-for="Input.Password" type="password"
                                                class="form-control border border-success rounded-0 p-2"
-                                               autocomplete="new-password" placeholder="Enter password" />
+                                               autocomplete="new-password" placeholder="@LW["Account:EnterPassword"]" />
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                 }
