@@ -1,14 +1,23 @@
 {
-    "$schema": "https://json.schemastore.org/launchsettings.json",
-    "profiles": {
-        "Aspire": {
-            "commandName": "Project"
-        },
-        "ResourceryPlatformWorkflow.DbMigrator": {
-            "commandName": "Project"
-        },
-        "Docker": {
-            "commandName": "Docker"
-        }
-    }
+    "$schema":  "https://json.schemastore.org/launchsettings.json",
+    "profiles":  {
+                     "Aspire":  {
+                                    "commandName":  "Project",
+                                    "environmentVariables":  {
+
+                                                             }
+                                },
+                     "ResourceryPlatformWorkflow.DbMigrator":  {
+                                                                   "commandName":  "Project",
+                                                                   "environmentVariables":  {
+
+                                                                                            }
+                                                               },
+                     "Docker":  {
+                                    "commandName":  "Docker",
+                                    "environmentVariables":  {
+
+                                                             }
+                                }
+                 }
 }
