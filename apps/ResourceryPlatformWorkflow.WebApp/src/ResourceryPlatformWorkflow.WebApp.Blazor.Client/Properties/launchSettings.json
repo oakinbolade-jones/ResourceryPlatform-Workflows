@@ -4,9 +4,10 @@
             "commandName": "Project",
             "launchBrowser": true,
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Staging"
+                "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "applicationUrl": "https://localhost:5000"
         }
     }
 }
+
