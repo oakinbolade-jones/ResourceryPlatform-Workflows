@@ -1,23 +1,23 @@
 {
-    "$schema":  "https://json.schemastore.org/launchsettings.json",
-    "profiles":  {
-                     "Aspire":  {
-                                    "commandName":  "Project",
-                                    "environmentVariables":  {
-
-                                                             }
-                                },
-                     "ResourceryPlatformWorkflow.DbMigrator":  {
-                                                                   "commandName":  "Project",
-                                                                   "environmentVariables":  {
-
-                                                                                            }
-                                                               },
-                     "Docker":  {
-                                    "commandName":  "Docker",
-                                    "environmentVariables":  {
-
-                                                             }
-                                }
-                 }
+    "$schema": "https://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "Aspire": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            }
+        },
+        "ResourceryPlatformWorkflow.DbMigrator": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            }
+        },
+        "Docker": {
+            "commandName": "Docker",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            }
+        }
+    }
 }
