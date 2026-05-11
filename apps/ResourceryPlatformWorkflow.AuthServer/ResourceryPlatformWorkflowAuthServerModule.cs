@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -62,6 +64,8 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(WorkflowDomainSharedModule))]
 public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 {
+    private static readonly Lazy<Dictionary<string, string>> DotEnvValues = new(LoadDotEnvValues);
+
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
@@ -162,20 +166,34 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
     )
     {
         var microsoftSection = configuration.GetSection("Authentication:Microsoft");
-        // var clientId = microsoftSection["ClientId"]; 
-        // var clientSecret = microsoftSection["ClientSecret"]; 
-
-        var clientId = configuration["OAuth:ClientId"];
-        var clientSecret = configuration["OAuth:ClientSecret"];
+        var clientId = GetFirstNonEmptyValue(
+            configuration,
+            "OAuth:ClientId",
+            "Authentication:Microsoft:ClientId",
+            "OAuth__ClientId",
+            "OAUTH_CLIENT_ID"
+        );
+        var clientSecret = GetFirstNonEmptyValue(
+            configuration,
+            "OAuth:ClientSecret",
+            "Authentication:Microsoft:ClientSecret",
+            "OAuth__ClientSecret",
+            "OAUTH_CLIENT_SECRET"
+        );
 
         if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
         {
             return;
         }
 
-        // var tenantId = microsoftSection["TenantId"] ?? "organizations";
-
-        var tenantId = configuration["TenantId"] ?? "organizations";
+        var tenantId = GetFirstNonEmptyValue(
+            configuration,
+            "TenantId",
+            "OAuth:TenantId",
+            "Authentication:Microsoft:TenantId",
+            "OAuth__TenantId",
+            "OAUTH_TENANT_ID"
+        ) ?? "organizations";
         var callbackPath = microsoftSection["CallbackPath"] ?? "/signin-oidc-microsoft";
         var allowedEmailDomain =
             (microsoftSection["AllowedEmailDomain"] ?? "ecowas.int").Trim().ToLowerInvariant();
@@ -387,6 +405,81 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                     },
                 };
             });
+    }
+
+    private static string GetFirstNonEmptyValue(IConfiguration configuration, params string[] keys)
+    {
+        foreach (var key in keys)
+        {
+            var value = configuration[key];
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
+            var envValue = Environment.GetEnvironmentVariable(key);
+            if (!string.IsNullOrWhiteSpace(envValue))
+            {
+                return envValue;
+            }
+
+            if (DotEnvValues.Value.TryGetValue(key, out var dotEnvValue)
+                && !string.IsNullOrWhiteSpace(dotEnvValue))
+            {
+                return dotEnvValue;
+            }
+        }
+
+        return null;
+    }
+
+    private static Dictionary<string, string> LoadDotEnvValues()
+    {
+        var values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+
+        while (directory != null)
+        {
+            var dotEnvPath = Path.Combine(directory.FullName, ".env");
+            if (File.Exists(dotEnvPath))
+            {
+                foreach (var rawLine in File.ReadAllLines(dotEnvPath))
+                {
+                    var line = rawLine.Trim();
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#"))
+                    {
+                        continue;
+                    }
+
+                    var separatorIndex = line.IndexOf('=');
+                    if (separatorIndex <= 0)
+                    {
+                        continue;
+                    }
+
+                    var key = line[..separatorIndex].Trim();
+                    var value = line[(separatorIndex + 1)..].Trim();
+
+                    if (value.Length >= 2
+                        && ((value.StartsWith('"') && value.EndsWith('"'))
+                            || (value.StartsWith('\'') && value.EndsWith('\''))))
+                    {
+                        value = value[1..^1];
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(key))
+                    {
+                        values[key] = value;
+                    }
+                }
+
+                break;
+            }
+
+            directory = directory.Parent;
+        }
+
+        return values;
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
