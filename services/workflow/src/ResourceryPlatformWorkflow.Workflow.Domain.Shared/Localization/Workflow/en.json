@@ -1244,7 +1244,7 @@
     "ServiceWorkflowStep:Output:PROT:PROT13:ROR7": "Information not yet available",
     "ServiceWorkflowStep:Output:PROT:PROT13:ROR8": "Information not yet available",
     "ServiceWorkflowStep:Output:PROT:PROT13:ROR9": "Report on successful repatriation of remains",
-    "ServiceWorkflowStep:Output:PROT:PROT14:RSC1": "Approved memo/ Filled requisition form",
+    "ServiceWorkflowStep:Output:PROT:PROT14:RSC1": "Approved memo/Filled requisition form",
     "ServiceWorkflowStep:Output:PROT:PROT14:RSC2": "Note Verbale",
     "ServiceWorkflowStep:Output:PROT:PROT14:RSC3": "Information not yet available",
     "ServiceWorkflowStep:Output:PROT:PROT14:RSC4": "Residence permit/card",
@@ -1728,8 +1728,6 @@
 "Account:ResetPasswordDescription": "Enter your new password below to reset your account password.",
 "Account:NewPassword": "New Password",
 "Account:EnterConfirmPassword": "Confirm new password",
-
-
 
 
 
