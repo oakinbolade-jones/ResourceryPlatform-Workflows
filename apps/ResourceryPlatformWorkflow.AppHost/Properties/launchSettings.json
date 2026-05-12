@@ -5,7 +5,7 @@
             "commandName": "Project",
             "dotnetRunMessages": true,
             "launchBrowser": true,
-            "applicationUrl": "https://localhost:17166;http://localhost:15124",
+            "applicationUrl": "https://smartserve.ecowas.int:17166;http://smartserve.ecowas.int:15124",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production",
                 "DOTNET_ENVIRONMENT": "Production",
@@ -17,7 +17,7 @@
             "commandName": "Project",
             "dotnetRunMessages": true,
             "launchBrowser": true,
-            "applicationUrl": "http://localhost:15124",
+            "applicationUrl": "http://smartserve.ecowas.int:15124",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production",
                 "DOTNET_ENVIRONMENT": "Production",

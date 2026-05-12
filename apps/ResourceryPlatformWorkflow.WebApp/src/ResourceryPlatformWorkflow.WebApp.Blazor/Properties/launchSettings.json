@@ -3,7 +3,7 @@
         "Aspire": {
             "commandName": "Project",
             "launchBrowser": false,
-            "applicationUrl": "https://localhost:5000",
+            "applicationUrl": "https://smartserve.ecowas.int:5000",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             }
@@ -11,7 +11,7 @@
         "ResourceryPlatformWorkflow.WebApp.Blazor": {
             "commandName": "Project",
             "launchBrowser": true,
-            "applicationUrl": "https://localhost:5000",
+            "applicationUrl": "https://smartserve.ecowas.int:5000",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             }

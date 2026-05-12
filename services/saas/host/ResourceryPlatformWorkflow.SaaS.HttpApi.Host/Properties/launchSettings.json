@@ -7,7 +7,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
-            "applicationUrl": "https://localhost:7003"
+            "applicationUrl": "https://smartserve.ecowas.int:7003"
         },
         "ResourceryPlatformWorkflow.SaaS.Host": {
             "commandName": "Project",
@@ -15,7 +15,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
-            "applicationUrl": "https://localhost:7003"
+            "applicationUrl": "https://smartserve.ecowas.int:7003"
         },
         "Docker": {
             "commandName": "Docker",
