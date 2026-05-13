@@ -104,13 +104,15 @@
               class="btn btn-sm btn-success rounded-0"
               [routerLink]="['/transcribe/view', item.id]"
             >
-              <i class="fa fa-eye me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:ViewLabel' | abpLocalization }}
+              <i class="fa fa-eye me-2" aria-hidden="true"></i>
+              <!-- {{ 'Workflow::Transcription:ViewLabel' | abpLocalization }} -->
             </a>
              <a
               class="btn btn-sm btn-success rounded-0"
               [routerLink]="['/transcribe/edit', item.id]"
             >
-              <i class="fa fa-pencil me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:EditLabel' | abpLocalization }}
+              <i class="fa fa-pencil me-2" aria-hidden="true"></i>
+              <!-- {{ 'Workflow::Transcription:EditLabel' | abpLocalization }} -->
             </a>
             <button
               type="button"
@@ -119,7 +121,7 @@
               [disabled]="deletingId === item.id"
             >
               <i class="fa fa-trash me-2" aria-hidden="true"></i>
-              {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }}
+              <!-- {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }} -->
             </button>
           </td>
         </tr>
