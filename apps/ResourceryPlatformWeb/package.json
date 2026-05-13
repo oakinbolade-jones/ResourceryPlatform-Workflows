@@ -13,6 +13,12 @@
     "lint": "ng lint"
   },
   "private": true,
+  "overrides": {
+    "@nx/devkit": "19.8.4",
+    "nx": "19.8.4",
+    "@nrwl/devkit": "19.8.4",
+    "@nrwl/tao": "19.8.4"
+  },
   "dependencies": {
     "@abp/ng.components": "~9.0.4",
     "@abp/ng.core": "~9.0.4",
