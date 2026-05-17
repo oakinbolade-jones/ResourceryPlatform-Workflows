@@ -51,6 +51,8 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
     private const int MaxWipoLogPayloadLength = 800;
+    private const int MaxPendingTranscriptionCachedDocumentBytes = 256 * 1024;
+    private const int MaxPendingTranscriptionCachedRawPayloadLength = 2 * 1024;  // 2 KB cap on raw response/error messages
     private const string PendingTranscriptionCacheKeyPrefix = "workflow:transcription:pending:";
     private static readonly DistributedCacheEntryOptions PendingTranscriptionCacheOptions = new()
     {
@@ -1666,8 +1668,53 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         }
 
         var cacheKey = GetPendingTranscriptionCacheKey(item.SourceReferenceId);
-        var json = JsonSerializer.Serialize(item);
+        var cacheSafeItem = CreateCacheSafePendingTranscriptionItem(item);
+        var json = JsonSerializer.Serialize(cacheSafeItem);
         await _distributedCache.SetStringAsync(cacheKey, json, PendingTranscriptionCacheOptions);
+    }
+
+    private PendingTranscriptionCacheItem CreateCacheSafePendingTranscriptionItem(PendingTranscriptionCacheItem item)
+    {
+        var shouldOmitDocumentData = item.DocumentData?.Length > MaxPendingTranscriptionCachedDocumentBytes;
+        if (shouldOmitDocumentData)
+        {
+            _logger.LogWarning(
+                "Pending transcription cache entry exceeded binary cache limit; omitting DocumentData. SourceReferenceId={SourceReferenceId}, DocumentBytes={DocumentBytes}, MaxBytes={MaxBytes}",
+                item.SourceReferenceId,
+                item.DocumentData?.Length ?? 0,
+                MaxPendingTranscriptionCachedDocumentBytes
+            );
+        }
+
+        return new PendingTranscriptionCacheItem
+        {
+            TranscriptionId = item.TranscriptionId,
+            SourceReferenceId = item.SourceReferenceId,
+            Title = item.Title,
+            Description = item.Description,
+            IsPublic = item.IsPublic,
+            PublishedToWebCast = item.PublishedToWebCast,
+            DateOfTranscription = item.DateOfTranscription,
+            EventDate = item.EventDate,
+            MediaFile = item.MediaFile,
+            Language = item.Language,
+            InputFormat = item.InputFormat,
+            DocumentData = shouldOmitDocumentData ? null : item.DocumentData,
+            DocumentExtension = item.DocumentExtension,
+            Status = item.Status,
+            InputSource = item.InputSource,
+            Transcript = TruncateForCache(item.Transcript),
+            LinkJson = item.LinkJson,
+            LinkSrt = item.LinkSrt,
+            LinkHtml = item.LinkHtml,
+            LinkToVideo = item.LinkToVideo,
+            LinkTxt = item.LinkTxt,
+            LinkDocx = item.LinkDocx,
+            LinkVerbatimDocx = item.LinkVerbatimDocx,
+            WipoUploadResponseRaw = TruncateForCache(item.WipoUploadResponseRaw),
+            WipoStatusResponseRaw = TruncateForCache(item.WipoStatusResponseRaw),
+            LastUpdatedUtc = item.LastUpdatedUtc
+        };
     }
 
     private async Task RemovePendingTranscriptionAsync(string sourceReferenceId)
@@ -1679,6 +1726,18 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
         var cacheKey = GetPendingTranscriptionCacheKey(sourceReferenceId);
         await _distributedCache.RemoveAsync(cacheKey);
+    }
+
+    private static string TruncateForCache(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return string.Empty;
+        }
+
+        return value.Length <= MaxPendingTranscriptionCachedRawPayloadLength
+            ? value
+            : value[..MaxPendingTranscriptionCachedRawPayloadLength];
     }
 
     private static string GetPendingTranscriptionCacheKey(string sourceReferenceId)

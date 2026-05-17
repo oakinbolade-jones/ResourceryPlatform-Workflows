@@ -70,7 +70,7 @@ services:
       RabbitMQ__Connections__Default__Password: "${RABBITMQ_PASSWORD:-guest}"
       App__CorsOrigins: "${APP_CORS_ORIGINS:-http://smartserve.ecowas.int:4200,https://smartserve.ecowas.int:4200,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}"
     ports:
-      - "${IDENTITY_SERVICE_PORT:-7002}:8443"
+      - "${PORT:-7002}:8443"
     volumes:
       - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
 
