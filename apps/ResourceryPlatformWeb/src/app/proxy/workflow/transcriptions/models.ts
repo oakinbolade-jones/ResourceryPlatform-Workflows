@@ -13,8 +13,8 @@ export interface CreateUpdateTranscriptionDto {
   status?: string;
   inputSource: InputSource;
   sourceReferenceId?: string;
-    documentData?: string;
-    documentExtension?: string;
+  documentData?: string;
+  documentExtension?: string;
   linkJson?: string;
   linkSrt?: string;
   linkHtml?: string;
@@ -36,8 +36,8 @@ export interface UpdateTranscriptionDto {
   status?: string;
   inputSource: InputSource;
   sourceReferenceId?: string;
-    documentData?: string;
-    documentExtension?: string;
+  documentData?: string;
+  documentExtension?: string;
   linkJson?: string;
   linkSrt?: string;
   linkHtml?: string;
@@ -59,8 +59,8 @@ export interface TranscriptionDto extends FullAuditedEntityDto<string> {
   status?: string;
   inputSource: InputSource;
   sourceReferenceId?: string;
-    documentData?: string;
-    documentExtension?: string;
+  documentData?: string;
+  documentExtension?: string;
   linkJson?: string;
   linkSrt?: string;
   linkHtml?: string;

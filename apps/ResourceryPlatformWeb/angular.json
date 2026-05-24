@@ -133,6 +133,9 @@
           "builder": "@angular-devkit/build-angular:dev-server",
 
           "options": {
+
+
+
             "ssl": false,
             "host": "localhost",
             "port": 4200
