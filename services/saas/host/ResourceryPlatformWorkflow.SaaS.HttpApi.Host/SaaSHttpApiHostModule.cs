@@ -1,5 +1,6 @@
 using System.IO;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
@@ -29,7 +30,9 @@ public class SaaSHttpApiHostModule : AbpModule
 
         context.ConfigureMicroservice(ResourceryPlatformWorkflowNames.SaaSApi);
 
-        if (hostingEnvironment.IsDevelopment())
+        var enableVirtualFileSystem = configuration.GetValue<bool>("ENABLE_VIRTUAL_FILE_SYSTEM", false);
+        
+        if (hostingEnvironment.IsDevelopment() && enableVirtualFileSystem)
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {

@@ -158,11 +158,12 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       const parsedUrl = new URL(linkToVideo, window.location.origin);
 
-      if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
-        this.mediaError =
-          'This media source is served over HTTP and is blocked on secure pages. Please use an HTTPS media URL.';
-        return null;
-      }
+      // HTTP and HTTPS media sources are both allowed for local development
+      // if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
+      //   this.mediaError =
+      //     'This media source is served over HTTP and is blocked on secure pages. Please use an HTTPS media URL.';
+      //   return null;
+      // }
 
       return parsedUrl.toString();
     } catch {
@@ -391,7 +392,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     if (playResult && typeof playResult.catch === 'function') {
       playResult.catch(() => {
         this.mediaError =
-          'Unable to play the selected media source. Verify the media URL is reachable and served over HTTPS.';
+          'Unable to play the selected media source. Verify the media URL is reachable.';
       });
     }
     this.syncToVideoTime();
@@ -403,12 +404,12 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
     if (mediaErrorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
       this.mediaError =
-        'The media source is not supported or could not be loaded. Verify format and HTTPS availability.';
+        'The media source is not supported or could not be loaded. Verify format and availability.';
       return;
     }
 
     this.mediaError =
-      'Unable to load media for playback. Verify the media URL is reachable and served over HTTPS.';
+      'Unable to load media for playback. Verify the media URL is reachable.';
   }
 
   onVideoCanPlay(): void {

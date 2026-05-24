@@ -22,7 +22,7 @@ const routes: Routes = [
     path: '',
     component: DirectorateLayoutComponent,
     children: [
-      { path: '', component: DirectorateComponent },
+      { path: '', component: DirectorateComponent  , data: { title: 'Workflow::Directorate' }},
       { path: 'internal-memoranda', component: InternalMemorandaComponent, data: { title: 'Internal Memoranda' } },
       { path: 'incoming-correspondence', component: IncomingCorrespondenceComponent, data: { title: 'Incoming Correspondence' } },
       { path: 'note-verbales', component: NoteVerbalesComponent, data: { title: 'Note Verbales' } },

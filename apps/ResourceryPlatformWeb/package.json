@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "powershell -ExecutionPolicy Bypass -File ./scripts/ensure-dev-cert.ps1",
-    "start": "ng serve --ssl false --open",
+    "prestart": "echo Skipping certificate setup for HTTP",
+    "start": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "build:staging": "ng build --configuration staging",
