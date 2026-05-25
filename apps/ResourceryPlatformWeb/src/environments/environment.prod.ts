@@ -1,10 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-<<<<<<< HEAD
-const baseUrl = 'https://smartserve.ecowas.int:4200';
-=======
-const baseUrl = 'http://localhost:4200';
->>>>>>> development
+const baseUrl = 'http://smartserve.ecowas.int:4200';
 
 export const environment = {
   production: true,
