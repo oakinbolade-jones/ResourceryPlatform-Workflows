@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
       key: eThemeBasicComponents.Logo,
     });
 
-    this.loadTawk();
+    // this.loadTawk();
 
     this.navigationSub = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -67,25 +67,25 @@ export class AppComponent implements OnInit, OnDestroy {
     this.body.classList.remove('home-page');
   }
 
-  private loadTawk(): void {
-    if (typeof window === 'undefined') {
-      return;
-    }
+  // private loadTawk(): void {
+  //   if (typeof window === 'undefined') {
+  //     return;
+  //   }
 
-    if ((window as any).Tawk_API || document.getElementById('tawk-script')) {
-      return;
-    }
+  //   if ((window as any).Tawk_API || document.getElementById('tawk-script')) {
+  //     return;
+  //   }
 
-    (window as any).Tawk_API = (window as any).Tawk_API || {};
-    (window as any).Tawk_LoadStart = new Date();
+  //   (window as any).Tawk_API = (window as any).Tawk_API || {};
+  //   (window as any).Tawk_LoadStart = new Date();
 
-    const s1 = document.createElement('script');
-    s1.id = 'tawk-script';
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/69aef567c936f31c351d110a/1jj9mt7mn';
-    s1.charset = 'UTF-8';
+  //   const s1 = document.createElement('script');
+  //   s1.id = 'tawk-script';
+  //   s1.async = true;
+  //   s1.src = 'https://embed.tawk.to/69aef567c936f31c351d110a/1jj9mt7mn';
+  //   s1.charset = 'UTF-8';
 
-    const s0 = document.getElementsByTagName('script')[0];
-    s0?.parentNode?.insertBefore(s1, s0);
-  }
+  //   const s0 = document.getElementsByTagName('script')[0];
+  //   s0?.parentNode?.insertBefore(s1, s0);
+  // }
 }
