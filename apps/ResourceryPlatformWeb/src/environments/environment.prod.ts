@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://smartserve.ecowas.int:4200';
+const baseUrl = 'https://smartserve.ecowas.int';
 
 export const environment = {
   production: true,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://smartserve.ecowas.int:7600/',
+    issuer: 'https://smartserve.ecowas.int:7600',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     // clientSecret: '1q2w3e*',

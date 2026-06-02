@@ -133,12 +133,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
 
           "options": {
-
-
-
-            "ssl": false,
-            "host": "localhost",
-            "port": 4200
+            "ssl": true,
+            "host": "0.0.0.0",
+            "port": 80,
+            "publicHost": "https://smartserve.ecowas.int",
+            "sslCert": "certs/fullchain.pem",
+            "sslKey": "certs/privkey.pem"
           },
           "configurations": {
             "production": {

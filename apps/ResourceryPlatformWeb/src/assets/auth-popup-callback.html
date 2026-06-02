@@ -13,10 +13,24 @@
     <script>
       (function () {
         if (window.opener && window.opener !== window) {
-          window.opener.postMessage(
-            { type: 'auth-popup-callback', href: window.location.href },
-            window.location.origin
-          );
+          let targetOrigin = window.location.origin;
+          const payload = window.location.hash || (window.location.search ? `#${window.location.search.substring(1)}` : '');
+
+          try {
+            if (window.opener.location && window.opener.location.origin) {
+              targetOrigin = window.opener.location.origin;
+            }
+          } catch (error) {
+            // Ignore cross-origin access errors; parent will verify sender origin.
+          }
+
+          try {
+            window.opener.postMessage(payload, targetOrigin);
+            window.localStorage.setItem('auth_hash', payload);
+          } catch (error) {
+            window.opener.postMessage(payload, '*');
+            window.localStorage.setItem('auth_hash', payload);
+          }
         }
         window.close();
       })();

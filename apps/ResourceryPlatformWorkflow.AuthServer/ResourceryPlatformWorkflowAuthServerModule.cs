@@ -69,8 +69,23 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var configuration = context.Services.GetConfiguration();
 
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
+
+        context.ConfigureDataProtection(
+            hostingEnvironment,
+            configuration,
+            ResourceryPlatformWorkflowNames.AuthServer
+        );
+
+        var disableTransportSecurityRequirement = hostingEnvironment.IsDevelopment()
+            || string.Equals(
+                Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"),
+                "true",
+                StringComparison.OrdinalIgnoreCase
+            )
+            || configuration["ASPNETCORE_URLS"]?.Contains("http://", StringComparison.OrdinalIgnoreCase) == true;
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {
@@ -81,12 +96,34 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseAspNetCore();
             });
 
-            if (hostingEnvironment.IsDevelopment())
+            if (disableTransportSecurityRequirement)
             {
                 builder.AddServer(options =>
                 {
                     options.UseAspNetCore().DisableTransportSecurityRequirement();
                 });
+            }
+        });
+
+        PreConfigure<OpenIddictServerBuilder>(builder =>
+        {
+            // Derive issuer from configuration and normalize by removing any trailing slash.
+            // This prevents discovery from exposing a trailing-slash issuer when clients expect
+            // the issuer without a trailing slash.
+            try
+            {
+                var configuration = context.Services.GetConfiguration();
+                var configuredSelfUrl = configuration["App:SelfUrl"] ?? configuration["App__SelfUrl"];
+                var issuer = string.IsNullOrWhiteSpace(configuredSelfUrl)
+                    ? "https://smartserve.ecowas.int:7600"
+                    : configuredSelfUrl.TrimEnd('/');
+
+                builder.SetIssuer(new Uri(issuer));
+            }
+            catch
+            {
+                // Fallback to a hard-coded issuer without trailing slash
+                builder.SetIssuer(new Uri("https://smartserve.ecowas.int:7600"));
             }
         });
     }
@@ -503,6 +540,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseMiddleware<DiscoveryDocumentNormalizationMiddleware>();
         app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
         app.UseCors();
         app.UseAuthentication();

@@ -32,7 +32,6 @@ export class HomeComponent implements AfterViewInit {
   async login() {
     try {
       await this.authPopupService.loginWithPopup();
-      window.location.reload();
     } catch {
       // Popup was blocked or cancelled — fall back to full-page redirect.
       const returnUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
@@ -67,7 +66,6 @@ export class HomeComponent implements AfterViewInit {
     script.async = true;
     script.src = 'https://embed.tawk.to/69aef567c936f31c351d110a/1jj9mt7mn';
     script.charset = 'UTF-8';
-    script.setAttribute('crossorigin', '*');
     document.head.appendChild(script);
   }
 }
