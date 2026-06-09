@@ -110,15 +110,29 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             // Derive issuer from configuration and normalize by removing any trailing slash.
             // This prevents discovery from exposing a trailing-slash issuer when clients expect
             // the issuer without a trailing slash.
+            var configuration = context.Services.GetConfiguration();
+            var configuredSelfUrl = configuration["App:SelfUrl"] ?? configuration["App__SelfUrl"];
+            
+            // Normalize the issuer by trimming trailing slashes from the string directly
+            var issuerString = string.IsNullOrWhiteSpace(configuredSelfUrl)
+                ? "https://smartserve.ecowas.int:7600"
+                : configuredSelfUrl.TrimEnd('/');
+
             try
             {
-                var configuration = context.Services.GetConfiguration();
-                var configuredSelfUrl = configuration["App:SelfUrl"] ?? configuration["App__SelfUrl"];
-                var issuer = string.IsNullOrWhiteSpace(configuredSelfUrl)
-                    ? "https://smartserve.ecowas.int:7600"
-                    : configuredSelfUrl.TrimEnd('/');
-
-                builder.SetIssuer(new Uri(issuer));
+                // Create a Uri and then use its components to rebuild it without trailing slash
+                var uri = new Uri(issuerString);
+                var scheme = uri.Scheme;
+                var host = uri.Host;
+                var port = uri.Port;
+                var path = uri.AbsolutePath.TrimEnd('/');
+                
+                // Reconstruct the issuer URI without relying on Uri.AbsoluteUri (which adds trailing slash)
+                var normalizedIssuer = port == 80 || port == 443
+                    ? $"{scheme}://{host}{path}"
+                    : $"{scheme}://{host}:{port}{path}";
+                
+                builder.SetIssuer(new Uri(normalizedIssuer));
             }
             catch
             {

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -22,62 +23,65 @@ public class DiscoveryDocumentNormalizationMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        var path = context.Request.Path.Value?.TrimEnd('/');
+
         // Only process the discovery endpoint
-        if (context.Request.Path == "/.well-known/openid-configuration" && context.Request.Method == "GET")
+        if (string.Equals(path, "/.well-known/openid-configuration", StringComparison.OrdinalIgnoreCase)
+            && string.Equals(context.Request.Method, "GET", StringComparison.OrdinalIgnoreCase))
         {
-            // Capture the original response body stream
             var originalBodyStream = context.Response.Body;
 
-            using (var memoryStream = new MemoryStream())
+            await using (var memoryStream = new MemoryStream())
             {
-                // Replace the response body stream with a memory stream so we can capture it
                 context.Response.Body = memoryStream;
 
-                await _next(context);
-
-                // Only modify if the response was successful
-                if (context.Response.StatusCode == 200)
+                try
                 {
-                    // Read the response body
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    using (var reader = new StreamReader(memoryStream))
-                    {
-                        var responseBody = await reader.ReadToEndAsync();
+                    await _next(context);
 
-                        // Parse the JSON and normalize the issuer
-                        try
+                    if (context.Response.StatusCode == 200)
+                    {
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(memoryStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true))
                         {
-                            var jsonNode = JsonNode.Parse(responseBody);
-                            if (jsonNode != null && jsonNode["issuer"] != null)
+                            var responseBody = await reader.ReadToEndAsync();
+
+                            try
                             {
-                                var issuerValue = jsonNode["issuer"].GetValue<string>();
-                                if (!string.IsNullOrEmpty(issuerValue) && issuerValue.EndsWith('/'))
+                                var jsonNode = JsonNode.Parse(responseBody);
+                                if (jsonNode != null && jsonNode["issuer"] != null)
                                 {
-                                    // Remove trailing slash
-                                    jsonNode["issuer"] = issuerValue.TrimEnd('/');
-                                    responseBody = jsonNode.ToJsonString();
+                                    var issuerValue = jsonNode["issuer"].GetValue<string>();
+                                    if (!string.IsNullOrEmpty(issuerValue) && issuerValue.EndsWith('/'))
+                                    {
+                                        jsonNode["issuer"] = issuerValue.TrimEnd('/');
+                                        responseBody = jsonNode.ToJsonString();
+                                    }
                                 }
                             }
-                        }
-                        catch
-                        {
-                            // If parsing fails, just use the original response body
-                        }
+                            catch
+                            {
+                                // If parsing fails, just use the original response body.
+                            }
 
-                        // Write the (possibly modified) response to the original stream
-                        var responseBytes = Encoding.UTF8.GetBytes(responseBody);
-                        await originalBodyStream.WriteAsync(responseBytes, 0, responseBytes.Length);
+                            var responseBytes = Encoding.UTF8.GetBytes(responseBody);
+                            context.Response.ContentLength = responseBytes.Length;
+                            await originalBodyStream.WriteAsync(responseBytes, 0, responseBytes.Length);
+                            await originalBodyStream.FlushAsync();
+                        }
+                    }
+                    else
+                    {
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        context.Response.ContentLength = memoryStream.Length;
+                        await memoryStream.CopyToAsync(originalBodyStream);
                     }
                 }
-                else
+                finally
                 {
-                    // If not successful, just copy the original response
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    await memoryStream.CopyToAsync(originalBodyStream);
+                    context.Response.Body = originalBodyStream;
                 }
             }
-
-            context.Response.Body = originalBodyStream;
         }
         else
         {

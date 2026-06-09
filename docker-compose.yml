@@ -61,6 +61,8 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
       App__SelfUrl: https://smartserve.ecowas.int:${IDENTITY_SERVICE_PORT:-7002}
+      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
+      AuthServer__RequireHttpsMetadata: 'false'
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
         Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
       ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
@@ -75,7 +77,7 @@ services:
       RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
       RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
       RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}
+      App__CorsOrigins: ${APP_CORS_ORIGINS}
     ports:
     - ${PORT:-7002}:8443
     volumes:
@@ -100,7 +102,7 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
       App__SelfUrl: https://smartserve.ecowas.int:${ADMINISTRATION_SERVICE_PORT:-7001}
-      AuthServer__Authority: ${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080}
+      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
       AuthServer__RequireHttpsMetadata: 'false'
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
         Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
@@ -116,7 +118,7 @@ services:
       RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
       RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
       RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}
+      App__CorsOrigins: ${APP_CORS_ORIGINS}
     ports:
     - ${ADMINISTRATION_SERVICE_PORT:-7001}:8443
     volumes:
@@ -141,7 +143,7 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
       App__SelfUrl: https://smartserve.ecowas.int:${SAAS_SERVICE_PORT:-7003}
-      AuthServer__Authority: ${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080}
+      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
       AuthServer__RequireHttpsMetadata: 'false'
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
         Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
@@ -157,7 +159,7 @@ services:
       RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
       RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
       RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}
+      App__CorsOrigins: ${APP_CORS_ORIGINS}
     ports:
     - ${SAAS_SERVICE_PORT:-7003}:8443
     volumes:
@@ -182,10 +184,10 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
       App__SelfUrl: https://smartserve.ecowas.int:${WORKFLOW_SERVICE_PORT:-7004}
-      AuthServer__Authority: ${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080}
+      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
       AuthServer__RequireHttpsMetadata: 'false'
-      RemoteServices__Default__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080}
-      RemoteServices__IdentityService__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL:-http://identity-service:8080}
+      RemoteServices__Default__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL}
+      RemoteServices__IdentityService__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL}
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
         Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
       ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
@@ -200,7 +202,7 @@ services:
       RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
       RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
       RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}
+      App__CorsOrigins: ${APP_CORS_ORIGINS}
     ports:
     - ${WORKFLOW_SERVICE_PORT:-7004}:8443
     volumes:
@@ -219,12 +221,12 @@ services:
         condition: service_started
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: https://+:7600
+      ASPNETCORE_URLS: https://+:8443
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
       App__SelfUrl: https://smartserve.ecowas.int:${AUTH_SERVER_PORT:-7600}
-      App__ClientUrl: https://smartserve.ecowas.int
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500}
+      App__ClientUrl: https://smartserve.ecowas.int:4200
+      App__CorsOrigins: ${APP_CORS_ORIGINS}
       App__RedirectAllowedUrls: https://smartserve.ecowas.int
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
         Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
@@ -244,7 +246,7 @@ services:
       OAuth__ClientSecret: ${OAUTH_CLIENT_SECRET}
       TenantId: ${OAUTH_TENANT_ID}
     ports:
-    - ${AUTH_SERVER_PORT:-7600}:7600
+    - ${AUTH_SERVER_PORT:-7600}:8443
     volumes:
     - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
   gateway:
