@@ -1,0 +1,62 @@
+﻿version: '3.8'
+
+# Shared default environment variables for development
+x-default-env: &default-env
+  SQLSERVER_HOST: ${SQLSERVER_HOST:-host.docker.internal}
+  SQLSERVER_PORT: ${SQLSERVER_PORT:-1433}
+  SQLSERVER_USER: ${SQLSERVER_USER:-sa}
+  SQLSERVER_PASSWORD: ${SQLSERVER_PASSWORD:-P@ssw0rd123}
+  REDIS_HOST: redis
+  REDIS_PORT_INTERNAL: 6379
+  RABBITMQ_HOST: rabbitmq
+  RABBITMQ_PORT_INTERNAL: 5672
+  RABBITMQ_USER: guest
+  RABBITMQ_PASSWORD: guest
+  SEQ_URL: http://seq:5341
+  ASPNET_DEV_CERT_PASSWORD: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
+  ASPNET_HTTPS_CERT_DIR: ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}
+
+services:
+  identity-service:
+    environment: *default-env
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  administration-service:
+    environment: *default-env
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  saas-service:
+    environment: *default-env
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  workflow-service:
+    environment: *default-env
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  auth-server:
+    environment:
+      <<: *default-env
+      App__ClientUrl: ${App__ClientUrl:-http://localhost:${ANGULAR_WEB_PORT:-4200}}
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  gateway:
+    environment:
+      <<: *default-env
+    volumes:
+      - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+
+  web:
+    environment:
+      <<: *default-env
+
+  migrations:
+    environment:
+      <<: *default-env
+
+# This override is intended for local development; customize via a .env file
+# or environment variables when running docker-compose.

@@ -44,7 +44,7 @@ services:
     build:
       context: .
       dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
-    image: smartserve/identity-service:1.0
+    image: smartserve/identity-service:dev
     depends_on:
       redis:
         condition: service_healthy
@@ -78,7 +78,7 @@ services:
     build:
       context: .
       dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
-    image: smartserve/administration-service:1.0
+    image: smartserve/administration-service:dev
     depends_on:
       redis:
         condition: service_healthy
@@ -116,7 +116,7 @@ services:
     build:
       context: .
       dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
-    image: smartserve/saas-service:1.0
+    image: smartserve/saas-service:dev
     depends_on:
       redis:
         condition: service_healthy
@@ -154,7 +154,7 @@ services:
     build:
       context: .
       dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
-    image: smartserve/workflow-service:1.0
+    image: smartserve/workflow-service:dev
     depends_on:
       redis:
         condition: service_healthy
@@ -194,7 +194,7 @@ services:
     build:
       context: .
       dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
-    image: smartserve/auth-server:1.0
+    image: smartserve/auth-server:dev
     depends_on:
       redis:
         condition: service_healthy
@@ -233,7 +233,7 @@ services:
     build:
       context: .
       dockerfile: gateway/ResourceryPlatformWorkflow.Gateway/Dockerfile
-    image: smartserve/gateway:1.0
+    image: smartserve/gateway:dev
     depends_on:
       identity-service:
         condition: service_started
@@ -269,7 +269,7 @@ services:
     build:
       context: .
       dockerfile: shared/ResourceryPlatformWorkflow.DbMigrator/Dockerfile
-    image: smartserve/db-migrator:1.0
+    image: smartserve/db-migrator:dev
     profiles: ["migrations"]
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -282,7 +282,7 @@ services:
     build:
       context: .
       dockerfile: apps/ResourceryPlatformWeb/Dockerfile
-    image: smartserve/web:1.0
+    image: smartserve/web:dev
     depends_on:
       identity-service:
         condition: service_started
