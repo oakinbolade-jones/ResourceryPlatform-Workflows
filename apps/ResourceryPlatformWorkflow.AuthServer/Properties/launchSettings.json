@@ -8,7 +8,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
             "dotnetRunMessages": true,
-            "applicationUrl": "https://localhost:7600"
+            "applicationUrl": "http://smartserve.ecowas.int:7600"
         },
         "ResourceryPlatformWorkflow.AuthServer": {
             "commandName": "Project",
@@ -16,7 +16,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
-            "applicationUrl": "https://localhost:7600"
+            "applicationUrl": "http://smartserve.ecowas.int:7600"
         },
         "Docker": {
             "commandName": "Docker",
