@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://smartserve.ecowas.int:7600',
+    issuer: 'https://auth.smartserve.ecowas.int',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     // clientSecret: '1q2w3e*',
@@ -20,7 +20,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://smartserve.ecowas.int:7500',
+      url: 'https://api.smartserve.ecowas.int',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },

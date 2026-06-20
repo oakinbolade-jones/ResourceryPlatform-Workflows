@@ -1,25 +1,25 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://smartserve.ecowas.int';
+const baseUrl = 'https://smartserve.ecowas.int';
 
 export const environment = {
   production: false,
   application: {
     baseUrl,
     name: 'ResourceryPlatformWorkflow',
-    logoUrl: 'https://smartserve.ecowas.int:7600/Account/Login',
+    logoUrl: 'https://auth.smartserve.ecowas.int/Account/Login',
   },
   oAuthConfig: {
-    issuer: 'https://smartserve.ecowas.int:7600/',
+    issuer: 'https://auth.smartserve.ecowas.int',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
-    requireHttps: false,
+    requireHttps: true,
   },
   apis: {
     default: {
-      url: 'https://smartserve.ecowas.int:7500',
+      url: 'https://api.smartserve.ecowas.int',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },

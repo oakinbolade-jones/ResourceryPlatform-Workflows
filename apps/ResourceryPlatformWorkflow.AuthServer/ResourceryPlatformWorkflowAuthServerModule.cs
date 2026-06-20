@@ -115,7 +115,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             
             // Normalize the issuer by trimming trailing slashes from the string directly
             var issuerString = string.IsNullOrWhiteSpace(configuredSelfUrl)
-                ? "https://smartserve.ecowas.int:7600"
+                ? "https://auth.smartserve.ecowas.int"
                 : configuredSelfUrl.TrimEnd('/');
 
             try
@@ -137,7 +137,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             catch
             {
                 // Fallback to a hard-coded issuer without trailing slash
-                builder.SetIssuer(new Uri("https://smartserve.ecowas.int:7600"));
+                builder.SetIssuer(new Uri("https://auth.smartserve.ecowas.int"));
             }
         });
     }
@@ -157,7 +157,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             );
 
             options.AccessTokenLifetime = TimeSpan.FromMinutes(
-                accessTokenLifetimeInMinutes.GetValueOrDefault(30)
+                accessTokenLifetimeInMinutes.GetValueOrDefault(60)
             );
             options.RefreshTokenLifetime = TimeSpan.FromDays(
                 refreshTokenLifetimeInDays.GetValueOrDefault(30)
