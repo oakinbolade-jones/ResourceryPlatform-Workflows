@@ -7,7 +7,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
-            "applicationUrl": "https://localhost:7500;http://localhost:7501",
+            "applicationUrl": "https://api.smartserve.ecowas.int",
             "dotnetRunMessages": true
         },
         "ResourceryPlatformWorkflow.Gateway": {
@@ -16,7 +16,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
-            "applicationUrl": "https://localhost:7500;http://localhost:7501",
+            "applicationUrl": "https://api.smartserve.ecowas.int",
             "dotnetRunMessages": true
         },
         "Docker": {

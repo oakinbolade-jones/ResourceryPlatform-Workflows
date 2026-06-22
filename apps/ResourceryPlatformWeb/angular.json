@@ -134,8 +134,8 @@
 
           "options": {
             "ssl": false,
-            "host": "localhost",
-            "port": 4200
+            "host": "smartserve.ecowas.int",
+            "port": 80
           },
           "configurations": {
             "production": {

@@ -71,7 +71,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
-
+        
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
