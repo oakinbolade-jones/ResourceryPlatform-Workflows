@@ -5,11 +5,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
@@ -18,15 +19,19 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Server;
 using OpenIddict.Server.AspNetCore;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Auth;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Middleware;
 using ResourceryPlatformWorkflow.MultiTenancy;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
@@ -36,12 +41,8 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
-
-using Volo.Abp.UI.Navigation.Urls;
-using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp.Security.Claims;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.UI.Navigation.Urls;
 
 namespace ResourceryPlatformWorkflow;
 
@@ -61,7 +62,6 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
 [DependsOn(typeof(WorkflowDomainSharedModule))]
-[DependsOn(typeof(WorkflowDomainSharedModule))]
 public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 {
     private static readonly Lazy<Dictionary<string, string>> DotEnvValues = new(LoadDotEnvValues);
@@ -72,6 +72,10 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var configuration = context.Services.GetConfiguration();
 
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
+
+        context.Services.Configure<AuthServerOptions>(
+            configuration.GetSection("AuthServer")
+        );
 
         context.ConfigureDataProtection(
             hostingEnvironment,
@@ -112,7 +116,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             // the issuer without a trailing slash.
             var configuration = context.Services.GetConfiguration();
             var configuredSelfUrl = configuration["App:SelfUrl"] ?? configuration["App__SelfUrl"];
-            
+
             // Normalize the issuer by trimming trailing slashes from the string directly
             var issuerString = string.IsNullOrWhiteSpace(configuredSelfUrl)
                 ? "https://auth.smartserve.ecowas.int"
@@ -126,12 +130,12 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 var host = uri.Host;
                 var port = uri.Port;
                 var path = uri.AbsolutePath.TrimEnd('/');
-                
+
                 // Reconstruct the issuer URI without relying on Uri.AbsoluteUri (which adds trailing slash)
                 var normalizedIssuer = port == 80 || port == 443
                     ? $"{scheme}://{host}{path}"
                     : $"{scheme}://{host}:{port}{path}";
-                
+
                 builder.SetIssuer(new Uri(normalizedIssuer));
             }
             catch
@@ -147,6 +151,16 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+        Configure<AuthServerOptions>(configuration.GetSection("AuthServer"));
+
+        context.Services.PostConfigure<OpenIddictServerOptions>(options =>
+        {
+            var config = context.Services.GetConfiguration();
+            var authOptions = config.GetSection("AuthServer").Get<AuthServerOptions>();
+
+            options.Issuer = new Uri(authOptions.Authority);
+        });
+        
         Configure<OpenIddictServerOptions>(options =>
         {
             var accessTokenLifetimeInMinutes = configuration.GetValue<int?>(
@@ -209,6 +223,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         {
             options.KeyPrefix = "ResourceryPlatformWorkflow:";
         });
+
     }
 
     private static void ConfigureMicrosoftExternalLogin(
@@ -272,6 +287,10 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
+                options.Scope.Add("offline_access");
+                options.Scope.Add("phone");
+                options.Scope.Add("roles");
+
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -552,15 +571,16 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         }
 
         app.UseCorrelationId();
+        app.UseForwardedHeaders();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseMiddleware<DiscoveryDocumentNormalizationMiddleware>();
         app.UseMiddleware<PostLogoutRedirectUriNormalizationMiddleware>();
+        // Health endpoint is mapped below via UseEndpoints to ensure correct IEndpointRouteBuilder is used.
         app.UseCors();
         app.UseAuthentication();
         app.UseMiddleware<ExternalProfileSynchronizationMiddleware>();
         app.UseAbpOpenIddictValidation();
-
         if (MultiTenancyConsts.IsEnabled)
         {
             app.UseMultiTenancy();
@@ -572,9 +592,10 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
 
-        // Ensure Razor Pages are mapped
+        // Ensure health checks and Razor Pages are mapped
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapHealthChecks("/health");
             endpoints.MapRazorPages();
         });
     }

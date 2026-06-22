@@ -1,17 +1,23 @@
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Auth;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.MultiTenancy;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
+using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
+
 
 namespace ResourceryPlatformWorkflow.IdentityService;
 
@@ -29,11 +35,20 @@ public class IdentityServiceHttpApiHostModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
+        context.Services.Configure<AuthServerOptions>(
+            configuration.GetSection("AuthServer")
+        );
+
+        var authOptions = configuration
+            .GetSection("AuthServer")
+            .Get<AuthServerOptions>();
+
+     context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
         context.ConfigureMicroservice(ResourceryPlatformWorkflowNames.IdentityServiceApi);
 
         var enableVirtualFileSystem = configuration.GetValue<bool>("ENABLE_VIRTUAL_FILE_SYSTEM", false);
-        
+
         if (hostingEnvironment.IsDevelopment() && enableVirtualFileSystem)
         {
             Configure<AbpVirtualFileSystemOptions>(options =>

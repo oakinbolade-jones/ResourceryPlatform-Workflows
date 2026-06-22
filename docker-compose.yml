@@ -1,36 +1,59 @@
 services:
+  # =========================
+  # NGINX REVERSE PROXY
+  # =========================
+  nginx:
+    image: nginx:alpine
+    container_name: smartserve-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      # - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/logs:/var/log/nginx
+    # Dependencies on web, gateway, and auth-server to ensure they are healthy before starting the nginx reverse proxy
+    depends_on:
+      web:
+        condition: service_started
+      gateway:
+        condition: service_started
+      auth-server:
+        condition: service_started
+    #Network configuration to connect the nginx reverse proxy to the smartserve-net network
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  # =========================
+  # REDIS, RABBITMQ, SEQ
+  # =========================
   redis:
     image: redis:7-alpine
     container_name: smartserve-redis
     ports:
-    - ${REDIS_PORT:-6379}:6379
+      - ${REDIS_PORT:-6379}:6379
     volumes:
-    - smartserve-redis-data:/data
-    healthcheck:
-      test:
-      - CMD
-      - redis-cli
-      - ping
-      interval: 10s
-      timeout: 5s
-      retries: 10
+      - smartserve-redis-data:/data
+    networks:
+      - smartserve-net
+    restart: unless-stopped
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: smartserve-rabbitmq
     ports:
-    - ${RABBITMQ_PORT:-5672}:5672
-    - ${RABBITMQ_MANAGEMENT_PORT:-15672}:15672
+      - ${RABBITMQ_PORT:-5672}:5672
+      - ${RABBITMQ_MANAGEMENT_PORT:-15672}:15672
     volumes:
-    - smartserve-rabbitmq-data:/var/lib/rabbitmq
-    healthcheck:
-      test:
-      - CMD
-      - rabbitmq-diagnostics
-      - check_port_connectivity
-      interval: 10s
-      timeout: 10s
-      retries: 15
-      start_period: 30s
+      - smartserve-rabbitmq-data:/var/lib/rabbitmq
+    # healthcheck:
+    #   test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    #   interval: 10s
+    #   timeout: 10s
+    #   retries: 10
+    #   start_period: 10s
+    networks:
+      - smartserve-net
+    restart: unless-stopped
   seq:
     image: datalust/seq:latest
     container_name: smartserve-seq
@@ -38,292 +61,347 @@ services:
       ACCEPT_EULA: Y
       SEQ_FIRSTRUN_NOAUTHENTICATION: ${SEQ_FIRSTRUN_NOAUTHENTICATION:-false}
       SEQ_FIRSTRUN_ADMINPASSWORD: ${SEQ_FIRSTRUN_ADMINPASSWORD:-ChangeMe_SeqAdmin_2026!}
+    healthcheck:
+      disable: true
     ports:
-    - ${SEQ_PORT:-5341}:5341
-    - ${SEQ_UI_PORT:-5342}:80
+      - ${SEQ_PORT:-5341}:5341
+      - ${SEQ_UI_PORT:-5342}:80
     volumes:
-    - smartserve-seq-data:/data
-  identity-service:
+      - smartserve-seq-data:/data
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  # =========================
+  # SMARTSERVE FRONTEND
+  # =========================
+  web:
     build:
       context: .
-      dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
-    image: smartserve/identity-service:local
+      dockerfile: apps/ResourceryPlatformWeb/Dockerfile
+    image: smartserve/web:prod
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s
+    # Expose the service on port 80
+    expose:
+      - "80"
+    # Network configuration to connect the web service to the smartserve-net network
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  # =========================
+  # AUTH SERVER (OPENIDDICT)
+  # =========================
+  auth-server:
+    build:
+      context: .
+      dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
+    image: smartserve/auth-server:prod
+    # Dependencies on Redis, RabbitMQ, and Seq services to ensure they are healthy before starting the auth-server
+    # healthcheck:
+    #     test: ["CMD", "curl", "-f", "http://localhost/health"]
+    #     interval: 10s
+    #     timeout: 5s
+    #     retries: 10
+    #     start_period: 30s 
     depends_on:
       redis:
-        condition: service_healthy
+        condition: service_started
       rabbitmq:
-        condition: service_healthy
+        condition: service_started
       seq:
         condition: service_started
+
     environment:
       # ASP.NET Core environment and Kestrel settings
       ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: http://+:8080;https://+:8443
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}     
-      # Internal URLs
-      App__SelfUrl: https://api.smartserve.ecowas.int
-      # CORS
-      App__CorsOrigins: ${APP_CORS_ORIGINS}
-      #Authority and metadata settings
-      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
-      AuthServer__RequireHttpsMetadata: 'false'
+      ASPNETCORE_URLS: http://+:80
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+      # OpenIddict application settings
+      App__SelfUrl: https://auth.smartserve.ecowas.int
+      AuthServer__Authority: https://auth.smartserve.ecowas.int
+      App__CorsOrigins: https://smartserve.ecowas.int,https://api.smartserve.ecowas.int,https://auth.smartserve.ecowas.int
       # Database connection strings
       ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
       ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
       ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
       ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
-      # Redis
-      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
-      # Seq Logging
-      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
-      # RabbitMQ
-      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
-      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
-      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
-      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}      
-      # OpenIddict application settings
-      OpenIddict__Applications__ResourceryPlatformWorkflow_App__RootUrl: https://smartserve.ecowas.int
-      OpenIddict__Applications__ResourceryPlatformWorkflow_App__RedirectUris: https://smartserve.ecowas.int/authentication/login-callback
-      OpenIddict__Applications__ResourceryPlatformWorkflow_App__PostLogoutRedirectUris: https://smartserve.ecowas.int
-    ports:
-    - ${PORT:-7002}:8443
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
-  administration-service:
-    build:
-      context: .
-      dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
-    image: smartserve/administration-service:local
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      seq:
-        condition: service_started
-      identity-service:
-        condition: service_started
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: http://+:8080;https://+:8443
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
-      App__SelfUrl: https://smartserve.ecowas.int:${ADMINISTRATION_SERVICE_PORT:-7001}
-      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
-      AuthServer__RequireHttpsMetadata: 'false'
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
-     
-      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
+      # Redis, Seq, and RabbitMQ connection strings
+      ConnectionStrings__Redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT:-6379}      
       ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
       RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
       RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
       RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
       RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS}
-    ports:
-    - ${ADMINISTRATION_SERVICE_PORT:-7001}:8443
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
-  saas-service:
-    build:
-      context: .
-      dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
-    image: smartserve/saas-service:local
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      seq:
-        condition: service_started
-      identity-service:
-        condition: service_started
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: http://+:8080;https://+:8443
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
-      App__SelfUrl: https://smartserve.ecowas.int:${SAAS_SERVICE_PORT:-7003}
-      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
-      AuthServer__RequireHttpsMetadata: 'false'
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
-      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
-      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
-      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
-      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
-      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
-      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS}
-    ports:
-    - ${SAAS_SERVICE_PORT:-7003}:8443
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
-  workflow-service:
-    build:
-      context: .
-      dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
-    image: smartserve/workflow-service:local
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      seq:
-        condition: service_started
-      identity-service:
-        condition: service_started
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: http://+:8080;https://+:8443
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
-      App__SelfUrl: https://smartserve.ecowas.int:${WORKFLOW_SERVICE_PORT:-7004}
-      AuthServer__Authority: ${IDENTITY_SERVER_INTERNAL_URL}
-      AuthServer__RequireHttpsMetadata: 'false'
-      RemoteServices__Default__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL}
-      RemoteServices__IdentityService__BaseUrl: ${IDENTITY_SERVICE_INTERNAL_URL}
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
-      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
-      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
-      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
-      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
-      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
-      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
-      App__CorsOrigins: ${APP_CORS_ORIGINS}
-    ports:
-    - ${WORKFLOW_SERVICE_PORT:-7004}:8443
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
-  auth-server:
-    build:
-      context: .
-      dockerfile: apps/ResourceryPlatformWorkflow.AuthServer/Dockerfile
-    image: smartserve/auth-server:local
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      seq:
-        condition: service_started
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: https://+:8443
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
-      App__SelfUrl: https://smartserve.ecowas.int:${AUTH_SERVER_PORT:-7600}
-      App__ClientUrl: https://smartserve.ecowas.int:4200
-      App__CorsOrigins: ${APP_CORS_ORIGINS}
-      App__RedirectAllowedUrls: https://smartserve.ecowas.int
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
-      ConnectionStrings__redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT_INTERNAL:-6379}
-      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
-      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
-      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
-      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
-      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+      # OAuth settings
       OAuth__ClientId: ${OAUTH_CLIENT_ID}
       OAuth__ClientSecret: ${OAUTH_CLIENT_SECRET}
       TenantId: ${OAUTH_TENANT_ID}
-    ports:
-    - ${AUTH_SERVER_PORT:-7600}:8443
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+    # Expose the service on port 80
+    expose:
+      - 80
+    networks:
+      - smartserve-net
+    restart: on-failure
+  # =========================
+  # API GATEWAY
+  # =========================
   gateway:
     build:
       context: .
       dockerfile: gateway/ResourceryPlatformWorkflow.Gateway/Dockerfile
-    image: smartserve/gateway:local
-    depends_on:
-      identity-service:
-        condition: service_started
-      administration-service:
-        condition: service_started
-      saas-service:
-        condition: service_started
-      workflow-service:
+    image: smartserve/gateway:prod
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost/health || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s
+    #Dependencies on auth-server to ensure it is healthy before starting the gateway
+    depends_on:     
+      auth-server:
         condition: service_started
     environment:
+      # ASP.NET Core environment and Kestrel setting
       ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: https://+:8081
-      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
-      ASPNETCORE_Kestrel__Certificates__Default__Password: ${ASPNET_DEV_CERT_PASSWORD:-dev_cert_2026!}
-      App__SelfUrl: https://smartserve.ecowas.int:${GATEWAY_PORT:-7500}
-      App__CorsOrigins: ${APP_CORS_ORIGINS:-https://smartserve.ecowas.int,https://smartserve.ecowas.int:7001,https://smartserve.ecowas.int:7002,https://smartserve.ecowas.int:7003,https://smartserve.ecowas.int:7004,https://smartserve.ecowas.int:7500,https://smartserve.ecowas.int:7600}
-      ReverseProxy__Clusters__administration__Destinations__administration__Address: http://administration-service
-      ReverseProxy__Clusters__identity__Destinations__identity__Address: http://identity-service
-      ReverseProxy__Clusters__account__Destinations__account__Address: http://identity-service
-      ReverseProxy__Clusters__saas__Destinations__saas__Address: http://saas-service
-      ReverseProxy__Clusters__workflow__Destinations__workflow__Address: http://workflow-service
-      # ReverseProxy__Clusters__administration__Destinations__administration__Address: https://administration-service:8443
-      # ReverseProxy__Clusters__identity__Destinations__identity__Address: https://identity-service:8443
-      # ReverseProxy__Clusters__account__Destinations__account__Address: https://identity-service:8443
-      # ReverseProxy__Clusters__saas__Destinations__saas__Address: https://saas-service:8443
-      # ReverseProxy__Clusters__workflow__Destinations__workflow__Address: https://workflow-service:8443
-      # ReverseProxy__Clusters__administration__HttpClient__DangerousAcceptAnyServerCertificate: 'false'
-      # ReverseProxy__Clusters__identity__HttpClient__DangerousAcceptAnyServerCertificate: 'false'
-      # ReverseProxy__Clusters__account__HttpClient__DangerousAcceptAnyServerCertificate: 'false'
-      # ReverseProxy__Clusters__saas__HttpClient__DangerousAcceptAnyServerCertificate: 'false'
-      # ReverseProxy__Clusters__workflow__HttpClient__DangerousAcceptAnyServerCertificate: 'false'
-    ports:
-    - ${GATEWAY_PORT:-7500}:8081
-    volumes:
-    - ${ASPNET_HTTPS_CERT_DIR:-~/.aspnet/https}:/https:ro
+      ASPNETCORE_URLS: http://+:80
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+    # Expose the service on port 80
+    expose:
+      - "80"
+    # Network configuration to connect the gateway service to the smartserve-net network
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  # =========================
+  # MICROSERVICES
+  # =========================
+  identity-service:
+    build:
+      context: .
+      dockerfile: services/identity/host/ResourceryPlatformWorkflow.IdentityService.HttpApi.Host/Dockerfile
+    image: smartserve/identity-service:prod
+    # Dependencies on Redis, RabbitMQ, and Seq services to ensure they are healthy before starting the identity-service
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost/health || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s   
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      seq:
+        condition: service_started
+    environment:
+      # ASP.NET Core environment and Kestrel settings
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+      AuthServer__Authority: https://auth.smartserve.ecowas.int
+      AuthServer__MetaAuthority: http://auth-server
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+      # Database connection strings
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
+      # Redis, Seq, and RabbitMQ connection strings
+      ConnectionStrings__Redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT:-6379}      
+      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
+      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
+      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
+      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
+      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+    # EXpose the service on port 80
+    expose:
+      - 80
+    # Network configuration to connect the identity-service to the smartserve-net network
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  administration-service:
+    build:
+      context: .
+      dockerfile: services/administration/host/ResourceryPlatformWorkflow.Administration.HttpApi.Host/Dockerfile
+    image: smartserve/administration-service:prod
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost/health || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s   
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      seq:
+        condition: service_started
+      identity-service:
+        condition: service_started
+    environment:
+      # ASP.NET Core environment
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+      App__SelfUrl: https://api.smartserve.ecowas.int
+      App__CorsOrigins: https://smartserve.ecowas.int,https://api.smartserve.ecowas.int
+      AuthServer__Authority: https://auth.smartserve.ecowas.int
+      # Database connection strings
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
+      # Redis, Seq, and RabbitMQ connection strings
+      ConnectionStrings__Redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT:-6379}
+      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
+      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
+      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
+      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
+      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+    # Expose the service on port 80
+    expose:
+      - 80
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  saas-service:
+    build:
+      context: .
+      dockerfile: services/saas/host/ResourceryPlatformWorkflow.SaaS.HttpApi.Host/Dockerfile
+    image: smartserve/saas-service:prod
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost/health || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s
+    # Dependencies on Redis, RabbitMQ, Seq, and Identity Service to ensure they are healthy before starting the saas-service
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      seq:
+        condition: service_started
+      identity-service:
+        condition: service_started
+    environment:
+      # ASP.NET Core environment and Kestrel settings
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+      App__SelfUrl: https://api.smartserve.ecowas.int
+      App__CorsOrigins: https://smartserve.ecowas.int,https://api.smartserve.ecowas.int
+      AuthServer__Authority: https://auth.smartserve.ecowas.int
+      # Database connection strings
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
+      # Redis, Seq, and RabbitMQ connection strings
+      ConnectionStrings__Redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT:-6379}
+      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
+      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
+      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
+      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
+      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+    # Expose the service on ports 8080 and 8443
+    expose:
+      - 80
+    networks:
+      - smartserve-net
+    restart: unless-stopped
+  workflow-service:
+    build:
+      context: .
+      dockerfile: services/workflow/host/ResourceryPlatformWorkflow.Workflow.HttpApi.Host/Dockerfile
+    image: smartserve/workflow-service:prod
+    # healthcheck:
+    #   test: ["CMD-SHELL", "wget --spider -q http://localhost/health || exit 1"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+    #   start_period: 30s   
+    # Dependencies on Redis, RabbitMQ, Seq, and Identity Service to ensure they are healthy before starting the workflow-service
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      seq:
+        condition: service_started
+      identity-service:
+        condition: service_started
+    environment:
+      # ASP.NET Core environment and Kestrel settings
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: true
+      App__SelfUrl: https://api.smartserve.ecowas.int
+      App__CorsOrigins: https://smartserve.ecowas.int,https://api.smartserve.ecowas.int
+      AuthServer__Authority: https://auth.smartserve.ecowas.int
+      # Database connection strings
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;Pooling=false;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;Pooling=false;
+      # Redis, Seq, and RabbitMQ connection strings
+      ConnectionStrings__Redis: ${REDIS_HOST:-smartserve-redis}:${REDIS_PORT:-6379}
+      ConnectionStrings__seq: ${SEQ_URL:-http://smartserve-seq:5341}
+      RabbitMQ__Connections__Default__HostName: ${RABBITMQ_HOST:-smartserve-rabbitmq}
+      RabbitMQ__Connections__Default__Port: ${RABBITMQ_PORT_INTERNAL:-5672}
+      RabbitMQ__Connections__Default__UserName: ${RABBITMQ_USER:-guest}
+      RabbitMQ__Connections__Default__Password: ${RABBITMQ_PASSWORD:-guest}
+      Serilog__MinimumLevel__Default: Information
+      Serilog__WriteTo__Seq__Name: Seq
+      Serilog__WriteTo__Seq__Args__serverUrl: http://smartserve-seq:5341
+    # Expose the service on ports 8080 and 8443
+    expose:
+      - 80
+    # Network configuration to connect the workflow-service to the smartserve-net network
+    networks:
+      - smartserve-net
+    restart: unless-stopped
   migrations:
     build:
       context: .
       dockerfile: shared/ResourceryPlatformWorkflow.DbMigrator/Dockerfile
-    image: smartserve/db-migrator:local
+    image: smartserve/db-migrator:prod
+    # Dependencies on Redis, RabbitMQ, Seq, and Identity Service to ensure they are healthy
     profiles:
-    - migrations
+      - migrations
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;
-      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;
-      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;
-      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User
-        Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;
-  web:
-    build:
-      context: .
-      dockerfile: apps/ResourceryPlatformWeb/Dockerfile
-    image: smartserve/web:local
-    depends_on:
-      identity-service:
-        condition: service_started
-      gateway:
-        condition: service_started
-    ports:
-    - 443:443
+      ConnectionStrings__ResourceryPlatformWorkflowAdministrationDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_AdministrationDb;
+      ConnectionStrings__ResourceryPlatformWorkflowIdentityServiceDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_IdentityServiceDb;
+      ConnectionStrings__ResourceryPlatformWorkflowSaaSDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_SaaSDb;
+      ConnectionStrings__ResourceryPlatformWorkflowWorkflowDb: Server=${SQLSERVER_HOST:-host.docker.internal},${SQLSERVER_PORT:-1433};User Id=${SQLSERVER_USER:-sa};Password=${SQLSERVER_PASSWORD:-P@ssw0rd123};TrustServerCertificate=True;Encrypt=False;Database=ResourceryPlatformWorkflow_Production_WorkflowDb;
+    restart: on-failure
 volumes:
   smartserve-redis-data: null
   smartserve-rabbitmq-data: null
   smartserve-seq-data: null
+
+networks:
+  smartserve-net:
+    driver: bridge

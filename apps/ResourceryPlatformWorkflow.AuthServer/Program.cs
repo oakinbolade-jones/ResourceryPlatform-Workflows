@@ -7,6 +7,8 @@ using Serilog;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
+
 
 namespace ResourceryPlatformWorkflow;
 
@@ -21,6 +23,22 @@ public class Program
             Log.Information("Starting ResourceryPlatformWorkflow.AuthServer.");
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddHealthChecks();
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor |
+                    ForwardedHeaders.XForwardedProto;
+
+                // IMPORTANT: allow nginx reverse proxy trust
+                options.KnownNetworks.Clear();
+                options.KnownIPNetworks.Clear();
+                options.KnownProxies.Clear();
+
+                // optional hardening (recommended)
+                options.ForwardLimit = 1;
+            });
+
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
 

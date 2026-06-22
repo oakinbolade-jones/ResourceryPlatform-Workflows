@@ -18,9 +18,9 @@ RUN mkdir -p /etc/nginx/certs && \
     -subj "/CN=smartserve.ecowas.int" && \
     chmod 600 /etc/nginx/certs/privkey.pem
 
-# Copy custom entrypoint script that will run first, before nginx default scripts
-COPY apps/ResourceryPlatformWeb/docker-entrypoint.d/zz-generate-certs.sh /docker-entrypoint.d/00-generate-certs.sh
-RUN chmod +x /docker-entrypoint.d/00-generate-certs.sh
+# Copy custom entrypoint script (runs after nginx default scripts)
+COPY apps/ResourceryPlatformWeb/docker-entrypoint.d/zz-generate-certs.sh /docker-entrypoint.d/zz-generate-certs.sh
+RUN chmod +x /docker-entrypoint.d/zz-generate-certs.sh
 
 # Copy nginx config
 COPY apps/ResourceryPlatformWeb/nginx.conf /etc/nginx/conf.d/default.conf

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using Volo.Abp.AspNetCore;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Caching;
 using Volo.Abp.Modularity;
@@ -15,6 +16,7 @@ using Volo.Abp.Swashbuckle;
 namespace ResourceryPlatformWorkflow;
 
 [DependsOn(typeof(AbpAspNetCoreModule))]
+[DependsOn(typeof(AbpAspNetCoreMvcModule))]
 [DependsOn(typeof(AbpAspNetCoreAuthenticationJwtBearerModule))]
 [DependsOn(typeof(AbpAspNetCoreSerilogModule))]
 [DependsOn(typeof(AbpSwashbuckleModule))]
