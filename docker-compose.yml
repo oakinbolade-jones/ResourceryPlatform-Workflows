@@ -3,14 +3,9 @@ services:
     image: redis:7-alpine
     container_name: smartserve-redis
     ports:
-      - "${REDIS_PORT:-6379}:6379"
+      - 6379:6379
     volumes:
       - smartserve-redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -20,13 +15,7 @@ services:
       - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
     volumes:
       - smartserve-rabbitmq-data:/var/lib/rabbitmq
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
-      interval: 10s
-      timeout: 10s
-      retries: 15
-      start_period: 30s
-
+  
   seq:
     image: datalust/seq:latest
     container_name: smartserve-seq

@@ -42,6 +42,9 @@ using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using StackExchange.Redis;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
 
 namespace ResourceryPlatformWorkflow;
 
@@ -71,7 +74,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
-        
+
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
@@ -95,7 +98,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
         Configure<OpenIddictServerOptions>(options =>
         {
             var accessTokenLifetimeInMinutes = configuration.GetValue<int?>(
