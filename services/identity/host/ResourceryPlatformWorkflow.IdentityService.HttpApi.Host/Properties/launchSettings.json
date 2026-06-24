@@ -7,7 +7,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
-            "applicationUrl": "https://localhost:7002"
+            "applicationUrl": "http://localhost:7002"
         },
         "ResourceryPlatformWorkflow.IdentityService.Host": {
             "commandName": "Project",
@@ -15,7 +15,7 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Staging"
             },
-            "applicationUrl": "https://localhost:7002"
+            "applicationUrl": "http://localhost:7002"
         },
         "Docker": {
             "commandName": "Docker",
