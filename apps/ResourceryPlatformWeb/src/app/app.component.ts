@@ -17,7 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private replaceableComponents = inject(ReplaceableComponentsService);
   private routes = inject(RoutesService);
 
-  constructor(private router: Router) {  
+  constructor(private router: Router) {
+
+    console.log('URL:', window.location.href);
+  console.log('QUERY:', window.location.search);
   }
 
   ngOnInit(): void {
