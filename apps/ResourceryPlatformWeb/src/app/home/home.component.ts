@@ -22,7 +22,7 @@ export class HomeComponent implements AfterViewInit {
   constructor(
     private authService: AuthService,
     private sessionStateService: SessionStateService,
-    private authPopupService: AuthPopupService
+    
   ) {}
 
   ngAfterViewInit(): void {
@@ -30,14 +30,10 @@ export class HomeComponent implements AfterViewInit {
   }
 
   async login() {
-    try {
-      await this.authPopupService.loginWithPopup();
-      window.location.reload();
-    } catch {
       // Popup was blocked or cancelled — fall back to full-page redirect.
       const returnUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
       this.authService.navigateToLogin({ returnUrl });
-    }
+    
   }
 
   navigateToDashboard() {
