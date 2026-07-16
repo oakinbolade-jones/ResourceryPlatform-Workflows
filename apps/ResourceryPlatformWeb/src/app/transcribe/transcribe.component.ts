@@ -88,6 +88,30 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.transcribeForm.get('TranscriptionMode')?.value ?? 'upload';
   }
 
+  private getSourceReferenceId(): string {
+    const cryptoObj = window.crypto || (window as any).msCrypto;
+    if (cryptoObj?.randomUUID) {
+      return cryptoObj.randomUUID();
+    }
+
+    if (cryptoObj?.getRandomValues) {
+      const bytes = new Uint8Array(16);
+      cryptoObj.getRandomValues(bytes);
+
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+      const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+      return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    }
+
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const random = (Math.random() * 16) | 0;
+      const value = c === 'x' ? random : (random & 0x3) | 0x8;
+      return value.toString(16);
+    });
+  }
+
   ngOnInit(): void {
     this.restoreStepOneDraft();
     void this.loadCameraDevices();
@@ -291,7 +315,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
-    const sourceReferenceId = this.transcriptionReferenceId ?? crypto.randomUUID();
+    const sourceReferenceId = this.transcriptionReferenceId ?? this.getSourceReferenceId();
     this.transcriptionReferenceId = sourceReferenceId;
 
     const language = this.transcribeForm.get('Language')?.value ?? 'en';

@@ -10,10 +10,11 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 
-[Authorize(WorkflowPermissions.Transcriptions.Default)]
+// [Authorize(WorkflowPermissions.Transcriptions.Default)]
+[AllowAnonymous]
 public class TranscriptionAppService(
-    IRepository<Transcription, Guid> transcriptionRepository,
-    TranscriptionManager transcriptionManager
+IRepository<Transcription, Guid> transcriptionRepository,
+TranscriptionManager transcriptionManager
 ) : WorkflowAppService, ITranscriptionAppService
 {
     private readonly IRepository<Transcription, Guid> _transcriptionRepository = transcriptionRepository;
@@ -30,6 +31,7 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
+    [AllowAnonymous]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
@@ -37,7 +39,7 @@ public class TranscriptionAppService(
         return transcriptions.ConvertAll(Map);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Create)]
+    // [Authorize(WorkflowPermissions.Transcriptions.Create)]
     [AllowAnonymous]
     public async Task<TranscriptionDto> CreateAsync(CreateUpdateTranscriptionDto input)
     {
@@ -73,7 +75,7 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
+    //[Authorize(WorkflowPermissions.Transcriptions.Update)]
     [AllowAnonymous]
     public async Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
@@ -112,7 +114,8 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Delete)]
+    // [Authorize(WorkflowPermissions.Transcriptions.Delete)]
+    [AllowAnonymous]
     public Task DeleteAsync(Guid id)
     {
         return _transcriptionManager.DeleteAsync(id);
@@ -174,8 +177,8 @@ public class TranscriptionAppService(
             Status = transcription.Status,
             InputSource = transcription.InputSource,
             SourceReferenceId = transcription.SourceReferenceId,
-                DocumentData = transcription.DocumentData,
-                DocumentExtension = transcription.DocumentExtension,
+            DocumentData = transcription.DocumentData,
+            DocumentExtension = transcription.DocumentExtension,
             Transcript = transcription.Transcript,
             LinkJson = transcription.LinkJson,
             LinkSrt = transcription.LinkSrt,
