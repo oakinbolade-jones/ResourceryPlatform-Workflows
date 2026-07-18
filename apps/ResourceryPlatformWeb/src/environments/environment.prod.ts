@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://smartserve.ecowas.int';
+const baseUrl = 'https://smartserve.ecowas.int';
 
 export const environment = {
   production: true,
@@ -16,7 +16,7 @@ export const environment = {
     clientSecret: '1q2w3e*',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
-    requireHttps: false,
+    requireHttps: true,
   },
   apis: {
     default: {
