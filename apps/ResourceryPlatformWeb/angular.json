@@ -133,9 +133,9 @@
           "builder": "@angular-devkit/build-angular:dev-server",
 
           "options": {
-            "ssl": true,
+            "ssl": false,
             "host": "smartserve.ecowas.int",
-            "port": 443
+            "port": 80
           },
           "configurations": {
             "production": {

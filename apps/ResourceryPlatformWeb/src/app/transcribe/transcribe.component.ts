@@ -291,7 +291,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
-    const sourceReferenceId = this.transcriptionReferenceId ?? crypto.randomUUID();
+    const sourceReferenceId = this.transcriptionReferenceId ??  (crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`);
     this.transcriptionReferenceId = sourceReferenceId;
 
     const language = this.transcribeForm.get('Language')?.value ?? 'en';
