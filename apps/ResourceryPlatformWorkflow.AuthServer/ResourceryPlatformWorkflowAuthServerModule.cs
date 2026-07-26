@@ -71,7 +71,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var configuration = context.Services.GetConfiguration();
 
         AppContext.SetSwitch("Microsoft.EntityFrameworkCore.SqlServer.EnableLegacyTimestampBehavior", true);
 
@@ -84,7 +84,10 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseAspNetCore();
             });
 
-            if (hostingEnvironment.IsDevelopment())
+            var selfUrl = configuration["App:SelfUrl"];
+            var useHttps = selfUrl?.StartsWith("https://", StringComparison.OrdinalIgnoreCase) == true;
+
+            if (!useHttps)
             {
                 builder.AddServer(options =>
                 {
