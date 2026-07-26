@@ -49,6 +49,8 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
@@ -57,6 +59,14 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
+
+            if (hostingEnvironment.IsDevelopment())
+            {
+                builder.AddServer(options =>
+                {
+                    options.UseAspNetCore().DisableTransportSecurityRequirement();
+                });
+            }
         });
     }
 
