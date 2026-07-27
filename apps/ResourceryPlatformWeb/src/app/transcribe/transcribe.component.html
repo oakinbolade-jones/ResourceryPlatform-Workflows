@@ -162,7 +162,7 @@
                 <option value="pt">
                   {{ 'Workflow::Transcription:LanguagePortuguese' | abpLocalization }}
                 </option>
-                <option value="floor">
+                <option value="xx">
                   {{ 'Workflow::Transcription:LanguageFloor' | abpLocalization }}
                 </option>
               </select>
@@ -274,7 +274,7 @@
               id="VideoFile"
               class="visually-hidden fs-5"
               type="file"
-              accept="video/*"
+              accept="audio/*,video/*"
               (change)="onVideoFileSelected($event)"
             />
             <label for="VideoFile" class="modern-upload-dropzone mt-2 mb-2">

@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'http://smartserve.ecowas.int';
 
 export const environment = {
   production: true,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:7600/',
+    issuer: 'http://auth.smartserve.ecowas.int/',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     clientSecret: '1q2w3e*',
@@ -20,7 +20,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:7500',
+      url: 'http://api.smartserve.ecowas.int',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },

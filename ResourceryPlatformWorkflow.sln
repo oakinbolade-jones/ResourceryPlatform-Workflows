@@ -171,6 +171,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "ResourceryPlatformWorkflow.WinApp (Package)", "apps\ResourceryPlatformWorkflow.WinApp\ResourceryPlatformWorkflow.WinApp (Package)\ResourceryPlatformWorkflow.WinApp (Package).wapproj", "{7AEFEF21-CC7A-41FD-BDC8-9558FF7E3E9C}"
 EndProject
+<<<<<<< HEAD
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.WinApp", "apps\ResourceryPlatformWorkflow.WinApp\ResourceryPlatformWorkflow.WinApp\ResourceryPlatformWorkflow.WinApp.csproj", "{46EDD101-3F60-4C30-A0FA-29B29E9125C4}"
+EndProject
+>>>>>>> staging
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1183,6 +1188,25 @@ Global
 		{7AEFEF21-CC7A-41FD-BDC8-9558FF7E3E9C}.Release|x86.ActiveCfg = Release|x86
 		{7AEFEF21-CC7A-41FD-BDC8-9558FF7E3E9C}.Release|x86.Build.0 = Release|x86
 		{7AEFEF21-CC7A-41FD-BDC8-9558FF7E3E9C}.Release|x86.Deploy.0 = Release|x86
+<<<<<<< HEAD
+=======
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|Any CPU.Build.0 = Debug|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|ARM64.Build.0 = Debug|ARM64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|x64.ActiveCfg = Debug|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|x64.Build.0 = Debug|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|x86.ActiveCfg = Debug|x86
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Debug|x86.Build.0 = Debug|x86
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|Any CPU.ActiveCfg = Release|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|Any CPU.Build.0 = Release|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|ARM64.ActiveCfg = Release|ARM64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|ARM64.Build.0 = Release|ARM64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|x64.ActiveCfg = Release|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|x64.Build.0 = Release|x64
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|x86.ActiveCfg = Release|x86
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4}.Release|x86.Build.0 = Release|x86
+>>>>>>> staging
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1268,6 +1292,10 @@ Global
 		{9F4A9886-CFB5-4A3D-8DC3-D68AC16B9B80} = {FD984C26-023D-4A3E-9624-39FD69869D33}
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE} = {1F166FE2-DFBD-EDBF-B35F-67B829196365}
 		{7AEFEF21-CC7A-41FD-BDC8-9558FF7E3E9C} = {661E60BC-C11D-4DC2-BE69-7C881B63EF14}
+<<<<<<< HEAD
+=======
+		{46EDD101-3F60-4C30-A0FA-29B29E9125C4} = {661E60BC-C11D-4DC2-BE69-7C881B63EF14}
+>>>>>>> staging
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B6BA14C-DD65-4EE6-9415-2CCC1EBDB508}

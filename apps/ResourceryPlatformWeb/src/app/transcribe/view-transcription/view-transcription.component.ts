@@ -158,6 +158,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       const parsedUrl = new URL(linkToVideo, window.location.origin);
 
+<<<<<<< HEAD
       // HTTP and HTTPS media sources are both allowed for local development
       // if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
       //   this.mediaError =
@@ -165,6 +166,8 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
       //   return null;
       // }
 
+=======
+>>>>>>> staging
       return parsedUrl.toString();
     } catch {
       return linkToVideo;

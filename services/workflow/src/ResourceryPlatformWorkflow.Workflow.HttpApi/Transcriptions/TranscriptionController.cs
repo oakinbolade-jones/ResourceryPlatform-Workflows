@@ -46,12 +46,17 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
-    private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    // private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    private const string DefaultWipoBaseUrl = "http://172.18.25.4:8088/S2T/API/ECOWAS";
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
     private const int MaxWipoLogPayloadLength = 800;
     private const string PendingTranscriptionCacheKeyPrefix = "workflow:transcription:pending:";
+    private static readonly Regex UuidPattern = new(
+        "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+        RegexOptions.Compiled
+    );
     private static readonly DistributedCacheEntryOptions PendingTranscriptionCacheOptions = new()
     {
         AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2),
@@ -154,7 +159,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 EventDate = staged.EventDate,
                 MediaFile = staged.MediaFile,
                 Language = staged.Language ?? "en",
-                InputeFormat = staged.InputFormat ?? "webm",
+                InputeFormat = staged.InputFormat ?? "mp4",
                 InputSource = staged.InputSource,
                 LinkJson = staged.LinkJson ?? string.Empty,
                 LinkSrt = staged.LinkSrt ?? string.Empty,
@@ -265,9 +270,16 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             return BadRequest(new { message = "No file was uploaded." });
         }
 
-        var sourceReferenceId = string.IsNullOrWhiteSpace(input.SourceReferenceId)
-            ? Guid.NewGuid().ToString()
-            : input.SourceReferenceId;
+        var normalizedSourceReferenceId = NormalizeSourceReferenceIdOrNull(input.SourceReferenceId);
+        var sourceReferenceId = normalizedSourceReferenceId ?? Guid.NewGuid().ToString();
+        if (normalizedSourceReferenceId == null)
+        {
+            _logger.LogWarning(
+                "Incoming sourceReferenceId was missing or invalid. Regenerated UUID. OriginalValue={OriginalValue}, GeneratedValue={GeneratedValue}",
+                input.SourceReferenceId,
+                sourceReferenceId
+            );
+        }
         var language = string.IsNullOrWhiteSpace(input.Language) ? "en" : input.Language;
         var inputFormat = string.IsNullOrWhiteSpace(input.InputFormat)
             ? NormalizeExtension(null, input.File.FileName)
@@ -532,10 +544,13 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     [HttpGet("transcription-status")]
     public async Task<IActionResult> GetTranscriptionStatusAsync([FromQuery] string sourceReferenceId, [FromQuery] string language = "en")
     {
-        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        var normalizedSourceReferenceId = NormalizeSourceReferenceIdOrNull(sourceReferenceId);
+        if (normalizedSourceReferenceId == null)
         {
-            return BadRequest(new { message = "sourceReferenceId is required." });
+            return BadRequest(new { message = "sourceReferenceId is required and must be a valid UUID." });
         }
+
+        sourceReferenceId = normalizedSourceReferenceId;
 
         var query =
             $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
@@ -1463,31 +1478,15 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
         var normalized = candidate.Trim();
 
-        if (normalized.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        if (normalized.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        // Convert examples like *_en_mp4_en.mp4 to *_en.mp4
-        var marker = "_mp4_";
-        var markerIndex = normalized.LastIndexOf(marker, StringComparison.OrdinalIgnoreCase);
-        if (markerIndex > 0)
-        {
-            var prefix = normalized[..markerIndex];
-            var suffix = normalized[(markerIndex + marker.Length)..];
-            var dotIndex = suffix.IndexOf('.');
-            if (dotIndex >= 0)
-            {
-                suffix = suffix[..dotIndex];
-            }
-
-            normalized = prefix + ".mp4";
-        }
+        // Examples:
+        // ..._xx_mp3_en.html -> ..._xx.mp3
+        // ..._xx_webm_en.json -> ..._xx.webm
+        normalized = Regex.Replace(
+            normalized,
+            @"_(?<lang>[a-z]{2})_(?<format>[a-z0-9]+)_[a-z]{2}\.(json|html)$",
+            "_${lang}.${format}",
+            RegexOptions.IgnoreCase
+        );
 
         return normalized;
     }
@@ -1684,6 +1683,17 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     private static string GetPendingTranscriptionCacheKey(string sourceReferenceId)
     {
         return PendingTranscriptionCacheKeyPrefix + sourceReferenceId.Trim();
+    }
+
+    private static string NormalizeSourceReferenceIdOrNull(string sourceReferenceId)
+    {
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return null;
+        }
+
+        var normalized = sourceReferenceId.Trim();
+        return UuidPattern.IsMatch(normalized) ? normalized : null;
     }
 
     public class SaveRecordingInput

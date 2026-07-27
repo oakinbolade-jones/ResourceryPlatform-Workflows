@@ -51,7 +51,7 @@
                                         <form asp-page="./Login" asp-page-handler="ExternalLogin"
                                                   asp-route-returnUrl="@Model.ReturnUrl"
                                                   asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post"
-                                                  class="d-flex flex-wrap gap-2 p-0">
+                                                  class="d-flex flex-wrap gap-0 p-0">
                                                 @foreach (var provider in Model.VisibleExternalProviders)
                                                 {                                                    
                                                     @if (@provider.AuthenticationScheme == "Microsoft")
@@ -118,7 +118,7 @@
                                 }
                                 @if (Model.EnableLocalRegister || Model.IsExternalLogin)
                                 {
-                                    <div class="d-grid gap-2">
+                                    <div class="d-grid gap-0">
                                         <abp-button button-type="Primary" type="submit"
                                                     class="btn-lg mt-4 btn btn-success rounded-0">@L["Register"]</abp-button>
                                     </div>

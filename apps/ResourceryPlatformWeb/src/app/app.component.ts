@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private replaceableComponents = inject(ReplaceableComponentsService);
   private routes = inject(RoutesService);
 
+<<<<<<< HEAD
   private projectTitle = document.title || 'SmartServe';
 
   constructor(
@@ -25,6 +26,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private titleService: Title
   ) {  
+=======
+  constructor(private router: Router) {
+
+    console.log('URL:', window.location.href);
+  console.log('QUERY:', window.location.search);
+>>>>>>> staging
   }
 
   ngOnInit(): void {

@@ -64,6 +64,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
   private readonly transcriptionDraftStorageKey = 'workflow.transcription.draft';
+  private readonly uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
   constructor(
     private fb: FormBuilder,
@@ -291,8 +292,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
-    const sourceReferenceId = this.transcriptionReferenceId ?? crypto.randomUUID();
+    const sourceReferenceId = this.resolveSourceReferenceId(this.transcriptionReferenceId);
     this.transcriptionReferenceId = sourceReferenceId;
+    this.persistStepOneDraft();
 
     const language = this.transcribeForm.get('Language')?.value ?? 'en';
     const inputFormat = this.getInputFormat(videoData);
@@ -335,8 +337,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.transcriptionId = String(payload.transcriptionId);
       }
 
+      const responseSourceReferenceId =
+        typeof payload?.sourceReferenceId === 'string' ? payload.sourceReferenceId : sourceReferenceId;
+      this.transcriptionReferenceId = this.resolveSourceReferenceId(responseSourceReferenceId);
+      this.persistStepOneDraft();
+
       this.transcribeStatus = 'Submitted. Waiting for transcription progress...';
-      this.beginStatusPolling(sourceReferenceId, language);
+      this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
       this.isTranscribing = false;
       const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
@@ -701,11 +708,51 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.transcriptionId = draft?.transcriptionId ?? null;
-      this.transcriptionReferenceId = draft?.sourceReferenceId ?? null;
+      this.transcriptionReferenceId = this.resolveSourceReferenceId(
+        typeof draft?.sourceReferenceId === 'string' ? draft.sourceReferenceId : null
+      );
+      draft.sourceReferenceId = this.transcriptionReferenceId;
       this.isStepOneSaved = !!draft?.isSaved;
+      sessionStorage.setItem(this.transcriptionDraftStorageKey, JSON.stringify(draft));
     } catch {
       sessionStorage.removeItem(this.transcriptionDraftStorageKey);
     }
+  }
+
+  private resolveSourceReferenceId(candidate: string | null | undefined): string {
+    const normalized = (candidate ?? '').trim();
+    if (this.isUuid(normalized)) {
+      return normalized;
+    }
+
+    return this.generateUuid();
+  }
+
+  private isUuid(value: string): boolean {
+    return this.uuidPattern.test(value);
+  }
+
+  private generateUuid(): string {
+    const cryptoApi = window.crypto;
+    if (typeof cryptoApi?.randomUUID === 'function') {
+      return cryptoApi.randomUUID();
+    }
+
+    const bytes = new Uint8Array(16);
+    if (typeof cryptoApi?.getRandomValues === 'function') {
+      cryptoApi.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = Math.floor(Math.random() * 256);
+      }
+    }
+
+    // Force RFC 4122 version 4 and variant bits.
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+    const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, '0'));
+    return `${hex[0]}${hex[1]}${hex[2]}${hex[3]}-${hex[4]}${hex[5]}-${hex[6]}${hex[7]}-${hex[8]}${hex[9]}-${hex[10]}${hex[11]}${hex[12]}${hex[13]}${hex[14]}${hex[15]}`;
   }
 
   private t(key: string, fallback: string): string {
