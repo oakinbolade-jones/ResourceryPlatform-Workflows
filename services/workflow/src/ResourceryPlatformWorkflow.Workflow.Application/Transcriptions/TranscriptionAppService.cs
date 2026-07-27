@@ -210,21 +210,15 @@ public class TranscriptionAppService(
 
         var normalized = candidate.Trim();
 
-        // Example:
-        // ..._en_mp4_en.json -> ..._en.mp4
+        // Examples:
+        // ..._xx_mp3_en.html -> ..._xx.mp3
+        // ..._xx_webm_en.json -> ..._xx.webm
         normalized = Regex.Replace(
             normalized,
-            @"_(?<lang>[a-z]{2})_mp4_[a-z]{2}\.json$",
-            "_${lang}.mp4",
+            @"_(?<lang>[a-z]{2})_(?<format>[a-z0-9]+)_[a-z]{2}\.(json|html)$",
+            "_${lang}.${format}",
             RegexOptions.IgnoreCase
         );
-
-        if (normalized.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        normalized = normalized.Replace(".html", ".mp4", StringComparison.OrdinalIgnoreCase);
 
         return normalized;
     }

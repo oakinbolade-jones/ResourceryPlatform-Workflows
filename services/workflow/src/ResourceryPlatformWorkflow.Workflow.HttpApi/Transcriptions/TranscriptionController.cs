@@ -46,7 +46,8 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
-    private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    // private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    private const string DefaultWipoBaseUrl = "http://172.18.25.4:8088/S2T/API/ECOWAS";
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
@@ -158,7 +159,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
                 EventDate = staged.EventDate,
                 MediaFile = staged.MediaFile,
                 Language = staged.Language ?? "en",
-                InputeFormat = staged.InputFormat ?? "webm",
+                InputeFormat = staged.InputFormat ?? "mp4",
                 InputSource = staged.InputSource,
                 LinkJson = staged.LinkJson ?? string.Empty,
                 LinkSrt = staged.LinkSrt ?? string.Empty,
@@ -1477,31 +1478,15 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
         var normalized = candidate.Trim();
 
-        if (normalized.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        if (normalized.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        // Convert examples like *_en_mp4_en.mp4 to *_en.mp4
-        var marker = "_mp4_";
-        var markerIndex = normalized.LastIndexOf(marker, StringComparison.OrdinalIgnoreCase);
-        if (markerIndex > 0)
-        {
-            var prefix = normalized[..markerIndex];
-            var suffix = normalized[(markerIndex + marker.Length)..];
-            var dotIndex = suffix.IndexOf('.');
-            if (dotIndex >= 0)
-            {
-                suffix = suffix[..dotIndex];
-            }
-
-            normalized = prefix + ".mp4";
-        }
+        // Examples:
+        // ..._xx_mp3_en.html -> ..._xx.mp3
+        // ..._xx_webm_en.json -> ..._xx.webm
+        normalized = Regex.Replace(
+            normalized,
+            @"_(?<lang>[a-z]{2})_(?<format>[a-z0-9]+)_[a-z]{2}\.(json|html)$",
+            "_${lang}.${format}",
+            RegexOptions.IgnoreCase
+        );
 
         return normalized;
     }
