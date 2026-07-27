@@ -158,12 +158,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       const parsedUrl = new URL(linkToVideo, window.location.origin);
 
-      if (window.location.protocol === 'https:' && parsedUrl.protocol === 'http:') {
-        this.mediaError =
-          'This media source is served over HTTP and is blocked on secure pages. Please use an HTTPS media URL.';
-        return null;
-      }
-
       return parsedUrl.toString();
     } catch {
       return linkToVideo;
