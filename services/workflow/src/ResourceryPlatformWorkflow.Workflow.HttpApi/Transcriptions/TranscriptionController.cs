@@ -52,6 +52,10 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     private const string DefaultOrganizationCode = "ECOWAS";
     private const int MaxWipoLogPayloadLength = 800;
     private const string PendingTranscriptionCacheKeyPrefix = "workflow:transcription:pending:";
+    private static readonly Regex UuidPattern = new(
+        "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+        RegexOptions.Compiled
+    );
     private static readonly DistributedCacheEntryOptions PendingTranscriptionCacheOptions = new()
     {
         AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(2),
@@ -265,9 +269,16 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             return BadRequest(new { message = "No file was uploaded." });
         }
 
-        var sourceReferenceId = string.IsNullOrWhiteSpace(input.SourceReferenceId)
-            ? Guid.NewGuid().ToString()
-            : input.SourceReferenceId;
+        var normalizedSourceReferenceId = NormalizeSourceReferenceIdOrNull(input.SourceReferenceId);
+        var sourceReferenceId = normalizedSourceReferenceId ?? Guid.NewGuid().ToString();
+        if (normalizedSourceReferenceId == null)
+        {
+            _logger.LogWarning(
+                "Incoming sourceReferenceId was missing or invalid. Regenerated UUID. OriginalValue={OriginalValue}, GeneratedValue={GeneratedValue}",
+                input.SourceReferenceId,
+                sourceReferenceId
+            );
+        }
         var language = string.IsNullOrWhiteSpace(input.Language) ? "en" : input.Language;
         var inputFormat = string.IsNullOrWhiteSpace(input.InputFormat)
             ? NormalizeExtension(null, input.File.FileName)
@@ -532,10 +543,13 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     [HttpGet("transcription-status")]
     public async Task<IActionResult> GetTranscriptionStatusAsync([FromQuery] string sourceReferenceId, [FromQuery] string language = "en")
     {
-        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        var normalizedSourceReferenceId = NormalizeSourceReferenceIdOrNull(sourceReferenceId);
+        if (normalizedSourceReferenceId == null)
         {
-            return BadRequest(new { message = "sourceReferenceId is required." });
+            return BadRequest(new { message = "sourceReferenceId is required and must be a valid UUID." });
         }
+
+        sourceReferenceId = normalizedSourceReferenceId;
 
         var query =
             $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
@@ -1684,6 +1698,17 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     private static string GetPendingTranscriptionCacheKey(string sourceReferenceId)
     {
         return PendingTranscriptionCacheKeyPrefix + sourceReferenceId.Trim();
+    }
+
+    private static string NormalizeSourceReferenceIdOrNull(string sourceReferenceId)
+    {
+        if (string.IsNullOrWhiteSpace(sourceReferenceId))
+        {
+            return null;
+        }
+
+        var normalized = sourceReferenceId.Trim();
+        return UuidPattern.IsMatch(normalized) ? normalized : null;
     }
 
     public class SaveRecordingInput

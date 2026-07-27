@@ -7,7 +7,7 @@ export const environment = {
   application: {
     baseUrl,
     name: 'ResourceryPlatformWorkflow',
-    logoUrl: 'https://auth.smartserve.ecowas.int/Account/Login',
+    logoUrl: 'http://auth.smartserve.ecowas.int/Account/Login',
   },
   oAuthConfig: {
     issuer: 'https://auth.smartserve.ecowas.int/',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://api.smartserve.ecowas.int',
+      url: 'http://api.smartserve.ecowas.int',
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },

@@ -1614,7 +1614,7 @@
     "Transcription:SaveRecordingLabel": "Salvar gravação",
     "Transcription:DropVideoHereOrClick": "Deixe seu vídeo aqui ou clique para navegar",
     "Transcription:VideoFormats": "MP3, MP4, MOV, WEBM e outros formatos de áudio e vídeo",
-    "Transcription:VideoUploadHint": "Faça o upload de um arquivo de vídeo em MP3, MP4, MOV, WEBM ou outros formatos de áudio e vídeo. O tamanho máximo permitido para o arquivo é de 500 MB. Após o upload, clique no botão "Transcrever". O sistema ECOWAS STT processará o arquivo de mídia (vídeo/áudio) e gerará uma transcrição. Você pode clicar no botão "Ver transcrição" para visualizar a página de transcrição ou no botão "Ver lista de transcrições" para visualizar todas as suas transcrições.",
+    "Transcription:VideoUploadHint": "Faça o upload de um arquivo de vídeo em MP3, MP4, MOV, WEBM ou outros formatos de áudio e vídeo. O tamanho máximo permitido para o arquivo é de 500 MB. Após o upload, clique no botão \"Transcrever\". O sistema ECOWAS STT processará o arquivo de mídia (vídeo/áudio) e gerará uma transcrição. Você pode clicar no botão \"Ver transcrição\" para visualizar a página de transcrição ou no botão \"Ver lista de transcrições\" para visualizar todas as suas transcrições.",
     "Transcription:AudioFormats": "MP3, WAV, AAC e outros formatos de áudio",
     "Transcription:AudioUploadHint": "Faça upload de um arquivo de áudio em MP3, WAV, AAC ou outros formatos de áudio. O tamanho máximo de arquivo permitido é 500 MB. Uma vez carregado, pressione o botão Transcrever. O sistema STT da CEDEAO processará o arquivo de mídia (vídeo/áudio) e gerará uma transcrição para você.",
     "Transcription:DownloadHeaderTitle": "Discurso em Texto da CEDEAO",
