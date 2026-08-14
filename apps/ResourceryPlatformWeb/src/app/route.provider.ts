@@ -15,20 +15,20 @@ function configureRoutes(routesService: RoutesService) {
         order: 0,
         layout: eLayoutType.application,
       },
-      {
-        path: '/get-started',
-        name: 'Workflow::GetStarted',
-        iconClass: '',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path: '/webcast',
-        name: 'Workflow::Webcasts',
-        iconClass: '',
-        order: 2,
-        layout: eLayoutType.application,
-      },
+      // {
+      //   path: '/get-started',
+      //   name: 'Workflow::GetStarted',
+      //   iconClass: '',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      // },
+      // {
+      //   path: '/webcast',
+      //   name: 'Workflow::Webcasts',
+      //   iconClass: '',
+      //   order: 2,
+      //   layout: eLayoutType.application,
+      // },
       {
         path: '/dashboard',
         name: 'Workflow::ServiceCenters',
@@ -42,13 +42,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 4,
         layout: eLayoutType.application,
       },
-      {
-        path: '/support',
-        name: 'Workflow::Support',
-        iconClass: '',
-        order: 5,
-        layout: eLayoutType.application,
-      },
+      // {
+      //   path: '/support',
+      //   name: 'Workflow::Support',
+      //   iconClass: '',
+      //   order: 5,
+      //   layout: eLayoutType.application,
+      // },
 
       {
         path: '/directorate',
@@ -91,14 +91,14 @@ function configureRoutes(routesService: RoutesService) {
         order: 4,
         layout: eLayoutType.application,
       },
-      {
-        path: '/transcription',
-        name: 'Workflow::Transcription',
-        parentName: 'Workflow::ServiceCenters',
-        iconClass: '',
-        order: 5,
-        layout: eLayoutType.application,
-      },
+      // {
+      //   path: '/transcription',
+      //   name: 'Workflow::Transcription',
+      //   parentName: 'Workflow::ServiceCenters',
+      //   iconClass: '',
+      //   order: 5,
+      //   layout: eLayoutType.application,
+      // },
 
 
     ]);

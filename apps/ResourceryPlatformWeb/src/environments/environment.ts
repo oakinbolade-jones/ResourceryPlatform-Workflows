@@ -7,10 +7,10 @@ export const environment = {
   application: {
     baseUrl,
     name: 'ResourceryPlatformWorkflow',
-    logoUrl: 'http://auth.smartserve.ecowas.int/Account/Login',
+    logoUrl: 'https://auth.smartserve.ecowas.int//Account/Login',
   },
   oAuthConfig: {
-    issuer: 'http://auth.smartserve.ecowas.int/',
+    issuer: 'https://auth.smartserve.ecowas.int/',
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
