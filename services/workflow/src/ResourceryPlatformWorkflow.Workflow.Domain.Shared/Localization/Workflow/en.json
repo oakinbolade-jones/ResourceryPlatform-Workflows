@@ -1,6 +1,7 @@
 ﻿{
   "culture": "en",
   "texts": {
+     "AppName": "SmartServe",
     "Home": "Home",
     "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the Workflow module",
