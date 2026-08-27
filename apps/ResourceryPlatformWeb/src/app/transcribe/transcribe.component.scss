@@ -15,14 +15,49 @@ form fieldset > legend.form-label {
 	text-transform: uppercase;
 	color: #145a32;
 }
-.list-header-content {
-    flex: 1 1 520px;
-    min-width: 280px;
-  }
 
-  .list-header-action {
-    flex: 0 0 auto;
-  }
+.transcription-page {
+	box-sizing: border-box;
+	width: 100%;
+
+	.page-description {
+		font-size: small;
+		width: 100%;
+		max-width: 980px;
+		color: #4d6659;
+		white-space: normal;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+		line-height: 1.6;
+	}
+
+	.list-header {
+		width: 100%;
+	}
+
+	.list-header-content {
+		flex: 1 1 520px;
+		min-width: 0;
+		width: 100%;
+	}
+
+	.list-header-action {
+		flex: 0 0 auto;
+	}
+
+	.row {
+		min-width: 0;
+	}
+}
+
+.list-header-content {
+	flex: 1 1 520px;
+	min-width: 0;
+}
+
+.list-header-action {
+	flex: 0 0 auto;
+}
 
 .wizard-steps {
 	display: flex;
@@ -184,11 +219,41 @@ form fieldset > legend.form-label {
 }
 
 @media (max-width: 767.98px) {
+	.transcription-page {
+		padding: 1rem !important;
+
+		.list-header {
+			align-items: flex-start !important;
+		}
+
+		.page-description {
+			max-width: 100%;
+		}
+
+		.wizard-step {
+			min-width: 100% !important;
+		}
+	}
+
 	.wizard-steps {
 		justify-content: flex-start;
 	}
 
 	.wizard-step-end {
 		margin-left: 0;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+	.transcription-page {
+		padding: 1.5rem !important;
+
+		.list-header {
+			align-items: flex-start !important;
+		}
+
+		.page-description {
+			max-width: 100%;
+		}
 	}
 }

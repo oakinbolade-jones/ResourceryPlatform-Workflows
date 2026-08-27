@@ -1,67 +1,62 @@
 <div class="home-bg">
   <div class="home-container">
-    <div class="row home-row container">
-      <div>
-        <div>
-          <div class="text-center mb-5 mt-3 px-3">
-            <h1 class="home-header-title mb-3">
-              {{ 'Workflow::WelcomeToResourcery' | abpLocalization }}
-            </h1>
-            <p
-              class="home-subtitle-text text-center text-wrap mx-auto fs-5 fw-semibold"
-              style="width: 640px"
-            >
-              {{ 'Workflow::WelcomeToResourceryDescription' | abpLocalization }}
-            </p>
-            <!-- <span class="text-sm home-subtitle-text"> {{ 'Workflow::ArtificialIntelligence' | abpLocalization }} &middot; {{ 'Workflow::IntegratedWorkflows' | abpLocalization }} &middot; {{ 'Workflow::ProcessAutomation' | abpLocalization }} &middot; {{ 'Workflow::DigitalPlatforms' | abpLocalization }}</span> -->
+    <div class="container home-row">
+      <div class="home-content mx-auto">
+        <div class="text-center mb-5 mt-3 px-3 px-md-0">
+          <h1 class="home-header-title mb-3">
+            {{ 'Workflow::WelcomeToResourcery' | abpLocalization }}
+          </h1>
+          <p class="home-subtitle-text text-center text-wrap mx-auto fs-5 fw-semibold">
+            {{ 'Workflow::WelcomeToResourceryDescription' | abpLocalization }}
+          </p>
+          <!-- <span class="text-sm home-subtitle-text"> {{ 'Workflow::ArtificialIntelligence' | abpLocalization }} &middot; {{ 'Workflow::IntegratedWorkflows' | abpLocalization }} &middot; {{ 'Workflow::ProcessAutomation' | abpLocalization }} &middot; {{ 'Workflow::DigitalPlatforms' | abpLocalization }}</span> -->
           </div>
 
-          <div class="home-spacer" aria-hidden="true"></div>
+        <div class="home-spacer" aria-hidden="true"></div>
 
-          <!-- Cards Section -->
-          <div class="row g-4 justify-content-center mt-5 mb-5">
-            <div class="col-lg-4 col-md-5">
-              <a href="/request" (click)="navigateToDashboard()" class="text-decoration-none">
-                <div class="card h-100 home-card">
-                  <div class="card-body p-4">
-                    <h4 class="card-title mb-3 fs-4 fw-bold">
-                      {{ 'Workflow::ServiceRequest' | abpLocalization }}
-                    </h4>
-                    <p class="card-text mb-4 fs-5 fw-semibold">
-                      {{ 'Workflow::ServiceRequestDescription' | abpLocalization }}
-                    </p>
-                  </div>
+        <!-- Cards Section -->
+        <div class="row g-4 justify-content-center mt-4 mt-md-5 mb-5">
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/request" (click)="navigateToDashboard()" class="text-decoration-none">
+              <div class="card h-100 home-card">
+                <div class="card-body p-4">
+                  <h4 class="card-title mb-3 fs-4 fw-bold">
+                    {{ 'Workflow::ServiceRequest' | abpLocalization }}
+                  </h4>
+                  <p class="card-text mb-4 fs-5 fw-semibold">
+                    {{ 'Workflow::ServiceRequestDescription' | abpLocalization }}
+                  </p>
                 </div>
-              </a>
-            </div>
-            <div class="col-lg-4 col-md-5">
-              <a href="/directorate" class="text-decoration-none">
-                <div class="card h-100 home-card">
-                  <div class="card-body p-4">
-                    <h4 class="card-title mb-3 fs-4 fw-bold">
-                      {{ 'Workflow::ServiceManagement' | abpLocalization }}
-                    </h4>
-                    <p class="card-text mb-4 fs-5 fw-semibold">
-                      {{ 'Workflow::ServiceManagementDescription' | abpLocalization }}
-                    </p>
-                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/directorate" class="text-decoration-none">
+              <div class="card h-100 home-card">
+                <div class="card-body p-4">
+                  <h4 class="card-title mb-3 fs-4 fw-bold">
+                    {{ 'Workflow::ServiceManagement' | abpLocalization }}
+                  </h4>
+                  <p class="card-text mb-4 fs-5 fw-semibold">
+                    {{ 'Workflow::ServiceManagementDescription' | abpLocalization }}
+                  </p>
                 </div>
-              </a>
-            </div>
-            <div class="col-lg-4 col-md-5">
-              <a href="/transcribe" class="text-decoration-none">
-                <div class="card h-100 home-card">
-                  <div class="card-body p-4">
-                    <h4 class="card-title mb-3 fs-4 fw-bold">
-                      {{ 'Workflow::ECOWASS2Title' | abpLocalization }}
-                    </h4>
-                    <p class="card-text mb-4 fs-5 fw-semibold">
-                      {{ 'Workflow::ECOWASS2Description' | abpLocalization }}
-                    </p>
-                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="/transcribe" class="text-decoration-none">
+              <div class="card h-100 home-card">
+                <div class="card-body p-4">
+                  <h4 class="card-title mb-3 fs-4 fw-bold">
+                    {{ 'Workflow::ECOWASS2Title' | abpLocalization }}
+                  </h4>
+                  <p class="card-text mb-4 fs-5 fw-semibold">
+                    {{ 'Workflow::ECOWASS2Description' | abpLocalization }}
+                  </p>
                 </div>
-              </a>
-            </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
