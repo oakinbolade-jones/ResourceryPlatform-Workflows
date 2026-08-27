@@ -1,0 +1,127 @@
+<div class="account-section-page">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h4 class="fw-bold mb-0">{{ 'Workflow::Account:SettingsTitle' | abpLocalization }}</h4>
+    <button type="button" class="btn btn-success" (click)="loadAll()">
+      {{ 'Workflow::Account:Reload' | abpLocalization }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-light border border-success mb-3">
+    {{ 'Workflow::Loading' | abpLocalization }}
+  </div>
+
+  <div class="row g-3">
+  <div class="col-12 col-xl-6">
+    <div class="card border-success">
+      <div class="card-header bg-success text-white fw-semibold">
+        {{ 'Workflow::Account:TimeZone' | abpLocalization }}
+      </div>
+      <div class="card-body">
+        <form [formGroup]="timeZoneForm" (ngSubmit)="saveTimeZone()" novalidate>
+          <div class="mb-3">
+            <label class="form-label">{{ 'Workflow::Account:TimeZone' | abpLocalization }}</label>
+            <select class="form-select border border-success" formControlName="timeZone">
+              <option value="">{{ 'Workflow::Account:SelectTimeZone' | abpLocalization }}</option>
+              <option *ngFor="let tz of timezones" [value]="tz.value">{{ tz.name }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success" [disabled]="savingTimeZone">
+            {{ 'Workflow::Account:SaveTimeZone' | abpLocalization }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-xl-6">
+    <div class="card border-success">
+      <div class="card-header bg-success text-white fw-semibold">
+        {{ 'Workflow::Account:EmailSettings' | abpLocalization }}
+      </div>
+      <div class="card-body">
+        <form [formGroup]="emailSettingsForm" (ngSubmit)="saveEmailSettings()" novalidate>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:SmtpHost' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="smtpHost" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:SmtpPort' | abpLocalization }}</label>
+              <input type="number" class="form-control border border-success" formControlName="smtpPort" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:SmtpUserName' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="smtpUserName" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:SmtpPassword' | abpLocalization }}</label>
+              <input type="password" class="form-control border border-success" formControlName="smtpPassword" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:DefaultFromAddress' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="defaultFromAddress" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">{{ 'Workflow::Account:DefaultFromDisplayName' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="defaultFromDisplayName" />
+            </div>
+            <div class="col-12">
+              <div class="form-check mb-2">
+                <input id="smtpSsl" class="form-check-input" type="checkbox" formControlName="smtpEnableSsl" />
+                <label class="form-check-label" for="smtpSsl">{{ 'Workflow::Account:SmtpEnableSsl' | abpLocalization }}</label>
+              </div>
+              <div class="form-check">
+                <input
+                  id="smtpDefaultCred"
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="smtpUseDefaultCredentials"
+                />
+                <label class="form-check-label" for="smtpDefaultCred">{{ 'Workflow::Account:SmtpUseDefaultCredentials' | abpLocalization }}</label>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success mt-3" [disabled]="savingEmail">
+            {{ 'Workflow::Account:SaveEmailSettings' | abpLocalization }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card border-success">
+      <div class="card-header bg-success text-white fw-semibold">
+        {{ 'Workflow::Account:TestEmail' | abpLocalization }}
+      </div>
+      <div class="card-body">
+        <form [formGroup]="testEmailForm" (ngSubmit)="sendTestEmail()" novalidate>
+          <div class="row g-3">
+            <div class="col-12 col-md-4">
+              <label class="form-label">{{ 'Workflow::Account:SenderEmail' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="senderEmailAddress" />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label">{{ 'Workflow::Account:TargetEmail' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="targetEmailAddress" />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label">{{ 'Workflow::Account:Subject' | abpLocalization }}</label>
+              <input class="form-control border border-success" formControlName="subject" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">{{ 'Workflow::Account:Body' | abpLocalization }}</label>
+              <textarea class="form-control border border-success" rows="3" formControlName="body"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success mt-3" [disabled]="sendingTest">
+            {{ 'Workflow::Account:SendTestEmail' | abpLocalization }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

@@ -246,6 +246,10 @@ abp-layout-application>div.container {
   min-height: 6rem !important;
 }
 
+#main-navbar-collapse {
+  background: #ffffff !important;
+}
+
 body:not(.home-page) abp-layout-header,
 body:not(.home-page) .abp-header,
 body:not(.home-page) .abp-navbar,
@@ -337,6 +341,39 @@ app-request {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+
+app-account {
+  background-color: var(--oc-gray-3);
+  display: block;
+  padding: 50px;
+  min-height: 100vh;
+  background-image: url('assets/images/bacground/bg-contact-center.png');
+  background-size: cover;
+  background-position: right;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+app-account .container {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+app-account-settings .account-section-page,
+app-account-tenants .account-section-page {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--bs-success);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  app-account {
+    padding: 20px;
+  }
+}
+
 app-transcribe , app-view-transcription, app-list-transcription {
   background-color: var(--oc-gray-3);
   display: block;

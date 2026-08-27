@@ -38,6 +38,14 @@ html, body {
     --rp-account-custom-col-width: 100%;
 }
 
+@media (max-width: 1199.98px) {
+    body .abp-account-layout .eco-desktop,
+    body .account-layout .eco-desktop,
+    .eco-desktop {
+        display: none !important;
+    }
+}
+
 /*
   Configurable replacement for Bootstrap's .col-md-8 on account pages.
   Change --rp-account-col-md-8-width in :root to any value (e.g. 75%, 80%, 900px).

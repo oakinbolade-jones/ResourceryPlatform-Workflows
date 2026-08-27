@@ -1,0 +1,105 @@
+<div class="account-section-page">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h4 class="fw-bold mb-0">{{ 'Workflow::Account:TenantsTitle' | abpLocalization }}</h4>
+    <button type="button" class="btn btn-success" (click)="openCreateModal()">
+      {{ 'Workflow::Account:NewTenant' | abpLocalization }}
+    </button>
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-12 col-md-6">
+      <input
+        class="form-control border border-success"
+        [(ngModel)]="search"
+        [ngModelOptions]="{ standalone: true }"
+        [placeholder]="'Workflow::Account:SearchTenants' | abpLocalization"
+      />
+    </div>
+    <div class="col-12 col-md-auto">
+      <button type="button" class="btn btn-success w-100" (click)="applyFilter()">
+        {{ 'Workflow::Account:Search' | abpLocalization }}
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>{{ 'Workflow::Account:TenantName' | abpLocalization }}</th>
+          <th>{{ 'Workflow::Actions' | abpLocalization }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td colspan="2">{{ 'Workflow::Loading' | abpLocalization }}</td>
+        </tr>
+        <tr *ngFor="let tenant of tenants">
+          <td>{{ tenant.name }}</td>
+          <td>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-sm btn-success" ngbDropdownToggle>
+                {{ 'Workflow::Actions' | abpLocalization }}
+              </button>
+              <div ngbDropdownMenu>
+                <button ngbDropdownItem type="button" (click)="openEditModal(tenant)">
+                  {{ 'Workflow::Edit' | abpLocalization }}
+                </button>
+                <button ngbDropdownItem type="button" (click)="deleteTenant(tenant)">
+                  {{ 'Workflow::Delete' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && !tenants.length">
+          <td colspan="2">{{ 'Workflow::Account:NoTenants' | abpLocalization }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="modalVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{
+            isEditMode
+              ? ('Workflow::Account:EditTenant' | abpLocalization)
+              : ('Workflow::Account:NewTenant' | abpLocalization)
+          }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <form [formGroup]="tenantForm" (ngSubmit)="save()" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">{{ 'Workflow::Account:TenantName' | abpLocalization }}</label>
+            <input class="form-control" formControlName="name" />
+          </div>
+          <div class="mb-3" *ngIf="!isEditMode">
+            <label class="form-label">{{ 'Workflow::Account:AdminEmail' | abpLocalization }}</label>
+            <input type="email" class="form-control" formControlName="adminEmail" />
+          </div>
+          <div class="mb-3" *ngIf="!isEditMode">
+            <label class="form-label">{{ 'Workflow::Account:AdminPassword' | abpLocalization }}</label>
+            <input type="password" class="form-control" formControlName="adminPassword" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ 'Workflow::Account:ConnectionString' | abpLocalization }}</label>
+            <input class="form-control" formControlName="connectionString" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="closeModal()">
+            {{ 'Workflow::Cancel' | abpLocalization }}
+          </button>
+          <button type="submit" class="btn btn-success">{{ 'Workflow::Save' | abpLocalization }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="modalVisible" class="modal-backdrop fade show"></div>

@@ -169,6 +169,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.HttpApi", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.HttpApi\ResourceryPlatformWorkflow.Workflow.HttpApi.csproj", "{8574274C-18E1-4FDC-97F7-47C6634A76FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E-EAC7-C090-1BA3-A61EC2A24D84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfilePersistenceProbe", "tools\ProfilePersistenceProbe\ProfilePersistenceProbe.csproj", "{4F4B0A93-C956-471B-B02A-6EED18E2CD36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -911,6 +915,18 @@ Global
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x64.Build.0 = Release|Any CPU
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x86.Build.0 = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x64.Build.0 = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x64.ActiveCfg = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x64.Build.0 = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -995,6 +1011,7 @@ Global
 		{FD984C26-023D-4A3E-9624-39FD69869D33} = {1A869FA9-F8FF-E58C-EBA5-3C1869102738}
 		{9F4A9886-CFB5-4A3D-8DC3-D68AC16B9B80} = {FD984C26-023D-4A3E-9624-39FD69869D33}
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE} = {1F166FE2-DFBD-EDBF-B35F-67B829196365}
+		{4F4B0A93-C956-471B-B02A-6EED18E2CD36} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B6BA14C-DD65-4EE6-9415-2CCC1EBDB508}

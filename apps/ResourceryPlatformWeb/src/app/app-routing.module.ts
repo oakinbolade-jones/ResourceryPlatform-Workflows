@@ -18,6 +18,10 @@ const routes: Routes = [
   { path: 'documentation', loadChildren: () => import('./documentation/documentation.module').then(m => m.DocumentationModule) },
   { path: 'webcast', loadChildren: () => import('./webcast/webcast.module').then(m => m.WebcastModule) },
   { path: 'support', loadChildren: () => import('./support/support.module').then(m => m.SupportModule) },
+  {
+    path: 'account-module',
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
+  },
 
   {
     path: 'account/manage',
@@ -31,17 +35,38 @@ const routes: Routes = [
   },
   {
     path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/roles',
+  },
+  {
+    path: 'identity/roles',
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/roles',
+  },
+  {
+    path: 'identity/users',
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/users',
   },
   {
     path: 'tenant-management',
-    loadChildren: () =>
-      import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
+    pathMatch: 'full',
+    redirectTo: 'account-module/tenant-management/tenants',
+  },
+  {
+    path: 'tenant-management/tenants',
+    pathMatch: 'full',
+    redirectTo: 'account-module/tenant-management/tenants',
   },
   {
     path: 'setting-management',
-    loadChildren: () =>
-      import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
+    pathMatch: 'full',
+    redirectTo: 'account-module/setting-management/settings',
+  },
+  {
+    path: 'feature-management',
+    pathMatch: 'full',
+    redirectTo: 'account-module/feature-management/features',
   },
   { path: 'directorate', loadChildren: () => import('./directorate/directorate.module').then(m => m.DirectorateModule) },
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },

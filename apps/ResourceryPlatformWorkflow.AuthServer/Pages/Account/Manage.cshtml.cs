@@ -1,16 +1,21 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Volo.Abp.Identity;
+using Volo.Abp.Uow;
 using Volo.Abp.Users;
 
 namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
 {
     [Authorize]
-    public class ManageModel : PageModel
+    [UnitOfWork]
+    public class ManageModel : AbpPageModel
     {
         [BindProperty]
         public InputModel Input { get; set; } = new InputModel();
@@ -30,27 +35,39 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
         public string StatusMessage { get; set; }
 
         private readonly IdentityUserManager _userManager;
+        private readonly IIdentityUserRepository _userRepository;
         private readonly ICurrentUser _currentUser;
+        private readonly ILogger<ManageModel> _logger;
 
-        public ManageModel(IdentityUserManager userManager, ICurrentUser currentUser)
+        public ManageModel(
+            IdentityUserManager userManager,
+            IIdentityUserRepository userRepository,
+            ICurrentUser currentUser,
+            ILogger<ManageModel> logger)
         {
             _userManager = userManager;
+            _userRepository = userRepository;
             _currentUser = currentUser;
+            _logger = logger;
         }
 
         public class InputModel
         {
             [Required]
+            [StringLength(64)]
             public string FirstName { get; set; } = string.Empty;
 
             [Required]
+            [StringLength(64)]
             public string LastName { get; set; } = string.Empty;
 
             [Required]
             [EmailAddress]
+            [StringLength(256)]
             public string Email { get; set; } = string.Empty;
 
             [Phone]
+            [StringLength(16)]
             public string PhoneNumber { get; set; } = string.Empty;
         }
 
@@ -73,8 +90,8 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
 
         public async Task<IActionResult> OnGetAsync()
         {
-            SafeReturnUrl = NormalizeReturnUrl(ReturnUrl);
-            Tab = NormalizeTab(Tab);
+            SafeReturnUrl = NormalizeLocalReturnUrl(ReturnUrl);
+            Tab = NormalizeLocalTab(Tab);
 
             var user = await GetCurrentUserAsync();
             if (user == null)
@@ -95,11 +112,21 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            SafeReturnUrl = NormalizeReturnUrl(ReturnUrl);
+            SafeReturnUrl = NormalizeLocalReturnUrl(ReturnUrl);
             Tab = "profile";
 
-            if (!ModelState.IsValid)
+            ModelState.Clear();
+            if (!TryValidateModel(Input, nameof(Input)))
             {
+                var modelStateErrors = string.Join(" | ",
+                    ModelState
+                        .Where(x => x.Value?.Errors?.Count > 0)
+                        .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}"));
+
+                _logger.LogWarning(
+                    "Manage profile post failed model validation for user {UserId}. Errors: {Errors}",
+                    _currentUser.Id,
+                    modelStateErrors);
                 return Page();
             }
 
@@ -109,50 +136,62 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
                 return Challenge();
             }
 
-            var hasProfileNameChanges = false;
-            if (!string.Equals(user.Name ?? string.Empty, Input.FirstName ?? string.Empty, StringComparison.Ordinal))
+            var firstName = (Input.FirstName ?? string.Empty).Trim();
+            var lastName = (Input.LastName ?? string.Empty).Trim();
+            var email = (Input.Email ?? string.Empty).Trim();
+            var phoneNumber = string.IsNullOrWhiteSpace(Input.PhoneNumber)
+                ? null
+                : Input.PhoneNumber.Trim();
+
+            var hasAnyChanges = false;
+
+            if (!string.Equals(user.Name ?? string.Empty, firstName, StringComparison.Ordinal))
             {
-                user.Name = Input.FirstName;
-                hasProfileNameChanges = true;
+                user.Name = firstName;
+                hasAnyChanges = true;
             }
 
-            if (!string.Equals(user.Surname ?? string.Empty, Input.LastName ?? string.Empty, StringComparison.Ordinal))
+            if (!string.Equals(user.Surname ?? string.Empty, lastName, StringComparison.Ordinal))
             {
-                user.Surname = Input.LastName;
-                hasProfileNameChanges = true;
+                user.Surname = lastName;
+                hasAnyChanges = true;
             }
 
-            if (!string.Equals(user.Email, Input.Email, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(user.Email, email, StringComparison.OrdinalIgnoreCase))
             {
-                var emailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                var emailResult = await _userManager.SetEmailAsync(user, email);
                 if (!emailResult.Succeeded)
                 {
+                    _logger.LogWarning("SetEmailAsync failed for user {UserId}. Errors: {Errors}",
+                        _currentUser.Id,
+                        string.Join("; ", emailResult.Errors));
                     foreach (var error in emailResult.Errors)
                         ModelState.AddModelError(string.Empty, error.Description);
                     return Page();
                 }
+
+                hasAnyChanges = true;
             }
 
-            if (!string.Equals(user.PhoneNumber ?? string.Empty, Input.PhoneNumber ?? string.Empty, StringComparison.Ordinal))
+            if (!string.Equals(user.PhoneNumber ?? string.Empty, phoneNumber ?? string.Empty, StringComparison.Ordinal))
             {
-                var phoneResult = await _userManager.SetPhoneNumberAsync(user, string.IsNullOrWhiteSpace(Input.PhoneNumber) ? null : Input.PhoneNumber);
+                var phoneResult = await _userManager.SetPhoneNumberAsync(user, phoneNumber);
                 if (!phoneResult.Succeeded)
                 {
+                    _logger.LogWarning("SetPhoneNumberAsync failed for user {UserId}. Errors: {Errors}",
+                        _currentUser.Id,
+                        string.Join("; ", phoneResult.Errors));
                     foreach (var error in phoneResult.Errors)
                         ModelState.AddModelError(string.Empty, error.Description);
                     return Page();
                 }
+
+                hasAnyChanges = true;
             }
 
-            if (hasProfileNameChanges)
+            if (hasAnyChanges)
             {
-                var updateResult = await _userManager.UpdateAsync(user);
-                if (!updateResult.Succeeded)
-                {
-                    foreach (var error in updateResult.Errors)
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    return Page();
-                }
+                await _userRepository.UpdateAsync(user, autoSave: true);
             }
 
             StatusMessage = "Profile updated successfully.";
@@ -161,10 +200,11 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
 
         public async Task<IActionResult> OnPostChangePasswordAsync()
         {
-            SafeReturnUrl = NormalizeReturnUrl(ReturnUrl);
+            SafeReturnUrl = NormalizeLocalReturnUrl(ReturnUrl);
             Tab = "password";
 
-            if (!ModelState.IsValid)
+            ModelState.Clear();
+            if (!TryValidateModel(ChangePasswordInput, nameof(ChangePasswordInput)))
             {
                 return Page();
             }
@@ -205,7 +245,7 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
             return await _userManager.GetByIdAsync(_currentUser.Id.Value);
         }
 
-        private static string NormalizeReturnUrl(string returnUrl)
+        private static string NormalizeLocalReturnUrl(string returnUrl)
         {
             if (string.IsNullOrWhiteSpace(returnUrl))
             {
@@ -227,11 +267,12 @@ namespace ResourceryPlatformWorkflow.AuthServer.Pages.Account
             return "/";
         }
 
-        private static string NormalizeTab(string tab)
+        private static string NormalizeLocalTab(string tab)
         {
             return string.Equals(tab, "password", StringComparison.OrdinalIgnoreCase)
                 ? "password"
                 : "profile";
         }
+
     }
 }

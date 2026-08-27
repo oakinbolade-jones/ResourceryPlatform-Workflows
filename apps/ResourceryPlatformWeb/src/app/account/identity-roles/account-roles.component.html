@@ -1,0 +1,114 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+  <h4 class="fw-bold mb-0">{{ 'Workflow::Account:RolesTitle' | abpLocalization }}</h4>
+  <button type="button" class="btn btn-success" (click)="openCreateModal()">
+    {{ 'Workflow::Account:NewRole' | abpLocalization }}
+  </button>
+</div>
+
+<div class="row g-2 mb-3">
+  <div class="col-12 col-md-6">
+    <input
+      class="form-control border border-success"
+      [(ngModel)]="search"
+      [ngModelOptions]="{ standalone: true }"
+      [placeholder]="'Workflow::Account:SearchRoles' | abpLocalization"
+    />
+  </div>
+  <div class="col-12 col-md-auto">
+    <button type="button" class="btn btn-success w-100" (click)="applyFilter()">
+      {{ 'Workflow::Account:Search' | abpLocalization }}
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th>{{ 'Workflow::Account:RoleName' | abpLocalization }}</th>
+        <th>{{ 'Workflow::Account:IsDefault' | abpLocalization }}</th>
+        <th>{{ 'Workflow::Account:IsPublic' | abpLocalization }}</th>
+        <th>{{ 'Workflow::Actions' | abpLocalization }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="4">{{ 'Workflow::Loading' | abpLocalization }}</td>
+      </tr>
+      <tr *ngFor="let role of roles">
+        <td>{{ role.name }}</td>
+        <td>{{ role.isDefault ? ('Workflow::Yes' | abpLocalization) : ('Workflow::No' | abpLocalization) }}</td>
+        <td>{{ role.isPublic ? ('Workflow::Yes' | abpLocalization) : ('Workflow::No' | abpLocalization) }}</td>
+        <td>
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-sm btn-success" ngbDropdownToggle>
+              {{ 'Workflow::Actions' | abpLocalization }}
+            </button>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem type="button" (click)="openEditModal(role)">
+                {{ 'Workflow::Edit' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem type="button" (click)="openPermissionsModal(role)">
+                {{ 'Workflow::Account:Permissions' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem type="button" (click)="deleteRole(role)">
+                {{ 'Workflow::Delete' | abpLocalization }}
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && !roles.length">
+        <td colspan="4">{{ 'Workflow::Account:NoRoles' | abpLocalization }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="modalVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{
+            isEditMode
+              ? ('Workflow::Account:EditRole' | abpLocalization)
+              : ('Workflow::Account:NewRole' | abpLocalization)
+          }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <form [formGroup]="roleForm" (ngSubmit)="save()" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">{{ 'Workflow::Account:RoleName' | abpLocalization }}</label>
+            <input class="form-control" formControlName="name" />
+          </div>
+          <div class="form-check mb-2">
+            <input id="roleDefault" class="form-check-input" type="checkbox" formControlName="isDefault" />
+            <label class="form-check-label" for="roleDefault">{{ 'Workflow::Account:IsDefault' | abpLocalization }}</label>
+          </div>
+          <div class="form-check">
+            <input id="rolePublic" class="form-check-input" type="checkbox" formControlName="isPublic" />
+            <label class="form-check-label" for="rolePublic">{{ 'Workflow::Account:IsPublic' | abpLocalization }}</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="closeModal()">
+            {{ 'Workflow::Cancel' | abpLocalization }}
+          </button>
+          <button type="submit" class="btn btn-success">{{ 'Workflow::Save' | abpLocalization }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="modalVisible" class="modal-backdrop fade show"></div>
+
+<abp-permission-management
+  [providerName]="'R'"
+  [providerKey]="permissionProviderKey"
+  [entityDisplayName]="permissionEntityDisplayName"
+  [(visible)]="permissionModalVisible"
+  [hideBadges]="true"
+></abp-permission-management>
