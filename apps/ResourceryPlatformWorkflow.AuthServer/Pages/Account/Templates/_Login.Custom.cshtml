@@ -133,8 +133,12 @@
                                                    maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)"
                                                    asp-for="LoginInput.Password"
                                                    placeholder="@passwordPlaceholderText" />
-                                            <button class="btn btn-outline-success rounded-1" type="button" id="PasswordVisibilityButton">
-                                                <i class="fa fa-eye-slash text-dark" aria-hidden="true"></i>
+                                            <button class="btn btn-outline-success rounded-1"
+                                                    type="button"
+                                                    id="PasswordVisibilityButton"
+                                                    aria-label="Show password"
+                                                    title="Show password">
+                                                <i class="fa fa-eye text-dark" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
@@ -174,3 +178,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('LoginInput_Password');
+        const visibilityButton = document.getElementById('PasswordVisibilityButton');
+
+        if (!passwordInput || !visibilityButton) {
+            return;
+        }
+
+        const visibilityIcon = visibilityButton.querySelector('i');
+
+        visibilityButton.addEventListener('click', function () {
+            const isPasswordHidden = passwordInput.type === 'password';
+            passwordInput.type = isPasswordHidden ? 'text' : 'password';
+
+            if (visibilityIcon) {
+                visibilityIcon.classList.toggle('fa-eye', !isPasswordHidden);
+                visibilityIcon.classList.toggle('fa-eye-slash', isPasswordHidden);
+            }
+
+            const isShowingPassword = !isPasswordHidden;
+            visibilityButton.setAttribute('aria-label', isShowingPassword ? 'Hide password' : 'Show password');
+            visibilityButton.setAttribute('title', isShowingPassword ? 'Hide password' : 'Show password');
+            visibilityButton.setAttribute('aria-pressed', String(isShowingPassword));
+        });
+    });
+</script>

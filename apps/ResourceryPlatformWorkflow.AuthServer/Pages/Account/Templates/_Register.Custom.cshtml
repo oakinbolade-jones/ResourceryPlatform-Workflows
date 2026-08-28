@@ -105,11 +105,19 @@
                                 {
                                     <div class="mb-3">
                                         <label asp-for="Input.Password" class="form-label">@LW["Account:Password"]</label>
-                                        <input asp-for="Input.Password"
-                                               type="password"
-                                               class="form-control border border-success rounded-0 p-2"
-                                               autocomplete="new-password"
-                                               placeholder="@LW["Account:EnterPassword"]" />
+                                        <div class="input-group">
+                                            <input asp-for="Input.Password"
+                                                   type="password"
+                                                   class="form-control border border-success rounded-0 p-2"
+                                                   autocomplete="new-password"
+                                                   placeholder="@LW["Account:EnterPassword"]" />
+                                            <button class="btn btn-outline-success rounded-1 password-visibility-button"
+                                                    type="button"
+                                                    aria-label="Show password"
+                                                    title="Show password">
+                                                <i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                 }
@@ -130,3 +138,27 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.password-visibility-button').forEach(function (button) {
+            const input = button.closest('.input-group')?.querySelector('input');
+            const icon = button.querySelector('i');
+
+            if (!input || !icon) {
+                return;
+            }
+
+            button.addEventListener('click', function () {
+                const isPasswordHidden = input.type === 'password';
+                input.type = isPasswordHidden ? 'text' : 'password';
+                const shouldShowPassword = !isPasswordHidden;
+                icon.classList.toggle('fa-eye', !shouldShowPassword);
+                icon.classList.toggle('fa-eye-slash', shouldShowPassword);
+                button.setAttribute('aria-label', shouldShowPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('title', shouldShowPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('aria-pressed', String(shouldShowPassword));
+            });
+        });
+    });
+</script>

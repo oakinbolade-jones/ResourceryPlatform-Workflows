@@ -148,28 +148,55 @@
 
                                         <div class="mb-3">
                                             <label asp-for="ChangePasswordInput.CurrentPassword" class="form-label">@LW["Account:CurrentPassword"]</label>
-                                            <input asp-for="ChangePasswordInput.CurrentPassword"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="current-password"
-                                                   placeholder="@LW["Account:EnterCurrentPassword"]" />
+                                            <div class="input-group">
+                                                <input asp-for="ChangePasswordInput.CurrentPassword"
+                                                       type="password"
+                                                       class="form-control border border-success rounded-0 p-2"
+                                                       autocomplete="current-password"
+                                                       placeholder="@LW["Account:EnterCurrentPassword"]" />
+                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
+                                                        type="button"
+                                                        aria-label="Show password"
+                                                        title="Show password">
+                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
                                             <span asp-validation-for="ChangePasswordInput.CurrentPassword" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-3">
                                             <label asp-for="ChangePasswordInput.NewPassword" class="form-label">@LW["Account:NewPassword"]</label>
-                                            <input asp-for="ChangePasswordInput.NewPassword"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="new-password"
-                                                   placeholder="@LW["Account:EnterNewPassword"]" />
+                                            <div class="input-group">
+                                                <input asp-for="ChangePasswordInput.NewPassword"
+                                                       type="password"
+                                                       class="form-control border border-success rounded-0 p-2"
+                                                       autocomplete="new-password"
+                                                       placeholder="@LW["Account:EnterNewPassword"]" />
+                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
+                                                        type="button"
+                                                        aria-label="Show password"
+                                                        title="Show password">
+                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
                                             <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-3">
                                             <label asp-for="ChangePasswordInput.ConfirmNewPassword" class="form-label">@LW["Account:ConfirmPassword"]</label>
-                                            <input asp-for="ChangePasswordInput.ConfirmNewPassword"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="new-password"
-                                                   placeholder="@LW["Account:ConfirmPassword"]" />
+                                            <div class="input-group">
+                                                <input asp-for="ChangePasswordInput.ConfirmNewPassword"
+                                                       type="password"
+                                                       class="form-control border border-success rounded-0 p-2"
+                                                       autocomplete="new-password"
+                                                       placeholder="@LW["Account:ConfirmPassword"]" />
+                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
+                                                        type="button"
+                                                        aria-label="Show password"
+                                                        title="Show password">
+                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
                                             <span asp-validation-for="ChangePasswordInput.ConfirmNewPassword" class="text-danger"></span>
                                         </div>
 
@@ -190,3 +217,38 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.password-visibility-button').forEach(function (button) {
+            const input = button.closest('.input-group')?.querySelector('input');
+            const icon = button.querySelector('i');
+
+            if (!input || !icon) {
+                return;
+            }
+
+            const updateVisibilityState = function () {
+                const isPasswordHidden = input.type === 'password';
+                input.type = isPasswordHidden ? 'password' : 'text';
+                icon.classList.toggle('fa-eye', !isPasswordHidden);
+                icon.classList.toggle('fa-eye-slash', isPasswordHidden);
+                button.setAttribute('aria-label', isPasswordHidden ? 'Show password' : 'Hide password');
+                button.setAttribute('title', isPasswordHidden ? 'Show password' : 'Hide password');
+                button.setAttribute('aria-pressed', String(!isPasswordHidden));
+            };
+
+            button.addEventListener('click', function () {
+                const isPasswordHidden = input.type === 'password';
+                input.type = isPasswordHidden ? 'text' : 'password';
+                const shouldShowPassword = !isPasswordHidden;
+                icon.classList.toggle('fa-eye', !shouldShowPassword);
+                icon.classList.toggle('fa-eye-slash', shouldShowPassword);
+                button.setAttribute('aria-label', shouldShowPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('title', shouldShowPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('aria-pressed', String(shouldShowPassword));
+            });
+
+            updateVisibilityState();
+        });
+    });
+</script>
