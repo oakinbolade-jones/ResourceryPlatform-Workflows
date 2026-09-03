@@ -4,138 +4,119 @@
 @inject IHtmlLocalizer<AccountResource> L
 @inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
 
-<div class="lpx-content-container">
-    <div class="lpx-content">
-        <div class="container-fluid mt-3 mb-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-11 col-lg-10 col-xl-8">
-                    <div class="row g-0 shadow-sm border border-success rounded-1 overflow-hidden w-100 justify-content-center">
-                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-4 p-lg-5">
-                            <h2 class="h3 mb-3 fs-2 fw-normal title">@L["Register"]</h2>
-                            <p class="fw-normal fs-6 text-body-secondary">
-                                @L["AlreadyRegistered"]
-                                <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })"
-                                   class="text-decoration-none text-emphasis">@L["Login"]</a>
-                            </p>
+<div class="rp-smartserve-page">
+    <div class="rp-smartserve-card">
+        <aside class="rp-smartserve-side">
+            <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
+                <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+         </div>
 
-                            <p class="eco-desktop d-none d-xl-block mt-auto mb-0 small opacity-75">
-                                <hr />
-                                @LW["ECOWASCopyright"] <br />
-                                @LW["ECOWAS"]
-                            </p>
-                        </div>
+            <h1 class="rp-smartserve-title">@L["Register"]</h1>
 
-                        <div class="col-12 col-md-7 bg-white p-4 p-lg-5">
-                            <div class="mb-4">
-                                @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
-                                {
-                                    <div class="mt-4">
-                                        <div class="w-100 d-flex justify-content-start">
-                                            <form asp-page="./Login"
-                                                  asp-page-handler="ExternalLogin"
-                                                  asp-route-returnUrl="@Model.ReturnUrl"
-                                                  asp-route-returnUrlHash="@Model.ReturnUrlHash"
-                                                  method="post"
-                                                  class="d-flex flex-wrap gap-2 p-0">
-                                                @foreach (var provider in Model.VisibleExternalProviders)
-                                                {
-                                                    if (provider.AuthenticationScheme == "Microsoft")
-                                                    {
-                                                        <button type="submit"
-                                                                class="btn btn-outline-success rounded-1 fw-semibold"
-                                                                name="provider"
-                                                                value="@provider.AuthenticationScheme"
-                                                                title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
-                                                            <img src="/images/logo/ecowas-logo.png"
-                                                                 alt="ECOWAS Commission"
-                                                                 class="d-inline-block align-text-center me-2"
-                                                                 style="max-width: 35px;" /> @LW["Account:RegisterWithECOWASMail"]
-                                                        </button>
-                                                    }
-                                                    else
-                                                    {
-                                                        <button type="submit"
-                                                                class="btn btn-outline-secondary rounded-1"
-                                                                name="provider"
-                                                                value="@provider.AuthenticationScheme"
-                                                                title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
-                                                    }
-                                                }
-                                            </form>
+            <p class="rp-smartserve-subtitle">
+                @L["AlreadyRegistered"]
+                <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["Login"]</a>
+            </p>
 
+            <p class="rp-smartserve-footer">
+                @LW["ECOWASCopyright"]<br />
+                @LW["ECOWAS"]
+            </p>
+        </aside>
 
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-
-                            <div class="mb-3">
-                                <p class="fw-semibold fs-4">@LW["ECOWASAccountOR"]</p>
-                                <hr />
-                            </div>
-
-                            <form method="post" class="mt-4">
-                                <abp-validation-summary />
-
-                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
-                                {
-                                    <div class="mb-3">
-                                        <label asp-for="Input.UserName" class="form-label">@LW["Account:Username"]</label>
-                                        <input asp-for="Input.UserName"
-                                               class="form-control border border-success rounded-0 p-2"
-                                               autocomplete="off"
-                                               placeholder="@LW["Account:EnterUsername"]" />
-                                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
-                                    </div>
-                                }
-
-                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
-                                {
-                                    <div class="mb-3">
-                                        <label asp-for="Input.EmailAddress" class="form-label">@LW["Account:Email"]</label>
-                                        <input asp-for="Input.EmailAddress"
-                                               class="form-control border border-success rounded-0 p-2"
-                                               autocomplete="off"
-                                               placeholder="@LW["Account:EnterEmailAddress"]" />
-                                        <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
-                                    </div>
-                                }
-
-                                @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
-                                {
-                                    <div class="mb-3">
-                                        <label asp-for="Input.Password" class="form-label">@LW["Account:Password"]</label>
-                                        <div class="input-group">
-                                            <input asp-for="Input.Password"
-                                                   type="password"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="new-password"
-                                                   placeholder="@LW["Account:EnterPassword"]" />
-                                            <button class="btn btn-outline-success rounded-1 password-visibility-button"
-                                                    type="button"
-                                                    aria-label="Show password"
-                                                    title="Show password">
-                                                <i class="fa fa-eye text-dark" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                    </div>
-                                }
-
-                                @if (Model.EnableLocalRegister || Model.IsExternalLogin)
-                                {
-                                    <div class="d-grid gap-0">
-                                        <abp-button button-type="Primary"
-                                                    type="submit"
-                                                    class="btn-lg mt-4 btn btn-success rounded-0">@L["Register"]</abp-button>
-                                    </div>
-                                }
-                            </form>
-                        </div>
-                    </div>
+        <section class="rp-smartserve-panel">
+            @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
+            {
+                <div class="rp-smartserve-external">
+                    <form asp-page="./Login"
+                          asp-page-handler="ExternalLogin"
+                          asp-route-returnUrl="@Model.ReturnUrl"
+                          asp-route-returnUrlHash="@Model.ReturnUrlHash"
+                          method="post"
+                          class="rp-smartserve-provider-form">
+                        @foreach (var provider in Model.VisibleExternalProviders)
+                        {
+                            if (provider.AuthenticationScheme == "Microsoft")
+                            {
+                                <button type="submit"
+                                        class="btn btn-outline-secondary rp-smartserve-provider-btn"
+                                        name="provider"
+                                        value="@provider.AuthenticationScheme"
+                                        title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
+                                    <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission" />
+                                    @LW["Account:RegisterWithECOWASMail"]
+                                </button>
+                                <div class="rp-smartserve-divider">
+                                    <span>@LW["ECOWASAccountOR"]</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <button type="submit"
+                                        class="btn btn-outline-secondary rp-smartserve-provider-btn"
+                                        name="provider"
+                                        value="@provider.AuthenticationScheme"
+                                        title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
+                            }
+                        }
+                    </form>
                 </div>
-            </div>
-        </div>
+            }
+
+            @if (Model.EnableLocalRegister || Model.IsExternalLogin)
+            {
+                <form method="post" class="rp-smartserve-form">
+                    <abp-validation-summary />
+
+                    <div class="rp-smartserve-field">
+                        <div class="form-floating rp-smartserve-floating-field">
+                            <input asp-for="Input.UserName"
+                                   class="form-control rp-smartserve-input"
+                                   autocomplete="off"
+                                   placeholder="@LW["Account:EnterUsername"]" />
+                            <label asp-for="Input.UserName">@LW["Account:Username"]</label>
+                        </div>
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="rp-smartserve-field">
+                        <div class="form-floating rp-smartserve-floating-field">
+                            <input asp-for="Input.EmailAddress"
+                                   class="form-control rp-smartserve-input"
+                                   autocomplete="off"
+                                   placeholder="@LW["Account:EnterEmailAddress"]" />
+                            <label asp-for="Input.EmailAddress">@LW["Account:Email"]</label>
+                        </div>
+                        <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
+                    </div>
+
+                    @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
+                    {
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input asp-for="Input.Password"
+                                       type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password"
+                                       placeholder="@LW["Account:EnterPassword"]" />
+                                <label asp-for="Input.Password">@LW["Account:Password"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button"
+                                        type="button"
+                                        aria-label="Show password"
+                                        title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div class="rp-smartserve-actions">
+                        <button type="submit" class="btn btn-primary rp-smartserve-submit">@L["Register"]</button>
+                    </div>
+                </form>
+            }
+        </section>
     </div>
 </div>
 

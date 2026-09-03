@@ -11,7 +11,7 @@
 
 
 @{
-    Layout = "_AccountLayout.Custom";
+    Layout = "~/Pages/Account/Templates/_AccountLayout.Custom.cshtml";
     var registerTemplate = AuthUiOptions.Value.Register.TemplatePartial;
     var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Templates/_Register.Custom" : registerTemplate;
 }

@@ -1,0 +1,44 @@
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@inject IHtmlLocalizer<AccountResource> L
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+
+@inject Volo.Abp.Localization.ILanguageProvider LanguageProvider
+
+@{
+    var languages = await LanguageProvider.GetLanguagesAsync();
+    var currentLanguage = CultureInfo.CurrentUICulture.Name;
+    var returnUrl = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
+    var ecowasCopyrightText = LW["ECOWASCopyright"];
+    var ecowasText = LW["ECOWAS"];
+
+}
+
+@if (languages != null && languages.Count > 0)
+{
+    <div class="rp-language-block">
+        <div class="rp-language-inner">
+            <div class="rp-language-label">Language</div>
+            <div class="dropdown rp-language-dropdown">
+                <button class="btn btn-outline-success  btn-sm dropdown-toggle rp-language-button" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    @(languages.FirstOrDefault(x => x.CultureName == currentLanguage)?.DisplayName ?? currentLanguage)
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end rp-language-menu">
+                    @foreach (var language in languages)
+                    {
+                        <li>
+                            <a class="dropdown-item"
+                               href="~/Abp/Languages/Switch?culture=@language.CultureName&uiCulture=@language.UiCultureName&returnUrl=@returnUrl">
+                                @language.DisplayName
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="rp-copyright"> @ecowasCopyrightText </div>
+        </div>
+    </div>
+}

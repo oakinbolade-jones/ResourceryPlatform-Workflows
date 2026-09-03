@@ -1,0 +1,25 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Globalization
+@inject Volo.Abp.Localization.ILanguageProvider LanguageProvider
+
+@{
+	var languages = await LanguageProvider.GetLanguagesAsync();
+	var currentLanguage = CultureInfo.CurrentUICulture.Name;
+	var returnUrl = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
+}
+
+<link rel="stylesheet" href="~/libs/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/styles.css" />
+<link rel="stylesheet" href="~/global-styles.css" />
+<link rel="stylesheet" href="~/libs/fortawesome/fontawesome-free/css/all.css" />
+<script src="~/libs/bootstrap/js/bootstrap.bundle.js"></script>
+<title>Smart Serve Platform - ECOWAS</title>
+@{
+	IgnoreSection("scripts");
+}
+<div class="rp-account-page">
+    <div class="rp-account-block">
+        @RenderBody()
+    </div>
+    @await Html.PartialAsync("/Pages/Account/Templates/_Language.Custom.cshtml")
+</div>

@@ -14,207 +14,183 @@
     var passwordPaneClass = isPasswordTab ? "tab-pane fade show active" : "tab-pane fade";
 }
 
-<div class="lpx-content-container">
-    <div class="lpx-content">
-        <div class="container-fluid mt-3 mb-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-11 col-lg-10 col-xl-8">
-                    <div class="row g-0 shadow-sm border border-success rounded-1 overflow-hidden w-100 justify-content-center">
-                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-4 p-lg-5 left-side">
-                            <h2 class="h3 mb-3 fs-2 fw-bold">@LW["Account:ManageAccount"]</h2>
-                            <p class="fw-normal fs-6 text-body-secondary">@LW["Account:ManageAccountDescription"]</p>
-                            <p class="eco-desktop d-none d-xl-block mt-auto mb-0 small opacity-75">
-                                <hr />
-                                @LW["ECOWASCopyright"] <br />
-                                @LW["ECOWAS"]
-                            </p>
-                        </div>
+<div class="rp-smartserve-page">
+    <div class="rp-smartserve-card">
+        <aside class="rp-smartserve-side">
+            <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
+                <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+            </div>
 
-                        <div class="col-12 col-md-7 bg-white p-4 p-lg-5">
-                            <div class="mb-3">
-                                <a href="@Model.SafeReturnUrl"
-                                   onclick="window.location.href='@Model.SafeReturnUrl'; return false;"
-                                   class="text-success text-decoration-none">
-                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                                    @LW["Account:BackToPreviousPage"]
-                                </a>
-                            </div>
+            <h1 class="rp-smartserve-title">@LW["Account:ManageAccount"]</h1>
 
-                            <style>
-                                .manage-tabs .nav-link {
-                                    color: var(--bs-success);
-                                    background-color: #fff;
-                                    border: 1px solid var(--bs-success);
-                                    border-bottom: 0;
-                                }
+            <p class="rp-smartserve-subtitle">@LW["Account:ManageAccountDescription"]</p>
 
-                                .manage-tabs .nav-link.active,
-                                .manage-tabs .nav-link[aria-selected="true"] {
-                                    color: #fff;
-                                    background-color: var(--bs-success);
-                                    border-color: var(--bs-success);
-                                    font-weight: 600;
-                                }
-                            </style>
+            @* <p class="rp-smartserve-footer">
+                @LW["ECOWASCopyright"]<br />
+                @LW["ECOWAS"]
+            </p> *@
+        </aside>
 
-                            <ul class="nav nav-tabs mb-4 border-success manage-tabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-0 px-4 py-2 @(!isPasswordTab ? "active" : string.Empty)"
-                                            id="profile-tab"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#profile-tab-pane"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="profile-tab-pane"
-                                            aria-selected="@(!isPasswordTab)">
-                                        @LW["Account:AccountInformation"]
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link rounded-0 px-4 py-2 @(isPasswordTab ? "active" : string.Empty)"
-                                            id="password-tab"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#password-tab-pane"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="password-tab-pane"
-                                            aria-selected="@(isPasswordTab)">
-                                        @LW["Account:ResetPassword"]
-                                    </button>
-                                </li>
-                            </ul>
+        <section class="rp-smartserve-panel">
+            <div class="mb-3">
+                <a href="@Model.SafeReturnUrl" onclick="window.location.href='@Model.SafeReturnUrl'; return false;"
+                   class="text-decoration-none" style="color: #1a73e8; font-weight: 600;">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    @LW["Account:BackToPreviousPage"]
+                </a>
+            </div>
 
-                            @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
-                            {
-                                <div class="alert alert-success" role="alert">@Model.StatusMessage</div>
+            <style>
+                            .manage-tabs .nav-link {
+                                color: #1a73e8;
+                                background-color: #fff;
+                                border: 1px solid rgba(26, 115, 232, 0.35);
+                                border-bottom: 0;
+                                border-radius: 10px 10px 0 0;
                             }
 
-                            <div class="tab-content">
-                                <div class="@profilePaneClass" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                                    <form method="post" class="mt-4">
-                                        <input type="hidden" asp-for="ReturnUrl" />
-                                        <input type="hidden" name="Tab" value="profile" />
-                                        <abp-validation-summary />
+                            .manage-tabs .nav-link.active,
+                            .manage-tabs .nav-link[aria-selected="true"] {
+                                color: #fff;
+                                background-color: #1a73e8;
+                                border-color: #1a73e8;
+                                font-weight: 600;
+                            }
+            </style>
 
-                                        <div class="mb-3">
-                                            <label asp-for="Input.FirstName" class="form-label">@LW["Account:FirstName"]</label>
-                                            <input asp-for="Input.FirstName"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="given-name"
-                                                   placeholder="@LW["Account:EnterFirstName"]" />
-                                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                                        </div>
+            <ul class="nav nav-tabs mb-4 manage-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link px-4 py-2 @(!isPasswordTab ? "active" : string.Empty)" id="profile-tab"
+                            data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab"
+                            aria-controls="profile-tab-pane" aria-selected="@(!isPasswordTab)">
+                        @LW["Account:AccountInformation"]
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link px-4 py-2 @(isPasswordTab ? "active" : string.Empty)" id="password-tab"
+                            data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab"
+                            aria-controls="password-tab-pane" aria-selected="@(isPasswordTab)">
+                        @LW["Account:ResetPassword"]
+                    </button>
+                </li>
+            </ul>
 
-                                        <div class="mb-3">
-                                            <label asp-for="Input.LastName" class="form-label">@LW["Account:LastName"]</label>
-                                            <input asp-for="Input.LastName"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="family-name"
-                                                   placeholder="@LW["Account:EnterLastName"]" />
-                                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                                        </div>
+            @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+            {
+                <div class="alert alert-success" role="alert">@Model.StatusMessage</div>
+            }
 
-                                        <div class="mb-3">
-                                            <label asp-for="Input.Email" class="form-label">@LW["Account:Email"]</label>
-                                            <input asp-for="Input.Email"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="off"
-                                                   placeholder="@LW["Account:EnterEmailAddress"]" />
-                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                        </div>
+            <div class="tab-content">
+                <div class="@profilePaneClass" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                     tabindex="0">
+                    <form method="post" class="rp-smartserve-form">
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        <input type="hidden" name="Tab" value="profile" />
+                        <abp-validation-summary />
 
-                                        <div class="mb-3">
-                                            <label asp-for="Input.PhoneNumber" class="form-label">@LW["Account:PhoneNumber"]</label>
-                                            <input asp-for="Input.PhoneNumber"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="off"
-                                                   placeholder="@LW["Account:EnterPhoneNumber"]" />
-                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="d-grid gap-2">
-                                            <abp-button button-type="Primary"
-                                                        type="submit"
-                                                        class="btn-lg mt-4 btn btn-success rounded-0">@LW["Account:SaveChanges"]</abp-button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="@passwordPaneClass" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
-                                    <form method="post" asp-page-handler="ChangePassword" class="mt-4">
-                                        <input type="hidden" asp-for="ReturnUrl" />
-                                        <input type="hidden" name="Tab" value="password" />
-                                        <abp-validation-summary />
-
-                                        <div class="mb-3">
-                                            <label asp-for="ChangePasswordInput.CurrentPassword" class="form-label">@LW["Account:CurrentPassword"]</label>
-                                            <div class="input-group">
-                                                <input asp-for="ChangePasswordInput.CurrentPassword"
-                                                       type="password"
-                                                       class="form-control border border-success rounded-0 p-2"
-                                                       autocomplete="current-password"
-                                                       placeholder="@LW["Account:EnterCurrentPassword"]" />
-                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
-                                                        type="button"
-                                                        aria-label="Show password"
-                                                        title="Show password">
-                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <span asp-validation-for="ChangePasswordInput.CurrentPassword" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label asp-for="ChangePasswordInput.NewPassword" class="form-label">@LW["Account:NewPassword"]</label>
-                                            <div class="input-group">
-                                                <input asp-for="ChangePasswordInput.NewPassword"
-                                                       type="password"
-                                                       class="form-control border border-success rounded-0 p-2"
-                                                       autocomplete="new-password"
-                                                       placeholder="@LW["Account:EnterNewPassword"]" />
-                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
-                                                        type="button"
-                                                        aria-label="Show password"
-                                                        title="Show password">
-                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label asp-for="ChangePasswordInput.ConfirmNewPassword" class="form-label">@LW["Account:ConfirmPassword"]</label>
-                                            <div class="input-group">
-                                                <input asp-for="ChangePasswordInput.ConfirmNewPassword"
-                                                       type="password"
-                                                       class="form-control border border-success rounded-0 p-2"
-                                                       autocomplete="new-password"
-                                                       placeholder="@LW["Account:ConfirmPassword"]" />
-                                                <button class="btn btn-outline-success rounded-1 password-visibility-button"
-                                                        type="button"
-                                                        aria-label="Show password"
-                                                        title="Show password">
-                                                    <i class="fa fa-eye text-dark" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <span asp-validation-for="ChangePasswordInput.ConfirmNewPassword" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="d-grid gap-2">
-                                            <abp-button button-type="Primary"
-                                                        type="submit"
-                                                        class="btn-lg mt-4 btn btn-success rounded-0">@LW["Account:ChangePassword"]</abp-button>
-                                        </div>
-                                    </form>
-                                </div>  
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-floating-field">
+                                <input asp-for="Input.FirstName" class="form-control rp-smartserve-input"
+                                       autocomplete="given-name" placeholder="@LW["Account:EnterFirstName"]" />
+                                <label asp-for="Input.FirstName">@LW["Account:FirstName"]</label>
                             </div>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </div>
 
-                      
-                    </div>
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-floating-field">
+                                <input asp-for="Input.LastName" class="form-control rp-smartserve-input"
+                                       autocomplete="family-name" placeholder="@LW["Account:EnterLastName"]" />
+                                <label asp-for="Input.LastName">@LW["Account:LastName"]</label>
+                            </div>
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-floating-field">
+                                <input asp-for="Input.Email" class="form-control rp-smartserve-input" autocomplete="off"
+                                       placeholder="@LW["Account:EnterEmailAddress"]" />
+                                <label asp-for="Input.Email">@LW["Account:Email"]</label>
+                            </div>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-floating-field">
+                                <input asp-for="Input.PhoneNumber" class="form-control rp-smartserve-input"
+                                       autocomplete="off" placeholder="@LW["Account:EnterPhoneNumber"]" />
+                                <label asp-for="Input.PhoneNumber">@LW["Account:PhoneNumber"]</label>
+                            </div>
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-actions">
+                            <button type="submit"
+                                    class="btn btn-primary rp-smartserve-submit">@LW["Account:SaveChanges"]</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="@passwordPaneClass" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab"
+                     tabindex="0">
+                    <form method="post" asp-page-handler="ChangePassword" class="rp-smartserve-form">
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        <input type="hidden" name="Tab" value="password" />
+                        <abp-validation-summary />
+
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input asp-for="ChangePasswordInput.CurrentPassword" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="current-password" placeholder="@LW["Account:EnterCurrentPassword"]" />
+                                <label
+                                asp-for="ChangePasswordInput.CurrentPassword">@LW["Account:CurrentPassword"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button"
+                                        type="button" aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ChangePasswordInput.CurrentPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input asp-for="ChangePasswordInput.NewPassword" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password" placeholder="@LW["Account:EnterNewPassword"]" />
+                                <label asp-for="ChangePasswordInput.NewPassword">@LW["Account:NewPassword"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button"
+                                        type="button" aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-field">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input asp-for="ChangePasswordInput.ConfirmNewPassword" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password" placeholder="@LW["Account:ConfirmPassword"]" />
+                                <label
+                                asp-for="ChangePasswordInput.ConfirmNewPassword">@LW["Account:ConfirmPassword"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button"
+                                        type="button" aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ChangePasswordInput.ConfirmNewPassword"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-actions">
+                            <button type="submit"
+                                    class="btn btn-primary rp-smartserve-submit">@LW["Account:ChangePassword"]</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 <script>
@@ -227,16 +203,6 @@
                 return;
             }
 
-            const updateVisibilityState = function () {
-                const isPasswordHidden = input.type === 'password';
-                input.type = isPasswordHidden ? 'password' : 'text';
-                icon.classList.toggle('fa-eye', !isPasswordHidden);
-                icon.classList.toggle('fa-eye-slash', isPasswordHidden);
-                button.setAttribute('aria-label', isPasswordHidden ? 'Show password' : 'Hide password');
-                button.setAttribute('title', isPasswordHidden ? 'Show password' : 'Hide password');
-                button.setAttribute('aria-pressed', String(!isPasswordHidden));
-            };
-
             button.addEventListener('click', function () {
                 const isPasswordHidden = input.type === 'password';
                 input.type = isPasswordHidden ? 'text' : 'password';
@@ -247,8 +213,6 @@
                 button.setAttribute('title', shouldShowPassword ? 'Hide password' : 'Show password');
                 button.setAttribute('aria-pressed', String(shouldShowPassword));
             });
-
-            updateVisibilityState();
         });
     });
 </script>
