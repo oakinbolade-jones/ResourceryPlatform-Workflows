@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   application: {
     baseUrl,
-    name: 'ResourceryPlatformWorkflow',
+    name: 'SmartServe Platform',
     logoUrl: '',
   },
   oAuthConfig: {

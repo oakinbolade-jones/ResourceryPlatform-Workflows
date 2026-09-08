@@ -1,4 +1,4 @@
-import { CoreModule, provideAbpCore, withOptions } from '@abp/ng.core';
+import { CoreModule, provideAbpCore, withOptions, withTitleStrategy } from '@abp/ng.core';
 import { provideAbpOAuth } from '@abp/ng.oauth';
 import { provideSettingManagementConfig } from '@abp/ng.setting-management/config';
 import { provideFeatureManagementConfig } from '@abp/ng.feature-management';
@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { AccountManageRedirectComponent } from './account/account-manage-redirect.component';
+import { SmartServeTitleStrategy } from './shared/smartserve-title-strategy.service';
 
 @NgModule({
   declarations: [AppComponent, AccountManageRedirectComponent],
@@ -34,7 +35,8 @@ import { AccountManageRedirectComponent } from './account/account-manage-redirec
       withOptions({
         environment,
         registerLocaleFn: registerLocale(),
-      })
+      }),
+      withTitleStrategy(SmartServeTitleStrategy)
     ),
     provideAbpOAuth(),
     provideIdentityConfig(),
