@@ -9,8 +9,10 @@
 @using Volo.Abp.Settings
 @using Microsoft.Extensions.Options
 @model ResourceryPlatformWorkflow.AuthServer.Pages.Account.ManageModel
+@inject IHtmlLocalizer<AccountResource> L
 @{
     Layout = "~/Pages/Account/Templates/_AccountLayout.Custom.cshtml";
+    ViewData["Title"] = L["ManageAccount"].Value;
     var templateName = "~/Pages/Account/Templates/_Manage.Custom.cshtml"; // Define the template name here
 }
 

@@ -24,6 +24,6 @@ export const environment = {
     },
   },
   localization: {
-    defaultResourceName: 'Workflow',
+    defaultResourceName: 'Administration',
   },
 } as Environment;

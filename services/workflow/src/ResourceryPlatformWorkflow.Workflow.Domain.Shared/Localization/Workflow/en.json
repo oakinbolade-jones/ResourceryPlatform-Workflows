@@ -1,7 +1,7 @@
 ﻿{
   "culture": "en",
   "texts": {
-    "AppName": "Smart Serve Platform",
+    "AppName": "SmartServe Platform",
     "Home": "Home",
     "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the Workflow module",
@@ -1463,7 +1463,7 @@
     "Loading": "Loading...",
     "Yes": "Yes",
     "No": "No",
-    "Account:SignInText": "with ECOWAS email or account credentials to login to the Smart Serve Platform",
+    "Account:SignInText": "with ECOWAS email or account credentials to login to the SmartServe Platform",
     "Account:SignInCreateText": "Don't have an account? Create one now.",
     "Account:SignIn": "Sign In",
     "Account:UsernameOrEmail": "Username or Email",

@@ -13,7 +13,13 @@
 <link rel="stylesheet" href="~/global-styles.css" />
 <link rel="stylesheet" href="~/libs/fortawesome/fontawesome-free/css/all.css" />
 <script src="~/libs/bootstrap/js/bootstrap.bundle.js"></script>
-<title>Smart Serve Platform - ECOWAS</title>
+@{
+	var pageTitle = ViewData["Title"]?.ToString();
+	var fullTitle = string.IsNullOrWhiteSpace(pageTitle)
+		? "SmartServe Platform"
+		: $"{pageTitle} - SmartServe Platform";
+}
+<title>@fullTitle</title>
 @{
 	IgnoreSection("scripts");
 }

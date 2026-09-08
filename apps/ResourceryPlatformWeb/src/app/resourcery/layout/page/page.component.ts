@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { LocalizationService } from '@abp/ng.core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -18,7 +20,12 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private title: Title,
+    private localizationService: LocalizationService
+  ) {}
 
   ngOnInit(): void {
     this.router.events
@@ -46,13 +53,19 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
     this.hideTopbar = !!(activeRoute.snapshot.data?.['hideTopbar'] ?? activeRoute.snapshot.data?.['hideHeader']);
 
     const title = activeRoute.snapshot.data?.['title'] as string | undefined;
-    const resolvedTitle = title ?? this.fallbackTitle();
-    this.pageTitle = this.stripSpaces(resolvedTitle);
-    this.pageSubtitle = `${this.pageTitle}Overview`;
+    const resolvedTitle = this.resolveTitle(title ?? this.fallbackTitle());
+    this.pageTitle = resolvedTitle;
+    this.pageSubtitle = `${resolvedTitle} Overview`;
+    this.title.setTitle(`${resolvedTitle} - SmartServe Platform`);
   }
 
-  private stripSpaces(value: string): string {
-    return value.replace(/\s+/g, '');
+  private resolveTitle(value: string): string {
+    if (value.startsWith('Workflow::')) {
+      const localizedValue = this.localizationService.instant(value);
+      return localizedValue && localizedValue !== value ? localizedValue : value.replace('Workflow::', '');
+    }
+
+    return value;
   }
 
   private fallbackTitle(): string {

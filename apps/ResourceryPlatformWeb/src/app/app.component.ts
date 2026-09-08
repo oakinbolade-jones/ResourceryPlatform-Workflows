@@ -1,6 +1,8 @@
 import { eLayoutType, ReplaceableComponentsService, RoutesService } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { LocalizationService } from '@abp/ng.core';
 import { Subscription, filter } from 'rxjs';
 import { eThemeBasicComponents } from '@abp/ng.theme.basic';
 import { LogoComponent } from './resourcery/layout/logo/logo.component';
@@ -16,6 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private navigationSub?: Subscription;
   private replaceableComponents = inject(ReplaceableComponentsService);
   private routes = inject(RoutesService);
+  private readonly title = inject(Title);
+  private readonly localizationService = inject(LocalizationService);
 
   constructor(private router: Router) {
 
@@ -33,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         const url = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
+        this.updateBrowserTitle();
         
         // Handle home page class
         if (url === '/' || url === '') {
@@ -46,5 +51,25 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.navigationSub?.unsubscribe();
     this.body.classList.remove('home-page');
+  }
+
+  private updateBrowserTitle(): void {
+    let activeRoute = this.router.routerState.root;
+    while (activeRoute.firstChild) {
+      activeRoute = activeRoute.firstChild;
+    }
+
+    const routeTitle = activeRoute.snapshot.data?.['title'] as string | undefined;
+    const resolvedTitle = this.resolveTitle(routeTitle ?? 'SmartServe Platform');
+    this.title.setTitle(`${resolvedTitle} - SmartServe Platform`);
+  }
+
+  private resolveTitle(value: string): string {
+    if (value.startsWith('Workflow::')) {
+      const localizedValue = this.localizationService.instant(value);
+      return localizedValue && localizedValue !== value ? localizedValue : value.replace('Workflow::', '');
+    }
+
+    return value;
   }
 }

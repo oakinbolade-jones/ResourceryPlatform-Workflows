@@ -1,7 +1,7 @@
 {
   "culture": "fr",
   "texts": {
-    "AppName": "Plateforme Smart Serve",
+    "AppName": "Plateforme SmartServe",
     "Home": "Accueil",
     "MyAccount": "Mon compte",
     "SamplePageMessage": "Une page d'exemple pour le module Workflow",
@@ -1463,7 +1463,7 @@
     "Loading": "Chargement...",
     "Yes": "Oui",
     "No": "Non",
-    "Account:SignInText": "avec l'e-mail de la CEDEAO ou les identifiants de compte pour vous connecter à la plateforme Smart Serve",
+    "Account:SignInText": "avec l'e-mail de la CEDEAO ou les identifiants de compte pour vous connecter à la plateforme SmartServe",
     "Account:SignInCreateText": "Vous n'avez pas de compte ? ",
     "Account:SignIn": "Se connecter",
     "Account:UsernameOrEmail": "Nom d'utilisateur ou e-mail",
