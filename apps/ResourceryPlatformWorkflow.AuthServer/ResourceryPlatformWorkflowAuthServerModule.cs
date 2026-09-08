@@ -36,6 +36,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.MailKit;
 using Volo.Abp.Modularity;
 
 using Volo.Abp.UI.Navigation.Urls;
@@ -59,6 +60,7 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(AbpCachingStackExchangeRedisModule))]
 [DependsOn(typeof(AbpDistributedLockingModule))]
 [DependsOn(typeof(AbpEntityFrameworkCoreSqlServerModule))]
+[DependsOn(typeof(AbpMailKitModule))]
 [DependsOn(typeof(AdministrationEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSEntityFrameworkCoreModule))]

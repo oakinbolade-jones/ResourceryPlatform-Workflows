@@ -18,7 +18,9 @@
     <div class="rp-smartserve-card">
         <aside class="rp-smartserve-side">
             <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
-                <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                <a href="http://smartserve.ecowas.int">
+                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                </a>
             </div>
 
             <h1 class="rp-smartserve-title">@LW["Account:ManageAccount"]</h1>
@@ -34,29 +36,11 @@
         <section class="rp-smartserve-panel">
             <div class="mb-3">
                 <a href="@Model.SafeReturnUrl" onclick="window.location.href='@Model.SafeReturnUrl'; return false;"
-                   class="text-decoration-none" style="color: #1a73e8; font-weight: 600;">
+                   class="text-decoration-none" style="color: #198754; font-weight: 600;">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     @LW["Account:BackToPreviousPage"]
                 </a>
             </div>
-
-            <style>
-                            .manage-tabs .nav-link {
-                                color: #1a73e8;
-                                background-color: #fff;
-                                border: 1px solid rgba(26, 115, 232, 0.35);
-                                border-bottom: 0;
-                                border-radius: 10px 10px 0 0;
-                            }
-
-                            .manage-tabs .nav-link.active,
-                            .manage-tabs .nav-link[aria-selected="true"] {
-                                color: #fff;
-                                background-color: #1a73e8;
-                                border-color: #1a73e8;
-                                font-weight: 600;
-                            }
-            </style>
 
             <ul class="nav nav-tabs mb-4 manage-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -83,39 +67,39 @@
             <div class="tab-content">
                 <div class="@profilePaneClass" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                      tabindex="0">
-                    <form method="post" class="rp-smartserve-form">
+                    <form method="post" class="rp-smartserve-form" id="manageProfileForm">
                         <input type="hidden" asp-for="ReturnUrl" />
                         <input type="hidden" name="Tab" value="profile" />
                         <abp-validation-summary />
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
-                                <input asp-for="Input.FirstName" class="form-control rp-smartserve-input"
+                                <input asp-for="Input.FirstName" class="form-control rp-smartserve-input" required
                                        autocomplete="given-name" placeholder="@LW["Account:EnterFirstName"]" />
                                 <label asp-for="Input.FirstName">@LW["Account:FirstName"]</label>
                             </div>
                             <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </div>
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
-                                <input asp-for="Input.LastName" class="form-control rp-smartserve-input"
+                                <input asp-for="Input.LastName" class="form-control rp-smartserve-input" required
                                        autocomplete="family-name" placeholder="@LW["Account:EnterLastName"]" />
                                 <label asp-for="Input.LastName">@LW["Account:LastName"]</label>
                             </div>
                             <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
-                                <input asp-for="Input.Email" class="form-control rp-smartserve-input" autocomplete="off"
-                                       placeholder="@LW["Account:EnterEmailAddress"]" />
+                                <input asp-for="Input.Email" type="email" class="form-control rp-smartserve-input"
+                                       autocomplete="off" required placeholder="@LW["Account:EnterEmailAddress"]" />
                                 <label asp-for="Input.Email">@LW["Account:Email"]</label>
                             </div>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
                                 <input asp-for="Input.PhoneNumber" class="form-control rp-smartserve-input"
                                        autocomplete="off" placeholder="@LW["Account:EnterPhoneNumber"]" />
@@ -126,22 +110,23 @@
 
                         <div class="rp-smartserve-actions">
                             <button type="submit"
-                                    class="btn btn-primary rp-smartserve-submit">@LW["Account:SaveChanges"]</button>
+                                    class="btn btn-success rp-smartserve-submit">@LW["Account:SaveChanges"]</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="@passwordPaneClass" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab"
                      tabindex="0">
-                    <form method="post" asp-page-handler="ChangePassword" class="rp-smartserve-form">
+                    <form method="post" asp-page-handler="ChangePassword" class="rp-smartserve-form"
+                          id="managePasswordForm">
                         <input type="hidden" asp-for="ReturnUrl" />
                         <input type="hidden" name="Tab" value="password" />
                         <abp-validation-summary />
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.CurrentPassword" type="password"
-                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input" required
                                        autocomplete="current-password" placeholder="@LW["Account:EnterCurrentPassword"]" />
                                 <label
                                 asp-for="ChangePasswordInput.CurrentPassword">@LW["Account:CurrentPassword"]</label>
@@ -153,10 +138,10 @@
                             <span asp-validation-for="ChangePasswordInput.CurrentPassword" class="text-danger"></span>
                         </div>
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.NewPassword" type="password"
-                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input" required
                                        autocomplete="new-password" placeholder="@LW["Account:EnterNewPassword"]" />
                                 <label asp-for="ChangePasswordInput.NewPassword">@LW["Account:NewPassword"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button"
@@ -167,10 +152,10 @@
                             <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
                         </div>
 
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.ConfirmNewPassword" type="password"
-                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input" required
                                        autocomplete="new-password" placeholder="@LW["Account:ConfirmPassword"]" />
                                 <label
                                 asp-for="ChangePasswordInput.ConfirmNewPassword">@LW["Account:ConfirmPassword"]</label>
@@ -185,7 +170,7 @@
 
                         <div class="rp-smartserve-actions">
                             <button type="submit"
-                                    class="btn btn-primary rp-smartserve-submit">@LW["Account:ChangePassword"]</button>
+                                    class="btn btn-success rp-smartserve-submit">@LW["Account:ChangePassword"]</button>
                         </div>
                     </form>
                 </div>
@@ -195,8 +180,78 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const popper = typeof window.rpAccountShowPopper === 'function' ? window.rpAccountShowPopper : null;
+
+        const manageProfileForm = document.getElementById('manageProfileForm');
+        if (manageProfileForm) {
+            const profileRequiredFields = [
+                manageProfileForm.querySelector('input[name="Input.FirstName"]'),
+                manageProfileForm.querySelector('input[name="Input.LastName"]'),
+                manageProfileForm.querySelector('input[name="Input.Email"]')
+            ].filter(Boolean);
+
+            manageProfileForm.addEventListener('submit', function (event) {
+                const missingField = profileRequiredFields.find(function (field) {
+                    return !field.value || !field.value.trim();
+                });
+
+                if (missingField) {
+                    event.preventDefault();
+                    missingField.focus();
+                    if (popper) {
+                        popper('Profile update failed. First name, last name, and email are required.', 'danger');
+                    }
+                    return;
+                }
+
+                const emailField = manageProfileForm.querySelector('input[name="Input.Email"]');
+                if (emailField && emailField.validity && !emailField.validity.valid) {
+                    event.preventDefault();
+                    emailField.focus();
+                    if (popper) {
+                        popper('Profile update failed. Please provide a valid email address.', 'warning');
+                    }
+                }
+            });
+        }
+
+        const managePasswordForm = document.getElementById('managePasswordForm');
+        if (managePasswordForm) {
+            const passwordRequiredFields = [
+                managePasswordForm.querySelector('input[name="ChangePasswordInput.CurrentPassword"]'),
+                managePasswordForm.querySelector('input[name="ChangePasswordInput.NewPassword"]'),
+                managePasswordForm.querySelector('input[name="ChangePasswordInput.ConfirmNewPassword"]')
+            ].filter(Boolean);
+
+            managePasswordForm.addEventListener('submit', function (event) {
+                const missingField = passwordRequiredFields.find(function (field) {
+                    return !field.value || !field.value.trim();
+                });
+
+                if (missingField) {
+                    event.preventDefault();
+                    missingField.focus();
+                    if (popper) {
+                        popper('Password change failed. All password fields are required.', 'danger');
+                    }
+                    return;
+                }
+
+                const newPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.NewPassword"]');
+                const confirmPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.ConfirmNewPassword"]');
+                if (newPasswordField && confirmPasswordField && newPasswordField.value !== confirmPasswordField.value) {
+                    event.preventDefault();
+                    confirmPasswordField.focus();
+                    if (popper) {
+                        popper('Password change failed. New password and confirmation do not match.', 'warning');
+                    }
+                }
+            });
+        }
+
         document.querySelectorAll('.password-visibility-button').forEach(function (button) {
-            const input = button.closest('.input-group')?.querySelector('input');
+            const container = button.closest('.rp-smartserve-password-wrap') || button.closest('.input-group') || button.parentElement;
+            const input = container ? container.querySelector('input[type="password"], input[type="text"]') : null;
             const icon = button.querySelector('i');
 
             if (!input || !icon) {

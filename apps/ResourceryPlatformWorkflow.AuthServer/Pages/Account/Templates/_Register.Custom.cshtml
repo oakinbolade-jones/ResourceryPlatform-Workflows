@@ -8,39 +8,35 @@
     <div class="rp-smartserve-card">
         <aside class="rp-smartserve-side">
             <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
-                <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
-         </div>
-
+                <a href="http://smartserve.ecowas.int">
+                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                </a>
+            </div>
             <h1 class="rp-smartserve-title">@L["Register"]</h1>
 
             <p class="rp-smartserve-subtitle">
                 @L["AlreadyRegistered"]
-                <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["Login"]</a>
+                <a
+                href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["Login"]</a>
             </p>
 
-            <p class="rp-smartserve-footer">
+            @* <p class="rp-smartserve-footer">
                 @LW["ECOWASCopyright"]<br />
                 @LW["ECOWAS"]
-            </p>
+            </p> *@
         </aside>
 
         <section class="rp-smartserve-panel">
             @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
             {
                 <div class="rp-smartserve-external">
-                    <form asp-page="./Login"
-                          asp-page-handler="ExternalLogin"
-                          asp-route-returnUrl="@Model.ReturnUrl"
-                          asp-route-returnUrlHash="@Model.ReturnUrlHash"
-                          method="post"
-                          class="rp-smartserve-provider-form">
+                    <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
+                          asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post" class="rp-smartserve-provider-form">
                         @foreach (var provider in Model.VisibleExternalProviders)
                         {
                             if (provider.AuthenticationScheme == "Microsoft")
                             {
-                                <button type="submit"
-                                        class="btn btn-outline-secondary rp-smartserve-provider-btn"
-                                        name="provider"
+                                <button type="submit" class="btn btn-outline-success rp-smartserve-provider-btn" name="provider"
                                         value="@provider.AuthenticationScheme"
                                         title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
                                     <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission" />
@@ -52,9 +48,7 @@
                             }
                             else
                             {
-                                <button type="submit"
-                                        class="btn btn-outline-secondary rp-smartserve-provider-btn"
-                                        name="provider"
+                                <button type="submit" class="btn btn-outline-success rp-smartserve-provider-btn" name="provider"
                                         value="@provider.AuthenticationScheme"
                                         title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
                             }
@@ -65,26 +59,22 @@
 
             @if (Model.EnableLocalRegister || Model.IsExternalLogin)
             {
-                <form method="post" class="rp-smartserve-form">
+                <form method="post" class="rp-smartserve-form" id="registerForm">
                     <abp-validation-summary />
 
-                    <div class="rp-smartserve-field">
+                    <div class="rp-smartserve-field mb-4">
                         <div class="form-floating rp-smartserve-floating-field">
-                            <input asp-for="Input.UserName"
-                                   class="form-control rp-smartserve-input"
-                                   autocomplete="off"
-                                   placeholder="@LW["Account:EnterUsername"]" />
+                            <input asp-for="Input.UserName" class="form-control rp-smartserve-input" autocomplete="off"
+                                   required placeholder="@LW["Account:EnterUsername"]" />
                             <label asp-for="Input.UserName">@LW["Account:Username"]</label>
                         </div>
                         <span asp-validation-for="Input.UserName" class="text-danger"></span>
                     </div>
 
-                    <div class="rp-smartserve-field">
+                    <div class="rp-smartserve-field mb-4">
                         <div class="form-floating rp-smartserve-floating-field">
-                            <input asp-for="Input.EmailAddress"
-                                   class="form-control rp-smartserve-input"
-                                   autocomplete="off"
-                                   placeholder="@LW["Account:EnterEmailAddress"]" />
+                            <input asp-for="Input.EmailAddress" type="email" class="form-control rp-smartserve-input"
+                                   autocomplete="off" required placeholder="@LW["Account:EnterEmailAddress"]" />
                             <label asp-for="Input.EmailAddress">@LW["Account:Email"]</label>
                         </div>
                         <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
@@ -92,18 +82,14 @@
 
                     @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
                     {
-                        <div class="rp-smartserve-field">
+                        <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-password-wrap">
-                                <input asp-for="Input.Password"
-                                       type="password"
+                                <input asp-for="Input.Password" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input"
-                                       autocomplete="new-password"
-                                       placeholder="@LW["Account:EnterPassword"]" />
+                                       autocomplete="new-password" required placeholder="@LW["Account:EnterPassword"]" />
                                 <label asp-for="Input.Password">@LW["Account:Password"]</label>
-                                <button class="btn rp-smartserve-password-toggle password-visibility-button"
-                                        type="button"
-                                        aria-label="Show password"
-                                        title="Show password">
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
+                                        aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -112,7 +98,7 @@
                     }
 
                     <div class="rp-smartserve-actions">
-                        <button type="submit" class="btn btn-primary rp-smartserve-submit">@L["Register"]</button>
+                        <button type="submit" class="btn btn-success rp-smartserve-submit">@L["Register"]</button>
                     </div>
                 </form>
             }
@@ -122,8 +108,49 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const popper = typeof window.rpAccountShowPopper === 'function' ? window.rpAccountShowPopper : null;
+
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            const requiredFields = [
+                registerForm.querySelector('input[name="Input.UserName"]'),
+                registerForm.querySelector('input[name="Input.EmailAddress"]'),
+                registerForm.querySelector('input[name="Input.Password"]')
+            ].filter(Boolean);
+
+            registerForm.addEventListener('submit', function (event) {
+                const missingField = requiredFields.find(function (field) {
+                    return !field.value || !field.value.trim();
+                });
+
+                if (missingField) {
+                    event.preventDefault();
+                    missingField.focus();
+                    if (popper) {
+                        popper('Registration failed. Username, email, and password are required.', 'danger');
+                    }
+                    return;
+                }
+
+                const emailField = registerForm.querySelector('input[name="Input.EmailAddress"]');
+                if (emailField && emailField.validity && !emailField.validity.valid) {
+                    event.preventDefault();
+                    emailField.focus();
+                    if (popper) {
+                        popper('Registration failed. Please provide a valid email address.', 'warning');
+                    }
+                    return;
+                }
+
+                if (popper) {
+                    popper('Registration validation passed. Submitting your account details...', 'success');
+                }
+            });
+        }
+
         document.querySelectorAll('.password-visibility-button').forEach(function (button) {
-            const input = button.closest('.input-group')?.querySelector('input');
+            const container = button.closest('.rp-smartserve-password-wrap') || button.closest('.input-group') || button.parentElement;
+            const input = container ? container.querySelector('input[type="password"], input[type="text"]') : null;
             const icon = button.querySelector('i');
 
             if (!input || !icon) {

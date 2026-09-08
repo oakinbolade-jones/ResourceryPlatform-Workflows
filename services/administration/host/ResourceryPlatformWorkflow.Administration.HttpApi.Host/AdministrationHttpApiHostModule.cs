@@ -12,6 +12,7 @@ using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Identity;
+using Volo.Abp.MailKit;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
 
@@ -26,6 +27,7 @@ namespace ResourceryPlatformWorkflow.Administration;
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSApplicationContractsModule))]
 [DependsOn(typeof(WorkflowApplicationContractsModule))]
+[DependsOn(typeof(AbpMailKitModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowMicroserviceModule))]
 [DependsOn(typeof(ResourceryPlatformWorkflowServiceDefaultsModule))]
 public class AdministrationHttpApiHostModule : AbpModule

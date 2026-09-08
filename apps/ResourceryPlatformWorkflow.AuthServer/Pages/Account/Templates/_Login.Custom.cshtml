@@ -9,8 +9,14 @@
 
 @{
     var registerUrl = Url.Page("./Register", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash });
-    var forgotPasswordUrl = Url.Page("./ForgotPassword", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash });
-    var getStartedText = LW["Account:GetStarted"];
+    var forgotPasswordUrl = Url.Page("./ForgotPassword", new
+    {
+        returnUrl = Model.ReturnUrl,
+        returnUrlHash = Model.ReturnUrlHash
+    });
+    var signIn = LW["Account:SignIn"];
+    var signInText = LW["Account:SignInText"];
+    var signInCreateText = LW["Account:SignInCreateText"];
     var newUserText = LW["Account:NewUser?"];
     var createAccountText = LW["Account:CreateAccount"];
     var loginWithEcowasMailText = LW["Account:LoginWithECOWASMail"];
@@ -28,149 +34,195 @@
     var cancelText = L["Cancel"];
 }
 
-<div class="lpx-content-container">
-    <div class="lpx-content">
-        <div class="container-fluid mt-3 mb-5">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-11 col-lg-10 col-xl-8">
-                    <div class="row g-0 shadow-sm border border-success rounded-1 overflow-hidden w-100 justify-content-center">
-                        <div class="col-12 col-md-5 bg-white text-dark d-flex flex-column justify-content-stretch p-4 p-lg-5">
-                            <h2 class="h3 mb-3 fs-2 fw-normal title">@getStartedText</h2>
-
-                            @if (await SettingProvider.IsTrueAsync(AccountSettingNames.IsSelfRegistrationEnabled))
-                            {
-                                <p class="fw-normal fs-6 text-body-secondary">
-                                    @newUserText
-                                    <a href="@registerUrl"
-                                       class="text-decoration-none text-emphasis">@createAccountText</a>
-                                </p>
-                            }
-
-                            <p class="eco-desktop d-none d-xl-block mt-auto mb-0 small opacity-75">
-                                <hr />
-                                @ecowasCopyrightText <br />
-                                @ecowasText
-                            </p>
-                        </div>
-
-                        <div class="col-12 col-md-7 bg-white p-4 p-lg-5">
-                            <div class="mb-4">
-                                @if (Model.VisibleExternalProviders.Any())
-                                {
-                                    <div class="mt-4">
-                                        <div class="w-100 d-flex justify-content-start">
-                                            <form asp-page="./Login"
-                                                  asp-page-handler="ExternalLogin"
-                                                  asp-route-returnUrl="@Model.ReturnUrl"
-                                                  asp-route-returnUrlHash="@Model.ReturnUrlHash"
-                                                  method="post"
-                                                  class="d-flex flex-wrap gap-2 p-0">
-                                                @foreach (var provider in Model.VisibleExternalProviders)
-                                                {
-                                                    if (provider.AuthenticationScheme == "Microsoft")
-                                                    {
-                                                        var microsoftProviderTitle = L["LogInUsingYourProviderAccount", provider.AuthenticationScheme];
-                                                        <button type="submit"
-                                                                class="btn btn-outline-success rounded-1 fw-semibold"
-                                                                name="provider"
-                                                                value="@provider.AuthenticationScheme"
-                                                        title="@microsoftProviderTitle">
-                                                            <img src="/images/logo/ecowas-logo.png"
-                                                                 alt="ECOWAS Commission"
-                                                                 class="d-inline-block align-text-center"
-                                                                         style="max-width: 35px;" /> @loginWithEcowasMailText
-                                                        </button>
-                                                    }
-                                                    else
-                                                    {
-                                                        var providerTitle = L["LogInUsingYourProviderAccount", provider.DisplayName];
-                                                        <button type="submit"
-                                                                class="btn btn-outline-secondary rounded-1"
-                                                                name="provider"
-                                                                value="@provider.AuthenticationScheme"
-                                                            title="@providerTitle">@provider.DisplayName</button>
-                                                    }
-                                                }
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-
-                                @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
-                                {
-                                    <div class="alert alert-warning mt-3">
-                                        <strong>@invalidLoginRequestText</strong>
-                                        @noLoginSchemesText
-                                    </div>
-                                }
-                            </div>
-
-                            @if (Model.EnableLocalLogin)
-                            {
-                                <div class="mb-3">
-                                    <p class="fw-semibold fs-4">@ecowasAccountOrText</p>
-                                    <hr />
-                                </div>
-
-                                <form method="post" class="mt-4" id="loginForm">
-                                    <abp-validation-summary />
-
-                                    <div class="mb-3">
-                                        <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label">@usernameOrEmailLabelText</label>
-                                        <input asp-for="LoginInput.UserNameOrEmailAddress"
-                                               class="form-control border border-success rounded-0 p-2"
-                                               autocomplete="off"
-                                                 placeholder="@usernamePlaceholderText" />
-                                        <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label asp-for="LoginInput.Password" class="form-label">@passwordLabelText</label>
-                                        <div class="input-group">
-                                            <input type="password"
-                                                   class="form-control border border-success rounded-0 p-2"
-                                                   autocomplete="new-password"
-                                                   maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)"
-                                                   asp-for="LoginInput.Password"
-                                                   placeholder="@passwordPlaceholderText" />
-                                            <button class="btn btn-outline-success rounded-1" type="button" id="PasswordVisibilityButton">
-                                                <i class="fa fa-eye-slash text-dark" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                        <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
-                                    </div>
-
-                                    <div class="row align-items-center mb-3">
-                                        <div class="col">
-                                            <abp-input asp-for="LoginInput.RememberMe" class="mb-0 border border-success" />
-                                        </div>
-                                        <div class="col text-end">
-                                            <a class="text-success semi-bold"
-                                               href="@forgotPasswordUrl">@forgotPasswordText</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-grid gap-0">
-                                        <abp-button type="submit"
-                                                    name="Action"
-                                                    value="Login"
-                                                    class="btn btn-lg btn-success mt-3 rounded-0">@loginText</abp-button>
-                                        @if (Model.ShowCancelButton)
-                                        {
-                                            <abp-button type="submit"
-                                                        formnovalidate="formnovalidate"
-                                                        name="Action"
-                                                        value="Cancel"
-                                                        class="btn btn-lg btn-success rounded-0 mt-3">@cancelText</abp-button>
-                                        }
-                                    </div>
-                                    
-                                </form>
-                            }
-                        </div>
-                    </div>
-                </div>
+<div class="rp-smartserve-page rp-smartserve-page-login">
+    <div class="rp-smartserve-card rp-smartserve-card-login">
+        <aside class="rp-smartserve-side">
+            <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
+                <a href="http://smartserve.ecowas.int">
+                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                </a>
             </div>
-        </div>
+
+            <h1 class="rp-smartserve-title">@signIn</h1>
+
+            <p class="rp-smartserve-login-copy">@signInText</p>
+
+          
+
+            @* <p class="rp-smartserve-footer">
+                @ecowasCopyrightText<br />
+                @ecowasText
+            </p> *@
+        </aside>
+
+        <section class="rp-smartserve-panel rp-smartserve-panel-login">
+
+         
+            @if (Model.VisibleExternalProviders.Any())
+            {
+                <div class="rp-smartserve-external">
+                    <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
+                          asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post" class="rp-smartserve-provider-form">
+                        @foreach (var provider in Model.VisibleExternalProviders)
+                        {
+                            if (provider.AuthenticationScheme == "Microsoft")
+                            {
+                                var microsoftProviderTitle = L["LogInUsingYourProviderAccount", provider.AuthenticationScheme];
+                                <button type="submit" class="btn rp-smartserve-provider-btn" name="provider"
+                                        value="@provider.AuthenticationScheme" title="@microsoftProviderTitle">
+                                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS Commission" />
+                                    @loginWithEcowasMailText
+                                </button>
+                            }
+                            else
+                            {
+                                var providerTitle = L["LogInUsingYourProviderAccount", provider.DisplayName];
+                                <button type="submit" class="btn rp-smartserve-provider-btn" name="provider"
+                                        value="@provider.AuthenticationScheme" title="@providerTitle">
+                                    @provider.DisplayName
+                                </button>
+                            }
+                        }
+                    </form>
+                </div>
+            }
+
+            @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+            {
+                <div class="alert alert-warning">
+                    <strong>@invalidLoginRequestText</strong>
+                    @noLoginSchemesText
+                </div>
+            }
+
+            @if (Model.EnableLocalLogin)
+            {
+                @if (Model.VisibleExternalProviders.Any())
+                {
+                    <div class="rp-smartserve-divider rp-smartserve-login-divider">
+                        <span>@ecowasAccountOrText</span>
+                    </div>
+                }
+
+                <form method="post" class="rp-smartserve-form" id="loginForm">
+                    <abp-validation-summary />
+
+                    <div class="rp-smartserve-field mb-4">
+                        <div class="form-floating rp-smartserve-floating-field">
+                            <input asp-for="LoginInput.UserNameOrEmailAddress" class="form-control rp-smartserve-input"
+                                   required autocomplete="username" placeholder="@usernamePlaceholderText" />
+                            <label asp-for="LoginInput.UserNameOrEmailAddress">@usernameOrEmailLabelText</label>
+                        </div>
+                        <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="rp-smartserve-field mb-1">
+                        <div class="rp-smartserve-password-wrap">
+                            <div class="form-floating rp-smartserve-floating-field">
+                                <input type="password" class="form-control rp-smartserve-input"
+                                       autocomplete="current-password"
+                                       maxlength="@(Volo.Abp.Identity.IdentityUserConsts.MaxPasswordLength)" required
+                                       asp-for="LoginInput.Password" placeholder="@passwordPlaceholderText" />
+                                <label asp-for="LoginInput.Password">@passwordLabelText</label>
+                            </div>
+                            <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
+                                    id="PasswordVisibilityButton" aria-label="Show password" title="Show password"
+                                    aria-pressed="false">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
+                    </div>
+
+                    @* <div class="rp-smartserve-check-row">
+                        <abp-input asp-for="LoginInput.RememberMe" class="mb-0" />
+                    </div> *@
+
+                    <div class="rp-smartserve-field-action rp-smartserve-login-forgot">
+                        <a href="@forgotPasswordUrl">@forgotPasswordText</a>
+                    </div>
+                    <div class="rp-smartserve-field-action mt-3">
+                        <p class="rp-smartserve-subtitle">
+                            @newUserText
+                        </p>
+                    </div>
+                    <div class="rp-smartserve-actions rp-smartserve-login-actions">
+                        @if (await SettingProvider.IsTrueAsync(AccountSettingNames.IsSelfRegistrationEnabled))
+                        {
+
+                        }
+                        @if (Model.ShowCancelButton)
+                        {
+                            <abp-button type="submit" formnovalidate="formnovalidate" name="Action" value="Cancel"
+                                        class="btn rp-smartserve-cancel">@cancelText</abp-button>
+                        }
+                        <a href="@registerUrl">@createAccountText</a>
+                        <abp-button type="submit" name="Action" value="Login"
+                                    class="btn btn-success rp-smartserve-submit">@loginText</abp-button>
+                    </div>
+                </form>
+            }
+        </section>
     </div>
 </div>
+
+ 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const popper = typeof window.rpAccountShowPopper === 'function' ? window.rpAccountShowPopper : null;
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            const usernameField = loginForm.querySelector('input[name="LoginInput.UserNameOrEmailAddress"]');
+            const passwordField = loginForm.querySelector('input[name="LoginInput.Password"]');
+
+            loginForm.addEventListener('submit', function (event) {
+                if (!usernameField || !usernameField.value || !usernameField.value.trim()) {
+                    event.preventDefault();
+                    if (usernameField) {
+                        usernameField.focus();
+                    }
+                    if (popper) {
+                        popper('Login failed. Username or email is required.', 'danger');
+                    }
+                    return;
+                }
+
+                if (!passwordField || !passwordField.value || !passwordField.value.trim()) {
+                    event.preventDefault();
+                    if (passwordField) {
+                        passwordField.focus();
+                    }
+                    if (popper) {
+                        popper('Login failed. Password is required.', 'danger');
+                    }
+                    return;
+                }
+
+                if (popper) {
+                    popper('Login validation passed. Signing in...', 'success');
+                }
+            });
+        }
+
+        document.querySelectorAll('.password-visibility-button').forEach(function (button) {
+            const container = button.closest('.rp-smartserve-password-wrap') || button.closest('.input-group') || button.parentElement;
+            const input = container ? container.querySelector('input[type="password"], input[type="text"]') : null;
+            const icon = button.querySelector('i');
+
+            if (!input || !icon) {
+                return;
+            }
+
+            button.addEventListener('click', function () {
+                const isPasswordHidden = input.type === 'password';
+                input.type = isPasswordHidden ? 'text' : 'password';
+                const isShowingPassword = !isPasswordHidden;
+                icon.classList.toggle('fa-eye', !isShowingPassword);
+                icon.classList.toggle('fa-eye-slash', isShowingPassword);
+                button.setAttribute('aria-label', isShowingPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('title', isShowingPassword ? 'Hide password' : 'Show password');
+                button.setAttribute('aria-pressed', String(isShowingPassword));
+            });
+        });
+    });
+</script>

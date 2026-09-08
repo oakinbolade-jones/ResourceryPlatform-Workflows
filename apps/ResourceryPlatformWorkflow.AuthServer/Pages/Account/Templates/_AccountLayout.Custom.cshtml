@@ -23,3 +23,100 @@
     </div>
     @await Html.PartialAsync("/Pages/Account/Templates/_Language.Custom.cshtml")
 </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const root = document.querySelector('.rp-account-page');
+		if (!root) {
+			return;
+		}
+
+		const stack = document.createElement('div');
+		stack.className = 'rp-account-popper-stack';
+		stack.setAttribute('aria-live', 'assertive');
+		stack.setAttribute('aria-atomic', 'true');
+		document.body.appendChild(stack);
+
+		const shownMessages = new Set();
+		const icons = {
+			success: 'fa-check-circle',
+			warning: 'fa-exclamation-triangle',
+			danger: 'fa-times-circle',
+			info: 'fa-info-circle'
+		};
+
+		function detectTypeFromClassList(classList) {
+			if (classList.contains('alert-success')) return 'success';
+			if (classList.contains('alert-warning')) return 'warning';
+			if (classList.contains('alert-danger')) return 'danger';
+			return 'info';
+		}
+
+		function dismissPopper(popper) {
+			popper.classList.remove('is-visible');
+			window.setTimeout(function () {
+				popper.remove();
+			}, 180);
+		}
+
+		function showPopper(message, type) {
+			const normalizedMessage = (message || '').replace(/\s+/g, ' ').trim();
+			if (!normalizedMessage) {
+				return;
+			}
+
+			const dedupeKey = type + '::' + normalizedMessage;
+			if (shownMessages.has(dedupeKey)) {
+				return;
+			}
+			shownMessages.add(dedupeKey);
+
+			const popper = document.createElement('div');
+			popper.className = 'rp-account-popper rp-account-popper-' + type;
+			popper.setAttribute('role', 'alert');
+
+			const icon = document.createElement('i');
+			icon.className = 'fas ' + (icons[type] || icons.info) + ' rp-account-popper-icon';
+			icon.setAttribute('aria-hidden', 'true');
+
+			const messageNode = document.createElement('div');
+			messageNode.className = 'rp-account-popper-message';
+			messageNode.textContent = normalizedMessage;
+
+			const closeButton = document.createElement('button');
+			closeButton.type = 'button';
+			closeButton.className = 'rp-account-popper-close';
+			closeButton.setAttribute('aria-label', 'Close notification');
+			closeButton.innerHTML = '&times;';
+			closeButton.addEventListener('click', function () {
+				dismissPopper(popper);
+			});
+
+			popper.appendChild(icon);
+			popper.appendChild(messageNode);
+			popper.appendChild(closeButton);
+			stack.appendChild(popper);
+
+			window.requestAnimationFrame(function () {
+				popper.classList.add('is-visible');
+			});
+
+			window.setTimeout(function () {
+				dismissPopper(popper);
+			}, 5200);
+		}
+
+		window.rpAccountShowPopper = showPopper;
+
+		root.querySelectorAll('.alert').forEach(function (alertNode) {
+			const message = alertNode.textContent;
+			const type = detectTypeFromClassList(alertNode.classList);
+			showPopper(message, type);
+			alertNode.style.display = 'none';
+		});
+
+		root.querySelectorAll('.validation-summary-errors li').forEach(function (li) {
+			showPopper(li.textContent, 'danger');
+		});
+	});
+</script>
