@@ -18,7 +18,9 @@ public class TranscriptionAppService(
 {
     private readonly IRepository<Transcription, Guid> _transcriptionRepository = transcriptionRepository;
     private readonly TranscriptionManager _transcriptionManager = transcriptionManager;
+
     [AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetAsync(Guid id)
     {
         var transcription = await _transcriptionRepository.FindAsync(id);
@@ -31,6 +33,7 @@ public class TranscriptionAppService(
     }
 
     [AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.List)]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
@@ -38,8 +41,8 @@ public class TranscriptionAppService(
         return transcriptions.ConvertAll(Map);
     }
 
-    //[Authorize(WorkflowPermissions.Transcriptions.Create)]
-    [AllowAnonymous]
+    //[AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.Create)]
     public async Task<TranscriptionDto> CreateAsync(CreateUpdateTranscriptionDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -74,8 +77,8 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    //[Authorize(WorkflowPermissions.Transcriptions.Update)]
-    [AllowAnonymous]
+    //[AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.Update)]
     public async Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -112,14 +115,16 @@ public class TranscriptionAppService(
         transcription = await _transcriptionRepository.UpdateAsync(transcription, autoSave: true);
         return Map(transcription);
     }
-    [AllowAnonymous]
-    //[Authorize(WorkflowPermissions.Transcriptions.Delete)]
+
+    //[AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.Delete)]
     public Task DeleteAsync(Guid id)
     {
         return _transcriptionManager.DeleteAsync(id);
     }
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetBySourceReferenceIdAsync(string sourceReferenceId)
     {
         if (string.IsNullOrWhiteSpace(sourceReferenceId))
@@ -137,7 +142,8 @@ public class TranscriptionAppService(
         return transcription == null ? null : Map(transcription);
     }
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
+    [Authorize(WorkflowPermissions.Transcriptions.Update)]
     public async Task<TranscriptionDto> SaveTranscriptAsync(string sourceReferenceId, string transcript)
     {
         Check.NotNullOrWhiteSpace(sourceReferenceId, nameof(sourceReferenceId));

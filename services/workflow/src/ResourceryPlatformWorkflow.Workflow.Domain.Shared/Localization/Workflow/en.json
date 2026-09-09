@@ -1427,6 +1427,13 @@
     "Permission:Workflow:RequestDocuments:Update": "Update Request Documents",
     "Permission:Workflow:RequestDocuments:Delete": "Delete Request Documents",
     "Permission:Workflow:RequestDocuments:List": "List Request Documents",
+    "Permission:Workflow:Transcriptions": "Transcriptions",
+    "Permission:Workflow:Transcriptions:Create": "Create Transcriptions",
+    "Permission:Workflow:Transcriptions:Update": "Update Transcriptions",
+    "Permission:Workflow:Transcriptions:Delete": "Delete Transcriptions",
+    "Permission:Workflow:Transcriptions:View": "View Transcriptions",
+    "Permission:Workflow:Transcriptions:List": "List Transcriptions",
+  
     "Requests:DuplicateDocument": "A document with the same name ({title})  already exists for this request. Please rename the document and try again.",
     "Requests:RequestNotFound": "The request is invalid.",
     "Requests:InvalidStatus": "The request has an invalid status.",

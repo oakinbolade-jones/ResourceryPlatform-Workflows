@@ -1427,6 +1427,14 @@
     "Permission:Workflow:RequestDocuments:Update": "Documents de demande de mise à jour",
     "Permission:Workflow:RequestDocuments:Delete": "Supprimer des documents de demande",
     "Permission:Workflow:RequestDocuments:List": "Liste des documents de demande",
+   "Permission:Workflow:Transcriptions": "Transcriptions",
+    "Permission:Workflow:Transcriptions:Create": "Créer des transcriptions",
+    "Permission:Workflow:Transcriptions:Update": "Mettre à jour les transcriptions",
+    "Permission:Workflow:Transcriptions:Delete": "Supprimer les transcriptions",
+    "Permission:Workflow:Transcriptions:View": "Voir les transcriptions",
+    "Permission:Workflow:Transcriptions:List": "Lister les transcriptions",
+  
+  
     "Requests:DuplicateDocument": "Un document du même nom ({title}) existe déjà pour cette demande. ",
     "Requests:RequestNotFound": "La demande n'est pas valide.",
     "Requests:InvalidStatus": "La demande a un statut invalide.",

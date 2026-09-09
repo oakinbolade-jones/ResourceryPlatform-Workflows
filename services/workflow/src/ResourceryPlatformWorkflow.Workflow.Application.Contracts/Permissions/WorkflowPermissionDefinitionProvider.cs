@@ -181,6 +181,14 @@ public class WorkflowPermissionDefinitionProvider : PermissionDefinitionProvider
             WorkflowPermissions.Transcriptions.Delete,
             L("Permission:Workflow:Transcriptions:Delete")
         );
+        transcriptionsPermissions.AddChild(
+            WorkflowPermissions.Transcriptions.View,
+            L("Permission:Workflow:Transcriptions:View")
+        );
+        transcriptionsPermissions.AddChild(
+            WorkflowPermissions.Transcriptions.List,
+            L("Permission:Workflow:Transcriptions:List")
+        );
         
     }
 
