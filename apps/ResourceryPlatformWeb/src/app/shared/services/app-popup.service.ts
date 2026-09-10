@@ -24,6 +24,7 @@ export class AppPopupService {
   private readonly defaultLogoUrl = '/assets/images/logo/ecw-smartserve-logo.png';
   private readonly defaultHomeLinkUrl = '/';
   private readonly defaultHomeLinkLabel = 'Go to Home';
+  private readonly disableAutoRedirectForDebug = true;
 
   show(options: AppPopupOptions): void {
     const container = this.ensureContainer();
@@ -110,7 +111,7 @@ export class AppPopupService {
     setTimeout(() => {
       dismiss();
 
-      if (!hasUserInteracted && shouldRedirectOnTimeout) {
+      if (!this.disableAutoRedirectForDebug && !hasUserInteracted && shouldRedirectOnTimeout) {
         window.location.assign(redirectUrl);
       }
     }, Math.max(2500, options.durationMs ?? this.defaultDurationMs));

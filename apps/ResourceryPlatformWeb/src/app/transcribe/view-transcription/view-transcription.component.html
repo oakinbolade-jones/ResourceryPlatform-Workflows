@@ -23,8 +23,14 @@
     >
   </div>
 
-  <div *ngIf="loading" class="state-banner state-loading">
-    {{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}
+  <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
+    <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
+    <div class="small mt-1">Loading transcription...</div>
+    <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading transcription">
+      <div class="progress rounded-0" style="height: 0.7rem">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="error" class="state-banner state-error">

@@ -22,6 +22,15 @@
 </div>
 
 <div class="table-responsive">
+  <div *ngIf="loading" class="ss-loading-state mb-3">
+  <div class="fw-bold">{{ 'Administration::Account:LoadingLabel' | abpLocalization }}</div>
+    <!-- <div class="small mt-1">Loading roles...</div> -->
+    <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading users">
+      <div class="progress rounded-0" style="height: 0.7rem">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+      </div>
+    </div>
+  </div>
   <table class="table table-hover align-middle">
     <thead>
       <tr>
@@ -33,18 +42,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="loading">
-        <td colspan="5">{{ 'Administration::Loading' | abpLocalization }}</td>
-      </tr>
       <tr *ngFor="let user of users">
         <td>{{ user.userName }}</td>
         <td>{{ user.name }} {{ user.surname }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.isActive ? ('Administration::Yes' | abpLocalization) : ('Administration::No' | abpLocalization) }}</td>
         <td>
+          <button type="button" class="btn btn-sm btn-outline-success me-2" (click)="openRoleAssignmentModal(user)">
+            Assign Roles
+          </button>
           <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-sm btn-success" ngbDropdownToggle>
-              {{ 'Administration::Actions' | abpLocalization }}
+            <button
+              class="btn btn-sm btn-success"
+              ngbDropdownToggle
+              type="button"
+              [attr.aria-label]="'Administration::Actions' | abpLocalization"
+              [title]="'Administration::Actions' | abpLocalization"
+            >
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
             </button>
             <div ngbDropdownMenu>
               <button ngbDropdownItem type="button" (click)="openEditModal(user)">
@@ -154,6 +169,54 @@
   </div>
 </div>
 <div *ngIf="modalVisible" class="modal-backdrop fade show"></div>
+
+<div *ngIf="roleAssignmentModalVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Roles: {{ roleAssignmentUserName }}</h5>
+        <button type="button" class="btn-close" (click)="closeRoleAssignmentModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="roleAssignmentLoading" class="ss-loading-state role-assignment-loading">
+          <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
+          <div class="small mt-1">Fetching assignable roles...</div>
+          <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading roles">
+            <div class="progress rounded-0" style="height: 0.7rem">
+              <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!roleAssignmentLoading" class="row g-2">
+          <div class="col-12 col-md-6" *ngFor="let role of availableRoles">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [id]="'assign-role-' + role.id"
+                [checked]="isRoleAssignmentSelected(role.name)"
+                (change)="onRoleAssignmentToggle(role.name || '', $any($event.target).checked)"
+              />
+              <label class="form-check-label" [for]="'assign-role-' + role.id">{{ role.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success" (click)="closeRoleAssignmentModal()">Cancel</button>
+        <button
+          type="button"
+          class="btn btn-success"
+          [disabled]="roleAssignmentLoading || roleAssignmentSaving"
+          (click)="saveRoleAssignments()"
+        >
+          {{ roleAssignmentSaving ? 'Saving...' : 'Save Roles' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="roleAssignmentModalVisible" class="modal-backdrop fade show"></div>
 
 <abp-permission-management
   [providerName]="'U'"

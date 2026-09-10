@@ -12,13 +12,20 @@ import {
 @Component({
   selector: 'app-account-users',
   templateUrl: './account-users.component.html',
+  styleUrls: ['./account-users.component.scss'],
 })
 export class AccountUsersComponent implements OnInit {
   users: IdentityUserDto[] = [];
   availableRoles: IdentityRoleDto[] = [];
   selectedRoleNames: string[] = [];
+  roleAssignmentRoleNames: string[] = [];
   loading = false;
   modalVisible = false;
+  roleAssignmentModalVisible = false;
+  roleAssignmentLoading = false;
+  roleAssignmentSaving = false;
+  roleAssignmentUserId: string | null = null;
+  roleAssignmentUserName = '';
   permissionModalVisible = false;
   permissionProviderKey = '';
   permissionEntityDisplayName = '';
@@ -142,6 +149,80 @@ export class AccountUsersComponent implements OnInit {
 
   closeModal(): void {
     this.modalVisible = false;
+  }
+
+  openRoleAssignmentModal(user: IdentityUserDto): void {
+    if (!user.id) {
+      return;
+    }
+
+    this.roleAssignmentUserId = user.id;
+    this.roleAssignmentUserName = user.userName ?? user.email ?? '';
+    this.roleAssignmentRoleNames = [];
+    this.roleAssignmentLoading = true;
+    this.roleAssignmentModalVisible = true;
+
+    this.identityUserService.getRoles(user.id).subscribe({
+      next: result => {
+        this.roleAssignmentRoleNames = (result.items ?? []).map(x => x.name || '').filter(Boolean);
+      },
+      error: error => {
+        console.error('Failed to load user roles for role assignment', error);
+      },
+      complete: () => {
+        this.roleAssignmentLoading = false;
+      },
+    });
+  }
+
+  closeRoleAssignmentModal(): void {
+    this.roleAssignmentModalVisible = false;
+    this.roleAssignmentLoading = false;
+    this.roleAssignmentSaving = false;
+    this.roleAssignmentUserId = null;
+    this.roleAssignmentUserName = '';
+    this.roleAssignmentRoleNames = [];
+  }
+
+  onRoleAssignmentToggle(roleName: string, checked: boolean): void {
+    if (checked) {
+      if (!this.roleAssignmentRoleNames.includes(roleName)) {
+        this.roleAssignmentRoleNames = [...this.roleAssignmentRoleNames, roleName];
+      }
+      return;
+    }
+
+    this.roleAssignmentRoleNames = this.roleAssignmentRoleNames.filter(x => x !== roleName);
+  }
+
+  isRoleAssignmentSelected(roleName: string | undefined): boolean {
+    if (!roleName) {
+      return false;
+    }
+
+    return this.roleAssignmentRoleNames.includes(roleName);
+  }
+
+  saveRoleAssignments(): void {
+    if (!this.roleAssignmentUserId) {
+      return;
+    }
+
+    this.roleAssignmentSaving = true;
+    this.identityUserService
+      .updateRoles(this.roleAssignmentUserId, { roleNames: this.roleAssignmentRoleNames })
+      .subscribe({
+        next: () => {
+          this.closeRoleAssignmentModal();
+          this.loadUsers();
+        },
+        error: error => {
+          console.error('Failed to update user roles', error);
+        },
+        complete: () => {
+          this.roleAssignmentSaving = false;
+        },
+      });
   }
 
   onRoleToggle(roleName: string, checked: boolean): void {

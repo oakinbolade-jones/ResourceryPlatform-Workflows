@@ -22,6 +22,15 @@
 </div>
 
 <div class="table-responsive">
+  <div *ngIf="loading" class="ss-loading-state mb-3">
+    <div class="fw-bold">{{ 'Administration::Account:LoadingLabel' | abpLocalization }}</div>
+    <!-- <div class="small mt-1">Loading roles...</div> -->
+    <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading roles">
+      <div class="progress rounded-0" style="height: 0.7rem">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+      </div>
+    </div>
+  </div>
   <table class="table table-hover align-middle">
     <thead>
       <tr>
@@ -32,17 +41,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="loading">
-        <td colspan="4">{{ 'Administration::Loading' | abpLocalization }}</td>
-      </tr>
       <tr *ngFor="let role of roles">
         <td>{{ role.name }}</td>
         <td>{{ role.isDefault ? ('Administration::Yes' | abpLocalization) : ('Administration::No' | abpLocalization) }}</td>
         <td>{{ role.isPublic ? ('Administration::Yes' | abpLocalization) : ('Administration::No' | abpLocalization) }}</td>
         <td>
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-sm btn-success" ngbDropdownToggle>
-              {{ 'Administration::Actions' | abpLocalization }}
+          <div ngbDropdown class="d-inline-block actions-dropdown">
+            <button
+              class="btn btn-sm"
+              ngbDropdownToggle
+              type="button"
+              [attr.aria-label]="'Administration::Actions' | abpLocalization"
+              [title]="'Administration::Actions' | abpLocalization"
+            >
+              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
             <div ngbDropdownMenu>
               <button ngbDropdownItem type="button" (click)="openEditModal(role)">

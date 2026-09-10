@@ -1,0 +1,22 @@
+.state-banner {
+  padding: 0.85rem 1rem;
+  border-radius: 0;
+  border: 1px solid transparent;
+  margin-bottom: 1rem;
+}
+
+.state-loading {
+  background: #eef9f2;
+  border-color: #b5e0c4;
+  color: #0f5132;
+}
+
+.transcription-progress {
+  .progress {
+    background-color: #d9e8de;
+  }
+
+  .progress-bar {
+    transition: width 0.35s ease;
+  }
+}

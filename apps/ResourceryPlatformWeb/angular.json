@@ -28,7 +28,15 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "allowedCommonJsDependencies": ["chart.js", "js-sha256"],
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "Web.config",
+                "input": ".",
+                "output": "/"
+              }
+            ],
             "styles": [
               "src/styles.scss",
               {

@@ -552,9 +552,11 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
 
         sourceReferenceId = normalizedSourceReferenceId;
 
+        var normalizedLanguage = string.IsNullOrWhiteSpace(language) ? "en" : language.Trim();
+
         var query =
             $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
-            $"&language={Uri.EscapeDataString(string.IsNullOrWhiteSpace(language) ? "en" : language)}" +
+            $"&language={Uri.EscapeDataString(normalizedLanguage)}" +
             $"&source_reference_id={Uri.EscapeDataString(sourceReferenceId)}";
 
         var endpoint = $"{WipoBaseUrl}/TranscriptionResults?{query}";
@@ -573,6 +575,32 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         {
             response = await httpClient.GetAsync(endpoint);
             payload = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode &&
+                normalizedLanguage.Equals("xx", StringComparison.OrdinalIgnoreCase))
+            {
+                var fallbackQuery =
+                    $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
+                    $"&language={Uri.EscapeDataString("en")}" +
+                    $"&source_reference_id={Uri.EscapeDataString(sourceReferenceId)}";
+                var fallbackEndpoint = $"{WipoBaseUrl}/TranscriptionResults?{fallbackQuery}";
+
+                _logger.LogWarning(
+                    "WIPO status query failed for floor language xx. Retrying with fallback language en. SourceReferenceId={SourceReferenceId}, OriginalStatusCode={StatusCode}",
+                    sourceReferenceId,
+                    (int)response.StatusCode
+                );
+
+                response = await httpClient.GetAsync(fallbackEndpoint);
+                payload = await response.Content.ReadAsStringAsync();
+
+                _logger.LogInformation(
+                    "WIPO status fallback response. StatusCode={StatusCode}, SourceReferenceId={SourceReferenceId}, BodySnippet={BodySnippet}",
+                    (int)response.StatusCode,
+                    sourceReferenceId,
+                    TruncateForLog(payload)
+                );
+            }
         }
         catch (HttpRequestException ex)
         {
@@ -622,7 +650,28 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
             });
         }
 
-        await ProcessWipoStatusPayloadAsync(sourceReferenceId, payload);
+        try
+        {
+            await ProcessWipoStatusPayloadAsync(sourceReferenceId, payload);
+        }
+        catch (JsonException ex)
+        {
+            _logger.LogWarning(
+                ex,
+                "WIPO status payload was not valid JSON. Returning raw payload. SourceReferenceId={SourceReferenceId}",
+                sourceReferenceId
+            );
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Failed to process WIPO status payload. SourceReferenceId={SourceReferenceId}",
+                sourceReferenceId
+            );
+            // Do not fail status retrieval if local persistence/parsing has an issue.
+            // Return upstream payload so clients can continue polling and display progress.
+        }
 
         return Content(payload, "application/json");
     }

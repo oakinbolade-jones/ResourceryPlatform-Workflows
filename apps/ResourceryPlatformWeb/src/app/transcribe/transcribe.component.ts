@@ -64,6 +64,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
   private readonly transcriptionDraftStorageKey = 'workflow.transcription.draft';
+  private readonly maxConsecutiveStatusPollErrors = 1;
+  private readonly supportedLanguageCodes = ['en', 'fr', 'pt', 'xx'];
   private readonly uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
   constructor(
@@ -301,7 +303,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcriptionReferenceId = sourceReferenceId;
     this.persistStepOneDraft();
 
-    const language = this.transcribeForm.get('Language')?.value ?? 'en';
+    const selectedLanguage = this.transcribeForm.get('Language')?.value;
+    const language = this.normalizeLanguageCode(selectedLanguage);
+    if (typeof selectedLanguage === 'string' && selectedLanguage.trim().toLowerCase() !== language) {
+      this.transcribeStatus =
+        'Selected language is not currently supported by the status service. Continuing with English.';
+    }
+    this.transcribeForm.patchValue({ Language: language }, { emitEvent: false });
     const inputFormat = this.getInputFormat(videoData);
     const fileName = `transcribe-${sourceReferenceId}.${inputFormat}`;
 
@@ -367,24 +375,37 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private beginStatusPolling(sourceReferenceId: string, language: string): void {
     this.stopStatusPolling();
+    const normalizedLanguage = this.normalizeLanguageCode(language);
+    let consecutivePollErrors = 0;
 
     const poll = async () => {
-      const url = `${this.transcribeStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}&language=${encodeURIComponent(language)}`;
+      const url = `${this.transcribeStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}&language=${encodeURIComponent(normalizedLanguage)}`;
 
       try {
         const response = await fetch(url);
         if (!response.ok) {
+          if (response.status >= 500) {
+            this.stopStatusPolling();
+            this.isTranscribing = false;
+            this.isTranscriptionCompleted = false;
+          }
+
           const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
             response,
             'Workflow::Transcription:ApiError:StatusCheckFailed',
             'Unable to check transcription status right now.'
           );
-          const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+          const handledError = new Error(friendlyError.message) as Error & {
+            popupShown?: boolean;
+            statusCode?: number;
+          };
           handledError.popupShown = true;
+          handledError.statusCode = response.status;
           throw handledError;
         }
 
         const payload = await response.json();
+        consecutivePollErrors = 0;
         const first = Array.isArray(payload) && payload.length > 0 ? payload[0] : null;
         if (!first) {
           this.transcribeStatus = 'No transcription status returned yet. Retrying...';
@@ -400,7 +421,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcriptionResultLinks = this.buildResultDownloadLinks(
             first.transcript_results as { [key: string]: string },
             sourceReferenceId,
-            language
+            normalizedLanguage
           );
         }
 
@@ -418,6 +439,24 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
       } catch (error: unknown) {
+        const statusCode =
+          error instanceof Error
+            ? (error as Error & { statusCode?: number }).statusCode
+            : undefined;
+
+        if (typeof statusCode === 'number' && statusCode >= 500) {
+          this.stopStatusPolling();
+          this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
+        }
+
+        consecutivePollErrors += 1;
+        if (consecutivePollErrors >= this.maxConsecutiveStatusPollErrors) {
+          this.stopStatusPolling();
+          this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
+        }
+
         const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
         const fallbackMessage = isHandledError
           ? 'Unable to check transcription status right now.'
@@ -432,6 +471,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     void poll();
     this.statusPollingHandle = setInterval(() => {
+      if (!this.isTranscribing) {
+        this.stopStatusPolling();
+        return;
+      }
+
       void poll();
     }, 10000);
   }
@@ -585,7 +629,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       description: this.transcribeForm.get('Description')?.value,
       eventDate: this.transcribeForm.get('EventDate')?.value,
       dateOfTranscription: this.transcribeForm.get('EventDate')?.value,
-      language: this.transcribeForm.get('Language')?.value,
+      language: this.normalizeLanguageCode(this.transcribeForm.get('Language')?.value),
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
       thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
@@ -698,7 +742,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       description: this.transcribeForm.get('Description')?.value,
       eventDate: this.transcribeForm.get('EventDate')?.value,
       dateOfTranscription: this.transcribeForm.get('EventDate')?.value,
-      language: this.transcribeForm.get('Language')?.value,
+      language: this.normalizeLanguageCode(this.transcribeForm.get('Language')?.value),
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
       thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
@@ -721,7 +765,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         Title: draft?.title ?? '',
         Description: draft?.description ?? '',
         EventDate: draft?.eventDate ?? draft?.dateOfTranscription ?? this.transcribeForm.get('EventDate')?.value,
-        Language: draft?.language ?? 'en',
+        Language: this.normalizeLanguageCode(draft?.language ?? 'en'),
         TranscriptionMode: draft?.transcriptionMode ?? 'upload',
         DocumentSetUrl: draft?.documentSetUrl ?? '',
         ThumbNailImage: draft?.thumbNailImage ?? '',
@@ -799,6 +843,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     sourceReferenceId: string,
     language: string
   ): { [key: string]: string } {
+    const normalizedLanguage = this.normalizeLanguageCode(language);
+
     return Object.keys(transcriptResults).reduce(
       (resultLinks, resultKey) => {
         const upstreamLink = transcriptResults[resultKey];
@@ -813,7 +859,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
         resultLinks[resultKey] =
           `${this.downloadResultEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}` +
-          `&language=${encodeURIComponent(language)}` +
+          `&language=${encodeURIComponent(normalizedLanguage)}` +
           `&resultKey=${encodeURIComponent(resultKey)}`;
 
         return resultLinks;
@@ -837,6 +883,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private isFailureStatus(status: string): boolean {
     return status === 'failed' || status === 'error' || status === 'submissionfailed';
+  }
+
+  private normalizeLanguageCode(language: unknown): string {
+    const code = typeof language === 'string' ? language.trim().toLowerCase() : '';
+    return this.supportedLanguageCodes.includes(code) ? code : 'en';
   }
 
   goToViewPage(): void {

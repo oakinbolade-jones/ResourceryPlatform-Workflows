@@ -1485,6 +1485,7 @@
     "Loading": "Carregando...",
     "Yes": "Sim",
     "No": "Não",
+     "Account:LoadingLabel": "Carregando...",
     "Account:SignInText": "com e-mail da CEDEAO ou credenciais de conta para fazer login na plataforma SmartServe",
     "Account:SignInCreateText": "Não tem uma conta? ",
     "Account:SignIn": "Entrar",

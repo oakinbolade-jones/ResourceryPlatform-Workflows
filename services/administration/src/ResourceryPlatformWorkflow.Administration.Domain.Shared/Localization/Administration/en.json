@@ -1486,6 +1486,7 @@
     "Loading": "Loading...",
     "Yes": "Yes",
     "No": "No",
+    "Account:LoadingLabel": "Loading...",
     "Account:SignInText": "with ECOWAS email or account credentials to login to the SmartServe Platform",
     "Account:SignInCreateText": "Don't have an account? Create one now.",
     "Account:SignIn": "Sign In",

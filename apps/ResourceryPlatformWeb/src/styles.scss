@@ -313,6 +313,22 @@ body[class] {
   border-color: var(--ss-input-green) !important;
 }
 
+/* Standard loading state pattern across app views */
+.ss-loading-state {
+  padding: 0.85rem 1rem;
+  border: 1px solid #b5e0c4;
+  background: #eef9f2;
+  color: #0f5132;
+}
+
+.ss-loading-progress .progress {
+  background-color: #d9e8de;
+}
+
+.ss-loading-progress .progress-bar {
+  transition: width 0.35s ease;
+}
+
 /* Green active state for LPX and Bootstrap pills */
 .lpx-scroll-pills-container ul li a.active,
 .nav-pills .nav-link.active,
@@ -619,4 +635,8 @@ app-transcribe , app-view-transcription, app-list-transcription {
 
 abp-loader .progress-bar {
   background-color: var(--oc-teal-9) !important;
+}
+
+.actions-dropdown .dropdown-toggle::after {
+  display: none !important;
 }

@@ -124,7 +124,7 @@ public class TranscriptionAppService(
     }
 
     //[AllowAnonymous]
-    //[Authorize(WorkflowPermissions.Transcriptions.View)]
+    [Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetBySourceReferenceIdAsync(string sourceReferenceId)
     {
         if (string.IsNullOrWhiteSpace(sourceReferenceId))

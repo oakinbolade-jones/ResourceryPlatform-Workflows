@@ -1485,6 +1485,7 @@
     "Loading": "Chargement...",
     "Yes": "Oui",
     "No": "Non",
+    "Account:LoadingLabel": "Chargement...",
     "Account:SignInText": "avec l'e-mail de la CEDEAO ou les identifiants de compte pour vous connecter à la plateforme SmartServe",
     "Account:SignInCreateText": "Vous n'avez pas de compte ? ",
     "Account:SignIn": "Se connecter",
