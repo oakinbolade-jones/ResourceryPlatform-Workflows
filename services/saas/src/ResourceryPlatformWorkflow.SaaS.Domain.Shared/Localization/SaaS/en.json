@@ -2,6 +2,11 @@
   "culture": "en",
   "texts": {
     "MyAccount": "My account",
-    "SamplePageMessage": "A sample page for the SaaS module"
+    "SamplePageMessage": "A sample page for the SaaS module",
+    "Permission:SaaS": "SaaS",
+    "Permission:SaaS:Tenants": "Tenants",
+    "Permission:SaaS:Tenants.Create": "Create Tenants",
+    "Permission:SaaS:Tenants.Update": "Update Tenants",
+    "Permission:SaaS:Tenants.Delete": "Delete Tenants"
   }
 }

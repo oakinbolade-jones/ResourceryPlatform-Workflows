@@ -2,6 +2,11 @@
   "culture": "fr",
   "texts": {
     "MyAccount": "Mon compte",
-    "SamplePageMessage": "Exemple de page pour le module SaaS"
+    "SamplePageMessage": "Exemple de page pour le module SaaS",
+    "Permission:SaaS": "SaaS",
+    "Permission:SaaS:Tenants": "Locataires",
+    "Permission:SaaS:Tenants.Create": "Créer des locataires",
+    "Permission:SaaS:Tenants.Update": "Mettre à jour les locataires",
+    "Permission:SaaS:Tenants.Delete": "Supprimer des locataires"
   }
 }

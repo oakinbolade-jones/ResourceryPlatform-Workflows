@@ -1,8 +1,8 @@
 <div class="container bg-white min-vh-50 p-4 p-lg-5 border border-success rounded">
   <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
     <div>
-      <h2 class="fw-bold fs-3 mb-1">{{ 'Workflow::Account:AdministrationTitle' | abpLocalization }}</h2>
-      <p class="text-muted mb-0">{{ 'Workflow::Account:AdministrationSubtitle' | abpLocalization }}</p>
+      <h2 class="fw-bold fs-3 mb-1">{{ 'Administration::Account:AdministrationTitle' | abpLocalization }}</h2>
+      <p class="text-muted mb-0">{{ 'Administration::Account:AdministrationSubtitle' | abpLocalization }}</p>
     </div>
   </div>
 
@@ -13,18 +13,18 @@
         routerLink="identity/roles"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
-        >{{ 'Workflow::Account:RolesNav' | abpLocalization }}</a
+        >{{ 'Administration::Account:RolesNav' | abpLocalization }}</a
       >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="identity/users" routerLinkActive="active">{{ 'Workflow::Account:UsersNav' | abpLocalization }}</a>
+      <a class="nav-link" routerLink="identity/users" routerLinkActive="active">{{ 'Administration::Account:UsersNav' | abpLocalization }}</a>
     </li>
     <li class="nav-item">
       <a
         class="nav-link"
         routerLink="tenant-management/tenants"
         routerLinkActive="active"
-        >{{ 'Workflow::Account:TenantsNav' | abpLocalization }}</a
+        >{{ 'Administration::Account:TenantsNav' | abpLocalization }}</a
       >
     </li>
     <li class="nav-item">
@@ -32,7 +32,7 @@
         class="nav-link"
         routerLink="setting-management/settings"
         routerLinkActive="active"
-        >{{ 'Workflow::Account:SettingsNav' | abpLocalization }}</a
+        >{{ 'Administration::Account:SettingsNav' | abpLocalization }}</a
       >
     </li>
     <li class="nav-item">
@@ -40,7 +40,7 @@
         class="nav-link"
         routerLink="feature-management/features"
         routerLinkActive="active"
-        >{{ 'Workflow::Account:FeaturesNav' | abpLocalization }}</a
+        >{{ 'Administration::Account:FeaturesNav' | abpLocalization }}</a
       >
     </li>
   </ul>

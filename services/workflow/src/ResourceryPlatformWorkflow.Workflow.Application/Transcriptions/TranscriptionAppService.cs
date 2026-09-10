@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 
-//[Authorize(WorkflowPermissions.Transcriptions.Default)]
+[Authorize(WorkflowPermissions.Transcriptions.Default)]
 public class TranscriptionAppService(
     IRepository<Transcription, Guid> transcriptionRepository,
     TranscriptionManager transcriptionManager
@@ -19,7 +19,7 @@ public class TranscriptionAppService(
     private readonly IRepository<Transcription, Guid> _transcriptionRepository = transcriptionRepository;
     private readonly TranscriptionManager _transcriptionManager = transcriptionManager;
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
     [Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetAsync(Guid id)
     {
@@ -32,7 +32,7 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
     [Authorize(WorkflowPermissions.Transcriptions.List)]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {

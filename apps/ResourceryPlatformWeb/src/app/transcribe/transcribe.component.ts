@@ -260,20 +260,25 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     })
       .then(async response => {
         if (!response.ok) {
-          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
             response,
             'Workflow::Transcription:ApiError:SaveFailed',
             'Unable to save recording at this time.'
           );
-          throw new Error(message);
+          const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+          handledError.popupShown = true;
+          throw handledError;
         }
         this.saveStatus = `Saved on server (${this.saveDirectoryHint})`;
       })
       .catch((error: unknown) => {
-        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-          'Workflow::Transcription:ApiError:SaveFailed',
-          'Unable to save recording at this time.'
-        );
+        const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+        const fallbackMessage = isHandledError
+          ? 'Unable to save recording at this time.'
+          : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+              'Workflow::Transcription:ApiError:SaveFailed',
+              'Unable to save recording at this time.'
+            ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
         this.saveStatus = `Save failed: ${message}`;
       });
@@ -324,12 +329,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+        const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
           response,
           'Workflow::Transcription:ApiError:SubmitFailed',
           'Unable to submit media for transcription right now.'
         );
-        throw new Error(message);
+        const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+        handledError.popupShown = true;
+        throw handledError;
       }
 
       const payload = await response.json();
@@ -346,10 +353,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
       this.isTranscribing = false;
-      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-        'Workflow::Transcription:ApiError:SubmitFailed',
-        'Unable to submit media for transcription right now.'
-      );
+      const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+      const fallbackMessage = isHandledError
+        ? 'Unable to submit media for transcription right now.'
+        : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+            'Workflow::Transcription:ApiError:SubmitFailed',
+            'Unable to submit media for transcription right now.'
+          ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.transcribeStatus = `Submit failed: ${message}`;
     }
@@ -364,12 +374,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
             response,
             'Workflow::Transcription:ApiError:StatusCheckFailed',
             'Unable to check transcription status right now.'
           );
-          throw new Error(message);
+          const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+          handledError.popupShown = true;
+          throw handledError;
         }
 
         const payload = await response.json();
@@ -406,10 +418,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
       } catch (error: unknown) {
-        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-          'Workflow::Transcription:ApiError:StatusCheckFailed',
-          'Unable to check transcription status right now.'
-        );
+        const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+        const fallbackMessage = isHandledError
+          ? 'Unable to check transcription status right now.'
+          : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+              'Workflow::Transcription:ApiError:StatusCheckFailed',
+              'Unable to check transcription status right now.'
+            ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
         this.transcribeStatus = `Status poll error: ${message}`;
       }
@@ -586,12 +601,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+        const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
           response,
           'Workflow::Transcription:ApiError:SaveInfoFailed',
           'Unable to save transcription information right now.'
         );
-        throw new Error(message);
+        const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+        handledError.popupShown = true;
+        throw handledError;
       }
 
       const responsePayload = await response.json();
@@ -609,10 +626,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     } catch (error: unknown) {
       // Keep users moving by saving a local draft if API save is unavailable.
       this.persistStepOneDraft(payload, true);
-      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-        'Workflow::Transcription:ApiError:SaveInfoFallback',
-        'Server save unavailable. Draft saved locally and moved to step 2.'
-      );
+      const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+      const fallbackMessage = isHandledError
+        ? 'Server save unavailable. Draft saved locally and moved to step 2.'
+        : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+            'Workflow::Transcription:ApiError:SaveInfoFallback',
+            'Server save unavailable. Draft saved locally and moved to step 2.'
+          ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.stepOneStatus = this.t(
         'Workflow::Transcription:StepOneSavedLocal',

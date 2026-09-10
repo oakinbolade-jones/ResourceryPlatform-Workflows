@@ -258,6 +258,238 @@ body:not(.home-page) #main-navbar {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Global green input theme */
+:root {
+  --ss-input-green: #198754;
+  --ss-input-green-dark: #157347;
+  --ss-input-green-soft: rgba(25, 135, 84, 0.25);
+  --bs-nav-link-color: #198754;
+  --bs-nav-link-hover-color: #157347;
+  --bs-nav-pills-link-active-bg: #198754;
+  --bs-nav-pills-link-active-color: #ffffff;
+}
+
+html,
+body,
+body[class] {
+  --bs-nav-link-color: #198754;
+  --bs-nav-link-hover-color: #157347;
+  --bs-nav-pills-link-active-bg: #198754;
+  --bs-nav-pills-link-active-color: #ffffff;
+}
+
+.nav-link {
+  color: var(--bs-nav-link-color);
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:focus-visible,
+.nav-link.active {
+  color: var(--bs-nav-link-hover-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--ss-input-green) !important;
+  border-color: var(--ss-input-green) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--ss-input-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--ss-input-green-soft) !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-control:focus-visible,
+.form-select:focus-visible {
+  border-color: var(--ss-input-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--ss-input-green-soft) !important;
+}
+
+.form-check-input[type='radio']:checked,
+.form-check-input[type='checkbox']:checked {
+  background-color: var(--ss-input-green) !important;
+  border-color: var(--ss-input-green) !important;
+}
+
+/* Green active state for LPX and Bootstrap pills */
+.lpx-scroll-pills-container ul li a.active,
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff !important;
+  border-color: var(--ss-input-green) !important;
+  background-color: var(--ss-input-green) !important;
+}
+
+/* Beat scoped _ngcontent pill styles with stronger specificity */
+.lpx-scroll-pills-container[class] ul[class] li[class] a.active[class],
+.lpx-scroll-pills-container[class] ul[class] li[class] a.nav-link.active[class],
+.nav-pills[class] .nav-link.active,
+.nav-pills[class] .show > .nav-link {
+  color: #fff !important;
+  border-color: #198754 !important;
+  background-color: #198754 !important;
+}
+
+/* Reusable app popup notifications */
+.ss-app-popup-stack {
+  position: fixed;
+  inset: 0;
+  z-index: 1065;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+}
+
+.ss-app-popup {
+  pointer-events: auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  align-items: start;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-left: 4px solid #198754;
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  width: min(46rem, calc(100vw - 2rem));
+  padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+  animation: ss-app-popup-enter 0.22s ease-out;
+}
+
+.ss-app-popup-hide {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ss-app-popup-error {
+  border-left-color: #dc3545;
+}
+
+.ss-app-popup-warning {
+  border-left-color: #ffc107;
+}
+
+.ss-app-popup-success {
+  border-left-color: #198754;
+}
+
+.ss-app-popup-info {
+  border-left-color: #0d6efd;
+}
+
+.ss-app-popup-brand {
+  width: 140px;
+  min-width: 125px;
+  height: 140px;
+  min-height: 125px;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ss-app-popup-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.ss-app-popup-content {
+  min-width: 0;
+}
+
+.ss-app-popup-title {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #0f172a;
+  margin-bottom: 0.3rem;
+}
+
+.ss-app-popup-code {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-bottom: 0.3rem;
+}
+
+.ss-app-popup-message {
+  font-size: 1.1rem;
+  color: #1e293b;
+  line-height: 1.55;
+}
+
+.ss-app-popup-actions {
+  margin-top: 0.65rem;
+}
+
+.ss-app-popup-home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #198754;
+  background: #198754;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.ss-app-popup-home-link:hover,
+.ss-app-popup-home-link:focus,
+.ss-app-popup-home-link:focus-visible {
+  background: #157347;
+  border-color: #157347;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.ss-app-popup-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.ss-app-popup-close:hover {
+  background: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+}
+
+@keyframes ss-app-popup-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 abp-layout-header,
 .abp-header,
 .abp-navbar,
