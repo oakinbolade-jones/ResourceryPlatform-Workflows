@@ -9,7 +9,7 @@
   <ul class="nav nav-pills flex-wrap gap-2 mb-4">
     <li class="nav-item">
       <a
-        class="nav-link"
+        class="nav-link rounded-5"
         routerLink="identity/roles"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -17,11 +17,11 @@
       >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLink="identity/users" routerLinkActive="active">{{ 'Administration::Account:UsersNav' | abpLocalization }}</a>
+      <a class="nav-link rounded-5" routerLink="identity/users" routerLinkActive="active">{{ 'Administration::Account:UsersNav' | abpLocalization }}</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item ">
       <a
-        class="nav-link"
+        class="nav-link rounded-5"
         routerLink="tenant-management/tenants"
         routerLinkActive="active"
         >{{ 'Administration::Account:TenantsNav' | abpLocalization }}</a
@@ -29,7 +29,7 @@
     </li>
     <li class="nav-item">
       <a
-        class="nav-link"
+        class="nav-link rounded-5"
         routerLink="setting-management/settings"
         routerLinkActive="active"
         >{{ 'Administration::Account:SettingsNav' | abpLocalization }}</a
@@ -37,7 +37,7 @@
     </li>
     <li class="nav-item">
       <a
-        class="nav-link"
+        class="nav-link rounded-5"
         routerLink="feature-management/features"
         routerLinkActive="active"
         >{{ 'Administration::Account:FeaturesNav' | abpLocalization }}</a
@@ -45,7 +45,7 @@
     </li>
   </ul>
 
-  <div class="border rounded p-3 p-lg-4 bg-light-subtle">
+  <div class="border rounded p-0 p-lg-0 bg-light-subtle">
     <router-outlet></router-outlet>
   </div>
 </div>

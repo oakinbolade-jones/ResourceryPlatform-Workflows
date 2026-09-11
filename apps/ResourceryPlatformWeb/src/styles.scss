@@ -329,6 +329,119 @@ body[class] {
   transition: width 0.35s ease;
 }
 
+/* Deep ABP permission modal customization via stable permission hooks */
+.modal-content:has(#permission-search) {
+  border: 1px solid #198754;
+  border-radius: 0.5rem;
+  max-height: 90vh;
+}
+
+.modal:has(#permission-search) .modal-dialog,
+.modal:has(#permission-search) .modal-dialog.modal-lg {
+  max-width: min(1400px, 96vw);
+  width: 96vw;
+}
+
+.modal:has(#permission-search) .modal-body {
+  max-height: calc(90vh - 140px);
+  overflow-y: auto;
+}
+
+.modal:has(#permission-search) .modal-header,
+.modal:has(#permission-search) .modal-footer {
+  background: #eef9f2;
+  border-color: #b5e0c4;
+}
+
+.modal:has(#permission-search) .modal-title,
+.modal:has(#permission-search) h4,
+.modal:has(#permission-search) legend {
+  color: #0f5132;
+}
+
+/* Fallback selectors that still apply even without :has support */
+#permission-search,
+#permission-search.form-control {
+  border-color: #198754;
+}
+
+#permission-search:focus,
+#permission-search.form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.2);
+}
+
+#permission-search + .form-control,
+.scroll-in-modal .form-control,
+.scroll-in-modal .form-select {
+  border-color: #198754;
+}
+
+.modal:has(#permission-search) .input-group-text,
+#permission-search ~ .input-group-text,
+#basic-addon1 {
+  background: #e4f4ea;
+  border-color: #198754;
+  color: #0f5132;
+}
+
+#select-all-in-all-tabs.form-check-input:checked,
+#select-all-in-this-tabs.form-check-input:checked,
+.scroll-in-modal .form-check-input:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.modal:has(#permission-search) fieldset,
+#permission-search ~ fieldset,
+.scroll-in-modal + .scroll-in-modal,
+.lpx-scroll-pills-container.scroll-in-modal {
+  border-color: #b5e0c4 !important;
+}
+
+.modal:has(#permission-search) fieldset {
+  background: #f8fcf9;
+}
+
+.modal:has(#permission-search) .nav-pills .nav-link.active,
+.modal:has(#permission-search) .nav-pills .show > .nav-link,
+.lpx-scroll-pills-container.scroll-in-modal .nav-pills .nav-link.active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #fff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-outline-primary,
+.modal:has(#permission-search) .modal-footer .btn-secondary,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary {
+  border-color: #198754 !important;
+  color: #198754 !important;
+  background-color: #ffffff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:hover,
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:focus,
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:active,
+.modal:has(#permission-search) .modal-footer .btn-secondary:hover,
+.modal:has(#permission-search) .modal-footer .btn-secondary:focus,
+.modal:has(#permission-search) .modal-footer .btn-secondary:active,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:hover,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:focus,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #ffffff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-primary,
+.modal:has(#permission-search) .modal-footer .btn-primary:hover,
+.modal:has(#permission-search) .modal-footer .btn-primary:focus,
+.modal:has(#permission-search) .modal-footer .btn-primary:active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #ffffff !important;
+}
+
 /* Green active state for LPX and Bootstrap pills */
 .lpx-scroll-pills-container ul li a.active,
 .nav-pills .nav-link.active,
@@ -610,7 +723,7 @@ app-account .container {
 app-account-settings .account-section-page,
 app-account-tenants .account-section-page {
   background: rgba(255, 255, 255, 0.75);
-  border: 1px solid var(--bs-success);
+  border: none !important;
   border-radius: 0.5rem;
   padding: 1rem;
   margin-top: 0.75rem;

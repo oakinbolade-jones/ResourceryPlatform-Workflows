@@ -1,7 +1,7 @@
 <div class="account-section-page">
   <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
     <h4 class="fw-bold mb-0">{{ 'Administration::Account:TenantsTitle' | abpLocalization }}</h4>
-    <button type="button" class="btn btn-success" (click)="openCreateModal()">
+    <button type="button" class="btn btn-success rounded-5" (click)="openCreateModal()">
       {{ 'Administration::Account:NewTenant' | abpLocalization }}
     </button>
   </div>
@@ -16,7 +16,7 @@
       />
     </div>
     <div class="col-12 col-md-auto">
-      <button type="button" class="btn btn-success w-100" (click)="applyFilter()">
+      <button type="button" class="btn btn-outline-success rounded-5 w-100" (click)="applyFilter()">
         {{ 'Administration::Account:Search' | abpLocalization }}
       </button>
     </div>
