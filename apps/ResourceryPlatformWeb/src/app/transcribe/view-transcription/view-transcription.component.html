@@ -17,7 +17,11 @@
         {{ 'Workflow::Transcription:DetailsDescriptionLabel' | abpLocalization }}
       </p>
     </div>
-    <a class="btn btn-success rounded-1 px-4" routerLink="/transcribe/list">
+      <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+        <i class="fa fa-plus me-2" aria-hidden="true"></i>
+        {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
+      </a>
+    <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
       <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
       {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
     >
@@ -99,7 +103,7 @@
           <div class="d-inline-flex gap-2">
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('docx') || downloadingFormat !== null"
               (click)="downloadResult('docx')"
             >
@@ -109,7 +113,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('pdf') || downloadingFormat !== null"
               (click)="downloadResult('pdf')"
             >
@@ -121,7 +125,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('txt') || downloadingFormat !== null"
               (click)="downloadResult('txt')"
             >

@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 
-[Authorize(WorkflowPermissions.Transcriptions.Default)]
+//[Authorize(WorkflowPermissions.Transcriptions.Default)]
 public class TranscriptionAppService(
     IRepository<Transcription, Guid> transcriptionRepository,
     TranscriptionManager transcriptionManager
@@ -19,8 +19,8 @@ public class TranscriptionAppService(
     private readonly IRepository<Transcription, Guid> _transcriptionRepository = transcriptionRepository;
     private readonly TranscriptionManager _transcriptionManager = transcriptionManager;
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.View)]
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetAsync(Guid id)
     {
         var transcription = await _transcriptionRepository.FindAsync(id);
@@ -32,8 +32,8 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.List)]
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.List)]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
@@ -41,8 +41,7 @@ public class TranscriptionAppService(
         return transcriptions.ConvertAll(Map);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.Create)]
+    [AllowAnonymous]
     public async Task<TranscriptionDto> CreateAsync(CreateUpdateTranscriptionDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -77,8 +76,7 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
+    [AllowAnonymous]
     public async Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -116,15 +114,14 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.Delete)]
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.Delete)]
     public Task DeleteAsync(Guid id)
     {
         return _transcriptionManager.DeleteAsync(id);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.View)]
+    [AllowAnonymous]
     public async Task<TranscriptionDto> GetBySourceReferenceIdAsync(string sourceReferenceId)
     {
         if (string.IsNullOrWhiteSpace(sourceReferenceId))
@@ -142,8 +139,7 @@ public class TranscriptionAppService(
         return transcription == null ? null : Map(transcription);
     }
 
-    //[AllowAnonymous]
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
+    [AllowAnonymous]
     public async Task<TranscriptionDto> SaveTranscriptAsync(string sourceReferenceId, string transcript)
     {
         Check.NotNullOrWhiteSpace(sourceReferenceId, nameof(sourceReferenceId));

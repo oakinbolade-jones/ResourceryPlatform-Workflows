@@ -1,10 +1,6 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-5">
-    <img
-      src="assets/images/logo/ecowas-circle-logo.png"
-      alt="DCP SmartServe"
-      style="max-height: 50px; width: auto"
-    />
+    <img src="assets/images/logo/ecowas-circle-logo.png" alt="DCP SmartServe" style="max-height: 50px; width: auto" />
     <h2 class="fw-bold fs-3 mb-0 text-emphasis">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
@@ -16,7 +12,7 @@
       </p>
     </div>
     <div class="list-header-action">
-      <a class="btn btn-success rounded-0 px-4" routerLink="/transcribe">
+      <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
         {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
       </a>
@@ -25,7 +21,7 @@
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
     <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
-    <div class="small mt-1">Loading transcriptions...</div>
+    <!-- <div class="small mt-1">Loading transcriptions...</div> -->
     <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading transcriptions">
       <div class="progress rounded-0" style="height: 0.7rem">
         <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
@@ -38,55 +34,34 @@
     {{ 'Workflow::Transcription:EmptyLabel' | abpLocalization }}
   </div>
 
-  <div
-    *ngIf="!loading && !error && transcriptions.length > 0"
-    class="filter-panel border-none rounded-0 p-0 mb-3"
-  >
+  <div *ngIf="!loading && !error && transcriptions.length > 0" class="filter-panel border-none rounded-0 p-0 mb-3">
     <div class="row g-3 align-items-end">
       <div class="col-12 col-md-3">
-        <label for="searchTitle" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:SearchByTitleLabel' | abpLocalization }}</label>
-        <input
-          id="searchTitle"
-          type="text"
-          class="form-control border border-success rounded-0"
-          [value]="searchTitle"
-          (input)="onTitleSearch(($any($event.target).value ?? '').toString())"
-          placeholder="Enter title"
-        />
+        <label for="searchTitle" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:SearchByTitleLabel' |
+          abpLocalization }}</label>
+        <input id="searchTitle" type="text" class="form-control border border-success rounded-0" [value]="searchTitle"
+          (input)="onTitleSearch(($any($event.target).value ?? '').toString())" placeholder="Enter title" />
       </div>
       <div class="col-12 col-md-3">
-        <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:SearchByDateLabel' | abpLocalization }}</label>
-        <input
-          id="searchDate"
-          type="date"
-          class="form-control border border-success rounded-0"
-          [value]="searchDate"
-          (input)="onDateSearch(($any($event.target).value ?? '').toString())"
-        />
+        <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Workflow::Transcription:SearchByDateLabel' |
+          abpLocalization }}</label>
+        <input id="searchDate" type="date" class="form-control border border-success rounded-0" [value]="searchDate"
+          (input)="onDateSearch(($any($event.target).value ?? '').toString())" />
       </div>
       <div class="col-12 col-md-3 d-grid d-md-flex justify-content-md-end">
-        <button
-          type="button"
-          class="btn btn-outline-success rounded-0 px-4"
-          (click)="clearFilters()"
-        >
+        <button type="button" class="btn btn-outline-success rounded-5 px-4" (click)="clearFilters()">
           {{ 'Workflow::Transcription:ClearFilterLabel' | abpLocalization }}
         </button>
       </div>
     </div>
   </div>
 
-  <div
-    *ngIf="!loading && !error && transcriptions.length > 0 && filteredTranscriptions.length === 0"
-    class="state-banner state-empty"
-  >
+  <div *ngIf="!loading && !error && transcriptions.length > 0 && filteredTranscriptions.length === 0"
+    class="state-banner state-empty">
     {{ 'Workflow::Transcription:NoMatchLabel' | abpLocalization }}
   </div>
 
-  <div
-    *ngIf="!loading && !error && filteredTranscriptions.length > 0"
-    class="table-shell border-none rounded-0"
-  >
+  <div *ngIf="!loading && !error && filteredTranscriptions.length > 0" class="table-shell border-none rounded-0">
     <table class="table table-hover align-middle mb-0 transcription-table">
       <thead>
         <tr>
@@ -95,7 +70,7 @@
           <th>Language</th>
           <th>Status</th>
           <th>Date</th>
-          <th class="text-end">Action</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -107,28 +82,28 @@
             <span class="status-pill">{{ item.status || 'N/A' }}</span>
           </td>
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
-          <td class="text-end">
-            <a
-              class="btn btn-sm btn-success rounded-0"
-              [routerLink]="['/transcribe/view', item.id]"
-            >
-              <i class="fa fa-eye me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:ViewLabel' | abpLocalization }}
-            </a>
-             <a
-              class="btn btn-sm btn-success rounded-0"
-              [routerLink]="['/transcribe/edit', item.id]"
-            >
-              <i class="fa fa-pencil me-2" aria-hidden="true"></i>{{ 'Workflow::Transcription:EditLabel' | abpLocalization }}
-            </a>
-            <button
-              type="button"
-              class="btn btn-sm btn-success rounded-0"
-              (click)="deleteTranscription(item)"
-              [disabled]="deletingId === item.id"
-            >
-              <i class="fa fa-trash me-2" aria-hidden="true"></i>
-              {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }}
-            </button>
+          <td class="text-center">
+            <div ngbDropdown class="d-inline-block actions-dropdown">
+              <button class="btn btn-sm" ngbDropdownToggle type="button"
+                [attr.aria-label]="'Administration::Actions' | abpLocalization"
+                [title]="'Administration::Actions' | abpLocalization">
+                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+              </button>
+              <div ngbDropdownMenu>
+                <a ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
+                  <i class="fa fa-eye me-2" aria-hidden="true"></i>
+                  {{ 'Workflow::Transcription:ViewLabel' | abpLocalization }}
+                </a>
+                <a ngbDropdownItem [routerLink]="['/transcribe/edit', item.id]">
+                  <i class="fa fa-pencil me-2" aria-hidden="true"></i>
+                  {{ 'Workflow::Transcription:EditLabel' | abpLocalization }}
+                </a>
+                <button ngbDropdownItem type="button" (click)="deleteTranscription(item)" [disabled]="deletingId === item.id">
+                  <i class="fa fa-trash me-2" aria-hidden="true"></i>
+                  {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }}
+                </button>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>

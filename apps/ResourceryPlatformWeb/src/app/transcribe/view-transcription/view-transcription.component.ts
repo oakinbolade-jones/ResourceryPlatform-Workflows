@@ -107,6 +107,11 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
     this.transcriptionService.get(transcriptionId).subscribe({
       next: transcription => {
+        if (!transcription) {
+          this.handleLoadError('Transcription was not found.');
+          return;
+        }
+
         this.bindLoadedTranscription(transcription);
       },
       error: () => {
@@ -121,6 +126,11 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
     this.transcriptionService.getBySourceReferenceId(sourceReferenceId).subscribe({
       next: transcription => {
+        if (!transcription) {
+          this.handleLoadError('Transcription was not found.');
+          return;
+        }
+
         this.transcriptionId = transcription.id ?? this.transcriptionId;
         this.bindLoadedTranscription(transcription);
       },
@@ -130,7 +140,12 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     });
   }
 
-  private bindLoadedTranscription(transcription: TranscriptionDto): void {
+  private bindLoadedTranscription(transcription: TranscriptionDto | null): void {
+    if (!transcription) {
+      this.handleLoadError('Transcription was not found.');
+      return;
+    }
+
     this.transcription = transcription;
     this.mediaError = null;
     this.mediaUrl = this.resolveMediaUrl(transcription);
@@ -245,14 +260,16 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     const source =
       (Array.isArray(payload.words) && payload.words) ||
       (payload.result && Array.isArray(payload.result.words) && payload.result.words) ||
+      (Array.isArray(payload.results) && payload.results[0] && Array.isArray(payload.results[0].words) && payload.results[0].words) ||
       (Array.isArray(payload.word_alignment) && payload.word_alignment) ||
+      (Array.isArray(payload.results) && payload.results[0] && Array.isArray(payload.results[0].word_alignment) && payload.results[0].word_alignment) ||
       [];
 
     const normalized: Array<{ start: number; end: number; startOffset: number; endOffset: number; text: string }> = [];
 
     for (const item of source) {
-      const start = Number(item?.start ?? item?.start_time ?? 0);
-      const end = Number(item?.end ?? item?.end_time ?? 0);
+      const start = Number(item?.start ?? item?.startTime ?? item?.start_time ?? 0);
+      const end = Number(item?.end ?? item?.endTime ?? item?.end_time ?? 0);
       const startOffset = Number(item?.startOffset ?? item?.start_offset ?? -1);
       const endOffset = Number(item?.endOffset ?? item?.end_offset ?? -1);
       const text = String(item?.word ?? item?.text ?? '').trim();
