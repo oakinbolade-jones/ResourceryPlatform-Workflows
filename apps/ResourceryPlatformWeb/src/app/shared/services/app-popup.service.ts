@@ -20,7 +20,7 @@ export interface AppPopupOptions {
 })
 export class AppPopupService {
   private readonly containerId = 'ss-app-popup-stack';
-  private readonly defaultDurationMs = 8000;
+  private readonly defaultDurationMs = 30000;
   private readonly defaultLogoUrl = '/assets/images/logo/ecw-smartserve-logo.png';
   private readonly defaultHomeLinkUrl = '/';
   private readonly defaultHomeLinkLabel = 'Go to Home';

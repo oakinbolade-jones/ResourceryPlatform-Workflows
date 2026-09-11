@@ -85,6 +85,9 @@ export class ApiErrorLocalizationService {
       message: friendlyError.message,
       code: friendlyError.code,
       tone: 'error',
+      durationMs: 30000,
+      homeLinkUrl: '/',
+      autoRedirectToHomeOnTimeout: true,
     });
 
     return friendlyError;
@@ -97,6 +100,9 @@ export class ApiErrorLocalizationService {
       message: friendlyError.message,
       code: friendlyError.code,
       tone: 'error',
+      durationMs: 30000,
+      homeLinkUrl: '/',
+      autoRedirectToHomeOnTimeout: true,
     });
 
     return friendlyError;
@@ -119,6 +125,9 @@ export class ApiErrorLocalizationService {
       message: friendlyError.message,
       code: friendlyError.code,
       tone: 'error',
+      durationMs: 30000,
+      homeLinkUrl: '/',
+      autoRedirectToHomeOnTimeout: true,
     });
 
     return friendlyError;
@@ -165,6 +174,9 @@ export class ApiErrorLocalizationService {
       message: friendlyError.message,
       code: friendlyError.code,
       tone: friendlyError.code === '403' ? 'warning' : 'error',
+      durationMs: 30000,
+      homeLinkUrl: '/',
+      autoRedirectToHomeOnTimeout: true,
     });
 
     return friendlyError;

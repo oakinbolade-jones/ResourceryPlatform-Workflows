@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '@abp/ng.core';
 import {
   CUSTOM_HTTP_ERROR_HANDLER_PRIORITY,
   CustomHttpErrorHandlerService,
@@ -15,10 +14,7 @@ export class GlobalHttpErrorPopupHandlerService implements CustomHttpErrorHandle
 
   private lastError: HttpErrorResponse | null = null;
 
-  constructor(
-    private apiErrorLocalization: ApiErrorLocalizationService,
-    private authService: AuthService
-  ) {}
+  constructor(private apiErrorLocalization: ApiErrorLocalizationService) {}
 
   canHandle(error: unknown): boolean {
     const status = this.resolveStatusCode(error);
@@ -49,12 +45,6 @@ export class GlobalHttpErrorPopupHandlerService implements CustomHttpErrorHandle
       'Workflow::Common:ApiError:Default',
       'Something unexpected happened. Please try again in a moment.'
     );
-
-    if (this.lastError.status === 401) {
-      setTimeout(() => {
-        this.authService.navigateToLogin();
-      }, 900);
-    }
 
     // Preserve the latest user-friendly message if future diagnostics are added.
     void friendlyError;
