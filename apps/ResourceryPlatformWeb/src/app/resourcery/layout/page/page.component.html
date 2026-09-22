@@ -17,7 +17,7 @@
       </button>
       <div class="qt-page-text">
         <div class="qt-page-title">{{ pageTitle }}</div>
-        <div class="qt-page-subtitle">{{ pageSubtitle }}</div>
+        <div class="qt-page-subtitle" *ngIf="!hideSubtitle">{{ pageSubtitle }}</div>
       </div>
     </div>
     <div class="qt-actions">

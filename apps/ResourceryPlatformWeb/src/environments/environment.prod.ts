@@ -1,4 +1,4 @@
-import { Environment } from '@abp/ng.core';
+﻿import { Environment } from '@abp/ng.core';
 
 const baseUrl = 'http://smartserve.ecowas.int';
 
@@ -28,3 +28,4 @@ export const environment = {
     defaultResourceName: 'Administration',
   },
 } as Environment;
+

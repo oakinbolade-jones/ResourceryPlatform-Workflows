@@ -12,7 +12,7 @@ public class RequestDto : FullAuditedEntityDto<Guid>
     public string? Description { get; set; }
     public string? Comment { get; set; }
     public Guid ServiceId { get; set; }
-    public MeetingDto? MeetingForm { get; set; }
+    public MeetingDto? Meeting { get; set; }
     public DocumentMigrationStatus DocumentMigrationStatus { get; set; }
     public DateTime? DocumentsPublishedAt { get; set; }
     public IList<RequestDocumentDto> Documents { get; set; } = new List<RequestDocumentDto>();

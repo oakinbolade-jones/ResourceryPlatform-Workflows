@@ -41,7 +41,7 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            b.HasOne(x => x.MeetingForm)
+            b.HasOne(x => x.Meeting)
                 .WithOne(x => x.Request)
                 .HasForeignKey<Meeting>(x => x.RequestId)
                 .OnDelete(DeleteBehavior.Cascade);

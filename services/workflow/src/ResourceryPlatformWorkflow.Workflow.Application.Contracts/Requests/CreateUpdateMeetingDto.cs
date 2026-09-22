@@ -1,6 +1,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using ResourceryPlatformWorkflow.Workflow.Meetings;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
@@ -19,12 +20,15 @@ public class CreateUpdateMeetingDto
     public string ContactEmail { get; set; } = default!;
     public string ContactName { get; set; } = default!;
     public string HostName { get; set; } = default!;
+    public string HostDesignation { get; set; } = default!;
     public string HostPhoneNumber { get; set; } = default!;
     public string HostEmail { get; set; } = default!;
     public string? CoHost1Name { get; set; }
+    public string? CoHost1Designation { get; set; }
     public string? CoHost1PhoneNumber { get; set; }
     public string? CoHost1Email { get; set; }
     public string? CoHost2Name { get; set; }
+    public string? CoHost2Designation { get; set; }
     public string? CoHost2PhoneNumber { get; set; }
     public string? CoHost2Email { get; set; }
     public string? GLNumberRefreshments { get; set; }
@@ -37,4 +41,5 @@ public class CreateUpdateMeetingDto
     public string? CostCenterNumberCarHire { get; set; }
     public string? CostCenterNumberEquipment { get; set; }
     public string? CostCenterNumberLanguageServices { get; set; }
+    public IList<CreateUpdateMeetingItemDto> MeetingItems { get; set; } = new List<CreateUpdateMeetingItemDto>();
 }

@@ -15,29 +15,29 @@ namespace ResourceryPlatformWorkflow.Workflow.Requests;
 public class RequestAppService : WorkflowAppService, IRequestAppService
 {
     private readonly IRepository<Request, Guid> _requestRepository;
-    private readonly IRepository<Meeting, Guid> _meetingRepository;
     private readonly RequestManager _requestManager;
+    private readonly RequestSubmissionValidationService _requestSubmissionValidationService;
     private readonly RequestToRequestDtoMapper _requestToRequestDtoMapper;
     private readonly IBackgroundJobManager _backgroundJobManager;
 
     public RequestAppService(
         IRepository<Request, Guid> requestRepository,
-        IRepository<Meeting, Guid> meetingRepository,
         RequestManager requestManager,
+        RequestSubmissionValidationService requestSubmissionValidationService,
         RequestToRequestDtoMapper requestToRequestDtoMapper,
         IBackgroundJobManager backgroundJobManager
     )
     {
         _requestRepository = requestRepository;
-        _meetingRepository = meetingRepository;
         _requestManager = requestManager;
+        _requestSubmissionValidationService = requestSubmissionValidationService;
         _requestToRequestDtoMapper = requestToRequestDtoMapper;
         _backgroundJobManager = backgroundJobManager;
     }
 
     public async Task<RequestDto> GetAsync(Guid id)
     {
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var request = await AsyncExecuter.FirstOrDefaultAsync(queryable, x => x.Id == id);
 
         if (request == null)
@@ -50,14 +50,14 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
 
     public async Task<List<RequestDto>> GetListAsync()
     {
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var requests = await AsyncExecuter.ToListAsync(queryable);
         return requests.ConvertAll(_requestToRequestDtoMapper.Map);
     }
 
     public async Task<List<RequestDto>> GetByStatusAsync(RequestStatus requestStatus)
     {
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var requests = await AsyncExecuter.ToListAsync(
             queryable.Where(x => x.RequestStatus == requestStatus)
         );
@@ -66,14 +66,14 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
 
     public async Task<List<RequestDto>> GetByUserAsync(Guid userId)
     {
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var requests = await AsyncExecuter.ToListAsync(queryable.Where(x => x.CreatorId == userId));
         return requests.ConvertAll(_requestToRequestDtoMapper.Map);
     }
 
     public async Task<List<RequestDto>> GetByTypeAsync(RequestType requestType)
     {
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var requests = await AsyncExecuter.ToListAsync(
             queryable.Where(x => x.RequestType == requestType)
         );
@@ -84,17 +84,18 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
     public async Task<RequestDto> CreateAsync(CreateUpdateRequestDto input)
     {
         Check.NotNull(input, nameof(input));
+        await _requestSubmissionValidationService.ValidateAsync(input, $"create:{Guid.NewGuid():N}");
 
         var request = await _requestManager.CreateAsync(
             input.DocumentSetUrl,
-            input.Description,
+            input.Description ?? string.Empty,
             input.ServiceId,
             input.RequestType,
             input.Comment
         );
 
         await _requestManager.SetRequestStatusAsync(request, input.RequestStatus);
-        await UpsertMeetingFormAsync(request, input.MeetingForm);
+        await _requestManager.UpsertMeetingAsync(request, MapMeeting(input.Meeting, request.Id));
 
         foreach (var document in input.Documents)
         {
@@ -126,7 +127,9 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
     {
         Check.NotNull(input, nameof(input));
 
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        await _requestSubmissionValidationService.ValidateAsync(input, $"update:{id:N}");
+
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var request = await AsyncExecuter.FirstOrDefaultAsync(queryable, x => x.Id == id);
 
         if (request == null)
@@ -142,7 +145,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         await _requestManager.SetRequestTypeAsync(request, input.RequestType);
         await _requestManager.SetCommentAsync(request, input.Comment);
         await _requestManager.SetRequestStatusAsync(request, input.RequestStatus);
-        await UpsertMeetingFormAsync(request, input.MeetingForm);
+        await _requestManager.UpsertMeetingAsync(request, MapMeeting(input.Meeting, request.Id));
 
         await _requestManager.ReplaceDocumentsAsync(
             request,
@@ -172,7 +175,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
     {
         Check.NotNull(documents, nameof(documents));
 
-        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.MeetingForm);
+        var queryable = await _requestRepository.WithDetailsAsync(x => x.Documents, x => x.Meeting);
         var request = await AsyncExecuter.FirstOrDefaultAsync(queryable, x => x.Id == id);
 
         if (request == null)
@@ -210,95 +213,89 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
     [Authorize(WorkflowPermissions.Requests.Delete)]
     public Task DeleteAsync(Guid id) => _requestManager.DeleteAsync(id);
 
-    private async Task UpsertMeetingFormAsync(Request request, CreateUpdateMeetingDto? input)
+    private Meeting? MapMeeting(CreateUpdateMeetingDto? meeting, Guid requestId)
     {
-        if (input == null)
+        if (meeting == null)
         {
-            if (request.MeetingForm != null)
+            return null;
+        }
+
+        var servicePrefix = requestId.ToString("N")[..8].ToUpperInvariant();
+        var mapped = new Meeting(
+            GuidGenerator.Create(),
+            meeting.Title,
+            meeting.DepartureDate,
+            meeting.StartDate,
+            meeting.EndDate,
+            meeting.Type,
+            string.IsNullOrWhiteSpace(meeting.ReferenceNumber)
+                ? $"MEET-{servicePrefix}-{DateTime.UtcNow:yyyyMMddHHmmss}"
+                : meeting.ReferenceNumber,
+            meeting.NumberOfParticipants,
+            meeting.Location,
+            meeting.ContactPhone,
+            meeting.ContactEmail,
+            meeting.ContactName,
+            meeting.HostName,
+            meeting.HostPhoneNumber,
+            meeting.HostEmail
+        );
+
+        mapped.SetRequestId(requestId);
+        mapped.SetHostDesignation(meeting.HostDesignation);
+        mapped.SetCoHost1(
+            meeting.CoHost1Name,
+            meeting.CoHost1Designation,
+            meeting.CoHost1PhoneNumber,
+            meeting.CoHost1Email
+        );
+        mapped.SetCoHost2(
+            meeting.CoHost2Name,
+            meeting.CoHost2Designation,
+            meeting.CoHost2PhoneNumber,
+            meeting.CoHost2Email
+        );
+        mapped.SetGLNumbers(
+            meeting.GLNumberRefreshments,
+            meeting.GLNumberHotel,
+            meeting.GLNumberCarHire,
+            meeting.GLNumberEquipment,
+            meeting.GLNumberLanguageServices
+        );
+        mapped.SetCostCenterNumbers(
+            meeting.CostCenterNumberRefreshments,
+            meeting.CostCenterNumberHotel,
+            meeting.CostCenterNumberCarHire,
+            meeting.CostCenterNumberEquipment,
+            meeting.CostCenterNumberLanguageServices
+        );
+
+        if (meeting.MeetingItems != null)
+        {
+            foreach (var item in meeting.MeetingItems)
             {
-                await _meetingRepository.DeleteAsync(request.MeetingForm, autoSave: false);
-                request.SetMeetingForm(null);
+                if (item == null)
+                {
+                    continue;
+                }
+
+                mapped.MeetingItems.Add(new MeetingItem(
+                    GuidGenerator.Create(),
+                    mapped.Id,
+                    item.ItemName,
+                    item.ItemCode,
+                    item.Category,
+                    item.ServiceCenterCode,
+                    item.QuantityNo,
+                    item.PeriodFrom,
+                    item.PeriodTo,
+                    item.Budget,
+                    item.RemarkObservation
+                ));
             }
-
-            return;
         }
 
-        if (request.MeetingForm == null)
-        {
-            var meeting = new Meeting(
-                GuidGenerator.Create(),
-                input.Title,
-                input.DepartureDate,
-                input.StartDate,
-                input.EndDate,
-                input.Type,
-                input.ReferenceNumber,
-                input.NumberOfParticipants,
-                input.Location,
-                input.ContactPhone,
-                input.ContactEmail,
-                input.ContactName,
-                input.HostName,
-                input.HostPhoneNumber,
-                input.HostEmail
-            );
-
-            meeting.SetRequestId(request.Id);
-            meeting.SetCoHost1(input.CoHost1Name, input.CoHost1PhoneNumber, input.CoHost1Email);
-            meeting.SetCoHost2(input.CoHost2Name, input.CoHost2PhoneNumber, input.CoHost2Email);
-            meeting.SetGLNumbers(
-                input.GLNumberRefreshments,
-                input.GLNumberHotel,
-                input.GLNumberCarHire,
-                input.GLNumberEquipment,
-                input.GLNumberLanguageServices
-            );
-            meeting.SetCostCenterNumbers(
-                input.CostCenterNumberRefreshments,
-                input.CostCenterNumberHotel,
-                input.CostCenterNumberCarHire,
-                input.CostCenterNumberEquipment,
-                input.CostCenterNumberLanguageServices
-            );
-
-            request.SetMeetingForm(meeting);
-            await _meetingRepository.InsertAsync(meeting, autoSave: false);
-            return;
-        }
-
-        request.MeetingForm.SetTitle(input.Title);
-        request.MeetingForm.SetDepartureDate(input.DepartureDate);
-        request.MeetingForm.SetStartDate(input.StartDate);
-        request.MeetingForm.SetEndDate(input.EndDate);
-        request.MeetingForm.SetType(input.Type);
-        request.MeetingForm.SetReferenceNumber(input.ReferenceNumber);
-        request.MeetingForm.SetNumberOfParticipants(input.NumberOfParticipants);
-        request.MeetingForm.SetLocation(input.Location);
-        request.MeetingForm.SetContactPhone(input.ContactPhone);
-        request.MeetingForm.SetContactEmail(input.ContactEmail);
-        request.MeetingForm.SetContactName(input.ContactName);
-        request.MeetingForm.SetHostName(input.HostName);
-        request.MeetingForm.SetHostPhoneNumber(input.HostPhoneNumber);
-        request.MeetingForm.SetHostEmail(input.HostEmail);
-        request.MeetingForm.SetRequestId(request.Id);
-        request.MeetingForm.SetCoHost1(input.CoHost1Name, input.CoHost1PhoneNumber, input.CoHost1Email);
-        request.MeetingForm.SetCoHost2(input.CoHost2Name, input.CoHost2PhoneNumber, input.CoHost2Email);
-        request.MeetingForm.SetGLNumbers(
-            input.GLNumberRefreshments,
-            input.GLNumberHotel,
-            input.GLNumberCarHire,
-            input.GLNumberEquipment,
-            input.GLNumberLanguageServices
-        );
-        request.MeetingForm.SetCostCenterNumbers(
-            input.CostCenterNumberRefreshments,
-            input.CostCenterNumberHotel,
-            input.CostCenterNumberCarHire,
-            input.CostCenterNumberEquipment,
-            input.CostCenterNumberLanguageServices
-        );
-
-        await _meetingRepository.UpdateAsync(request.MeetingForm, autoSave: false);
+        return mapped;
     }
 
     private Task EnqueuePublishToSharePointAsync(Guid requestId) =>

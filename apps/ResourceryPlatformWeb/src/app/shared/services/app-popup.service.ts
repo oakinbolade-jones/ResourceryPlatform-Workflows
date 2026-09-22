@@ -30,7 +30,6 @@ export class AppPopupService {
     const container = this.ensureContainer();
     const popup = document.createElement('div');
     popup.className = `ss-app-popup ss-app-popup-${options.tone ?? 'info'}`;
-    let hasUserInteracted = false;
 
     const closeButton = document.createElement('button');
     closeButton.type = 'button';
@@ -70,8 +69,7 @@ export class AppPopupService {
 
     content.appendChild(message);
 
-    const shouldShowHomeLink =
-      options.showHomeLink ?? (options.tone === 'error' || options.tone === 'warning');
+    const shouldShowHomeLink = options.showHomeLink ?? false;
 
     if (shouldShowHomeLink) {
       const actions = document.createElement('div');
@@ -81,9 +79,6 @@ export class AppPopupService {
       homeLink.className = 'ss-app-popup-home-link';
       homeLink.href = options.homeLinkUrl?.trim() || this.defaultHomeLinkUrl;
       homeLink.textContent = options.homeLinkLabel?.trim() || this.defaultHomeLinkLabel;
-      homeLink.addEventListener('click', () => {
-        hasUserInteracted = true;
-      });
       actions.appendChild(homeLink);
 
       content.appendChild(actions);
@@ -96,24 +91,21 @@ export class AppPopupService {
 
     const dismiss = () => {
       popup.classList.add('ss-app-popup-hide');
-      setTimeout(() => popup.remove(), 220);
+      container.classList.add('ss-app-popup-stack-hide');
+      setTimeout(() => {
+        popup.remove();
+        if (!container.querySelector('.ss-app-popup')) {
+          container.remove();
+        } else {
+          container.classList.remove('ss-app-popup-stack-hide');
+        }
+      }, 220);
     };
 
-    closeButton.addEventListener('click', () => {
-      hasUserInteracted = true;
-      dismiss();
-    });
-
-    const shouldRedirectOnTimeout =
-      options.autoRedirectToHomeOnTimeout ?? (options.tone === 'error' || options.tone === 'warning');
-    const redirectUrl = options.homeLinkUrl?.trim() || this.defaultHomeLinkUrl;
+    closeButton.addEventListener('click', dismiss);
 
     setTimeout(() => {
       dismiss();
-
-      if (!this.disableAutoRedirectForDebug && !hasUserInteracted && shouldRedirectOnTimeout) {
-        window.location.assign(redirectUrl);
-      }
     }, Math.max(2500, options.durationMs ?? this.defaultDurationMs));
   }
 

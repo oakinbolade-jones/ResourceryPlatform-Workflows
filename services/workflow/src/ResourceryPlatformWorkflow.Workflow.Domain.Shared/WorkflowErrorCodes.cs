@@ -7,6 +7,10 @@ public static class WorkflowErrorCodes
         public const string DuplicateDocument = "Workflow:Requests:DuplicateDocument";
         public const string RequestNotFound = "Workflow:Requests:RequestNotFound";
         public const string InvalidRequestStatus = "Workflow:Requests:InvalidRequestStatus";
+        public const string RequestDataRequired = "Workflow:Requests:RequestDataRequired";
+        public const string MeetingDataRequired = "Workflow:Requests:MeetingDataRequired";
+        public const string MeetingItemDataRequired = "Workflow:Requests:MeetingItemDataRequired";
+        public const string InvalidMeetingRequirement = "Workflow:Requests:InvalidMeetingRequirement";
     }
 
     public static class Services

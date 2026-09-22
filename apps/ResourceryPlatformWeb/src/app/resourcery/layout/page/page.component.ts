@@ -4,6 +4,10 @@ import { Title } from '@angular/platform-browser';
 import { LocalizationService } from '@abp/ng.core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import {
+  PageHeaderVisibilityService,
+  PageHeaderVisibilityState,
+} from '../../../shared/services/page-header-visibility.service';
 
 @Component({
   selector: 'app-resourcery-page',
@@ -17,6 +21,14 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
   pageTitle = 'Dashboard';
   pageSubtitle = 'Overview';
   hideTopbar = false;
+  hideSubtitle = false;
+
+  private routeHideTopbar = false;
+  private routeHideSubtitle = false;
+  private directiveVisibility: PageHeaderVisibilityState = {
+    hideTitleBar: false,
+    hideSubtitle: false,
+  };
 
   private readonly destroy$ = new Subject<void>();
 
@@ -24,13 +36,21 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private title: Title,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
+    private pageHeaderVisibilityService: PageHeaderVisibilityService
   ) {}
 
   ngOnInit(): void {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd), takeUntil(this.destroy$))
       .subscribe(() => this.updateHeader());
+
+    this.pageHeaderVisibilityService.state$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(state => {
+        this.directiveVisibility = state;
+        this.applyVisibilityState();
+      });
 
     this.updateHeader();
   }
@@ -50,13 +70,20 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
       activeRoute = activeRoute.firstChild;
     }
 
-    this.hideTopbar = !!(activeRoute.snapshot.data?.['hideTopbar'] ?? activeRoute.snapshot.data?.['hideHeader']);
+    this.routeHideTopbar = !!(activeRoute.snapshot.data?.['hideTopbar'] ?? activeRoute.snapshot.data?.['hideHeader']);
+    this.routeHideSubtitle = !!activeRoute.snapshot.data?.['hideSubtitle'];
+    this.applyVisibilityState();
 
     const title = activeRoute.snapshot.data?.['title'] as string | undefined;
     const resolvedTitle = this.resolveTitle(title ?? this.fallbackTitle());
     this.pageTitle = resolvedTitle;
     this.pageSubtitle = `${resolvedTitle} Overview`;
     this.title.setTitle(`${resolvedTitle} - SmartServe Platform`);
+  }
+
+  private applyVisibilityState(): void {
+    this.hideTopbar = this.routeHideTopbar || this.directiveVisibility.hideTitleBar;
+    this.hideSubtitle = this.hideTopbar || this.routeHideSubtitle || this.directiveVisibility.hideSubtitle;
   }
 
   private resolveTitle(value: string): string {

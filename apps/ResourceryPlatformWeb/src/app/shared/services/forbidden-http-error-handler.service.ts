@@ -40,9 +40,9 @@ export class ForbiddenHttpErrorHandlerService implements CustomHttpErrorHandlerS
       message: friendlyMessage || detailsFromPayload || fallback,
       code: '403',
       tone: 'warning',
-      homeLinkUrl: '/',
+      showHomeLink: false,
       durationMs: 30000,
-      autoRedirectToHomeOnTimeout: true,
+      autoRedirectToHomeOnTimeout: false,
     });
   }
 
