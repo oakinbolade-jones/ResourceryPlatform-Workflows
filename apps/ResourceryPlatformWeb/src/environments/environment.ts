@@ -15,6 +15,7 @@ export const environment = {
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+    clockSkewInSec: 900,
     requireHttps: false,
   },
   apis: {

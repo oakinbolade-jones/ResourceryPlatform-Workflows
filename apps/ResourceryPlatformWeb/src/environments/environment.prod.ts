@@ -16,6 +16,7 @@ export const environment = {
     clientSecret: '1q2w3e*',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
+    clockSkewInSec: 900,
     requireHttps: false,
   },
   apis: {
