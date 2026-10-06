@@ -5,6 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+<<<<<<< HEAD
+=======
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
+>>>>>>> staging
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -40,9 +45,18 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.MailKit;
 using Volo.Abp.Modularity;
 using Volo.Abp.Security.Claims;
+<<<<<<< HEAD
 using Volo.Abp.UI.Navigation.Urls;
+=======
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using StackExchange.Redis;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
+>>>>>>> staging
 
 namespace ResourceryPlatformWorkflow;
 
@@ -56,6 +70,7 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(AbpCachingStackExchangeRedisModule))]
 [DependsOn(typeof(AbpDistributedLockingModule))]
 [DependsOn(typeof(AbpEntityFrameworkCoreSqlServerModule))]
+[DependsOn(typeof(AbpMailKitModule))]
 [DependsOn(typeof(AdministrationEntityFrameworkCoreModule))]
 [DependsOn(typeof(IdentityServiceEntityFrameworkCoreModule))]
 [DependsOn(typeof(SaaSEntityFrameworkCoreModule))]
@@ -100,6 +115,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseAspNetCore();
             });
 
+<<<<<<< HEAD
             if (disableTransportSecurityRequirement)
             {
                 builder.AddServer(options =>
@@ -107,6 +123,20 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                     options.UseAspNetCore().DisableTransportSecurityRequirement();
                 });
             }
+=======
+            // if (hostingEnvironment.IsDevelopment())
+            // {
+            //     builder.AddServer(options =>
+            //     {
+            //         options.UseAspNetCore().DisableTransportSecurityRequirement();
+            //     });
+            // }
+            builder.AddServer(options =>
+                   {
+                       options.UseAspNetCore().DisableTransportSecurityRequirement();
+                   });
+
+>>>>>>> staging
         });
 
         PreConfigure<OpenIddictServerBuilder>(builder =>
@@ -151,6 +181,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+<<<<<<< HEAD
         Configure<AuthServerOptions>(configuration.GetSection("AuthServer"));
 
         context.Services.PostConfigure<OpenIddictServerOptions>(options =>
@@ -161,6 +192,16 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
             options.Issuer = new Uri(authOptions.Authority);
         });
         
+=======
+        // Trust the X-Forwarded-Proto header from IIS (reverse proxy / SSL termination).
+        context.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            options.KnownIPNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
+
+>>>>>>> staging
         Configure<OpenIddictServerOptions>(options =>
         {
             var accessTokenLifetimeInMinutes = configuration.GetValue<int?>(
@@ -557,6 +598,8 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         IdentityModelEventSource.ShowPII = true;
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+
+        app.UseForwardedHeaders();
 
         if (env.IsDevelopment())
         {

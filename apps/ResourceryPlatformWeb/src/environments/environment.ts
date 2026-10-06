@@ -1,16 +1,28 @@
 import { Environment } from '@abp/ng.core';
 
+<<<<<<< HEAD
 const baseUrl = 'https://smartserve.ecowas.int';
+=======
+const baseUrl = 'http://smartserve.ecowas.int';
+>>>>>>> staging
 
 export const environment = {
-  production: false,
+  production: true,
   application: {
     baseUrl,
+<<<<<<< HEAD
     name: 'ResourceryPlatformWorkflow',
     logoUrl: 'https://auth.smartserve.ecowas.int/Account/Login',
   },
   oAuthConfig: {
     issuer: 'https://auth.smartserve.ecowas.int',
+=======
+    name: 'SmartServe Platform',
+    logoUrl: 'https://auth.smartserve.ecowas.int//Account/Login',
+  },
+  oAuthConfig: {
+    issuer: 'https://auth.smartserve.ecowas.int/',
+>>>>>>> staging
     redirectUri: baseUrl,
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
@@ -19,11 +31,15 @@ export const environment = {
   },
   apis: {
     default: {
+<<<<<<< HEAD
       url: 'https://api.smartserve.ecowas.int',
+=======
+      url: 'http://api.smartserve.ecowas.int',
+>>>>>>> staging
       rootNamespace: 'ResourceryPlatformWorkflow',
     },
   },
   localization: {
-    defaultResourceName: 'Workflow',
+    defaultResourceName: 'Administration',
   },
 } as Environment;

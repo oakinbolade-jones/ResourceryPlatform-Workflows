@@ -16,8 +16,17 @@ const routes: Routes = [
   { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) },
   { path: 'get-started', loadChildren: () => import('./get-started/get-started.module').then(m => m.GetStartedModule) },
   { path: 'documentation', loadChildren: () => import('./documentation/documentation.module').then(m => m.DocumentationModule) },
+<<<<<<< HEAD
   { path: 'webcast', loadChildren: () => import('./webcast/webcast.module').then(m => m.WebcastModule), data: { title: 'Workflow::Webcasts' } },
   { path: 'support', loadChildren: () => import('./support/support.module').then(m => m.SupportModule), data: { title: 'Workflow::Support' } },
+=======
+  { path: 'webcast', loadChildren: () => import('./webcast/webcast.module').then(m => m.WebcastModule) },
+  { path: 'support', loadChildren: () => import('./support/support.module').then(m => m.SupportModule) },
+  {
+    path: 'account-module',
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
+  },
+>>>>>>> staging
 
   {
     path: 'account/manage',
@@ -31,6 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'identity',
+<<<<<<< HEAD
     loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()), data: { title: 'Workflow::IdentityManagement' }
   },
   {
@@ -42,6 +52,40 @@ const routes: Routes = [
     path: 'setting-management',
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()), data: { title: 'Workflow::SettingsManagement' }
+=======
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/roles',
+  },
+  {
+    path: 'identity/roles',
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/roles',
+  },
+  {
+    path: 'identity/users',
+    pathMatch: 'full',
+    redirectTo: 'account-module/identity/users',
+  },
+  {
+    path: 'tenant-management',
+    pathMatch: 'full',
+    redirectTo: 'account-module/tenant-management/tenants',
+  },
+  {
+    path: 'tenant-management/tenants',
+    pathMatch: 'full',
+    redirectTo: 'account-module/tenant-management/tenants',
+  },
+  {
+    path: 'setting-management',
+    pathMatch: 'full',
+    redirectTo: 'account-module/setting-management/settings',
+  },
+  {
+    path: 'feature-management',
+    pathMatch: 'full',
+    redirectTo: 'account-module/feature-management/features',
+>>>>>>> staging
   },
   { path: 'directorate', loadChildren: () => import('./directorate/directorate.module').then(m => m.DirectorateModule), data: { title: 'Workflow::Directorate' } },
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), data: { title: 'Workflow::Dashboard' } },

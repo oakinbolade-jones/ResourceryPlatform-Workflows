@@ -2,6 +2,11 @@
   "culture": "pt-BR",
   "texts": {
     "MyAccount": "Minha conta",
-    "SamplePageMessage": "Uma página de amostra para o módulo IdentityService"
+    "SamplePageMessage": "Uma página de amostra para o módulo IdentityService",
+    "Permission:IdentityService": "Serviço de Identidade",
+    "Permission:Users": "Usuários",
+    "Permission:Create": "Criar Usuários",
+    "Permission:Update": "Atualizar Usuários",
+    "Permission:Delete": "Excluir Usuários"
   }
 }

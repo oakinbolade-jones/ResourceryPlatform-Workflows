@@ -1,35 +1,50 @@
 ﻿<div class="container bg-white min-vh-50 p-5 border border-success rounded">
 
   <div class="d-flex align-items-center gap-2 mb-3">
-    <img
+    <!-- <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
       style="max-height: 50px; width: auto"
+<<<<<<< HEAD
     />
     <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::Meeting:ServiceRequestLabel' | abpLocalization }}</h2>
   </div>
   <p class="mb-5 text-wrap" style="width: 75%">
     {{ 'Workflow::Meeting:RequestsInfo' | abpLocalization }}
+=======
+    /> -->
+    <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ServiceRequestLabel' | abpLocalization }}</h2>
+  </div>
+  <p class="mb-5 text-wrap" style="width: 100%">
+    {{ 'Workflow::RequestsInfo' | abpLocalization }}
+>>>>>>> staging
   </p>
   <div class="row">
-    <div class="col-12 col-lg-10">
-      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+    <div class="col-12 col-lg-12">
+      <form class="request-form" [formGroup]="requestForm" (ngSubmit)="onSubmit()">
         <input type="hidden" formControlName="RequestType" />
         <input type="hidden" formControlName="RequestStatus" />
 
+<<<<<<< HEAD
         <div class="mb-3">
           <label for="serviceSelect" class="form-label fw-bold">{{
             'Workflow::Meeting:ServiceLabel' | abpLocalization
           }}</label>
+=======
+        <div class="form-floating mb-3 request-floating-half">
+>>>>>>> staging
           <select
             id="serviceSelect"
-            class="form-select border border-success p-2 rounded-0"
-            style="width: 50%"
+            class="form-select border border-success rounded-0"
             formControlName="ServiceId"
             (change)="onServiceChange()"
             required
           >
+<<<<<<< HEAD
             <option value="">{{ 'Workflow::Meeting:ChooseService' | abpLocalization }}</option>
+=======
+            <option value="" disabled>{{ 'Workflow::ChooseService' | abpLocalization }}</option>
+>>>>>>> staging
             <option *ngFor="let service of services" [value]="service.id">
               {{ 'Workflow::' + service.displayName | abpLocalization }}
             </option>
@@ -40,20 +55,30 @@
               {{ 'Workflow::Meeting:service.displayName' | abpLocalization }} 
             </option> -->
           </select>
+          <label for="serviceSelect" >{{
+            'Workflow::ServiceLabel' | abpLocalization
+          }}</label>
         </div>
 
+<<<<<<< HEAD
         <div class="mb-3">
           <label for="Description" class="form-label fw-bold">{{
             'Workflow::Meeting:ServiceDescriptionLabel' | abpLocalization
           }}</label>
+=======
+        <div class="form-floating mb-3">
+>>>>>>> staging
           <textarea
             id="Description"
-            class="form-control border border-success p-2 rounded-0"
+            class="form-control border border-success rounded-0 request-floating-textarea"
             formControlName="Description"
             rows="4"
             required
             placeholder="{{ 'Workflow::Meeting:ServiceDescriptionPlaceHolder' | abpLocalization }}"
           ></textarea>
+          <label for="Description" class="fw-normal">{{
+            'Workflow::ServiceDescriptionLabel' | abpLocalization
+          }}</label>
         </div>
         <!-- Separator -->
         <hr class="my-5" />
@@ -61,25 +86,33 @@
         <div
           *ngIf="selectedServiceCode === 'MEET'"
           class="meeting-container"
-          formGroupName="MeetingForm"
+          formGroupName="Meeting"
         >
           <!-- Add your meeting-specific content here -->
           <!-- <label class="form-label fw-bolder">{{
+<<<<<<< HEAD
             'Workflow::Meeting:FormLabel' | abpLocalization
+=======
+            'Administration::Meeting:FormLabel' | abpLocalization
+>>>>>>> staging
           }}</label> -->
           <!-- Add form controls or other content as needed -->
           <div class="accordion accordion-flush" id="meetingPanel">
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button
-                  class="accordion-button fw-bold"
+                  class="accordion-button fw-normal fs-3"
                   type="button"
                   [class.collapsed]="!isAccordionOpen(1)"
                   [attr.aria-expanded]="isAccordionOpen(1)"
                   aria-controls="flush-collapseOne"
                   (click)="toggleAccordion(1)"
                 >
+<<<<<<< HEAD
                   {{ 'Workflow::Meeting:InformationLabel' | abpLocalization }}
+=======
+                  {{ 'Administration::Meeting:InformationLabel' | abpLocalization }}
+>>>>>>> staging
                 </button>
               </h2>
               <div
@@ -92,48 +125,71 @@
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-8">
                       <label class="form-label d-block">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:TypeLabel' | abpLocalization
+=======
+                        'Administration::Meeting:TypeLabel' | abpLocalization
+>>>>>>> staging
                       }}</label>
                       <div class="form-check form-check-inline">
                         <input
                           class="form-check-input border border-success p-2 rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('Type')"
                           type="radio"
                           id="meetingTypePhysical"
                           formControlName="Type"
                           [value]="0"
                         />
                         <label class="form-check-label" for="meetingTypePhysical">{{
+<<<<<<< HEAD
                           'Workflow::Meeting:PhysicalLabel' | abpLocalization
+=======
+                          'Administration::Meeting:PhysicalLabel' | abpLocalization
+>>>>>>> staging
                         }}</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input
                           class="form-check-input border border-success p-2 rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('Type')"
                           type="radio"
                           id="meetingTypeVirtual"
                           formControlName="Type"
                           [value]="1"
                         />
                         <label class="form-check-label" for="meetingTypeVirtual">{{
+<<<<<<< HEAD
                           'Workflow::Meeting:VirtualLabel' | abpLocalization
+=======
+                          'Administration::Meeting:VirtualLabel' | abpLocalization
+>>>>>>> staging
                         }}</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input
                           class="form-check-input border border-success p-2 rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('Type')"
                           type="radio"
                           id="meetingTypeHybrid"
                           formControlName="Type"
                           [value]="2"
                         />
                         <label class="form-check-label" for="meetingTypeHybrid">{{
+<<<<<<< HEAD
                           'Workflow::Meeting:HybridLabel' | abpLocalization
+=======
+                          'Administration::Meeting:HybridLabel' | abpLocalization
+>>>>>>> staging
                         }}</label>
+                      </div>
+                      <div class="invalid-feedback d-block" *ngIf="hasMeetingControlError('Type')">
+                        {{ meetingControlErrorMessage('Type') }}
                       </div>
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col-12">
+<<<<<<< HEAD
                       <label class="form-label">{{
                         'Workflow::Meeting:TitleLabel' | abpLocalization
                       }}</label>
@@ -142,11 +198,30 @@
                         type="text"
                         formControlName="Title"
                       />
+=======
+                      <div class="form-floating">
+                        <input
+                          id="meetingTitle"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('Title')"
+                          type="text"
+                          formControlName="Title"
+                          placeholder="{{ 'Administration::Meeting:TitleLabel' | abpLocalization }}"
+                        />
+                        <label for="meetingTitle">{{
+                          'Administration::Meeting:TitleLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('Title')">
+                          {{ meetingControlErrorMessage('Title') }}
+                        </div>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
 
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
+<<<<<<< HEAD
                       <label class="form-label">{{
                         'Workflow::Meeting:DepartureDateLabel' | abpLocalization
                       }}</label>
@@ -175,10 +250,71 @@
                         type="date"
                         formControlName="EndDate"
                       />
+=======
+                      <div class="form-floating">
+                        <input
+                          id="departureDate"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('DepartureDate')"
+                          type="date"
+                          formControlName="DepartureDate"
+                          placeholder=" "
+                        />
+                        <label for="departureDate">{{
+                          'Administration::Meeting:DepartureDateLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('DepartureDate')">
+                          {{ meetingControlErrorMessage('DepartureDate') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="form-floating">
+                        <input
+                          id="startDate"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('StartDate') || shouldShowMeetingDateRangeError()"
+                          type="date"
+                          formControlName="StartDate"
+                          placeholder=" "
+                        />
+                        <label for="startDate">{{
+                          'Administration::Meeting:StartDateLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('StartDate')">
+                          {{ meetingControlErrorMessage('StartDate') }}
+                        </div>
+                        <div class="invalid-feedback" *ngIf="!hasMeetingControlError('StartDate') && shouldShowMeetingDateRangeError()">
+                          {{ 'Workflow::Meeting:ValidationStartDateRange' | abpLocalization }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="form-floating">
+                        <input
+                          id="endDate"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('EndDate') || shouldShowMeetingDateRangeError()"
+                          type="date"
+                          formControlName="EndDate"
+                          placeholder=" "
+                        />
+                        <label for="endDate">{{
+                          'Administration::Meeting:EndDateLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('EndDate')">
+                          {{ meetingControlErrorMessage('EndDate') }}
+                        </div>
+                        <div class="invalid-feedback" *ngIf="!hasMeetingControlError('EndDate') && shouldShowMeetingDateRangeError()">
+                          {{ 'Workflow::Meeting:ValidationEndDateRange' | abpLocalization }}
+                        </div>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
+<<<<<<< HEAD
                       <label class="form-label">{{
                         'Workflow::Meeting:LocationLabel' | abpLocalization
                       }}</label>
@@ -198,18 +334,60 @@
                         min="1"
                         formControlName="NumberOfParticipants"
                       />
+=======
+                      <div class="form-floating">
+                        <input
+                          id="location"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('Location')"
+                          type="text"
+                          formControlName="Location"
+                          placeholder="{{ 'Administration::Meeting:LocationLabel' | abpLocalization }}"
+                        />
+                        <label for="location">{{
+                          'Administration::Meeting:LocationLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('Location')">
+                          {{ meetingControlErrorMessage('Location') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="participants"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('NumberOfParticipants')"
+                          type="number"
+                          min="1"
+                          formControlName="NumberOfParticipants"
+                          placeholder="{{ 'Administration::Meeting:NumberofParticipantsLabel' | abpLocalization }}"
+                        />
+                        <label for="participants">{{
+                          'Administration::Meeting:NumberofParticipantsLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('NumberOfParticipants')">
+                          {{ meetingControlErrorMessage('NumberOfParticipants') }}
+                        </div>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col-12"><hr /></div>
 
-                    <div class="col-12 col-md-2 d-flex align-items-end">
+                    <div class="col-12 col-md-2 d-flex align-items-center">
                       <label class="form-label fw-medium">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:GLNumberLabel' | abpLocalization
+=======
+                        'Administration::Meeting:GLNumberLabel' | abpLocalization
+>>>>>>> staging
                       }}</label>
                     </div>
 
                     <div class="col-12 col-md-2">
+<<<<<<< HEAD
                       <label class="form-label">{{
                         'Workflow::Meeting:GLRefreshmentLabel' | abpLocalization
                       }}</label>
@@ -258,11 +436,82 @@
                         type="text"
                         formControlName="GLNumberLanguageServices"
                       />
+=======
+                      <div class="form-floating">
+                        <input
+                          id="glRefreshments"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="GLNumberRefreshments"
+                          placeholder="{{ 'Administration::Meeting:GLRefreshmentLabel' | abpLocalization }}"
+                        />
+                        <label for="glRefreshments">{{
+                          'Administration::Meeting:GLRefreshmentLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="glHotel"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="GLNumberHotel"
+                          placeholder="{{ 'Administration::Meeting:GLHotelLabel' | abpLocalization }}"
+                        />
+                        <label for="glHotel">{{
+                          'Administration::Meeting:GLHotelLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="glCarHire"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="GLNumberCarHire"
+                          placeholder="{{ 'Administration::Meeting:GLCarHireLabel' | abpLocalization }}"
+                        />
+                        <label for="glCarHire">{{
+                          'Administration::Meeting:GLCarHireLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="glEquipment"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="GLNumberEquipment"
+                          placeholder="{{ 'Administration::Meeting:GLEquipmentLabel' | abpLocalization }}"
+                        />
+                        <label for="glEquipment">{{
+                          'Administration::Meeting:GLEquipmentLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="glLanguage"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="GLNumberLanguageServices"
+                          placeholder="{{ 'Administration::Meeting:GLLanguageLabel' | abpLocalization }}"
+                        />
+                        <label for="glLanguage"
+                          >{{ 'Administration::Meeting:GLLanguageLabel' | abpLocalization }}</label
+                        >
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
-                    <div class="col d-flex align-items-end">
+                    <div class="col d-flex align-items-center">
                       <label class="form-label fw-medium">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:CostCenterNumberLabel' | abpLocalization
                       }}</label>
                     </div>
@@ -315,6 +564,80 @@
                         type="text"
                         formControlName="CostCenterNumberLanguageServices"
                       />
+=======
+                        'Administration::Meeting:CostCenterNumberLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="ccRefreshments"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CostCenterNumberRefreshments"
+                          placeholder="{{ 'Administration::Meeting:CCRefreshmentLabel' | abpLocalization }}"
+                        />
+                        <label for="ccRefreshments">{{
+                          'Administration::Meeting:CCRefreshmentLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="ccHotel"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CostCenterNumberHotel"
+                          placeholder="{{ 'Administration::Meeting:CCHotelLabel' | abpLocalization }}"
+                        />
+                        <label for="ccHotel">{{
+                          'Administration::Meeting:CCHotelLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="ccCarHire"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CostCenterNumberCarHire"
+                          placeholder="{{ 'Administration::Meeting:CCCarHireLabel' | abpLocalization }}"
+                        />
+                        <label for="ccCarHire">{{
+                          'Administration::Meeting:CCCarHireLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="ccEquipment"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CostCenterNumberEquipment"
+                          placeholder="{{ 'Administration::Meeting:CCEquipmentLabel' | abpLocalization }}"
+                        />
+                        <label for="ccEquipment">{{
+                          'Administration::Meeting:CCEquipmentLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="ccLanguage"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CostCenterNumberLanguageServices"
+                          placeholder="{{ 'Administration::Meeting:CCLanguageLabel' | abpLocalization }}"
+                        />
+                        <label for="ccLanguage">{{
+                          'Administration::Meeting:CCLanguageLabel' | abpLocalization
+                        }}</label>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="col-12"><hr /></div>
@@ -324,14 +647,18 @@
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button
-                  class="accordion-button fw-bold"
+                  class="accordion-button fw-normal fs-3"
                   type="button"
                   [class.collapsed]="!isAccordionOpen(2)"
                   [attr.aria-expanded]="isAccordionOpen(2)"
                   aria-controls="flush-collapseTwo"
                   (click)="toggleAccordion(2)"
                 >
+<<<<<<< HEAD
                   {{ 'Workflow::Meeting:RequirementsLabel' | abpLocalization }}
+=======
+                  {{ 'Administration::Meeting:RequirementsLabel' | abpLocalization }}
+>>>>>>> staging
                 </button>
               </h2>
               <div
@@ -340,15 +667,142 @@
                 [class.show]="isAccordionOpen(2)"
                 data-bs-parent="#meetingPanel"
               >
-                <div class="accordion-body">
-                  Placeholder content for this accordion, which is intended to demonstrate the
-                  <code>.accordion-flush</code> class. This is the second item’s accordion body.
-                  Let’s imagine this being filled with some actual content.
+                <div class="accordion-body meeting-requirements-body">
+                  <div class="meeting-requirements-list">
+                    <div
+                      class="meeting-requirement-group"
+                      *ngFor="let group of meetingRequirementGroups; trackBy: trackMeetingRequirementGroup"
+                    >
+                      <label class="meeting-requirement-toggle">
+                        <input
+                          type="checkbox"
+                          [checked]="isMeetingRequirementChecked(group.key)"
+                          (change)="toggleMeetingRequirement(group.key)"
+                        />
+                        <span>{{ meetingRequirementGroupLabel(group.key) | abpLocalization }}</span>
+                      </label>
 
-                  <div class="row g-3 mb-4"></div>
-                  <div class="row g-3 mb-4"></div>
-                  <div class="row g-3 mb-4"></div>
-                  <div class="row g-3 mb-4"></div>
+                      <div class="meeting-requirement-panel" *ngIf="isMeetingRequirementChecked(group.key)">
+                        <div class="meeting-requirement-option-list">
+                          <div
+                            class="meeting-requirement-option"
+                            *ngFor="let option of group.options; trackBy: trackMeetingRequirementOption"
+                          >
+                            <label class="meeting-option-check">
+                              <input
+                                type="checkbox"
+                                [checked]="hasMeetingRequirementOption(group.key, option.key)"
+                                (change)="toggleMeetingRequirementOption(group.key, option.key)"
+                              />
+                              <span>{{ meetingRequirementOptionLabel(group.key, option.key) | abpLocalization }}</span>
+                            </label>
+
+                            <div
+                              class="meeting-requirement-detail-card"
+                              *ngIf="hasMeetingRequirementOption(group.key, option.key)"
+                            >
+                              <div class="row g-3">
+                                <div class="col-12 col-md-2">
+                                  <div class="form-floating">
+                                    <input
+                                      id="{{ group.key }}-{{ option.key }}-days"
+                                      type="number"
+                                      class="form-control border border-success rounded-0"
+                                      [class.is-invalid]="hasMeetingRequirementValidationError(group.key, option.key)"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].days"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [required]="hasMeetingRequirementOption(group.key, option.key)"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    />
+                                    <label for="{{ group.key }}-{{ option.key }}-days">{{ 'Administration::Meeting:NoOfDaysLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                  <div class="form-floating">
+                                    <input
+                                      id="{{ group.key }}-{{ option.key }}-quantity"
+                                      type="number"
+                                      class="form-control border border-success rounded-0"
+                                      [class.is-invalid]="hasMeetingRequirementValidationError(group.key, option.key)"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].quantity"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [required]="hasMeetingRequirementOption(group.key, option.key)"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    />
+                                    <label for="{{ group.key }}-{{ option.key }}-quantity">{{ 'Administration::Meeting:QuantityLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-2">
+                                  <div class="form-floating">
+                                    <input
+                                      id="{{ group.key }}-{{ option.key }}-budget"
+                                      type="number"
+                                      class="form-control border border-success rounded-0"
+                                      [class.is-invalid]="hasMeetingRequirementValidationError(group.key, option.key)"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].budget"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [required]="hasMeetingRequirementOption(group.key, option.key)"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    />
+                                    <label for="{{ group.key }}-{{ option.key }}-budget">{{ 'Administration::Meeting:BudgetLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                  <div class="form-floating">
+                                    <input
+                                      id="{{ group.key }}-{{ option.key }}-period-from"
+                                      type="date"
+                                      class="form-control border border-success rounded-0"
+                                      [class.is-invalid]="hasMeetingRequirementValidationError(group.key, option.key)"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].startDate"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [required]="hasMeetingRequirementOption(group.key, option.key)"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    />
+                                    <label for="{{ group.key }}-{{ option.key }}-period-from">{{ 'Administration::Meeting:PeriodFromLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                  <div class="form-floating">
+                                    <input
+                                      id="{{ group.key }}-{{ option.key }}-period-to"
+                                      type="date"
+                                      class="form-control border border-success rounded-0"
+                                      [class.is-invalid]="hasMeetingRequirementValidationError(group.key, option.key)"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].endDate"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [required]="hasMeetingRequirementOption(group.key, option.key)"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    />
+                                    <label for="{{ group.key }}-{{ option.key }}-period-to">{{ 'Administration::Meeting:PeriodToLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-floating">
+                                    <textarea
+                                      id="{{ group.key }}-{{ option.key }}-remarks"
+                                      rows="2"
+                                      class="form-control border border-success rounded-0 request-floating-textarea"
+                                      [(ngModel)]="meetingRequirementEntries[group.key][option.key].remarks"
+                                      [ngModelOptions]="{ standalone: true }"
+                                      (ngModelChange)="refreshMeetingRequirementValidation()"
+                                      placeholder=" "
+                                    ></textarea>
+                                    <label for="{{ group.key }}-{{ option.key }}-remarks">{{ 'Administration::Meeting:RemarksLabel' | abpLocalization }}</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="col-12"><hr /></div>
                 </div>
@@ -357,14 +811,18 @@
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button
-                  class="accordion-button fw-bold"
+                  class="accordion-button fw-normal fs-3"
                   type="button"
                   [class.collapsed]="!isAccordionOpen(3)"
                   [attr.aria-expanded]="isAccordionOpen(3)"
                   aria-controls="flush-collapseThree"
                   (click)="toggleAccordion(3)"
                 >
+<<<<<<< HEAD
                   {{ 'Workflow::Meeting:ManagementLabel' | abpLocalization }}
+=======
+                  {{ 'Administration::Meeting:ManagementLabel' | abpLocalization }}
+>>>>>>> staging
                 </button>
               </h2>
               <div
@@ -377,6 +835,7 @@
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 d-flex align-items-end">
                       <label class="form-label fw-bold">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:HostLabel' | abpLocalization
                       }}</label>
                     </div>
@@ -419,11 +878,82 @@
                         type="email"
                         formControlName="HostEmail"
                       />
+=======
+                        'Administration::Meeting:HostLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="hostName"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('HostName')"
+                          type="text"
+                          formControlName="HostName"
+                          placeholder="{{ 'Workflow::NameLabel' | abpLocalization }}"
+                        />
+                        <label for="hostName">{{ 'Administration::Meeting:NameLabel' | abpLocalization }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('HostName')">
+                          {{ meetingControlErrorMessage('HostName') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="hostDesignation"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="HostDesignation"
+                          placeholder="{{ 'Administration::Meeting:DesignationLabel' | abpLocalization }}"
+                        />
+                        <label for="hostDesignation">{{
+                          'Administration::Meeting:DesignationLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="hostPhone"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('HostPhoneNumber')"
+                          type="text"
+                          formControlName="HostPhoneNumber"
+                          placeholder="{{ 'Administration::Meeting:PhoneNumberLabel' | abpLocalization }}"
+                        />
+                        <label for="hostPhone">{{
+                          'Administration::Meeting:PhoneNumberLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('HostPhoneNumber')">
+                          {{ meetingControlErrorMessage('HostPhoneNumber') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="hostEmail"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('HostEmail')"
+                          type="email"
+                          formControlName="HostEmail"
+                          placeholder="{{ 'Administration::Meeting:EmailLabel' | abpLocalization }}"
+                        />
+                        <label for="hostEmail">{{
+                          'Administration::Meeting:EmailLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('HostEmail')">
+                          {{ meetingControlErrorMessage('HostEmail') }}
+                        </div>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 d-flex align-items-end">
                       <label class="form-label fw-bold">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:CoHost1Label' | abpLocalization
                       }}</label>
                     </div>
@@ -466,11 +996,72 @@
                         type="email"
                         formControlName="CoHost1Email"
                       />
+=======
+                        'Administration::Meeting:CoHost1Label' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="coHost1Name"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost1Name"
+                          placeholder="{{ 'Administration::Meeting:NameLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost1Name">{{
+                          'Administration::Meeting:NameLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="coHost1Designation"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost1Designation"
+                          placeholder="{{ 'Administration::Meeting:DesignationLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost1Designation">{{
+                          'Administration::Meeting:DesignationLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="coHost1Phone"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost1PhoneNumber"
+                          placeholder="{{ 'Administration::Meeting:PhoneNumberLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost1Phone">{{
+                          'Administration::Meeting:PhoneNumberLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="coHost1Email"
+                          class="form-control border border-success rounded-0"
+                          type="email"
+                          formControlName="CoHost1Email"
+                          placeholder="{{ 'Administration::Meeting:EmailLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost1Email">{{
+                          'Administration::Meeting:EmailLabel' | abpLocalization
+                        }}</label>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col-12 col-md-2 d-flex align-items-end">
                       <label class="form-label fw-bold">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:CoHost2Label' | abpLocalization
                       }}</label>
                     </div>
@@ -513,11 +1104,72 @@
                         type="email"
                         formControlName="CoHost2Email"
                       />
+=======
+                        'Administration::Meeting:CoHost2Label' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="coHost2Name"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost2Name"
+                          placeholder="{{ 'Administration::Meeting:NameLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost2Name">{{
+                          'Administration::Meeting:NameLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="coHost2Designation"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost2Designation"
+                          placeholder="{{ 'Administration::Meeting:DesignationLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost2Designation">{{
+                          'Administration::Meeting:DesignationLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="coHost2Phone"
+                          class="form-control border border-success rounded-0"
+                          type="text"
+                          formControlName="CoHost2PhoneNumber"
+                          placeholder="{{ 'Administration::Meeting:PhoneNumberLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost2Phone">{{
+                          'Workflow::PhoneNumberLabel' | abpLocalization
+                        }}</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="coHost2Email"
+                          class="form-control border border-success rounded-0"
+                          type="email"
+                          formControlName="CoHost2Email"
+                          placeholder="{{ 'Administration::Meeting:EmailLabel' | abpLocalization }}"
+                        />
+                        <label for="coHost2Email">{{
+                          'Administration::Meeting:EmailLabel' | abpLocalization
+                        }}</label>
+                      </div>
+>>>>>>> staging
                     </div>
                   </div>
                   <div class="row g-3 mb-4">
                     <div class="col col-md-2 d-flex align-items-end">
                       <label class="form-label fw-bold">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:ContactFocalPersonLabel' | abpLocalization
                       }}</label>
                     </div>
@@ -550,11 +1202,73 @@
                         type="email"
                         formControlName="ContactEmail"
                       />
+=======
+                        'Administration::Meeting:ContactFocalPersonLabel' | abpLocalization
+                      }}</label>
+                    </div>
+                    <div class="col-12 col-md-4">
+                      <div class="form-floating">
+                        <input
+                          id="contactName"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('ContactName')"
+                          type="text"
+                          formControlName="ContactName"
+                          placeholder="{{ 'Administration::Meeting:NameLabel' | abpLocalization }}"
+                        />
+                        <label for="contactName">{{
+                          'Administration::Meeting:NameLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('ContactName')">
+                          {{ meetingControlErrorMessage('ContactName') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="contactPhone"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('ContactPhone')"
+                          type="text"
+                          formControlName="ContactPhone"
+                          placeholder="{{ 'Administration::Meeting:PhoneNumberLabel' | abpLocalization }}"
+                        />
+                        <label for="contactPhone">{{
+                          'Administration::Meeting:PhoneNumberLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('ContactPhone')">
+                          {{ meetingControlErrorMessage('ContactPhone') }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="contactEmail"
+                          class="form-control border border-success rounded-0"
+                          [class.is-invalid]="hasMeetingControlError('ContactEmail')"
+                          type="email"
+                          formControlName="ContactEmail"
+                          placeholder="{{ 'Administration::Meeting:EmailLabel' | abpLocalization }}"
+                        />
+                        <label for="contactEmail">{{
+                          'Administration::Meeting:EmailLabel' | abpLocalization
+                        }}</label>
+                        <div class="invalid-feedback" *ngIf="hasMeetingControlError('ContactEmail')">
+                          {{ meetingControlErrorMessage('ContactEmail') }}
+                        </div>
+                      </div>
+>>>>>>> staging
                     </div>
 
                     <div class="row g-3 mb-4">
                       <label class="form-label fw-bold">{{
+<<<<<<< HEAD
                         'Workflow::Meeting:RemarkObservationLabel' | abpLocalization
+=======
+                        'Administration::Meeting:RemarkObservationLabel' | abpLocalization
+>>>>>>> staging
                       }}</label>
                     </div>
                   </div>
@@ -566,6 +1280,7 @@
           <hr class="my-5" />
           <label
             >(a) &nbsp; &nbsp;
+<<<<<<< HEAD
             {{ 'Workflow::Meeting:FormInformationLine1' | abpLocalization }}</label
           ><br />
           <label
@@ -575,24 +1290,47 @@
           <label
             >(c) &nbsp; &nbsp;
             {{ 'Workflow::Meeting:FormInformationLine3' | abpLocalization }}</label
+=======
+            {{ 'Administration::Meeting:FormInformationLine1' | abpLocalization }}</label
+          ><br />
+          <label
+            >(b) &nbsp; &nbsp;
+            {{ 'Administration::Meeting:FormInformationLine2' | abpLocalization }}</label
+          ><br />
+          <label
+            >(c) &nbsp; &nbsp;
+            {{ 'Administration::Meeting:FormInformationLine3' | abpLocalization }}</label
+>>>>>>> staging
           >
           <br /><br />
           <label
             >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NB:
+<<<<<<< HEAD
             {{ 'Workflow::Meeting:FormInformationNote' | abpLocalization }}</label
+=======
+            {{ 'Administration::Meeting:FormInformationNote' | abpLocalization }}</label
+>>>>>>> staging
           >
 
           <label>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &middot; &nbsp; &nbsp;
             <span class="fw-bold"
+<<<<<<< HEAD
               >{{ 'Workflow::Meeting:FormInformationDCPEmail' | abpLocalization }}
+=======
+              >{{ 'Administration::Meeting:FormInformationDCPEmail' | abpLocalization }}
+>>>>>>> staging
             </span>
             <span class="text-primary">dconfandprot&#64;ecowas.int </span> </label
           ><br />
           <label>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &middot; &nbsp; &nbsp;
             <span class="fw-bold"
+<<<<<<< HEAD
               >{{ 'Workflow::Meeting:FormInformationConferenceEmail' | abpLocalization }}
+=======
+              >{{ 'Administration::Meeting:FormInformationConferenceEmail' | abpLocalization }}
+>>>>>>> staging
             </span>
             <span class="text-primary">conference&#64;ecowas.int</span>
           </label>
@@ -617,3 +1355,86 @@
     <div class="col-12 col-lg-3"></div>
   </div>
 </div>
+
+<div *ngIf="showMeetingPreviewModal" class="ss-meeting-preview-backdrop" (click)="cancelMeetingSubmission()">
+  <div class="ss-meeting-preview-modal" role="dialog" aria-modal="true" aria-labelledby="meetingPreviewTitle" (click)="$event.stopPropagation()">
+    <div class="ss-meeting-preview-header">
+      <div>
+        <p class="ss-meeting-preview-kicker">{{ 'Workflow::Meeting:PreviewKicker' | abpLocalization }}</p>
+        <h3 id="meetingPreviewTitle">{{ 'Workflow::Meeting:PreviewTitle' | abpLocalization }}</h3>
+      </div>
+      <button type="button" class="ss-meeting-preview-close" aria-label="Close preview" (click)="cancelMeetingSubmission()">×</button>
+    </div>
+
+    <div class="ss-meeting-preview-body">
+      <div class="ss-meeting-preview-grid">
+        <div class="ss-meeting-preview-row">
+          <span class="ss-meeting-preview-label">{{ 'Administration::Meeting:TitleLabel' | abpLocalization }}</span>
+          <strong>{{ meetingPreviewSummary.title || '—' }}</strong>
+        </div>
+        <div class="ss-meeting-preview-row">
+          <span class="ss-meeting-preview-label">{{ 'Administration::Meeting:LocationLabel' | abpLocalization }}</span>
+          <strong>{{ meetingPreviewSummary.location || '—' }}</strong>
+        </div>
+        <div class="ss-meeting-preview-row">
+          <span class="ss-meeting-preview-label">{{ 'Administration::Meeting:StartDateLabel' | abpLocalization }}</span>
+          <strong>{{ meetingPreviewSummary.startDate || '—' }}</strong>
+        </div>
+        <div class="ss-meeting-preview-row">
+          <span class="ss-meeting-preview-label">{{ 'Administration::Meeting:EndDateLabel' | abpLocalization }}</span>
+          <strong>{{ meetingPreviewSummary.endDate || '—' }}</strong>
+        </div>
+        <div class="ss-meeting-preview-row">
+          <span class="ss-meeting-preview-label">{{ 'Administration::Meeting:NumberofParticipantsLabel' | abpLocalization }}</span>
+          <strong>{{ meetingPreviewSummary.participants ?? '—' }}</strong>
+        </div>
+      </div>
+
+      <div class="ss-meeting-preview-section">
+        <span class="ss-meeting-preview-label">{{ 'Workflow::Meeting:PreviewSelectedRequirements' | abpLocalization }}</span>
+        <ul *ngIf="meetingPreviewSummary.requirements.length; else noRequirementsPreview">
+          <li *ngFor="let item of meetingPreviewSummary.requirements">{{ item | abpLocalization }}</li>
+        </ul>
+        <ng-template #noRequirementsPreview>
+          <p class="ss-meeting-preview-empty">{{ 'Workflow::Meeting:PreviewNoRequirements' | abpLocalization }}</p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="ss-meeting-preview-actions">
+      <button type="button" class="btn btn-outline-secondary rounded-5" (click)="cancelMeetingSubmission()">
+        {{ 'Workflow::Meeting:PreviewBackToForm' | abpLocalization }}
+      </button>
+      <button type="button" class="btn btn-success rounded-5" (click)="confirmMeetingSubmission()">
+        {{ 'Workflow::Meeting:PreviewConfirmSubmit' | abpLocalization }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showPostSubmitModal" class="ss-meeting-preview-backdrop" (click)="goToDashboard()">
+  <div class="ss-meeting-preview-modal" role="dialog" aria-modal="true" aria-labelledby="postSubmitTitle" (click)="$event.stopPropagation()">
+    <div class="ss-meeting-preview-header">
+      <div>
+        <p class="ss-meeting-preview-kicker">{{ 'Workflow::Meeting:SubmitSuccessTitle' | abpLocalization }}</p>
+        <h3 id="postSubmitTitle">{{ 'Workflow::Meeting:PostSubmitQuestion' | abpLocalization }}</h3>
+      </div>
+      <button type="button" class="ss-meeting-preview-close" aria-label="Close" (click)="goToDashboard()">×</button>
+    </div>
+
+    <div class="ss-meeting-preview-body">
+      <p class="mb-3">{{ 'Workflow::Meeting:SubmitSuccessMessage' | abpLocalization }}</p>
+      <p class="mb-0">{{ 'Workflow::Meeting:PostSubmitPrompt' | abpLocalization }}</p>
+    </div>
+
+    <div class="ss-meeting-preview-actions">
+      <button type="button" class="btn btn-outline-secondary rounded-5" (click)="goToDashboard()">
+        {{ 'Workflow::Meeting:PostSubmitNoDashboard' | abpLocalization }}
+      </button>
+      <button type="button" class="btn btn-success rounded-5" (click)="startNewRequest()">
+        {{ 'Workflow::Meeting:PostSubmitYesNew' | abpLocalization }}
+      </button>
+    </div>
+  </div>
+</div>
+

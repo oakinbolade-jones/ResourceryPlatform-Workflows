@@ -2,6 +2,11 @@
   "culture": "pt-BR",
   "texts": {
     "MyAccount": "Minha conta",
-    "SamplePageMessage": "Uma página de amostra para o módulo SaaS"
+    "SamplePageMessage": "Uma página de amostra para o módulo SaaS",
+    "Permission:SaaS": "SaaS",
+    "Permission:SaaS:Tenants": "Inquilinos",
+    "Permission:SaaS:Tenants.Create": "Criar Inquilinos",
+    "Permission:SaaS:Tenants.Update": "Atualizar Inquilinos",
+    "Permission:SaaS:Tenants.Delete": "Excluir Inquilinos"
   }
 }

@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 
-[Authorize(WorkflowPermissions.Transcriptions.Default)]
+//[Authorize(WorkflowPermissions.Transcriptions.Default)]
 public class TranscriptionAppService(
     IRepository<Transcription, Guid> transcriptionRepository,
     TranscriptionManager transcriptionManager
@@ -19,6 +19,8 @@ public class TranscriptionAppService(
     private readonly IRepository<Transcription, Guid> _transcriptionRepository = transcriptionRepository;
     private readonly TranscriptionManager _transcriptionManager = transcriptionManager;
 
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.View)]
     public async Task<TranscriptionDto> GetAsync(Guid id)
     {
         var transcription = await _transcriptionRepository.FindAsync(id);
@@ -30,6 +32,8 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.List)]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
@@ -37,7 +41,6 @@ public class TranscriptionAppService(
         return transcriptions.ConvertAll(Map);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Create)]
     [AllowAnonymous]
     public async Task<TranscriptionDto> CreateAsync(CreateUpdateTranscriptionDto input)
     {
@@ -73,7 +76,6 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
     [AllowAnonymous]
     public async Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
@@ -112,7 +114,8 @@ public class TranscriptionAppService(
         return Map(transcription);
     }
 
-    [Authorize(WorkflowPermissions.Transcriptions.Delete)]
+    [AllowAnonymous]
+    //[Authorize(WorkflowPermissions.Transcriptions.Delete)]
     public Task DeleteAsync(Guid id)
     {
         return _transcriptionManager.DeleteAsync(id);
@@ -174,8 +177,8 @@ public class TranscriptionAppService(
             Status = transcription.Status,
             InputSource = transcription.InputSource,
             SourceReferenceId = transcription.SourceReferenceId,
-                DocumentData = transcription.DocumentData,
-                DocumentExtension = transcription.DocumentExtension,
+            DocumentData = transcription.DocumentData,
+            DocumentExtension = transcription.DocumentExtension,
             Transcript = transcription.Transcript,
             LinkJson = transcription.LinkJson,
             LinkSrt = transcription.LinkSrt,
@@ -209,21 +212,15 @@ public class TranscriptionAppService(
 
         var normalized = candidate.Trim();
 
-        // Example:
-        // ..._en_mp4_en.json -> ..._en.mp4
+        // Examples:
+        // ..._xx_mp3_en.html -> ..._xx.mp3
+        // ..._xx_webm_en.json -> ..._xx.webm
         normalized = Regex.Replace(
             normalized,
-            @"_(?<lang>[a-z]{2})_mp4_[a-z]{2}\.json$",
-            "_${lang}.mp4",
+            @"_(?<lang>[a-z]{2})_(?<format>[a-z0-9]+)_[a-z]{2}\.(json|html)$",
+            "_${lang}.${format}",
             RegexOptions.IgnoreCase
         );
-
-        if (normalized.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
-        {
-            normalized = normalized[..^5] + ".mp4";
-        }
-
-        normalized = normalized.Replace(".html", ".mp4", StringComparison.OrdinalIgnoreCase);
 
         return normalized;
     }

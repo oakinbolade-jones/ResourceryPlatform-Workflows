@@ -64,6 +64,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
   private readonly transcriptionDraftStorageKey = 'workflow.transcription.draft';
+  private readonly maxConsecutiveStatusPollErrors = 1;
+  private readonly supportedLanguageCodes = ['en', 'fr', 'pt', 'xx'];
+  private readonly uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
   constructor(
     private fb: FormBuilder,
@@ -259,20 +262,25 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     })
       .then(async response => {
         if (!response.ok) {
-          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
             response,
             'Workflow::Transcription:ApiError:SaveFailed',
             'Unable to save recording at this time.'
           );
-          throw new Error(message);
+          const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+          handledError.popupShown = true;
+          throw handledError;
         }
         this.saveStatus = `Saved on server (${this.saveDirectoryHint})`;
       })
       .catch((error: unknown) => {
-        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-          'Workflow::Transcription:ApiError:SaveFailed',
-          'Unable to save recording at this time.'
-        );
+        const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+        const fallbackMessage = isHandledError
+          ? 'Unable to save recording at this time.'
+          : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+              'Workflow::Transcription:ApiError:SaveFailed',
+              'Unable to save recording at this time.'
+            ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
         this.saveStatus = `Save failed: ${message}`;
       });
@@ -291,10 +299,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
-    const sourceReferenceId = this.transcriptionReferenceId ?? crypto.randomUUID();
+    const sourceReferenceId = this.resolveSourceReferenceId(this.transcriptionReferenceId);
     this.transcriptionReferenceId = sourceReferenceId;
+    this.persistStepOneDraft();
 
-    const language = this.transcribeForm.get('Language')?.value ?? 'en';
+    const selectedLanguage = this.transcribeForm.get('Language')?.value;
+    const language = this.normalizeLanguageCode(selectedLanguage);
+    if (typeof selectedLanguage === 'string' && selectedLanguage.trim().toLowerCase() !== language) {
+      this.transcribeStatus =
+        'Selected language is not currently supported by the status service. Continuing with English.';
+    }
+    this.transcribeForm.patchValue({ Language: language }, { emitEvent: false });
     const inputFormat = this.getInputFormat(videoData);
     const fileName = `transcribe-${sourceReferenceId}.${inputFormat}`;
 
@@ -322,12 +337,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+        const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
           response,
           'Workflow::Transcription:ApiError:SubmitFailed',
           'Unable to submit media for transcription right now.'
         );
-        throw new Error(message);
+        const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+        handledError.popupShown = true;
+        throw handledError;
       }
 
       const payload = await response.json();
@@ -335,14 +352,22 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.transcriptionId = String(payload.transcriptionId);
       }
 
+      const responseSourceReferenceId =
+        typeof payload?.sourceReferenceId === 'string' ? payload.sourceReferenceId : sourceReferenceId;
+      this.transcriptionReferenceId = this.resolveSourceReferenceId(responseSourceReferenceId);
+      this.persistStepOneDraft();
+
       this.transcribeStatus = 'Submitted. Waiting for transcription progress...';
-      this.beginStatusPolling(sourceReferenceId, language);
+      this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
       this.isTranscribing = false;
-      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-        'Workflow::Transcription:ApiError:SubmitFailed',
-        'Unable to submit media for transcription right now.'
-      );
+      const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+      const fallbackMessage = isHandledError
+        ? 'Unable to submit media for transcription right now.'
+        : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+            'Workflow::Transcription:ApiError:SubmitFailed',
+            'Unable to submit media for transcription right now.'
+          ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.transcribeStatus = `Submit failed: ${message}`;
     }
@@ -350,22 +375,37 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private beginStatusPolling(sourceReferenceId: string, language: string): void {
     this.stopStatusPolling();
+    const normalizedLanguage = this.normalizeLanguageCode(language);
+    let consecutivePollErrors = 0;
 
     const poll = async () => {
-      const url = `${this.transcribeStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}&language=${encodeURIComponent(language)}`;
+      const url = `${this.transcribeStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}&language=${encodeURIComponent(normalizedLanguage)}`;
 
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+          if (response.status >= 500) {
+            this.stopStatusPolling();
+            this.isTranscribing = false;
+            this.isTranscriptionCompleted = false;
+          }
+
+          const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
             response,
             'Workflow::Transcription:ApiError:StatusCheckFailed',
             'Unable to check transcription status right now.'
           );
-          throw new Error(message);
+          const handledError = new Error(friendlyError.message) as Error & {
+            popupShown?: boolean;
+            statusCode?: number;
+          };
+          handledError.popupShown = true;
+          handledError.statusCode = response.status;
+          throw handledError;
         }
 
         const payload = await response.json();
+        consecutivePollErrors = 0;
         const first = Array.isArray(payload) && payload.length > 0 ? payload[0] : null;
         if (!first) {
           this.transcribeStatus = 'No transcription status returned yet. Retrying...';
@@ -381,7 +421,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcriptionResultLinks = this.buildResultDownloadLinks(
             first.transcript_results as { [key: string]: string },
             sourceReferenceId,
-            language
+            normalizedLanguage
           );
         }
 
@@ -399,10 +439,31 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcribeStatus = 'Transcription failed on remote service.';
         }
       } catch (error: unknown) {
-        const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-          'Workflow::Transcription:ApiError:StatusCheckFailed',
-          'Unable to check transcription status right now.'
-        );
+        const statusCode =
+          error instanceof Error
+            ? (error as Error & { statusCode?: number }).statusCode
+            : undefined;
+
+        if (typeof statusCode === 'number' && statusCode >= 500) {
+          this.stopStatusPolling();
+          this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
+        }
+
+        consecutivePollErrors += 1;
+        if (consecutivePollErrors >= this.maxConsecutiveStatusPollErrors) {
+          this.stopStatusPolling();
+          this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
+        }
+
+        const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+        const fallbackMessage = isHandledError
+          ? 'Unable to check transcription status right now.'
+          : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+              'Workflow::Transcription:ApiError:StatusCheckFailed',
+              'Unable to check transcription status right now.'
+            ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
         this.transcribeStatus = `Status poll error: ${message}`;
       }
@@ -410,6 +471,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     void poll();
     this.statusPollingHandle = setInterval(() => {
+      if (!this.isTranscribing) {
+        this.stopStatusPolling();
+        return;
+      }
+
       void poll();
     }, 10000);
   }
@@ -563,7 +629,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       description: this.transcribeForm.get('Description')?.value,
       eventDate: this.transcribeForm.get('EventDate')?.value,
       dateOfTranscription: this.transcribeForm.get('EventDate')?.value,
-      language: this.transcribeForm.get('Language')?.value,
+      language: this.normalizeLanguageCode(this.transcribeForm.get('Language')?.value),
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
       thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
@@ -579,12 +645,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       if (!response.ok) {
-        const message = await this.apiErrorLocalization.resolveMessageFromResponse(
+        const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
           response,
           'Workflow::Transcription:ApiError:SaveInfoFailed',
           'Unable to save transcription information right now.'
         );
-        throw new Error(message);
+        const handledError = new Error(friendlyError.message) as Error & { popupShown?: boolean };
+        handledError.popupShown = true;
+        throw handledError;
       }
 
       const responsePayload = await response.json();
@@ -602,10 +670,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     } catch (error: unknown) {
       // Keep users moving by saving a local draft if API save is unavailable.
       this.persistStepOneDraft(payload, true);
-      const fallbackMessage = this.apiErrorLocalization.resolveNetworkMessage(
-        'Workflow::Transcription:ApiError:SaveInfoFallback',
-        'Server save unavailable. Draft saved locally and moved to step 2.'
-      );
+      const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
+      const fallbackMessage = isHandledError
+        ? 'Server save unavailable. Draft saved locally and moved to step 2.'
+        : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
+            'Workflow::Transcription:ApiError:SaveInfoFallback',
+            'Server save unavailable. Draft saved locally and moved to step 2.'
+          ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.stepOneStatus = this.t(
         'Workflow::Transcription:StepOneSavedLocal',
@@ -671,7 +742,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       description: this.transcribeForm.get('Description')?.value,
       eventDate: this.transcribeForm.get('EventDate')?.value,
       dateOfTranscription: this.transcribeForm.get('EventDate')?.value,
-      language: this.transcribeForm.get('Language')?.value,
+      language: this.normalizeLanguageCode(this.transcribeForm.get('Language')?.value),
       transcriptionMode: this.transcribeForm.get('TranscriptionMode')?.value,
       documentSetUrl: this.transcribeForm.get('DocumentSetUrl')?.value ?? '',
       thumbNailImage: this.transcribeForm.get('ThumbNailImage')?.value ?? '',
@@ -694,18 +765,58 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         Title: draft?.title ?? '',
         Description: draft?.description ?? '',
         EventDate: draft?.eventDate ?? draft?.dateOfTranscription ?? this.transcribeForm.get('EventDate')?.value,
-        Language: draft?.language ?? 'en',
+        Language: this.normalizeLanguageCode(draft?.language ?? 'en'),
         TranscriptionMode: draft?.transcriptionMode ?? 'upload',
         DocumentSetUrl: draft?.documentSetUrl ?? '',
         ThumbNailImage: draft?.thumbNailImage ?? '',
       });
 
       this.transcriptionId = draft?.transcriptionId ?? null;
-      this.transcriptionReferenceId = draft?.sourceReferenceId ?? null;
+      this.transcriptionReferenceId = this.resolveSourceReferenceId(
+        typeof draft?.sourceReferenceId === 'string' ? draft.sourceReferenceId : null
+      );
+      draft.sourceReferenceId = this.transcriptionReferenceId;
       this.isStepOneSaved = !!draft?.isSaved;
+      sessionStorage.setItem(this.transcriptionDraftStorageKey, JSON.stringify(draft));
     } catch {
       sessionStorage.removeItem(this.transcriptionDraftStorageKey);
     }
+  }
+
+  private resolveSourceReferenceId(candidate: string | null | undefined): string {
+    const normalized = (candidate ?? '').trim();
+    if (this.isUuid(normalized)) {
+      return normalized;
+    }
+
+    return this.generateUuid();
+  }
+
+  private isUuid(value: string): boolean {
+    return this.uuidPattern.test(value);
+  }
+
+  private generateUuid(): string {
+    const cryptoApi = window.crypto;
+    if (typeof cryptoApi?.randomUUID === 'function') {
+      return cryptoApi.randomUUID();
+    }
+
+    const bytes = new Uint8Array(16);
+    if (typeof cryptoApi?.getRandomValues === 'function') {
+      cryptoApi.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = Math.floor(Math.random() * 256);
+      }
+    }
+
+    // Force RFC 4122 version 4 and variant bits.
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+    const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, '0'));
+    return `${hex[0]}${hex[1]}${hex[2]}${hex[3]}-${hex[4]}${hex[5]}-${hex[6]}${hex[7]}-${hex[8]}${hex[9]}-${hex[10]}${hex[11]}${hex[12]}${hex[13]}${hex[14]}${hex[15]}`;
   }
 
   private t(key: string, fallback: string): string {
@@ -732,6 +843,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     sourceReferenceId: string,
     language: string
   ): { [key: string]: string } {
+    const normalizedLanguage = this.normalizeLanguageCode(language);
+
     return Object.keys(transcriptResults).reduce(
       (resultLinks, resultKey) => {
         const upstreamLink = transcriptResults[resultKey];
@@ -746,7 +859,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
         resultLinks[resultKey] =
           `${this.downloadResultEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}` +
-          `&language=${encodeURIComponent(language)}` +
+          `&language=${encodeURIComponent(normalizedLanguage)}` +
           `&resultKey=${encodeURIComponent(resultKey)}`;
 
         return resultLinks;
@@ -770,6 +883,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private isFailureStatus(status: string): boolean {
     return status === 'failed' || status === 'error' || status === 'submissionfailed';
+  }
+
+  private normalizeLanguageCode(language: unknown): string {
+    const code = typeof language === 'string' ? language.trim().toLowerCase() : '';
+    return this.supportedLanguageCodes.includes(code) ? code : 'en';
   }
 
   goToViewPage(): void {

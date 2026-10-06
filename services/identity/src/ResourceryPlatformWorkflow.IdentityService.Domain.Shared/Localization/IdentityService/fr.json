@@ -2,6 +2,11 @@
   "culture": "fr",
   "texts": {
     "MyAccount": "Mon compte",
-    "SamplePageMessage": "Exemple de page pour le module IdentityService"
+    "SamplePageMessage": "Exemple de page pour le module IdentityService",
+    "Permission:IdentityService": "Service d'identité",
+    "Permission:Users": "Utilisateurs",
+    "Permission:Create": "Créer des utilisateurs",
+    "Permission:Update": "Mettre à jour les utilisateurs",
+    "Permission:Delete": "Supprimer des utilisateurs"
   }
 }

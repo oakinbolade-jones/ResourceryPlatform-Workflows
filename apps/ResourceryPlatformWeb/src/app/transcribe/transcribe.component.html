@@ -1,4 +1,4 @@
-<div class="container bg-white min-vh-50 p-5 border border-success rounded">
+<div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-5">
     <img
       src="assets/images/logo/ecowas-circle-logo.png"
@@ -162,7 +162,7 @@
                 <option value="pt">
                   {{ 'Workflow::Transcription:LanguagePortuguese' | abpLocalization }}
                 </option>
-                <option value="floor">
+                <option value="xx">
                   {{ 'Workflow::Transcription:LanguageFloor' | abpLocalization }}
                 </option>
               </select>
@@ -194,7 +194,7 @@
                     {{ 'Workflow::Transcription:ModeVideoUpload' | abpLocalization }}
                   </label>
                 </div>
-                <div class="form-check">
+                <!-- <div class="form-check">
                   <input
                     class="form-check-input border border-success fs-5"
                     type="radio"
@@ -206,7 +206,7 @@
                   <label class="form-check-label fs-5" for="modeRecord">
                     {{ 'Workflow::Transcription:ModeRecord' | abpLocalization }}
                   </label>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -274,7 +274,7 @@
               id="VideoFile"
               class="visually-hidden fs-5"
               type="file"
-              accept="video/*"
+              accept="audio/*,video/*"
               (change)="onVideoFileSelected($event)"
             />
             <label for="VideoFile" class="modern-upload-dropzone mt-2 mb-2">

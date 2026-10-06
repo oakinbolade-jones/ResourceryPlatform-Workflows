@@ -1,0 +1,129 @@
+{
+  "translated": [
+    {
+      "key": "Documentation",
+      "translated": "Documentation"
+    },
+    {
+      "key": "InterpretationInspection",
+      "translated": "Inspection"
+    },
+    {
+      "key": "Reproduction",
+      "translated": "Reproduction"
+    },
+    {
+      "key": "Transcription",
+      "translated": "Transcription"
+    },
+    {
+      "key": "ServiceWorkflowStep:TRANS:TRANS02:NCHFRE7",
+      "translated": "LA envoie le document traduit à Revisor pour examen et transmission ultérieure au client."
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:OFD:OD05:PMOE36",
+      "translated": "Le projet de note administrative est prêt."
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:CONF:CONF09:VHMLA8",
+      "translated": "Lien terminé envoyé"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT01:AIS5",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT02:PVISRM1",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT03:DIPM8",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM4",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM5",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM6",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM9",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM11",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM12",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT04:DIVM16",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT05:DIHM8",
+      "translated": "Notification"
+    },
+    {
+      "key": "ServiceWorkflowStep:Output:INT:INT06:PFISP4",
+      "translated": "Notification"
+    },
+    {
+      "key": "Permission:Workflow:Services",
+      "translated": "Services"
+    },
+    {
+      "key": "ServiceLabel",
+      "translated": "Service"
+    },
+    {
+      "key": "ServiceDescriptionLabel",
+      "translated": "Description"
+    },
+    {
+      "key": "Meeting:BudgetLabel",
+      "translated": "Budget"
+    },
+    {
+      "key": "Meeting:DateLabel",
+      "translated": "Date"
+    },
+    {
+      "key": "Meeting:SignatureLabel",
+      "translated": "Signature"
+    },
+    {
+      "key": "Meeting:ItemHotelSuite",
+      "translated": "Suite"
+    },
+    {
+      "key": "Transcription:DescriptionLabel",
+      "translated": "Description"
+    },
+    {
+      "key": "Transcription:DownloadSupportEmail1",
+      "translated": "dconfandprot@ecowas.int"
+    },
+    {
+      "key": "Transcription:TranscriptionsLabel",
+      "translated": "Transcriptions"
+    },
+    {
+      "key": "Transcription:DateHeaderLabel",
+      "translated": "Date"
+    },
+    {
+      "key": "Transcription:ActionHeaderLabel",
+      "translated": "Action"
+    }
+  ],
+  "failed": []
+}

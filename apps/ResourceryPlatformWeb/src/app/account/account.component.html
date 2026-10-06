@@ -1,0 +1,51 @@
+<div class="container bg-white min-vh-50 p-4 p-lg-5 border border-success rounded">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+    <div>
+      <h2 class="fw-bold fs-3 mb-1">{{ 'Administration::Account:AdministrationTitle' | abpLocalization }}</h2>
+      <p class="text-muted mb-0">{{ 'Administration::Account:AdministrationSubtitle' | abpLocalization }}</p>
+    </div>
+  </div>
+
+  <ul class="nav nav-pills flex-wrap gap-2 mb-4">
+    <li class="nav-item">
+      <a
+        class="nav-link rounded-5"
+        routerLink="identity/roles"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >{{ 'Administration::Account:RolesNav' | abpLocalization }}</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link rounded-5" routerLink="identity/users" routerLinkActive="active">{{ 'Administration::Account:UsersNav' | abpLocalization }}</a>
+    </li>
+    <li class="nav-item ">
+      <a
+        class="nav-link rounded-5"
+        routerLink="tenant-management/tenants"
+        routerLinkActive="active"
+        >{{ 'Administration::Account:TenantsNav' | abpLocalization }}</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link rounded-5"
+        routerLink="setting-management/settings"
+        routerLinkActive="active"
+        >{{ 'Administration::Account:SettingsNav' | abpLocalization }}</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link rounded-5"
+        routerLink="feature-management/features"
+        routerLinkActive="active"
+        >{{ 'Administration::Account:FeaturesNav' | abpLocalization }}</a
+      >
+    </li>
+  </ul>
+
+  <div class="border rounded p-0 p-lg-0 bg-light-subtle">
+    <router-outlet></router-outlet>
+  </div>
+</div>

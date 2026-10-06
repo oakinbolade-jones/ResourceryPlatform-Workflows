@@ -1272,7 +1272,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
             modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.Meetings.Meeting", b =>
                 {
                     b.HasOne("ResourceryPlatformWorkflow.Workflow.Requests.Request", "Request")
-                        .WithOne("MeetingForm")
+                        .WithOne("Meeting")
                         .HasForeignKey("ResourceryPlatformWorkflow.Workflow.Meetings.Meeting", "RequestId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -1335,7 +1335,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                 {
                     b.Navigation("Documents");
 
-                    b.Navigation("MeetingForm");
+                    b.Navigation("Meeting");
                 });
 
             modelBuilder.Entity("ResourceryPlatformWorkflow.Workflow.ServiceWorkflows.ServiceWorkflow", b =>

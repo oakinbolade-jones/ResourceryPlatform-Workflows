@@ -8,7 +8,11 @@
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
             "dotnetRunMessages": true,
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7600"
+=======
+            "applicationUrl": "http://auth.smartserve.ecowas.int"
+>>>>>>> staging
         },
         "ResourceryPlatformWorkflow.AuthServer": {
             "commandName": "Project",
@@ -16,7 +20,11 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7600"
+=======
+            "applicationUrl": "http://auth.smartserve.ecowas.int"
+>>>>>>> staging
         },
         "Docker": {
             "commandName": "Docker",

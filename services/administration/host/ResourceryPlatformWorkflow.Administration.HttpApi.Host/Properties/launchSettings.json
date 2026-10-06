@@ -7,7 +7,11 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7001"
+=======
+            "applicationUrl": "http://localhost:7001"
+>>>>>>> staging
         },
         "ResourceryPlatformWorkflow.Administration.Host": {
             "commandName": "Project",
@@ -15,7 +19,11 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7001"
+=======
+            "applicationUrl": "http://localhost:7001"
+>>>>>>> staging
         },
         "Docker": {
             "commandName": "Docker",

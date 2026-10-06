@@ -246,12 +246,383 @@ abp-layout-application>div.container {
   min-height: 6rem !important;
 }
 
+#main-navbar-collapse {
+  background: #ffffff !important;
+}
+
 body:not(.home-page) abp-layout-header,
 body:not(.home-page) .abp-header,
 body:not(.home-page) .abp-navbar,
 body:not(.home-page) #main-navbar {
   background: #ffffff !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Global green input theme */
+:root {
+  --ss-input-green: #198754;
+  --ss-input-green-dark: #157347;
+  --ss-input-green-soft: rgba(25, 135, 84, 0.25);
+  --bs-nav-link-color: #198754;
+  --bs-nav-link-hover-color: #157347;
+  --bs-nav-pills-link-active-bg: #198754;
+  --bs-nav-pills-link-active-color: #ffffff;
+}
+
+html,
+body,
+body[class] {
+  --bs-nav-link-color: #198754;
+  --bs-nav-link-hover-color: #157347;
+  --bs-nav-pills-link-active-bg: #198754;
+  --bs-nav-pills-link-active-color: #ffffff;
+}
+
+.nav-link {
+  color: var(--bs-nav-link-color);
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:focus-visible,
+.nav-link.active {
+  color: var(--bs-nav-link-hover-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--ss-input-green) !important;
+  border-color: var(--ss-input-green) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--ss-input-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--ss-input-green-soft) !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-control:focus-visible,
+.form-select:focus-visible {
+  border-color: var(--ss-input-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--ss-input-green-soft) !important;
+}
+
+.form-check-input[type='radio']:checked,
+.form-check-input[type='checkbox']:checked {
+  background-color: var(--ss-input-green) !important;
+  border-color: var(--ss-input-green) !important;
+}
+
+/* Standard loading state pattern across app views */
+.ss-loading-state {
+  padding: 0.85rem 1rem;
+  border: 1px solid #b5e0c4;
+  background: #eef9f2;
+  color: #0f5132;
+}
+
+.ss-loading-progress .progress {
+  background-color: #d9e8de;
+}
+
+.ss-loading-progress .progress-bar {
+  transition: width 0.35s ease;
+}
+
+/* Deep ABP permission modal customization via stable permission hooks */
+.modal-content:has(#permission-search) {
+  border: 1px solid #198754;
+  border-radius: 0.5rem;
+  max-height: 90vh;
+}
+
+.modal:has(#permission-search) .modal-dialog,
+.modal:has(#permission-search) .modal-dialog.modal-lg {
+  max-width: min(1400px, 96vw);
+  width: 96vw;
+}
+
+.modal:has(#permission-search) .modal-body {
+  max-height: calc(90vh - 140px);
+  overflow-y: auto;
+}
+
+.modal:has(#permission-search) .modal-header,
+.modal:has(#permission-search) .modal-footer {
+  background: #eef9f2;
+  border-color: #b5e0c4;
+}
+
+.modal:has(#permission-search) .modal-title,
+.modal:has(#permission-search) h4,
+.modal:has(#permission-search) legend {
+  color: #0f5132;
+}
+
+/* Fallback selectors that still apply even without :has support */
+#permission-search,
+#permission-search.form-control {
+  border-color: #198754;
+}
+
+#permission-search:focus,
+#permission-search.form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.2);
+}
+
+#permission-search + .form-control,
+.scroll-in-modal .form-control,
+.scroll-in-modal .form-select {
+  border-color: #198754;
+}
+
+.modal:has(#permission-search) .input-group-text,
+#permission-search ~ .input-group-text,
+#basic-addon1 {
+  background: #e4f4ea;
+  border-color: #198754;
+  color: #0f5132;
+}
+
+#select-all-in-all-tabs.form-check-input:checked,
+#select-all-in-this-tabs.form-check-input:checked,
+.scroll-in-modal .form-check-input:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.modal:has(#permission-search) fieldset,
+#permission-search ~ fieldset,
+.scroll-in-modal + .scroll-in-modal,
+.lpx-scroll-pills-container.scroll-in-modal {
+  border-color: #b5e0c4 !important;
+}
+
+.modal:has(#permission-search) fieldset {
+  background: #f8fcf9;
+}
+
+.modal:has(#permission-search) .nav-pills .nav-link.active,
+.modal:has(#permission-search) .nav-pills .show > .nav-link,
+.lpx-scroll-pills-container.scroll-in-modal .nav-pills .nav-link.active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #fff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-outline-primary,
+.modal:has(#permission-search) .modal-footer .btn-secondary,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary {
+  border-color: #198754 !important;
+  color: #198754 !important;
+  background-color: #ffffff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:hover,
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:focus,
+.modal:has(#permission-search) .modal-footer .btn-outline-primary:active,
+.modal:has(#permission-search) .modal-footer .btn-secondary:hover,
+.modal:has(#permission-search) .modal-footer .btn-secondary:focus,
+.modal:has(#permission-search) .modal-footer .btn-secondary:active,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:hover,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:focus,
+.modal:has(#permission-search) .modal-footer .btn-outline-secondary:active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #ffffff !important;
+}
+
+.modal:has(#permission-search) .modal-footer .btn-primary,
+.modal:has(#permission-search) .modal-footer .btn-primary:hover,
+.modal:has(#permission-search) .modal-footer .btn-primary:focus,
+.modal:has(#permission-search) .modal-footer .btn-primary:active {
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  color: #ffffff !important;
+}
+
+/* Green active state for LPX and Bootstrap pills */
+.lpx-scroll-pills-container ul li a.active,
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff !important;
+  border-color: var(--ss-input-green) !important;
+  background-color: var(--ss-input-green) !important;
+}
+
+/* Beat scoped _ngcontent pill styles with stronger specificity */
+.lpx-scroll-pills-container[class] ul[class] li[class] a.active[class],
+.lpx-scroll-pills-container[class] ul[class] li[class] a.nav-link.active[class],
+.nav-pills[class] .nav-link.active,
+.nav-pills[class] .show > .nav-link {
+  color: #fff !important;
+  border-color: #198754 !important;
+  background-color: #198754 !important;
+}
+
+/* Reusable app popup notifications */
+.ss-app-popup-stack {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.ss-app-popup-stack-hide {
+  opacity: 0;
+}
+
+.ss-app-popup {
+  pointer-events: auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+  align-items: start;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-left: 4px solid #198754;
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  width: min(46rem, calc(100vw - 2rem));
+  padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+  animation: ss-app-popup-enter 0.22s ease-out;
+}
+
+.ss-app-popup-hide {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ss-app-popup-error {
+  border-left-color: #dc3545;
+}
+
+.ss-app-popup-warning {
+  border-left-color: #ffc107;
+}
+
+.ss-app-popup-success {
+  border-left-color: #198754;
+}
+
+.ss-app-popup-info {
+  border-left-color: #0d6efd;
+}
+
+.ss-app-popup-brand {
+  width: 140px;
+  min-width: 125px;
+  height: 140px;
+  min-height: 125px;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ss-app-popup-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.ss-app-popup-content {
+  min-width: 0;
+}
+
+.ss-app-popup-title {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #0f172a;
+  margin-bottom: 0.3rem;
+}
+
+.ss-app-popup-code {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-bottom: 0.3rem;
+}
+
+.ss-app-popup-message {
+  font-size: 1.1rem;
+  color: #1e293b;
+  line-height: 1.55;
+}
+
+.ss-app-popup-actions {
+  margin-top: 0.65rem;
+}
+
+.ss-app-popup-home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #198754;
+  background: #198754;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.ss-app-popup-home-link:hover,
+.ss-app-popup-home-link:focus,
+.ss-app-popup-home-link:focus-visible {
+  background: #157347;
+  border-color: #157347;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.ss-app-popup-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.ss-app-popup-close:hover {
+  background: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+}
+
+@keyframes ss-app-popup-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 abp-layout-header,
@@ -337,6 +708,39 @@ app-request {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+
+app-account {
+  background-color: var(--oc-gray-3);
+  display: block;
+  padding: 50px;
+  min-height: 100vh;
+  background-image: url('assets/images/bacground/bg-contact-center.png');
+  background-size: cover;
+  background-position: right;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+app-account .container {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+app-account-settings .account-section-page,
+app-account-tenants .account-section-page {
+  background: rgba(255, 255, 255, 0.75);
+  border: none !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  app-account {
+    padding: 20px;
+  }
+}
+
 app-transcribe , app-view-transcription, app-list-transcription {
   background-color: var(--oc-gray-3);
   display: block;
@@ -350,4 +754,8 @@ app-transcribe , app-view-transcription, app-list-transcription {
 
 abp-loader .progress-bar {
   background-color: var(--oc-teal-9) !important;
+}
+
+.actions-dropdown .dropdown-toggle::after {
+  display: none !important;
 }

@@ -7,7 +7,11 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7500;http://smartserve.ecowas.int:7501",
+=======
+            "applicationUrl": "http://api.smartserve.ecowas.int",
+>>>>>>> staging
             "dotnetRunMessages": true
         },
         "ResourceryPlatformWorkflow.Gateway": {
@@ -16,7 +20,11 @@
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production"
             },
+<<<<<<< HEAD
             "applicationUrl": "https://smartserve.ecowas.int:7500;http://smartserve.ecowas.int:7501",
+=======
+            "applicationUrl": "http://api.smartserve.ecowas.int",
+>>>>>>> staging
             "dotnetRunMessages": true
         },
         "Docker": {

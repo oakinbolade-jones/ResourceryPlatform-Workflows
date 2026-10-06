@@ -1,4 +1,4 @@
-import { eLayoutType, ReplaceableComponentsService, RoutesService } from '@abp/ng.core';
+import { ReplaceableComponentsService, RoutesService } from '@abp/ng.core';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private replaceableComponents = inject(ReplaceableComponentsService);
   private routes = inject(RoutesService);
 
+<<<<<<< HEAD
   private projectTitle = document.title || 'SmartServe';
 
   constructor(
@@ -26,6 +27,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title
   ) {  
   }
+=======
+  constructor(private router: Router) {}
+>>>>>>> staging
 
   ngOnInit(): void {
     this.replaceableComponents.add({
@@ -39,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
         const url = (event as NavigationEnd).urlAfterRedirects.split('?')[0];
-        
+
         // Handle home page class
         if (url === '/' || url === '') {
           this.body.classList.add('home-page');

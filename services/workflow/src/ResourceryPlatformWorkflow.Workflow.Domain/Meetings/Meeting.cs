@@ -106,20 +106,23 @@ public class Meeting : FullAuditedAggregateRoot<Guid>, IMultiTenant
     public void SetContactEmail(string contactEmail) => ContactEmail = Check.NotNullOrWhiteSpace(contactEmail, nameof(contactEmail));
     public void SetContactName(string contactName) => ContactName = Check.NotNullOrWhiteSpace(contactName, nameof(contactName));
     public void SetHostName(string hostName) => HostName = Check.NotNullOrWhiteSpace(hostName, nameof(hostName));
+    public void SetHostDesignation(string? hostDesignation) => HostDesignation = hostDesignation ?? string.Empty;
     public void SetHostPhoneNumber(string hostPhoneNumber) => HostPhoneNumber = Check.NotNullOrWhiteSpace(hostPhoneNumber, nameof(hostPhoneNumber));
     public void SetHostEmail(string hostEmail) => HostEmail = Check.NotNullOrWhiteSpace(hostEmail, nameof(hostEmail));
     public void SetRequestId(Guid? requestId) => RequestId = requestId;
 
-    public void SetCoHost1(string? name, string? phoneNumber, string? email)
+    public void SetCoHost1(string? name, string? designation, string? phoneNumber, string? email)
     {
         CoHost1Name = name;
+        CoHost1Designation = designation;
         CoHost1PhoneNumber = phoneNumber;
         CoHost1Email = email;
     }
 
-    public void SetCoHost2(string? name, string? phoneNumber, string? email)
+    public void SetCoHost2(string? name, string? designation, string? phoneNumber, string? email)
     {
         CoHost2Name = name;
+        CoHost2Designation = designation;
         CoHost2PhoneNumber = phoneNumber;
         CoHost2Email = email;
     }

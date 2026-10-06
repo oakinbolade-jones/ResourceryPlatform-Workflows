@@ -3,6 +3,18 @@ import type { RequestStatus } from './request-status.enum';
 import type { EntityDto, FullAuditedEntityDto } from '@abp/ng.core';
 import type { DocumentMigrationStatus } from './document-migration-status.enum';
 
+export interface CreateUpdateMeetingItemDto {
+  itemName?: string;
+  itemCode?: string;
+  category?: string;
+  serviceCenterCode?: string;
+  quantityNo?: number;
+  periodFrom?: string;
+  periodTo?: string;
+  budget?: number;
+  remarkObservation?: string;
+}
+
 export interface CreateUpdateMeetingDto {
   title?: string;
   departureDate?: string;
@@ -37,6 +49,7 @@ export interface CreateUpdateMeetingDto {
   costCenterNumberCarHire?: string;
   costCenterNumberEquipment?: string;
   costCenterNumberLanguageServices?: string;
+  meetingItems?: CreateUpdateMeetingItemDto[];
 }
 
 export interface CreateUpdateRequestDocumentDto {
@@ -52,7 +65,7 @@ export interface CreateUpdateRequestDto {
   description?: string;
   comment?: string;
   serviceId?: string;
-  meetingForm?: CreateUpdateMeetingDto;
+  meeting?: CreateUpdateMeetingDto;
   documents: CreateUpdateRequestDocumentDto[];
 }
 
@@ -110,7 +123,7 @@ export interface RequestDto extends FullAuditedEntityDto<string> {
   description?: string;
   comment?: string;
   serviceId?: string;
-  meetingForm?: MeetingDto;
+  meeting?: MeetingDto;
   documentMigrationStatus?: DocumentMigrationStatus;
   documentsPublishedAt?: string;
   documents: RequestDocumentDto[];

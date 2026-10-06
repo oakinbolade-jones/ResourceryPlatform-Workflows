@@ -62,14 +62,16 @@ public class ExternalProfileSynchronizationMiddleware(
             var nameUpdated = false;
             var surnameUpdated = false;
 
-            if (!string.IsNullOrWhiteSpace(givenName) && !string.Equals(user.Name, givenName, StringComparison.Ordinal))
+            if (!string.IsNullOrWhiteSpace(givenName)
+                && string.IsNullOrWhiteSpace(user.Name))
             {
                 user.Name = givenName;
                 hasChanges = true;
                 nameUpdated = true;
             }
 
-            if (!string.IsNullOrWhiteSpace(surname) && !string.Equals(user.Surname, surname, StringComparison.Ordinal))
+            if (!string.IsNullOrWhiteSpace(surname)
+                && string.IsNullOrWhiteSpace(user.Surname))
             {
                 user.Surname = surname;
                 hasChanges = true;

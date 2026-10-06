@@ -14,7 +14,8 @@
 @inject IOptions<ResourceryPlatformWorkflow.AuthUiOptions> AuthUiOptions
 
 @{
-    Layout = "~/Pages/Account/_AccountLayout.Custom.cshtml";
+    Layout = "~/Pages/Account/Templates/_AccountLayout.Custom.cshtml";
+    ViewData["Title"] = L["Login"].Value;
     var loginTemplate = AuthUiOptions.Value.Login.TemplatePartial;
     var templateName = string.IsNullOrWhiteSpace(loginTemplate) ? "Templates/_Login.Custom" : loginTemplate;
 }

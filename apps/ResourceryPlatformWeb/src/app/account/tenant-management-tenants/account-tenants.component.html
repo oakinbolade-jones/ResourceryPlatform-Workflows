@@ -1,0 +1,117 @@
+<div class="account-section-page">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h4 class="fw-bold mb-0">{{ 'Administration::Account:TenantsTitle' | abpLocalization }}</h4>
+    <button type="button" class="btn btn-success rounded-5" (click)="openCreateModal()">
+      {{ 'Administration::Account:NewTenant' | abpLocalization }}
+    </button>
+  </div>
+
+  <div class="row g-2 mb-3">
+    <div class="col-12 col-md-6">
+      <input
+        class="form-control border border-success"
+        [(ngModel)]="search"
+        [ngModelOptions]="{ standalone: true }"
+        [placeholder]="'Administration::Account:SearchTenants' | abpLocalization"
+      />
+    </div>
+    <div class="col-12 col-md-auto">
+      <button type="button" class="btn btn-outline-success rounded-5 w-100" (click)="applyFilter()">
+        {{ 'Administration::Account:Search' | abpLocalization }}
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <div *ngIf="loading" class="ss-loading-state mb-3">
+   <div class="fw-bold">{{ 'Administration::Account:LoadingLabel' | abpLocalization }}</div>
+    <!-- <div class="small mt-1">Loading roles...</div> -->
+     <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading tenants">
+        <div class="progress rounded-0" style="height: 0.7rem">
+          <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>{{ 'Administration::Account:TenantName' | abpLocalization }}</th>
+          <th>{{ 'Administration::Actions' | abpLocalization }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tenant of tenants">
+          <td>{{ tenant.name }}</td>
+          <td>
+            <div ngbDropdown class="d-inline-block">
+              <button
+                class="btn btn-sm btn-success"
+                ngbDropdownToggle
+                type="button"
+                [attr.aria-label]="'Administration::Actions' | abpLocalization"
+                [title]="'Administration::Actions' | abpLocalization"
+              >
+                <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+              </button>
+              <div ngbDropdownMenu>
+                <button ngbDropdownItem type="button" (click)="openEditModal(tenant)">
+                  {{ 'Administration::Edit' | abpLocalization }}
+                </button>
+                <button ngbDropdownItem type="button" (click)="deleteTenant(tenant)">
+                  {{ 'Administration::Delete' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="!loading && !tenants.length">
+          <td colspan="2">{{ 'Administration::Account:NoTenants' | abpLocalization }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="modalVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{
+            isEditMode
+              ? ('Administration::Account:EditTenant' | abpLocalization)
+              : ('Administration::Account:NewTenant' | abpLocalization)
+          }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <form [formGroup]="tenantForm" (ngSubmit)="save()" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">{{ 'Administration::Account:TenantName' | abpLocalization }}</label>
+            <input class="form-control" formControlName="name" />
+          </div>
+          <div class="mb-3" *ngIf="!isEditMode">
+            <label class="form-label">{{ 'Administration::Account:AdminEmail' | abpLocalization }}</label>
+            <input type="email" class="form-control" formControlName="adminEmail" />
+          </div>
+          <div class="mb-3" *ngIf="!isEditMode">
+            <label class="form-label">{{ 'Administration::Account:AdminPassword' | abpLocalization }}</label>
+            <input type="password" class="form-control" formControlName="adminPassword" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ 'Administration::Account:ConnectionString' | abpLocalization }}</label>
+            <input class="form-control" formControlName="connectionString" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="closeModal()">
+            {{ 'Administration::Cancel' | abpLocalization }}
+          </button>
+          <button type="submit" class="btn btn-success">{{ 'Administration::Save' | abpLocalization }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="modalVisible" class="modal-backdrop fade show"></div>

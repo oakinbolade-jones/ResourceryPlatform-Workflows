@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ResourceryPlatformWorkflow.Workflow.Meetings;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
@@ -11,10 +12,14 @@ namespace ResourceryPlatformWorkflow.Workflow.Requests;
 public class RequestManager : DomainService
 {
     private readonly IRepository<Request, Guid> _requestRepository;
+    private readonly IRepository<Meeting, Guid> _meetingRepository;
 
-    public RequestManager(IRepository<Request, Guid> requestRepository)
+    public RequestManager(
+        IRepository<Request, Guid> requestRepository,
+        IRepository<Meeting, Guid> meetingRepository)
     {
         _requestRepository = requestRepository;
+        _meetingRepository = meetingRepository;
     }
 
     public virtual Task<Request> CreateAsync(
@@ -22,8 +27,7 @@ public class RequestManager : DomainService
         string description,
         Guid serviceId,
         RequestType requestType,
-        string? comment = null
-    )
+        string? comment = null)
     {
         var request = new Request(
             GuidGenerator.Create(),
@@ -187,5 +191,78 @@ public class RequestManager : DomainService
     {
         request.SetComment(comment);
         return Task.CompletedTask;
+    }
+
+    public virtual async Task UpsertMeetingAsync(Request request, Meeting? meeting)
+    {
+        if (meeting == null)
+        {
+            if (request.Meeting != null)
+            {
+                await _meetingRepository.DeleteAsync(request.Meeting, autoSave: false);
+                request.SetMeeting(null);
+            }
+
+            return;
+        }
+
+        if (request.Meeting == null)
+        {
+            meeting.SetRequestId(request.Id);
+            request.SetMeeting(meeting);
+            await _meetingRepository.InsertAsync(meeting, autoSave: false);
+            return;
+        }
+
+        request.Meeting.SetTitle(meeting.Title);
+        request.Meeting.SetDepartureDate(meeting.DepartureDate);
+        request.Meeting.SetStartDate(meeting.StartDate);
+        request.Meeting.SetEndDate(meeting.EndDate);
+        request.Meeting.SetType(meeting.Type);
+        request.Meeting.SetReferenceNumber(meeting.ReferenceNumber);
+        request.Meeting.SetNumberOfParticipants(meeting.NumberOfParticipants);
+        request.Meeting.SetLocation(meeting.Location);
+        request.Meeting.SetContactPhone(meeting.ContactPhone);
+        request.Meeting.SetContactEmail(meeting.ContactEmail);
+        request.Meeting.SetContactName(meeting.ContactName);
+        request.Meeting.SetHostName(meeting.HostName);
+        request.Meeting.SetHostDesignation(meeting.HostDesignation);
+        request.Meeting.SetHostPhoneNumber(meeting.HostPhoneNumber);
+        request.Meeting.SetHostEmail(meeting.HostEmail);
+        request.Meeting.SetRequestId(request.Id);
+        request.Meeting.SetCoHost1(
+            meeting.CoHost1Name,
+            meeting.CoHost1Designation,
+            meeting.CoHost1PhoneNumber,
+            meeting.CoHost1Email
+        );
+        request.Meeting.SetCoHost2(
+            meeting.CoHost2Name,
+            meeting.CoHost2Designation,
+            meeting.CoHost2PhoneNumber,
+            meeting.CoHost2Email
+        );
+        request.Meeting.SetGLNumbers(
+            meeting.GLNumberRefreshments,
+            meeting.GLNumberHotel,
+            meeting.GLNumberCarHire,
+            meeting.GLNumberEquipment,
+            meeting.GLNumberLanguageServices
+        );
+        request.Meeting.SetCostCenterNumbers(
+            meeting.CostCenterNumberRefreshments,
+            meeting.CostCenterNumberHotel,
+            meeting.CostCenterNumberCarHire,
+            meeting.CostCenterNumberEquipment,
+            meeting.CostCenterNumberLanguageServices
+        );
+
+        request.Meeting.MeetingItems.Clear();
+        foreach (var item in meeting.MeetingItems)
+        {
+            request.Meeting.MeetingItems.Add(item);
+        }
+
+        await _meetingRepository.UpdateAsync(request.Meeting, autoSave: false);
     }
 }

@@ -3,3 +3,285 @@
 .meeting-container .accordion-button:not(.collapsed) {
 	background-color: transparent;
 }
+
+.request-form {
+	.form-floating {
+		position: relative;
+	}
+
+	.form-floating > .form-control,
+	.form-floating > .form-select {
+		min-height: 58px;
+		height: 58px;
+		border-radius: 12px !important;
+		border: 1px solid #13653f !important;
+		padding: 0.625rem 0.625rem 0.75rem !important;
+		font-size: 1rem;
+		background: #fff;
+		color: #202124;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.form-floating > .form-control::placeholder,
+	.form-floating > .form-select::placeholder {
+		color: transparent;
+	}
+
+	.form-floating > label {
+		position: absolute;
+		left: 12px;
+		top: 50%;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		padding: 0 6px;
+		color: #5f6368;
+		font-size: 1.2rem;
+		font-weight: 500;
+		line-height: 1;
+		background: #fff;
+		pointer-events: none;
+		transform: translateY(-50%);
+		transform-origin: left top;
+		transition: transform 0.15s ease, color 0.15s ease, top 0.15s ease;
+	}
+
+	.form-floating > .form-control:focus,
+	.form-floating > .form-select:focus {
+		border-color: #13653f !important;
+		box-shadow: 0 0 0 1px #13653f !important;
+	}
+
+	.form-floating > .form-control.is-invalid,
+	.form-floating > .form-control.is-invalid:focus,
+	.form-floating > .form-select.is-invalid,
+	.form-floating > .form-select.is-invalid:focus {
+		border-color: #dc3545 !important;
+		box-shadow: 0 0 0 0.1rem rgba(220, 53, 69, 0.2) !important;
+	}
+
+	.form-floating > .form-control:focus + label,
+	.form-floating > .form-control:not(:placeholder-shown) + label,
+	.form-floating > .form-control:-webkit-autofill + label,
+	.form-floating > .form-select + label,
+	.form-floating > .form-select:focus + label,
+	.form-floating > .form-select:valid + label {
+		top: 0;
+		left: 10px;
+		transform: translateY(-50%) scale(0.8);
+		color: #13653f;
+	}
+
+	.request-floating-textarea {
+		min-height: 8rem !important ;
+		height: auto;
+	}
+}
+
+.request-floating-half {
+	width: 50%;
+}
+
+.meeting-requirements-body {
+	padding-top: 1rem;
+}
+
+.meeting-requirements-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.meeting-requirement-group {
+	padding: 0.75rem 1rem;
+	border: 1px solid rgba(19, 101, 63, 0.25);
+	background: rgba(19, 101, 63, 0.02);
+}
+
+.meeting-requirement-toggle,
+.meeting-option-check {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.meeting-requirement-toggle input,
+.meeting-option-check input {
+	width: 1rem;
+	height: 1rem;
+	accent-color: #13653f;
+}
+
+.meeting-requirement-panel {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(19, 101, 63, 0.2);
+}
+
+.meeting-requirement-option-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.meeting-requirement-option {
+	padding: 0.75rem 0.5rem;
+	border: 1px solid rgba(19, 101, 63, 0.15);
+	background: #fff;
+}
+
+.meeting-requirement-detail-card {
+	margin-top: 0.85rem;
+	padding: 1rem;
+	border: 1px solid rgba(19, 101, 63, 0.15);
+	background: rgba(19, 101, 63, 0.015);
+}
+
+.meeting-requirement-detail-card .form-control.is-invalid,
+.meeting-requirement-detail-card .form-control.is-invalid:focus {
+	border-color: #dc3545 !important;
+	box-shadow: 0 0 0 0.15rem rgba(220, 53, 69, 0.15) !important;
+}
+
+.ss-meeting-preview-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.45);
+	backdrop-filter: blur(2px);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 1.5rem;
+	overflow-y: auto;
+	z-index: 2000;
+}
+
+.ss-meeting-preview-modal {
+	width: min(42rem, calc(100vw - 1.5rem));
+	max-height: 90vh;
+	background: #fff;
+	border-radius: 1rem;
+	border: 1px solid rgba(19, 101, 63, 0.15);
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+	overflow: hidden;
+	margin: 2rem auto;
+}
+
+.ss-meeting-preview-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.25rem 1.5rem 1rem;
+	border-bottom: 1px solid rgba(19, 101, 63, 0.12);
+}
+
+.ss-meeting-preview-kicker {
+	margin: 0 0 0.25rem;
+	font-size: 0.8rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #13653f;
+	font-weight: 700;
+}
+
+.ss-meeting-preview-header h3 {
+	margin: 0;
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.ss-meeting-preview-close {
+	border: 0;
+	background: transparent;
+	font-size: 2rem;
+	line-height: 1;
+	color: #64748b;
+	cursor: pointer;
+}
+
+.ss-meeting-preview-close:hover {
+	color: #0f172a;
+}
+
+.ss-meeting-preview-body {
+	padding: 1.25rem 1.5rem 0;
+	max-height: calc(90vh - 180px);
+	overflow-y: auto;
+}
+
+.ss-meeting-preview-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.9rem 1rem;
+}
+
+.ss-meeting-preview-row {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	padding: 0.7rem 0.85rem;
+	border: 1px solid rgba(19, 101, 63, 0.12);
+	border-radius: 0.65rem;
+	background: rgba(19, 101, 63, 0.02);
+}
+
+.ss-meeting-preview-label {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #475569;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.ss-meeting-preview-section {
+	margin-top: 1.2rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(19, 101, 63, 0.12);
+}
+
+.ss-meeting-preview-section ul {
+	margin: 0.6rem 0 0;
+	padding-left: 1.25rem;
+	color: #0f172a;
+}
+
+.ss-meeting-preview-section li + li {
+	margin-top: 0.35rem;
+}
+
+.ss-meeting-preview-empty {
+	margin: 0.6rem 0 0;
+	color: #475569;
+}
+
+.ss-meeting-preview-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	padding: 1.25rem 1.5rem 1.5rem;
+	border-top: 1px solid rgba(19, 101, 63, 0.12);
+	margin-top: 1rem;
+}
+
+@media (max-width: 992px) {
+	.request-floating-half {
+		width: 100%;
+	}
+
+	.ss-meeting-preview-backdrop {
+		padding: 1rem;
+	}
+
+	.ss-meeting-preview-modal {
+		width: min(100%, calc(100vw - 1rem));
+		margin: 1rem auto;
+	}
+
+	.ss-meeting-preview-grid {
+		grid-template-columns: 1fr;
+	}
+}

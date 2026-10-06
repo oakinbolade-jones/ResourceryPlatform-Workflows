@@ -3,12 +3,13 @@
 @font-face {
     font-family: 'Millik';
     src: url('/fonts/millik/Millik.otf') format('opentype'),
-         url('/fonts/millik/Millik.ttf') format('truetype');
+        url('/fonts/millik/Millik.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
-html, body {
+html,
+body {
     min-height: 100vh;
     background-color: #161616;
     background-image: url('/images/background/landing.jpg');
@@ -16,6 +17,7 @@ html, body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 :root .lpx-brand-logo {
     --lpx-logo: url('/images/logo/leptonx/logo-light.png');
     --lpx-logo-icon: url('/images/logo/leptonx/logo-light-thumbnail.png');
@@ -38,11 +40,21 @@ html, body {
     --rp-account-custom-col-width: 100%;
 }
 
+@media (max-width: 1199.98px) {
+
+    body .abp-account-layout .eco-desktop,
+    body .account-layout .eco-desktop,
+    .eco-desktop {
+        display: none !important;
+    }
+}
+
 /*
   Configurable replacement for Bootstrap's .col-md-8 on account pages.
   Change --rp-account-col-md-8-width in :root to any value (e.g. 75%, 80%, 900px).
 */
 @media (min-width: 768px) {
+
     body .abp-account-layout .col-md-8,
     body .account-layout .col-md-8 {
         flex: 0 0 auto;
@@ -50,7 +62,8 @@ html, body {
         max-width: var(--rp-account-col-md-8-width) !important;
     }
 }
-.title{
+
+.title {
     font-family: Millik !important;
 }
 
@@ -97,11 +110,642 @@ body .account-layout .rp-account-col {
 }
 
 /* Higher-level account container layer (above custom auth card). */
- .lpx-content-container {
+.lpx-content-container {
     background-color: transparent !important;
- }
+    width: 100%;
+}
 
+.rp-account-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    gap: 1.5rem;
+}
 
+.rp-account-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rp-account-popper-stack {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1090;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(92vw, 380px);
+    pointer-events: none;
+}
+
+.rp-account-popper {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.2);
+    padding: 0.8rem 0.9rem;
+    line-height: 1.35;
+    font-size: 0.92rem;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.rp-account-popper.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.rp-account-popper-success {
+    background-color: var(--bs-success, #198754);
+}
+
+.rp-account-popper-warning {
+    background-color: var(--bs-warning, #ffc107);
+    color: #2c2100;
+}
+
+.rp-account-popper-danger {
+    background-color: var(--bs-danger, #dc3545);
+}
+
+.rp-account-popper-info {
+    background-color: var(--bs-info, #0dcaf0);
+    color: #06252c;
+}
+
+.rp-account-popper-icon {
+    margin-top: 1px;
+    font-size: 1rem;
+}
+
+.rp-account-popper-message {
+    flex: 1;
+    word-break: break-word;
+}
+
+.rp-account-popper-close {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    opacity: 0.85;
+    line-height: 1;
+    font-size: 1rem;
+    padding: 0.1rem 0.2rem;
+    margin-left: 0.25rem;
+}
+
+.rp-account-popper-close:hover,
+.rp-account-popper-close:focus {
+    opacity: 1;
+}
+
+.rp-smartserve-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.rp-smartserve-card {
+    width: min(100%, 920px);
+    max-width: 920px;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(32, 33, 36, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15), 0 4px 8px rgba(60, 64, 67, 0.08);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 0.95fr 1.25fr;
+    margin: 0 auto;
+}
+
+.rp-smartserve-side {
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+    padding: 42px 32px;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    text-align: left;
+}
+
+.rp-smartserve-brand {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.rp-smartserve-brand img {
+    width: 125px;
+    height: 70px;
+}
+
+.rp-smartserve-title {
+    margin: 0 0 12px;
+    font-size: clamp(1.8rem, 2vw, 2.2rem);
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: #202124;
+}
+
+.rp-smartserve-subtitle {
+    margin: 0;
+    color: #5f6368;
+    font-size: 0.94rem;
+    text-align: left;
+}
+
+.rp-smartserve-subtitle a {
+    color: #13653f;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.rp-smartserve-subtitle a:hover {
+    text-decoration: underline;
+}
+
+.rp-smartserve-panel {
+    padding: 36px 32px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rp-smartserve-external {
+    margin-bottom: 16px;
+}
+
+.rp-smartserve-provider-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rp-smartserve-provider-btn {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 999px;
+    font-weight: 500;
+    background: #198754;
+    border: 1px solid #198754;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.rp-smartserve-provider-btn:hover,
+.rp-smartserve-provider-btn:focus {
+    background: #157347;
+    border-color: #146c43;
+    color: #fff;
+}
+
+.rp-smartserve-provider-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.rp-smartserve-divider {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    color: #5f6368;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.rp-smartserve-divider::before,
+.rp-smartserve-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(95, 99, 104, 0.2);
+}
+
+.rp-smartserve-divider span {
+    padding: 0 12px;
+}
+
+.rp-smartserve-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rp-smartserve-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rp-smartserve-floating-field,
+.rp-smartserve-password-wrap {
+    position: relative;
+}
+
+.rp-smartserve-field .form-label {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #202124;
+}
+
+.rp-smartserve-input {
+    min-height: 58px !important;
+    border-radius: 12px !important;
+    border: 1px solid #13653f !important;
+    padding: 1.35rem 0.95rem 0.55rem !important;
+    font-size: 1rem;
+    background: #fff;
+    color: #202124;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-floating>.rp-smartserve-input {
+    height: 58px;
+    min-height: 58px;
+    padding-top: 1.45rem !important;
+    padding-bottom: 0.55rem !important;
+}
+
+.form-floating>.rp-smartserve-input::placeholder {
+    color: transparent;
+}
+
+.form-floating>label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    color: #5f6368;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1;
+    background: #fff;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transform-origin: left top;
+    transition: transform 0.15s ease, color 0.15s ease, top 0.15s ease, background-color 0.15s ease;
+}
+
+.rp-smartserve-input:focus {
+    border-color: #13653f !important;
+    box-shadow: 0 0 0 1px #13653f !important;
+}
+
+.rp-smartserve-input:focus+label,
+.rp-smartserve-input:not(:placeholder-shown)+label,
+.rp-smartserve-input:-webkit-autofill+label {
+    top: 0;
+    left: 10px;
+    transform: translateY(-50%) scale(0.8);
+    color: #13653f;
+}
+
+.rp-smartserve-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.rp-smartserve-inline-label {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #202124;
+}
+
+.rp-smartserve-field-action {
+    display: flex;
+    justify-content: flex-start !important;
+    margin-top: 4px;
+    align-items: center;
+}
+
+.rp-smartserve-field-action a,
+.rp-smartserve-field-actions a,
+.rp-smartserve-actions a,
+.rp-smartserve-label-row a {
+    color: #198754;
+    text-decoration: none !important;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.rp-smartserve-password-wrap {
+    display: block;
+}
+
+.rp-smartserve-password-wrap .rp-smartserve-input {
+    padding-right: 52px !important;
+}
+
+.rp-smartserve-password-toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    border-radius: 999px;
+    color: #5f6368;
+    z-index: 4;
+}
+
+.rp-smartserve-password-toggle:hover,
+.rp-smartserve-password-toggle:focus {
+    background: rgba(25, 135, 84, 0.12);
+    color: #13653f;
+    box-shadow: none;
+}
+
+.rp-smartserve-check-row {
+    margin-top: 6px;
+}
+
+.rp-smartserve-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 50px;
+    margin-top: 8px;
+}
+
+.rp-smartserve-card-login {
+    max-width: 980px;
+    border-radius: 24px;
+}
+
+.rp-smartserve-panel-login {
+    padding-top: 34px;
+}
+
+.rp-smartserve-login-head {
+    margin-bottom: 12px;
+}
+
+.rp-smartserve-login-title {
+    margin: 0 0 6px;
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: #202124;
+}
+
+.rp-smartserve-login-copy {
+    margin: 0;
+    color: #5f6368;
+    font-size: 0.92rem;
+}
+
+.rp-smartserve-login-divider {
+    margin: 12px 0 14px;
+}
+
+.rp-smartserve-login-forgot a {
+    color: #198754;
+}
+
+.rp-smartserve-login-actions {
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.rp-smartserve-login-actions .rp-smartserve-submit {
+    margin-left: auto;
+    min-width: 120px;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+    color: #fff;
+}
+
+.rp-smartserve-login-actions .rp-smartserve-submit:hover,
+.rp-smartserve-login-actions .rp-smartserve-submit:focus {
+    background-color: #157347;
+    border-color: #146c43;
+    color: #fff;
+}
+
+.rp-smartserve-page-login .rp-smartserve-input {
+    border-color: var(--bs-success) !important;
+}
+
+.rp-smartserve-page-login .rp-smartserve-input:focus {
+    border-color: var(--bs-success) !important;
+    box-shadow: 0 0 0 1px var(--bs-success) !important;
+}
+
+.rp-smartserve-page-login .rp-smartserve-input:focus+label,
+.rp-smartserve-page-login .rp-smartserve-input:not(:placeholder-shown)+label,
+.rp-smartserve-page-login .rp-smartserve-input:-webkit-autofill+label {
+    color: var(--bs-success);
+}
+
+.rp-smartserve-submit,
+.rp-smartserve-cancel {
+    min-height: 40px;
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.6rem 1.3rem;
+}
+
+.rp-smartserve-submit {
+    background: #13653f;
+    border: 1px solid #13653f;
+}
+
+.rp-smartserve-submit:hover {
+    background: #157347;
+    border-color: #146c43;
+}
+
+.rp-smartserve-cancel {
+    background: #198754;
+    border: 1px solid #198754;
+    color: #fff;
+}
+
+.rp-smartserve-cancel:hover,
+.rp-smartserve-cancel:focus {
+    background: #157347;
+    border-color: #146c43;
+    color: #fff;
+}
+
+.manage-tabs .nav-link {
+    color: #198754;
+    background-color: #fff;
+    border: 1px solid rgba(25, 135, 84, 0.35);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+}
+
+.manage-tabs .nav-link.active,
+.manage-tabs .nav-link[aria-selected="true"] {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+    font-weight: 600;
+}
+
+.rp-smartserve-footer {
+    margin: 22px 0 0;
+    color: #5f6368;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.rp-language-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+}
+
+.rp-language-inner {
+    width: min(100%, 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 14px 18px;
+    background: transparent important;
+    border: none !important;
+    border-radius: 14px;
+    box-shadow: none !important;
+}
+
+.rp-language-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5f6368;
+}
+
+.rp-language-dropdown {
+    display: inline-flex;
+}
+
+.rp-language-button {
+    border-radius: 999px !important;
+    min-width: 150px;
+    padding: 0.45rem 0.9rem !important;
+    font-size: 0.88rem;
+    font-weight: 600;
+    background: #fff;
+    color: #202124;
+}
+
+.rp-language-menu {
+    border-radius: 12px;
+    border: 1px solid rgba(32, 33, 36, 0.08);
+    box-shadow: 0 8px 24px rgba(60, 64, 67, 0.12);
+}
+
+@media (max-width: 767.98px) {
+    .rp-account-page {
+        gap: 1rem;
+        padding: 1.25rem 0.75rem;
+    }
+
+    .rp-account-block,
+    .rp-language-block {
+        width: 100%;
+    }
+
+    .rp-language-inner {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .rp-smartserve-card {
+        grid-template-columns: 1fr;
+    }
+
+    .rp-smartserve-side {
+        border-right: none;
+        border-bottom: 1px solid rgba(32, 33, 36, 0.08);
+    }
+
+    .rp-smartserve-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .rp-smartserve-actions>a {
+        margin-right: auto;
+    }
+
+    .rp-smartserve-actions .rp-smartserve-submit {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .rp-account-popper-stack {
+        left: 0.75rem;
+        right: 0.75rem;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .rp-smartserve-side,
+    .rp-smartserve-panel {
+        padding: 24px 18px;
+    }
+
+    .rp-smartserve-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .rp-smartserve-actions>a {
+        margin-right: 0;
+    }
+
+    .rp-smartserve-actions .btn {
+        min-width: 0;
+        width: auto;
+    }
+}
 
 .auth-entry-shell {
     border: 5px solid rgba(15, 23, 42, 0.08) !important;
@@ -113,7 +757,7 @@ body .account-layout .rp-account-col {
     display: grid;
     grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.1fr);
     min-height: 520px;
-      border: 5px solid rgba(15, 23, 42, 0.08) !important;
+    border: 5px solid rgba(15, 23, 42, 0.08) !important;
 }
 
 .auth-entry-hero {
@@ -251,6 +895,7 @@ body .account-layout .rp-account-col {
         opacity: 0;
         transform: translateY(8px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -262,6 +907,7 @@ body .account-layout .rp-account-col {
         opacity: 0;
         transform: translateY(6px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -284,12 +930,10 @@ form[action*="/Account/Register"]::before {
     display: block;
     height: 4px;
     border-radius: 999px;
-    background: linear-gradient(
-        90deg,
-        var(--rp-auth-gradient-start),
-        var(--rp-auth-gradient-end),
-        var(--rp-auth-accent)
-    );
+    background: linear-gradient(90deg,
+            var(--rp-auth-gradient-start),
+            var(--rp-auth-gradient-end),
+            var(--rp-auth-accent));
     margin-bottom: 1.2rem;
 }
 
@@ -325,11 +969,9 @@ form[action*="/Account/Register"] .btn-primary {
     min-height: 44px;
     font-weight: 700;
     letter-spacing: 0.02em;
-    background: linear-gradient(
-        135deg,
-        var(--rp-auth-gradient-start),
-        var(--rp-auth-gradient-end)
-    );
+    background: linear-gradient(135deg,
+            var(--rp-auth-gradient-start),
+            var(--rp-auth-gradient-end));
 }
 
 form[action*="/Account/Login"] .btn-primary:hover,
@@ -357,6 +999,7 @@ form[action*="/Account/Register"] a:hover {
 }
 
 @media (max-width: 576px) {
+
     form[action*="/Account/Login"],
     form[action*="/Account/Register"] {
         padding: 1.1rem;
@@ -376,6 +1019,7 @@ form[action*="/Account/Register"] a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .auth-entry-hero,
     .auth-entry-form-pane,
     .auth-entry-list li {

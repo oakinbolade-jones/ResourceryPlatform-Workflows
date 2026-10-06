@@ -17,14 +17,24 @@
         {{ 'Workflow::Transcription:DetailsDescriptionLabel' | abpLocalization }}
       </p>
     </div>
-    <a class="btn btn-success rounded-1 px-4" routerLink="/transcribe/list">
+      <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+        <i class="fa fa-plus me-2" aria-hidden="true"></i>
+        {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
+      </a>
+    <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
       <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
       {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
     >
   </div>
 
-  <div *ngIf="loading" class="state-banner state-loading">
-    {{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}
+  <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
+    <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
+    <div class="small mt-1">Loading transcription...</div>
+    <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading transcription">
+      <div class="progress rounded-0" style="height: 0.7rem">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="error" class="state-banner state-error">
@@ -93,7 +103,7 @@
           <div class="d-inline-flex gap-2">
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('docx') || downloadingFormat !== null"
               (click)="downloadResult('docx')"
             >
@@ -103,7 +113,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('pdf') || downloadingFormat !== null"
               (click)="downloadResult('pdf')"
             >
@@ -115,7 +125,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-sm btn-outline-success rounded-1"
+              class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('txt') || downloadingFormat !== null"
               (click)="downloadResult('txt')"
             >

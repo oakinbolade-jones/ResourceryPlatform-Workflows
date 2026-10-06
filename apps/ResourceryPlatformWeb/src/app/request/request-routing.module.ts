@@ -9,7 +9,8 @@ const routes: Routes = [
     component: RequestComponent,
     data: {
       layout: eLayoutType.application,
-      title: 'Workflow::Requests'
+      title: 'Workflow::Requests',
+      requiredPolicy:"Workflow.Requests.Default"
     }
   },
 ];

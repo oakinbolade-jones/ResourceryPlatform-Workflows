@@ -1,0 +1,127 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+  <h4 class="fw-bold mb-0">{{ 'Administration::Account:RolesTitle' | abpLocalization }}</h4>
+  <button type="button" class="btn btn-success rounded-5" (click)="openCreateModal()">
+    {{ 'Administration::Account:NewRole' | abpLocalization }}
+  </button>
+</div>
+
+<div class="row g-2 mb-3">
+  <div class="col-12 col-md-6">
+    <input
+      class="form-control border border-outline-success rounded-5"
+      [(ngModel)]="search"
+      [ngModelOptions]="{ standalone: true }"
+      [placeholder]="'Administration::Account:SearchRoles' | abpLocalization"
+    />
+  </div>
+  <div class="col-12 col-md-auto">
+    <button type="button" class="btn btn-outline-success rounded-5 w-100" (click)="applyFilter()">
+      {{ 'Administration::Account:Search' | abpLocalization }}
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <div *ngIf="loading" class="ss-loading-state mb-3">
+    <div class="fw-bold">{{ 'Administration::Account:LoadingLabel' | abpLocalization }}</div>
+    <!-- <div class="small mt-1">Loading roles...</div> -->
+    <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading roles">
+      <div class="progress rounded-0" style="height: 0.7rem">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th>{{ 'Administration::Account:RoleName' | abpLocalization }}</th>
+        <th>{{ 'Administration::Account:IsDefault' | abpLocalization }}</th>
+        <th>{{ 'Administration::Account:IsPublic' | abpLocalization }}</th>
+        <th class="text-center">{{ 'Administration::Actions' | abpLocalization }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of roles">
+        <td>{{ role.name }}</td>
+        <td>{{ role.isDefault ? ('Administration::Yes' | abpLocalization) : ('Administration::No' | abpLocalization) }}</td>
+        <td>{{ role.isPublic ? ('Administration::Yes' | abpLocalization) : ('Administration::No' | abpLocalization) }}</td>
+        <td class="text-center">
+          <div ngbDropdown class="d-inline-block actions-dropdown">
+            <button
+              class="btn btn-sm"
+              ngbDropdownToggle
+              type="button"
+              [attr.aria-label]="'Administration::Actions' | abpLocalization"
+              [title]="'Administration::Actions' | abpLocalization"
+            >
+              <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            </button>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem type="button" (click)="openEditModal(role)">
+                {{ 'Administration::Edit' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem type="button" (click)="openPermissionsModal(role)">
+                {{ 'Administration::Account:Permissions' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem type="button" (click)="deleteRole(role)">
+                {{ 'Administration::Delete' | abpLocalization }}
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && !roles.length">
+        <td colspan="4">{{ 'Administration::Account:NoRoles' | abpLocalization }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="modalVisible" class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{
+            isEditMode
+              ? ('Administration::Account:EditRole' | abpLocalization)
+              : ('Administration::Account:NewRole' | abpLocalization)
+          }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <form [formGroup]="roleForm" (ngSubmit)="save()" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">{{ 'Administration::Account:RoleName' | abpLocalization }}</label>
+            <input class="form-control" formControlName="name" />
+          </div>
+          <div class="form-check mb-2">
+            <input id="roleDefault" class="form-check-input" type="checkbox" formControlName="isDefault" />
+            <label class="form-check-label" for="roleDefault">{{ 'Administration::Account:IsDefault' | abpLocalization }}</label>
+          </div>
+          <div class="form-check">
+            <input id="rolePublic" class="form-check-input" type="checkbox" formControlName="isPublic" />
+            <label class="form-check-label" for="rolePublic">{{ 'Administration::Account:IsPublic' | abpLocalization }}</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="closeModal()">
+            {{ 'Administration::Cancel' | abpLocalization }}
+          </button>
+          <button type="submit" class="btn btn-success">{{ 'Administration::Save' | abpLocalization }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="modalVisible" class="modal-backdrop fade show"></div>
+
+<abp-permission-management
+  class="ss-permission-management"
+  [providerName]="'R'"
+  [providerKey]="permissionProviderKey"
+  [entityDisplayName]="permissionEntityDisplayName"
+  [(visible)]="permissionModalVisible"
+  [hideBadges]="true"
+></abp-permission-management>

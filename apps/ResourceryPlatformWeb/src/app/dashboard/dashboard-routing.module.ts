@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    children: [{ path: '', component: DashboardComponent, data: { title: 'Dashboard' } }]
+    children: [{ path: '', component: DashboardComponent,
+       data: {
+         title: 'Workflow::Dashboard',
+         requiredPolicy: "Workflow.Dashboard.Default"
+        } 
+        }]
   }
 ];
 
