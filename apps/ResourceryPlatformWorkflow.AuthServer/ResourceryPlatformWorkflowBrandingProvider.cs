@@ -6,5 +6,5 @@ namespace ResourceryPlatformWorkflow;
 [Dependency(ReplaceServices = true)]
 public class ResourceryPlatformWorkflowBrandingProvider : DefaultBrandingProvider
 {
-    public override string AppName => "Resourcery Platform";
+    public override string AppName => "Smart Serve Platform";
 }
