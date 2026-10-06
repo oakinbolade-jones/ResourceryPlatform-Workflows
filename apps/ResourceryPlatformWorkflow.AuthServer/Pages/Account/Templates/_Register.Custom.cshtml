@@ -2,7 +2,7 @@
 @using Volo.Abp.Account.Localization
 @model Volo.Abp.Account.Web.Pages.Account.RegisterModel
 @inject IHtmlLocalizer<AccountResource> L
-@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Administration.Localization.AdministrationResource> LA
 
 <div class="rp-smartserve-page">
     <div class="rp-smartserve-card">
@@ -21,8 +21,8 @@
             </p>
 
             @* <p class="rp-smartserve-footer">
-                @LW["ECOWASCopyright"]<br />
-                @LW["ECOWAS"]
+                @LA["ECOWASCopyright"]<br />
+                @LA["ECOWAS"]
             </p> *@
         </aside>
 
@@ -40,10 +40,10 @@
                                         value="@provider.AuthenticationScheme"
                                         title="@L["RegisterUsingYourProviderAccount", provider.DisplayName]">
                                     <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission" />
-                                    @LW["Account:RegisterWithECOWASMail"]
+                                    @LA["Account:RegisterWithECOWASMail"]
                                 </button>
                                 <div class="rp-smartserve-divider">
-                                    <span>@LW["ECOWASAccountOR"]</span>
+                                    <span>@LA["ECOWASAccountOR"]</span>
                                 </div>
                             }
                             else
@@ -65,8 +65,8 @@
                     <div class="rp-smartserve-field mb-4">
                         <div class="form-floating rp-smartserve-floating-field">
                             <input asp-for="Input.UserName" class="form-control rp-smartserve-input" autocomplete="off"
-                                   required placeholder="@LW["Account:EnterUsername"]" />
-                            <label asp-for="Input.UserName">@LW["Account:Username"]</label>
+                                   required placeholder="@LA["Account:EnterUsername"]" />
+                            <label asp-for="Input.UserName">@LA["Account:Username"]</label>
                         </div>
                         <span asp-validation-for="Input.UserName" class="text-danger"></span>
                     </div>
@@ -74,8 +74,8 @@
                     <div class="rp-smartserve-field mb-4">
                         <div class="form-floating rp-smartserve-floating-field">
                             <input asp-for="Input.EmailAddress" type="email" class="form-control rp-smartserve-input"
-                                   autocomplete="off" required placeholder="@LW["Account:EnterEmailAddress"]" />
-                            <label asp-for="Input.EmailAddress">@LW["Account:Email"]</label>
+                                   autocomplete="off" required placeholder="@LA["Account:EnterEmailAddress"]" />
+                            <label asp-for="Input.EmailAddress">@LA["Account:Email"]</label>
                         </div>
                         <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
                     </div>
@@ -86,8 +86,8 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="Input.Password" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input"
-                                       autocomplete="new-password" required placeholder="@LW["Account:EnterPassword"]" />
-                                <label asp-for="Input.Password">@LW["Account:Password"]</label>
+                                       autocomplete="new-password" required placeholder="@LA["Account:EnterPassword"]" />
+                                <label asp-for="Input.Password">@LA["Account:Password"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
                                         aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>

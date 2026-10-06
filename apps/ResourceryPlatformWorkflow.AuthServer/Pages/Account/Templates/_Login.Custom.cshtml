@@ -4,6 +4,7 @@
 @using Volo.Abp.Settings
 @model Volo.Abp.Account.Web.Pages.Account.LoginModel
 @inject IHtmlLocalizer<AccountResource> L
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Administration.Localization.AdministrationResource> LA
 @inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
 @inject Volo.Abp.Settings.ISettingProvider SettingProvider
 
@@ -14,21 +15,21 @@
         returnUrl = Model.ReturnUrl,
         returnUrlHash = Model.ReturnUrlHash
     });
-    var signIn = LW["Account:SignIn"];
-    var signInText = LW["Account:SignInText"];
-    var signInCreateText = LW["Account:SignInCreateText"];
-    var newUserText = LW["Account:NewUser?"];
-    var createAccountText = LW["Account:CreateAccount"];
-    var loginWithEcowasMailText = LW["Account:LoginWithECOWASMail"];
-    var ecowasCopyrightText = LW["ECOWASCopyright"];
-    var ecowasText = LW["ECOWAS"];
+    var signIn = LA["Account:SignIn"];
+    var signInText = LA["Account:SignInText"];
+    var signInCreateText = LA["Account:SignInCreateText"];
+    var newUserText = LA["Account:NewUser?"];
+    var createAccountText = LA["Account:CreateAccount"];
+    var loginWithEcowasMailText = LA["Account:LoginWithECOWASMail"];
+    var ecowasCopyrightText = LA["ECOWASCopyright"];
+    var ecowasText = LA["ECOWAS"];
     var invalidLoginRequestText = L["InvalidLoginRequest"];
     var noLoginSchemesText = L["ThereAreNoLoginSchemesConfiguredForThisClient"];
-    var ecowasAccountOrText = LW["ECOWASAccountOR"];
-    var usernameOrEmailLabelText = LW["Account:UsernameOrEmail"];
-    var passwordLabelText = LW["Account:Password"];
-    var usernamePlaceholderText = LW["Account:EnterUsernameOrEmail"];
-    var passwordPlaceholderText = LW["Account:EnterAccountPassword"];
+    var ecowasAccountOrText = LA["ECOWASAccountOR"];
+    var usernameOrEmailLabelText = LA["Account:UsernameOrEmail"];
+    var passwordLabelText = LA["Account:Password"];
+    var usernamePlaceholderText = LA["Account:EnterUsernameOrEmail"];
+    var passwordPlaceholderText = LA["Account:EnterAccountPassword"];
     var forgotPasswordText = L["ForgotPassword"];
     var loginText = L["Login"];
     var cancelText = L["Cancel"];

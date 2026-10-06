@@ -1,12 +1,11 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Account.Localization
-@using ResourceryPlatformWorkflow.Workflow.Localization
 @using Volo.Abp.Account.Settings
 @using Volo.Abp.Identity
 @using Volo.Abp.Settings
 @model ResourceryPlatformWorkflow.AuthServer.Pages.Account.ManageModel
 @inject IHtmlLocalizer<AccountResource> L
-@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Administration.Localization.AdministrationResource> LA
 @inject Volo.Abp.Settings.ISettingProvider SettingProvider
 @{
     var isPasswordTab = string.Equals(Model.Tab, "password", StringComparison.OrdinalIgnoreCase);
@@ -23,13 +22,13 @@
                 </a>
             </div>
 
-            <h1 class="rp-smartserve-title">@LW["Account:ManageAccount"]</h1>
+            <h1 class="rp-smartserve-title">@LA["Account:ManageAccount"]</h1>
 
-            <p class="rp-smartserve-subtitle">@LW["Account:ManageAccountDescription"]</p>
+            <p class="rp-smartserve-subtitle">@LA["Account:ManageAccountDescription"]</p>
 
             @* <p class="rp-smartserve-footer">
-                @LW["ECOWASCopyright"]<br />
-                @LW["ECOWAS"]
+                @LA["ECOWASCopyright"]<br />
+                @LA["ECOWAS"]
             </p> *@
         </aside>
 
@@ -38,7 +37,7 @@
                 <a href="@Model.SafeReturnUrl" onclick="window.location.href='@Model.SafeReturnUrl'; return false;"
                    class="text-decoration-none" style="color: #198754; font-weight: 600;">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    @LW["Account:BackToPreviousPage"]
+                    @LA["Account:BackToPreviousPage"]
                 </a>
             </div>
 
@@ -47,14 +46,14 @@
                     <button class="nav-link px-4 py-2 @(!isPasswordTab ? "active" : string.Empty)" id="profile-tab"
                             data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab"
                             aria-controls="profile-tab-pane" aria-selected="@(!isPasswordTab)">
-                        @LW["Account:AccountInformation"]
+                        @LA["Account:AccountInformation"]
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link px-4 py-2 @(isPasswordTab ? "active" : string.Empty)" id="password-tab"
                             data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab"
                             aria-controls="password-tab-pane" aria-selected="@(isPasswordTab)">
-                        @LW["Account:ResetPassword"]
+                        @LA["Account:ResetPassword"]
                     </button>
                 </li>
             </ul>
@@ -75,8 +74,8 @@
                         <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
                                 <input asp-for="Input.FirstName" class="form-control rp-smartserve-input" required
-                                       autocomplete="given-name" placeholder="@LW["Account:EnterFirstName"]" />
-                                <label asp-for="Input.FirstName">@LW["Account:FirstName"]</label>
+                                       autocomplete="given-name" placeholder="@LA["Account:EnterFirstName"]" />
+                                <label asp-for="Input.FirstName">@LA["Account:FirstName"]</label>
                             </div>
                             <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                         </div>
@@ -84,8 +83,8 @@
                         <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
                                 <input asp-for="Input.LastName" class="form-control rp-smartserve-input" required
-                                       autocomplete="family-name" placeholder="@LW["Account:EnterLastName"]" />
-                                <label asp-for="Input.LastName">@LW["Account:LastName"]</label>
+                                       autocomplete="family-name" placeholder="@LA["Account:EnterLastName"]" />
+                                <label asp-for="Input.LastName">@LA["Account:LastName"]</label>
                             </div>
                             <span asp-validation-for="Input.LastName" class="text-danger"></span>
                         </div>
@@ -93,8 +92,8 @@
                         <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
                                 <input asp-for="Input.Email" type="email" class="form-control rp-smartserve-input"
-                                       autocomplete="off" required placeholder="@LW["Account:EnterEmailAddress"]" />
-                                <label asp-for="Input.Email">@LW["Account:Email"]</label>
+                                       autocomplete="off" required placeholder="@LA["Account:EnterEmailAddress"]" />
+                                <label asp-for="Input.Email">@LA["Account:Email"]</label>
                             </div>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
@@ -102,15 +101,15 @@
                         <div class="rp-smartserve-field mb-4">
                             <div class="form-floating rp-smartserve-floating-field">
                                 <input asp-for="Input.PhoneNumber" class="form-control rp-smartserve-input"
-                                       autocomplete="off" placeholder="@LW["Account:EnterPhoneNumber"]" />
-                                <label asp-for="Input.PhoneNumber">@LW["Account:PhoneNumber"]</label>
+                                       autocomplete="off" placeholder="@LA["Account:EnterPhoneNumber"]" />
+                                <label asp-for="Input.PhoneNumber">@LA["Account:PhoneNumber"]</label>
                             </div>
                             <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                         </div>
 
                         <div class="rp-smartserve-actions">
                             <button type="submit"
-                                    class="btn btn-success rp-smartserve-submit">@LW["Account:SaveChanges"]</button>
+                                    class="btn btn-success rp-smartserve-submit">@LA["Account:SaveChanges"]</button>
                         </div>
                     </form>
                 </div>
@@ -127,9 +126,9 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.CurrentPassword" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input" required
-                                       autocomplete="current-password" placeholder="@LW["Account:EnterCurrentPassword"]" />
+                                       autocomplete="current-password" placeholder="@LA["Account:EnterCurrentPassword"]" />
                                 <label
-                                asp-for="ChangePasswordInput.CurrentPassword">@LW["Account:CurrentPassword"]</label>
+                                asp-for="ChangePasswordInput.CurrentPassword">@LA["Account:CurrentPassword"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button"
                                         type="button" aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -142,8 +141,8 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.NewPassword" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input" required
-                                       autocomplete="new-password" placeholder="@LW["Account:EnterNewPassword"]" />
-                                <label asp-for="ChangePasswordInput.NewPassword">@LW["Account:NewPassword"]</label>
+                                       autocomplete="new-password" placeholder="@LA["Account:EnterNewPassword"]" />
+                                <label asp-for="ChangePasswordInput.NewPassword">@LA["Account:NewPassword"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button"
                                         type="button" aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -156,9 +155,9 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.ConfirmNewPassword" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input" required
-                                       autocomplete="new-password" placeholder="@LW["Account:ConfirmPassword"]" />
+                                       autocomplete="new-password" placeholder="@LA["Account:ConfirmPassword"]" />
                                 <label
-                                asp-for="ChangePasswordInput.ConfirmNewPassword">@LW["Account:ConfirmPassword"]</label>
+                                asp-for="ChangePasswordInput.ConfirmNewPassword">@LA["Account:ConfirmPassword"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button"
                                         type="button" aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -170,7 +169,7 @@
 
                         <div class="rp-smartserve-actions">
                             <button type="submit"
-                                    class="btn btn-success rp-smartserve-submit">@LW["Account:ChangePassword"]</button>
+                                    class="btn btn-success rp-smartserve-submit">@LA["Account:ChangePassword"]</button>
                         </div>
                     </form>
                 </div>

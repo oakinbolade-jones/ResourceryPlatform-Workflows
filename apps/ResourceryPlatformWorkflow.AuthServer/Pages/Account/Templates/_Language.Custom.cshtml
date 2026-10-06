@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Account.Localization
 @inject IHtmlLocalizer<AccountResource> L
-@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Workflow.Localization.WorkflowResource> LW
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Administration.Localization.AdministrationResource> LA
 
 @inject Volo.Abp.Localization.ILanguageProvider LanguageProvider
 
@@ -10,8 +10,8 @@
     var languages = await LanguageProvider.GetLanguagesAsync();
     var currentLanguage = CultureInfo.CurrentUICulture.Name;
     var returnUrl = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
-    var ecowasCopyrightText = LW["ECOWASCopyright"];
-    var ecowasText = LW["ECOWAS"];
+    var ecowasCopyrightText = LA["ECOWASCopyright"];
+    var ecowasText = LA["ECOWAS"];
 
 }
 
