@@ -86,13 +86,18 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="Input.Password" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input"
-                                       autocomplete="new-password" required placeholder="@LA["Account:EnterPassword"]" />
+                                       autocomplete="new-password" required minlength="8" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
+                                       title="Password must be at least 8 characters and include a letter and a number."
+                                       placeholder="@LA["Account:EnterPassword"]" />
                                 <label asp-for="Input.Password">@LA["Account:Password"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
                                         aria-label="Show password" title="Show password">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
+                            <small class="form-text text-muted rp-smartserve-password-hint">
+                                Use at least 8 characters with a letter and a number.
+                            </small>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
                     }
@@ -117,6 +122,53 @@
                 registerForm.querySelector('input[name="Input.EmailAddress"]'),
                 registerForm.querySelector('input[name="Input.Password"]')
             ].filter(Boolean);
+            const passwordField = registerForm.querySelector('input[name="Input.Password"]');
+            const passwordHint = registerForm.querySelector('.rp-smartserve-password-hint');
+
+            function validatePasswordStrength() {
+                if (!passwordField) {
+                    return true;
+                }
+
+                const password = passwordField.value || '';
+                const hasLength = password.length >= 8;
+                const hasLetter = /[A-Za-z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                const hasWhitespace = /\s/.test(password);
+                const isValid = hasLength && hasLetter && hasNumber && !hasWhitespace;
+
+                if (!password) {
+                    passwordField.setCustomValidity('');
+                    if (passwordHint) {
+                        passwordHint.textContent = 'Use at least 8 characters with a letter and a number.';
+                        passwordHint.classList.remove('text-danger');
+                    }
+                    return true;
+                }
+
+                if (!isValid) {
+                    passwordField.setCustomValidity('Password must be at least 8 characters and include a letter and a number.');
+                    if (passwordHint) {
+                        passwordHint.textContent = 'Password must be at least 8 characters and include a letter and a number.';
+                        passwordHint.classList.add('text-danger');
+                    }
+                    return false;
+                }
+
+                passwordField.setCustomValidity('');
+                if (passwordHint) {
+                    passwordHint.textContent = 'Password looks good.';
+                    passwordHint.classList.remove('text-danger');
+                    passwordHint.classList.add('text-success');
+                }
+                return true;
+            }
+
+            if (passwordField) {
+                passwordField.addEventListener('input', function () {
+                    validatePasswordStrength();
+                });
+            }
 
             registerForm.addEventListener('submit', function (event) {
                 const missingField = requiredFields.find(function (field) {
@@ -138,6 +190,15 @@
                     emailField.focus();
                     if (popper) {
                         popper('Registration failed. Please provide a valid email address.', 'warning');
+                    }
+                    return;
+                }
+
+                if (!validatePasswordStrength()) {
+                    event.preventDefault();
+                    passwordField.focus();
+                    if (popper) {
+                        popper('Registration failed. Password must be at least 8 characters and include a letter and a number.', 'warning');
                     }
                     return;
                 }

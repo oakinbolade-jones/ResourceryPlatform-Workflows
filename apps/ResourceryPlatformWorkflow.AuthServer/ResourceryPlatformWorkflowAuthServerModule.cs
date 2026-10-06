@@ -177,6 +177,16 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         {
             options.KeyPrefix = "ResourceryPlatformWorkflow:";
         });
+
+        context.Services.PostConfigure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 1;
+            options.Password.RequiredUniqueChars = 0;
+        });
     }
 
     private static void ConfigureMicrosoftExternalLogin(

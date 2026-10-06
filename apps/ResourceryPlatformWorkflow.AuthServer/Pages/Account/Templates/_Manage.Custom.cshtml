@@ -141,6 +141,8 @@
                             <div class="form-floating rp-smartserve-password-wrap">
                                 <input asp-for="ChangePasswordInput.NewPassword" type="password"
                                        class="form-control rp-smartserve-input rp-smartserve-password-input" required
+                                       minlength="8" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}"
+                                       title="Password must be at least 8 characters and include a letter and a number."
                                        autocomplete="new-password" placeholder="@LA["Account:EnterNewPassword"]" />
                                 <label asp-for="ChangePasswordInput.NewPassword">@LA["Account:NewPassword"]</label>
                                 <button class="btn rp-smartserve-password-toggle password-visibility-button"
@@ -148,6 +150,9 @@
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
+                            <small class="form-text text-muted rp-smartserve-password-hint">
+                                Use at least 8 characters with a letter and a number.
+                            </small>
                             <span asp-validation-for="ChangePasswordInput.NewPassword" class="text-danger"></span>
                         </div>
 
@@ -221,6 +226,54 @@
                 managePasswordForm.querySelector('input[name="ChangePasswordInput.NewPassword"]'),
                 managePasswordForm.querySelector('input[name="ChangePasswordInput.ConfirmNewPassword"]')
             ].filter(Boolean);
+            const newPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.NewPassword"]');
+            const confirmPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.ConfirmNewPassword"]');
+            const passwordHint = managePasswordForm.querySelector('.rp-smartserve-password-hint');
+
+            function validatePasswordStrength() {
+                if (!newPasswordField) {
+                    return true;
+                }
+
+                const password = newPasswordField.value || '';
+                const hasLength = password.length >= 8;
+                const hasLetter = /[A-Za-z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                const hasWhitespace = /\s/.test(password);
+                const isValid = hasLength && hasLetter && hasNumber && !hasWhitespace;
+
+                if (!password) {
+                    newPasswordField.setCustomValidity('');
+                    if (passwordHint) {
+                        passwordHint.textContent = 'Use at least 8 characters with a letter and a number.';
+                        passwordHint.classList.remove('text-danger');
+                    }
+                    return true;
+                }
+
+                if (!isValid) {
+                    newPasswordField.setCustomValidity('Password must be at least 8 characters and include a letter and a number.');
+                    if (passwordHint) {
+                        passwordHint.textContent = 'Password must be at least 8 characters and include a letter and a number.';
+                        passwordHint.classList.add('text-danger');
+                    }
+                    return false;
+                }
+
+                newPasswordField.setCustomValidity('');
+                if (passwordHint) {
+                    passwordHint.textContent = 'Password looks good.';
+                    passwordHint.classList.remove('text-danger');
+                    passwordHint.classList.add('text-success');
+                }
+                return true;
+            }
+
+            if (newPasswordField) {
+                newPasswordField.addEventListener('input', function () {
+                    validatePasswordStrength();
+                });
+            }
 
             managePasswordForm.addEventListener('submit', function (event) {
                 const missingField = passwordRequiredFields.find(function (field) {
@@ -236,8 +289,15 @@
                     return;
                 }
 
-                const newPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.NewPassword"]');
-                const confirmPasswordField = managePasswordForm.querySelector('input[name="ChangePasswordInput.ConfirmNewPassword"]');
+                if (!validatePasswordStrength()) {
+                    event.preventDefault();
+                    newPasswordField.focus();
+                    if (popper) {
+                        popper('Password change failed. Password must be at least 8 characters and include a letter and a number.', 'warning');
+                    }
+                    return;
+                }
+
                 if (newPasswordField && confirmPasswordField && newPasswordField.value !== confirmPasswordField.value) {
                     event.preventDefault();
                     confirmPasswordField.focus();
