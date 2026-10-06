@@ -1,11 +1,11 @@
 ﻿<div class="container bg-white min-vh-50 p-5 border border-success rounded">
 
   <div class="d-flex align-items-center gap-2 mb-3">
-    <img
+    <!-- <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
       style="max-height: 50px; width: auto"
-    />
+    /> -->
     <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ServiceRequestLabel' | abpLocalization }}</h2>
   </div>
   <p class="mb-5 text-wrap" style="width: 100%">
@@ -36,7 +36,7 @@
               {{ 'Workflow::service.displayName' | abpLocalization }} 
             </option> -->
           </select>
-          <label for="serviceSelect">{{
+          <label for="serviceSelect" >{{
             'Workflow::ServiceLabel' | abpLocalization
           }}</label>
         </div>
@@ -972,10 +972,10 @@
     </div>
 
     <div class="ss-meeting-preview-actions">
-      <button type="button" class="btn btn-outline-secondary rounded-0" (click)="cancelMeetingSubmission()">
+      <button type="button" class="btn btn-outline-secondary rounded-5" (click)="cancelMeetingSubmission()">
         {{ 'Workflow::Meeting:PreviewBackToForm' | abpLocalization }}
       </button>
-      <button type="button" class="btn btn-success rounded-0" (click)="confirmMeetingSubmission()">
+      <button type="button" class="btn btn-success rounded-5" (click)="confirmMeetingSubmission()">
         {{ 'Workflow::Meeting:PreviewConfirmSubmit' | abpLocalization }}
       </button>
     </div>
@@ -998,10 +998,10 @@
     </div>
 
     <div class="ss-meeting-preview-actions">
-      <button type="button" class="btn btn-outline-secondary rounded-0" (click)="goToDashboard()">
+      <button type="button" class="btn btn-outline-secondary rounded-5" (click)="goToDashboard()">
         {{ 'Workflow::Meeting:PostSubmitNoDashboard' | abpLocalization }}
       </button>
-      <button type="button" class="btn btn-success rounded-0" (click)="startNewRequest()">
+      <button type="button" class="btn btn-success rounded-5" (click)="startNewRequest()">
         {{ 'Workflow::Meeting:PostSubmitYesNew' | abpLocalization }}
       </button>
     </div>
