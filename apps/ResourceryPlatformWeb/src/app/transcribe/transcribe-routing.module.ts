@@ -15,7 +15,7 @@ const routes: Routes = [
     data: {
       layout: eLayoutType.application,
       title: 'Administration::Transcribe',
-      requiredPolicy: 'Workflows.Transcriptions.Create'
+    //  requiredPolicy: 'Workflows.Transcriptions.Create'
     },
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
     data: {
       layout: eLayoutType.application,
       title: 'Administration::TranscriptionList',
-        requiredPolicy: 'Workflows.Transcriptions.List'
+    //    requiredPolicy: 'Workflows.Transcriptions.List'
     },
   },
   {
@@ -35,7 +35,7 @@ const routes: Routes = [
     data: {
       layout: eLayoutType.application,
       title: 'Administration::ViewTranscription',
-      requiredPolicy: 'Workflows.Transcriptions.View'
+    //  requiredPolicy: 'Workflows.Transcriptions.View'
     },
   },
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
     data: {
       layout: eLayoutType.application,
       title: 'Administration::EditTranscription',
-      requiredPolicy: 'Workflows.Transcriptions.Update'
+     // requiredPolicy: 'Workflows.Transcriptions.Update'
     },
   },
 ];

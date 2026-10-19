@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ResourceryPlatformWorkflow.Workflow.Requests;
 
-[Authorize(WorkflowPermissions.Requests.Default)]
+// [Authorize(WorkflowPermissions.Requests.Default)]
 public class RequestAppService : WorkflowAppService, IRequestAppService
 {
     private readonly IRepository<Request, Guid> _requestRepository;
@@ -80,7 +80,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return requests.ConvertAll(_requestToRequestDtoMapper.Map);
     }
 
-    [Authorize(WorkflowPermissions.Requests.Create)]
+   // [Authorize(WorkflowPermissions.Requests.Create)]
     public async Task<RequestDto> CreateAsync(CreateUpdateRequestDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -122,7 +122,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return _requestToRequestDtoMapper.Map(request);
     }
 
-    [Authorize(WorkflowPermissions.Requests.Update)]
+   // [Authorize(WorkflowPermissions.Requests.Update)]
     public async Task<RequestDto> UpdateAsync(Guid id, CreateUpdateRequestDto input)
     {
         Check.NotNull(input, nameof(input));

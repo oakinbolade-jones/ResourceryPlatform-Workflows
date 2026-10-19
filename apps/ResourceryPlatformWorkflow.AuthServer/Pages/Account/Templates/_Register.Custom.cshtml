@@ -100,6 +100,22 @@
                             </small>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                         </div>
+
+                        <div class="rp-smartserve-field mb-4">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input name="Input.ConfirmPassword" id="Input_ConfirmPassword" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password" required minlength="8"
+                                       title="Confirm your password."
+                                       placeholder="@LA["Account:ConfirmPassword"]" />
+                                <label for="Input_ConfirmPassword">@LA["Account:ConfirmPassword"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
+                                        aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span class="text-danger" data-valmsg-for="Input.ConfirmPassword"></span>
+                        </div>
                     }
 
                     <div class="rp-smartserve-actions">
@@ -120,9 +136,11 @@
             const requiredFields = [
                 registerForm.querySelector('input[name="Input.UserName"]'),
                 registerForm.querySelector('input[name="Input.EmailAddress"]'),
-                registerForm.querySelector('input[name="Input.Password"]')
+                registerForm.querySelector('input[name="Input.Password"]'),
+                registerForm.querySelector('input[name="Input.ConfirmPassword"]')
             ].filter(Boolean);
             const passwordField = registerForm.querySelector('input[name="Input.Password"]');
+            const confirmPasswordField = registerForm.querySelector('input[name="Input.ConfirmPassword"]');
             const passwordHint = registerForm.querySelector('.rp-smartserve-password-hint');
 
             function validatePasswordStrength() {
@@ -167,6 +185,19 @@
             if (passwordField) {
                 passwordField.addEventListener('input', function () {
                     validatePasswordStrength();
+                    if (confirmPasswordField && confirmPasswordField.value) {
+                        confirmPasswordField.setCustomValidity(
+                            passwordField.value !== confirmPasswordField.value ? 'Passwords do not match.' : ''
+                        );
+                    }
+                });
+            }
+
+            if (confirmPasswordField) {
+                confirmPasswordField.addEventListener('input', function () {
+                    confirmPasswordField.setCustomValidity(
+                        passwordField && passwordField.value !== confirmPasswordField.value ? 'Passwords do not match.' : ''
+                    );
                 });
             }
 
@@ -199,6 +230,16 @@
                     passwordField.focus();
                     if (popper) {
                         popper('Registration failed. Password must be at least 8 characters and include a letter and a number.', 'warning');
+                    }
+                    return;
+                }
+
+                if (confirmPasswordField && passwordField && passwordField.value !== confirmPasswordField.value) {
+                    event.preventDefault();
+                    confirmPasswordField.focus();
+                    confirmPasswordField.setCustomValidity('Passwords do not match.');
+                    if (popper) {
+                        popper('Registration failed. Passwords do not match.', 'warning');
                     }
                     return;
                 }

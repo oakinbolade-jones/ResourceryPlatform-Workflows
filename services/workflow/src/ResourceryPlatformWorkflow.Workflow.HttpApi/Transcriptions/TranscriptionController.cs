@@ -47,8 +47,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
-    // private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
-    private const string DefaultWipoBaseUrl = "http://172.18.25.4:8088/S2T/API/ECOWAS";
+    private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
@@ -84,14 +83,12 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     }
 
     [HttpGet]
-    [Authorize(WorkflowPermissions.Transcriptions.List)]
     public Task<System.Collections.Generic.List<TranscriptionDto>> GetListAsync()
     {
         return _transcriptionAppService.GetListAsync();
     }
 
     [HttpPost]
-    [Authorize(WorkflowPermissions.Transcriptions.Create)]
     public Task<TranscriptionDto> CreateAsync(CreateUpdateTranscriptionDto input)
     {
         input.LinkToVideo = DeriveLinkToVideo(input.LinkToVideo, input.LinkJson, input.LinkHtml);
@@ -99,7 +96,6 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     }
 
     [HttpPut("{id}")]
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
     public Task<TranscriptionDto> UpdateAsync(Guid id, UpdateTranscriptionDto input)
     {
         input.LinkToVideo = DeriveLinkToVideo(input.LinkToVideo, input.LinkJson, input.LinkHtml);
@@ -107,21 +103,18 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     }
 
     [HttpDelete("{id}")]
-    [Authorize(WorkflowPermissions.Transcriptions.Delete)]
     public Task DeleteAsync(Guid id)
     {
         return _transcriptionAppService.DeleteAsync(id);
     }
 
     [HttpGet("by-source-reference")]
-    [Authorize(WorkflowPermissions.Transcriptions.View)]
     public Task<TranscriptionDto> GetBySourceReferenceIdAsync([FromQuery] string sourceReferenceId)
     {
         return _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
     }
 
     [HttpPost("save-transcript")]
-    [Authorize(WorkflowPermissions.Transcriptions.Update)]
     public async Task<TranscriptionDto> SaveTranscriptAsync([FromQuery] string sourceReferenceId, [FromBody] SaveTranscriptInput input)
     {
         var resolvedSourceReferenceId = string.IsNullOrWhiteSpace(sourceReferenceId)

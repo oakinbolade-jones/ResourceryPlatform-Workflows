@@ -10,7 +10,7 @@ const routes: Routes = [
     data: {
       layout: eLayoutType.application,
       title: 'Workflow::Requests',
-      requiredPolicy:"Workflow.Requests.Default"
+     // requiredPolicy:"Workflow.Requests.Default"
     }
   },
 ];
