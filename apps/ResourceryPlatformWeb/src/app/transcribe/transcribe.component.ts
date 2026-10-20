@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LocalizationService } from '@abp/ng.core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Tooltip } from 'bootstrap';
+import { Tooltip as BootstrapTooltip } from 'bootstrap';
 import { ApiErrorLocalizationService } from '../shared/api-error-localization.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private recordedExtension = 'webm';
   private activeMimeType = 'video/webm';
   private statusPollingHandle: ReturnType<typeof setInterval> | null = null;
-  private tooltipInstances: InstanceType<typeof Tooltip>[] = [];
+  private tooltipInstances: Array<{ hide: () => void; dispose: () => void }> = [];
 
   // Configure where server-side saving should happen.
   // 1) Update saveEndpoint to your API route.
@@ -116,13 +116,26 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initializeTooltips(): void {
-    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    this.tooltipInstances = tooltipTriggerList.map(el => new Tooltip(el));
+    const tooltipTriggerList = Array.from(document.querySelectorAll<HTMLElement>('[data-bs-toggle="tooltip"]'));
+
+    this.tooltipInstances = tooltipTriggerList
+      .filter(el => !!el && (el.getAttribute('data-bs-title') !== null || el.getAttribute('title') !== null))
+      .map(el => {
+        try {
+          return BootstrapTooltip.getOrCreateInstance(el) as { hide: () => void; dispose: () => void };
+        } catch {
+          return null;
+        }
+      })
+      .filter((tooltip): tooltip is { hide: () => void; dispose: () => void } => tooltip !== null);
   }
 
   private disposeTooltips(): void {
     this.tooltipInstances.forEach(t => {
-      try { t.hide(); t.dispose(); } catch { /* already removed */ }
+      try {
+        t.hide();
+        t.dispose();
+      } catch { /* already removed */ }
     });
     this.tooltipInstances = [];
   }

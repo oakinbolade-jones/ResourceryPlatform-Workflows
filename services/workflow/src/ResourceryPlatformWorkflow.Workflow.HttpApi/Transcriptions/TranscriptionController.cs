@@ -47,7 +47,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
-    private const string DefaultWipoBaseUrl = "http://s2t.ecowas.int:8088/S2T/API/ECOWAS";
+    private const string DefaultWipoBaseUrl = "http://172.18.25.4:8088/S2T/API/ECOWAS";
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
@@ -76,7 +76,7 @@ private readonly ITranscriptionAppService _transcriptionAppService = transcripti
         _configuration["Transcription:Wipo:OrganizationCode"] ?? DefaultOrganizationCode;
 
     [HttpGet("{id}")]
-    [Authorize(WorkflowPermissions.Transcriptions.View)]
+    //[Authorize(WorkflowPermissions.Transcriptions.View)]
     public Task<TranscriptionDto> GetAsync(Guid id)
     {
         return _transcriptionAppService.GetAsync(id);

@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: TranscribeComponent,
-    canActivate: [authGuard, permissionGuard],
+    //canActivate: [authGuard, permissionGuard],
     data: {
       layout: eLayoutType.application,
       title: 'Administration::Transcribe',
@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'list',
     component: ListTranscriptionComponent,
-    canActivate: [authGuard, permissionGuard],
+   // canActivate: [authGuard, permissionGuard],
     data: {
       layout: eLayoutType.application,
       title: 'Administration::TranscriptionList',
@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'view/:id',
     component: ViewTranscriptionComponent,
-    canActivate: [authGuard, permissionGuard],
+    //canActivate: [authGuard, permissionGuard],
     data: {
       layout: eLayoutType.application,
       title: 'Administration::ViewTranscription',
@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: EditTranscriptionsComponent,
-    canActivate: [authGuard, permissionGuard],
+    //canActivate: [authGuard, permissionGuard],
     data: {
       layout: eLayoutType.application,
       title: 'Administration::EditTranscription',

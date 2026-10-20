@@ -50,8 +50,6 @@ internal class Program
             app.MapScalarApiReference();
         }
 
-        app.UseHttpsRedirection();
-
         app.UseCors();
 
         app.UseAuthentication();

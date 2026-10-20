@@ -85,7 +85,6 @@ public class SaaSHttpApiHostModule : AbpModule
         }
 
         app.UseAbpRequestLocalization();
-        app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
