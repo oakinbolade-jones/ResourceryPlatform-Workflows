@@ -33,7 +33,7 @@ public class TranscriptionAppService(
     }
 
     [AllowAnonymous]
-    //[Authorize(WorkflowPermissions.Transcriptions.List)]
+    [Authorize(WorkflowPermissions.Transcriptions.List)]
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
