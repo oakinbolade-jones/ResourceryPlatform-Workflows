@@ -37,8 +37,75 @@ public class TranscriptionAppService(
     public async Task<List<TranscriptionDto>> GetListAsync()
     {
         var queryable = await _transcriptionRepository.GetQueryableAsync();
-        var transcriptions = await AsyncExecuter.ToListAsync(queryable.OrderByDescending(x => x.CreationTime));
-        return transcriptions.ConvertAll(Map);
+        var transcriptions = await AsyncExecuter.ToListAsync(
+            queryable
+                .OrderByDescending(x => x.CreationTime)
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    IsPublic = x.IsPublic,
+                    PublishedToWebCast = x.PublishedToWebCast,
+                    DateOfTranscription = x.DateOfTranscription,
+                    EventDate = x.EventDate,
+                    MediaFile = x.MediaFile,
+                    Language = x.Language,
+                    InputeFormat = x.InputeFormat,
+                    Status = x.Status,
+                    InputSource = x.InputSource,
+                    SourceReferenceId = x.SourceReferenceId,
+                    DocumentExtension = x.DocumentExtension,
+                    Transcript = x.Transcript,
+                    LinkJson = x.LinkJson,
+                    LinkSrt = x.LinkSrt,
+                    LinkHtml = x.LinkHtml,
+                    LinkTxt = x.LinkTxt,
+                    LinkDocx = x.LinkDocx,
+                    LinkVerbatimDocx = x.LinkVerbatimDocx,
+                    CreationTime = x.CreationTime,
+                    CreatorId = x.CreatorId,
+                    LastModificationTime = x.LastModificationTime,
+                    LastModifierId = x.LastModifierId,
+                    IsDeleted = x.IsDeleted,
+                    DeleterId = x.DeleterId,
+                    DeletionTime = x.DeletionTime,
+                })
+        );
+
+        return transcriptions.Select(x => new TranscriptionDto
+        {
+            Id = x.Id,
+            Title = x.Title,
+            Description = x.Description,
+            IsPublic = x.IsPublic,
+            PublishedToWebCast = x.PublishedToWebCast,
+            DateOfTranscription = x.DateOfTranscription,
+            EventDate = x.EventDate,
+            MediaFile = x.MediaFile,
+            Language = x.Language,
+            InputeFormat = x.InputeFormat,
+            Status = x.Status,
+            InputSource = x.InputSource,
+            SourceReferenceId = x.SourceReferenceId,
+            DocumentData = null,
+            DocumentExtension = x.DocumentExtension,
+            Transcript = x.Transcript,
+            LinkJson = x.LinkJson,
+            LinkSrt = x.LinkSrt,
+            LinkHtml = x.LinkHtml,
+            LinkToVideo = DeriveLinkToVideo(null, x.LinkJson, x.LinkHtml),
+            LinkTxt = x.LinkTxt,
+            LinkDocx = x.LinkDocx,
+            LinkVerbatimDocx = x.LinkVerbatimDocx,
+            CreationTime = x.CreationTime,
+            CreatorId = x.CreatorId,
+            LastModificationTime = x.LastModificationTime,
+            LastModifierId = x.LastModifierId,
+            IsDeleted = x.IsDeleted,
+            DeleterId = x.DeleterId,
+            DeletionTime = x.DeletionTime
+        }).ToList();
     }
 
     [AllowAnonymous]
@@ -133,10 +200,79 @@ public class TranscriptionAppService(
 
         var queryable = await _transcriptionRepository.GetQueryableAsync();
         var transcription = await AsyncExecuter.FirstOrDefaultAsync(
-            queryable.Where(x => x.SourceReferenceId == sourceReferenceId)
+            queryable
+                .Where(x => x.SourceReferenceId == sourceReferenceId)
+                .Select(x => new
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    IsPublic = x.IsPublic,
+                    PublishedToWebCast = x.PublishedToWebCast,
+                    DateOfTranscription = x.DateOfTranscription,
+                    EventDate = x.EventDate,
+                    MediaFile = x.MediaFile,
+                    Language = x.Language,
+                    InputeFormat = x.InputeFormat,
+                    Status = x.Status,
+                    InputSource = x.InputSource,
+                    SourceReferenceId = x.SourceReferenceId,
+                    DocumentExtension = x.DocumentExtension,
+                    Transcript = x.Transcript,
+                    LinkJson = x.LinkJson,
+                    LinkSrt = x.LinkSrt,
+                    LinkHtml = x.LinkHtml,
+                    LinkTxt = x.LinkTxt,
+                    LinkDocx = x.LinkDocx,
+                    LinkVerbatimDocx = x.LinkVerbatimDocx,
+                    CreationTime = x.CreationTime,
+                    CreatorId = x.CreatorId,
+                    LastModificationTime = x.LastModificationTime,
+                    LastModifierId = x.LastModifierId,
+                    IsDeleted = x.IsDeleted,
+                    DeleterId = x.DeleterId,
+                    DeletionTime = x.DeletionTime,
+                })
         );
 
-        return transcription == null ? null : Map(transcription);
+        if (transcription == null)
+        {
+            return null;
+        }
+
+        return new TranscriptionDto
+        {
+            Id = transcription.Id,
+            Title = transcription.Title,
+            Description = transcription.Description,
+            IsPublic = transcription.IsPublic,
+            PublishedToWebCast = transcription.PublishedToWebCast,
+            DateOfTranscription = transcription.DateOfTranscription,
+            EventDate = transcription.EventDate,
+            MediaFile = transcription.MediaFile,
+            Language = transcription.Language,
+            InputeFormat = transcription.InputeFormat,
+            Status = transcription.Status,
+            InputSource = transcription.InputSource,
+            SourceReferenceId = transcription.SourceReferenceId,
+            DocumentData = null,
+            DocumentExtension = transcription.DocumentExtension,
+            Transcript = transcription.Transcript,
+            LinkJson = transcription.LinkJson,
+            LinkSrt = transcription.LinkSrt,
+            LinkHtml = transcription.LinkHtml,
+            LinkToVideo = DeriveLinkToVideo(null, transcription.LinkJson, transcription.LinkHtml),
+            LinkTxt = transcription.LinkTxt,
+            LinkDocx = transcription.LinkDocx,
+            LinkVerbatimDocx = transcription.LinkVerbatimDocx,
+            CreationTime = transcription.CreationTime,
+            CreatorId = transcription.CreatorId,
+            LastModificationTime = transcription.LastModificationTime,
+            LastModifierId = transcription.LastModifierId,
+            IsDeleted = transcription.IsDeleted,
+            DeleterId = transcription.DeleterId,
+            DeletionTime = transcription.DeletionTime
+        };
     }
 
     [AllowAnonymous]
@@ -195,6 +331,13 @@ public class TranscriptionAppService(
             DeleterId = transcription.DeleterId,
             DeletionTime = transcription.DeletionTime
         };
+    }
+
+    internal static TranscriptionDto MapForQuery(Transcription transcription)
+    {
+        var dto = Map(transcription);
+        dto.DocumentData = null;
+        return dto;
     }
 
     private static string DeriveLinkToVideo(string explicitLinkToVideo, string linkJson, string linkHtml)

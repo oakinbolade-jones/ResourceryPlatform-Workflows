@@ -39,7 +39,7 @@ public class TranscriptionController(
     : WorkflowController,
         ITranscriptionAppService
 {
-private readonly ITranscriptionAppService _transcriptionAppService = transcriptionAppService ?? throw new ArgumentNullException(nameof(transcriptionAppService));
+    private readonly ITranscriptionAppService _transcriptionAppService = transcriptionAppService ?? throw new ArgumentNullException(nameof(transcriptionAppService));
     private readonly ILogger<TranscriptionController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     private readonly IConfiguration _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     private readonly IDistributedCache _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
