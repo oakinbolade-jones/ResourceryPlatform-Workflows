@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardLayoutComponent } from './dashboard-layout.component';
-import { AuthGuard } from '@abp/ng.core';
+import { authGuard, AuthGuard, permissionGuard } from '@abp/ng.core';
 
 const routes: Routes = [
   {
@@ -10,10 +10,11 @@ const routes: Routes = [
     component: DashboardLayoutComponent,
     children: [{
       path: '', component: DashboardComponent,
+      canActivate: [authGuard, permissionGuard],
       data: {
         title: 'Workflow::Dashboard',
-        canActivate: [AuthGuard],
-        requiredPolicy: "Workflow.Dashboard.Default"
+
+        requiredPolicy: "Workflows.ServiceCenters"
       }
     }]
   }

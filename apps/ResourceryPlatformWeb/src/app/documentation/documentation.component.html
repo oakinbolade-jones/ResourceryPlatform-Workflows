@@ -1,5 +1,381 @@
 <h2>Smart Serve v1.0 Documentation</h2>
-<p>Thank you and welcome to Smart Serve v1.0 documentation! 
-    Here you will find all the information you need to get started and make the most out of the platform.</p>
+ <header class="mb-3">
+      <!-- <div class="brand">SmartServe</div> -->
+      <h2>Speech-to-Text Module</h2>
+      <p class="subtitle">User Guide and System Documentation</p>
+      <!-- <div class="metadata">
+        <div><strong>Document Version:</strong> 1.0</div>
+        <div><strong>Document Status:</strong> Draft</div>
+        <div><strong>Application:</strong> SmartServe Business Automation and Workflow Digitisation Platform</div>
+        <div><strong>Module:</strong> Speech-to-Text</div>
+        <div><strong>Prepared for:</strong> Users and Administrators</div>
+      </div> -->
+    </header>
 
-<p> The documentation page will go-live and be available on September 1st, 2026. </p>
+    <h2>1. Introduction</h2>
+    <h3>1.1 Purpose of This Document</h3>
+    <p>This document provides user guidance for navigating and using the Speech-to-Text module of the SmartServe platform. It explains how users access the application, create accounts, authenticate, manage transcription requests, view transcription results, edit transcription records, and perform administrative activities.</p>
+    <p>The guide is intended to support user onboarding, training, system adoption, and the consistent use of the Speech-to-Text functionality.</p>
+
+    <h3>1.2 Overview of SmartServe</h3>
+    <p>SmartServe is a business automation and workflow digitisation platform designed to improve institutional processes, information management, and service delivery.</p>
+    <p>The Speech-to-Text module enables users to submit audio recordings for transcription through an AI-powered speech recognition engine. The module integrates with the World Intellectual Property Organization (WIPO) Speech-to-Text AI engine to support the conversion of spoken content into searchable text.</p>
+    <p>The module is intended to support meeting documentation, conference proceedings, institutional recordkeeping, and related documentation workflows.</p>
+
+    <h3>1.3 Scope of the Module</h3>
+    <p>The Speech-to-Text module provides the following user-facing functions:</p>
+    <ul>
+      <li>Access to the SmartServe landing page.</li>
+      <li>User registration and login.</li>
+      <li>Access to the transcription workspace.</li>
+      <li>Creation of new transcription requests.</li>
+      <li>Viewing the list of transcription records.</li>
+      <li>Viewing individual transcription results.</li>
+      <li>Editing transcription information or text, subject to permissions.</li>
+      <li>Deleting transcription records, subject to permissions.</li>
+      <li>Administrative management of users, access rights, and system operations, as configured.</li>
+    </ul>
+
+    <h3>1.4 Intended Audience</h3>
+    <ul>
+      <li>General users submitting audio for transcription.</li>
+      <li>Conference and meeting documentation officers.</li>
+      <li>Institutional staff responsible for preparing meeting records.</li>
+      <li>Supervisors and reviewers responsible for validating transcription outputs.</li>
+      <li>System administrators responsible for access control and application administration.</li>
+    </ul>
+
+    <h2>2. Accessing the SmartServe Platform</h2>
+    <h3>2.1 Landing Page</h3>
+    <p>The landing page is the initial entry point to the SmartServe Speech-to-Text module. It introduces the platform and provides users with access to the authentication functions required to enter the application.</p>
+    <p><strong>Key elements may include:</strong></p>
+    <ul>
+      <li>SmartServe branding and application identity.</li>
+      <li>An overview of the Speech-to-Text service.</li>
+      <li>A <strong>Login</strong> button for registered users.</li>
+      <li>A <strong>Registration</strong> or <strong>Create Account</strong> option, where self-registration is enabled.</li>
+      <li>General instructions or information about the transcription service.</li>
+    </ul>
+    <p><strong>How to use the landing page:</strong></p>
+    <ol>
+      <li>Open the SmartServe application using the URL provided by the system administrator.</li>
+      <li>Review the information displayed on the landing page.</li>
+      <li>Click <strong>Login</strong> if you already have an account.</li>
+      <li>Click <strong>Register</strong> or <strong>Create Account</strong> if account registration is available to you.</li>
+      <li>Follow the relevant instructions to proceed.</li>
+    </ol>
+    <p><strong>Expected outcome:</strong> The user is directed to the appropriate authentication page.</p>
+    <div class="screenshot">Screenshot placeholder: SmartServe landing page</div>
+
+    <h2>3. User Registration</h2>
+    <h3>3.1 Overview</h3>
+    <p>Registration allows new users to create an account where self-registration is enabled. In an institutionally managed environment, access may instead be restricted to accounts created or approved by an administrator.</p>
+    <h3>3.2 Registration Procedure</h3>
+    <ol>
+      <li>Open the SmartServe landing page.</li>
+      <li>Click <strong>Register</strong> or <strong>Create Account</strong>.</li>
+      <li>Enter the requested registration details, such as name, email address, and password, as displayed on the registration form.</li>
+      <li>Complete any additional required fields.</li>
+      <li>Review the information entered.</li>
+      <li>Click <strong>Register</strong>, <strong>Create Account</strong>, or the equivalent submission button.</li>
+      <li>Complete any email verification or account activation process if required.</li>
+    </ol>
+    <h3>3.3 Successful Registration</h3>
+    <p>After successful registration, the application should display an appropriate confirmation or direct the user to the login page, depending on the configured registration workflow. The user can then sign in when the account has been activated and access has been granted.</p>
+    <h3>3.4 Registration Issues</h3>
+    <ul>
+      <li>Confirm that all mandatory fields have been completed.</li>
+      <li>Verify that the email address is valid.</li>
+      <li>Ensure that the password satisfies the application's requirements.</li>
+      <li>Check whether the email address is already registered.</li>
+      <li>Contact the system administrator if registration is restricted or approval is required.</li>
+    </ul>
+    <div class="screenshot">Screenshot placeholder: Registration form</div>
+
+    <h2>4. User Login</h2>
+    <h3>4.1 Overview</h3>
+    <p>Login provides authenticated access to the SmartServe Speech-to-Text workspace. Users must sign in using valid credentials and must have the necessary permissions to access the module.</p>
+    <h3>4.2 Login Procedure</h3>
+    <ol>
+      <li>Open the SmartServe application.</li>
+      <li>Click <strong>Login</strong>.</li>
+      <li>Enter your registered email address or username, as applicable.</li>
+      <li>Enter your password.</li>
+      <li>Click <strong>Sign In</strong> or <strong>Login</strong>.</li>
+      <li>Wait for the authentication process to complete.</li>
+    </ol>
+    <h3>4.3 Successful Login</h3>
+    <p>After successful authentication, the user is redirected to the application workspace or the default page configured for the account. The available menus and functions depend on the user's assigned permissions.</p>
+    <h3>4.4 Login and Access Issues</h3>
+    <ul>
+      <li>Verify the username or email address.</li>
+      <li>Check the password and try again.</li>
+      <li>Use the password recovery function if available.</li>
+      <li>Confirm that the account is active.</li>
+      <li>Contact the administrator if the account is locked, disabled, or lacks the required access rights.</li>
+    </ul>
+    <p>Users should not share their passwords with other individuals.</p>
+    <div class="screenshot">Screenshot placeholder: Login page</div>
+
+    <h2>5. Transcription List Page</h2>
+    <h3>5.1 Overview</h3>
+    <p>The Transcription List page is the primary workspace for managing transcription records. It allows users to review existing submissions and initiate new transcription requests. The records and actions visible to each user depend on the application's access-control rules.</p>
+    <h3>5.2 Key Features</h3>
+    <ul>
+      <li>A list or table of transcription records.</li>
+      <li>A <strong>New Transcription</strong> button.</li>
+      <li>Transcription titles or record identifiers.</li>
+      <li>Submission dates and other record details.</li>
+      <li>Processing status, where available.</li>
+      <li>Actions for viewing, editing, or deleting records, subject to permissions.</li>
+      <li>Search, filtering, sorting, or pagination controls, where implemented.</li>
+    </ul>
+    <h3>5.3 Viewing the Transcription List</h3>
+    <ol>
+      <li>Sign in to SmartServe.</li>
+      <li>Open the <strong>Speech-to-Text</strong> module from the navigation menu.</li>
+      <li>Select <strong>Transcriptions</strong> or the equivalent menu item.</li>
+      <li>Review the records displayed.</li>
+      <li>Use available search or filtering controls to locate a specific record.</li>
+    </ol>
+    <h3>5.4 Understanding Transcription Records</h3>
+    <p>Each record represents a transcription request or its resulting transcription output. Where supported, a record may contain the following information:</p>
+    <ul>
+      <li>Transcription title.</li>
+      <li>Audio source or file reference.</li>
+      <li>Date submitted.</li>
+      <li>Processing status.</li>
+      <li>Transcribed text.</li>
+      <li>User or owner information.</li>
+      <li>Available record actions.</li>
+    </ul>
+    <h3>5.5 Access and Visibility</h3>
+    <p>Users should only be able to access records permitted by the application's authorization and data-access rules. The availability of individual records may depend on whether the user is the record owner, belongs to an authorized group, or has an administrative role.</p>
+    <div class="screenshot">Screenshot placeholder: Transcription List page</div>
+
+    <h2>6. Creating a New Transcription</h2>
+    <h3>6.1 Overview</h3>
+    <p>The New Transcription function allows an authorized user to initiate a new transcription request by providing the required audio input and associated information.</p>
+    <h3>6.2 Procedure for Creating a Transcription</h3>
+    <ol>
+      <li>Navigate to the Transcription List page.</li>
+      <li>Click <strong>New Transcription</strong>.</li>
+      <li>Review the fields presented on the new transcription form.</li>
+      <li>Enter the transcription title or other required details.</li>
+      <li>Select or upload the audio file, if the form supports file uploads.</li>
+      <li>Complete any additional required fields.</li>
+      <li>Review the information provided.</li>
+      <li>Click <strong>Submit</strong>, <strong>Transcribe</strong>, or the applicable action button.</li>
+      <li>Wait for the request to be processed.</li>
+    </ol>
+    <h3>6.3 Audio Submission</h3>
+    <p>Users should provide an audio recording that meets the file requirements specified by the application.</p>
+    <ul>
+      <li>The recording is audible and sufficiently clear.</li>
+      <li>The file is in a supported audio format.</li>
+      <li>The file does not exceed the configured size or duration limit.</li>
+      <li>The recording is appropriate for institutional processing and storage.</li>
+      <li>The user has the necessary authorization to submit and process the recording.</li>
+    </ul>
+    <p>The available audio formats, size limits, and duration restrictions should be confirmed against the deployed system configuration.</p>
+    <h3>6.4 Transcription Processing</h3>
+    <p>After submission, SmartServe sends the transcription request through the configured speech recognition integration. The integrated WIPO Speech-to-Text AI engine processes the audio and generates text from the spoken content.</p>
+    <p>Processing time may depend on recording duration, audio quality, service availability, and system workload. Where a processing status is displayed, users should check the record for the latest available result.</p>
+    <h3>6.5 Successful Submission</h3>
+    <p>Once the request has been accepted, the user should be able to locate the transcription in the Transcription List page. Depending on the implementation, the transcription may be available immediately or after processing has completed.</p>
+    <div class="screenshot">Screenshot placeholder: New Transcription form and submission confirmation</div>
+
+    <h2>7. Viewing a Transcription</h2>
+    <h3>7.1 Overview</h3>
+    <p>The View Transcription function allows users to open a transcription record and review its details and generated text.</p>
+    <h3>7.2 Procedure</h3>
+    <ol>
+      <li>Open the Transcription List page.</li>
+      <li>Locate the transcription you want to review.</li>
+      <li>Click <strong>View</strong>, the record title, or the relevant view icon.</li>
+      <li>Review the transcription details displayed.</li>
+      <li>Read through the generated text and check it against the original recording where necessary.</li>
+      <li>Use any available navigation, download, or export options if provided by the application.</li>
+    </ol>
+    <h3>7.3 Information Displayed</h3>
+    <p>The transcription details page may display:</p>
+    <ul>
+      <li>Transcription title and reference.</li>
+      <li>Source audio information.</li>
+      <li>Submission or creation date.</li>
+      <li>Processing status.</li>
+      <li>Generated transcription text.</li>
+      <li>Other metadata captured by the system.</li>
+    </ul>
+    <h3>7.4 Reviewing Transcription Accuracy</h3>
+    <p>AI-generated transcriptions should be reviewed before being used as official institutional records. Users should pay particular attention to:</p>
+    <ul>
+      <li>Personal names and institutional titles.</li>
+      <li>Acronyms and technical terminology.</li>
+      <li>Dates, figures, and monetary amounts.</li>
+      <li>Speaker attribution, where supported.</li>
+      <li>Words or phrases that may have been misrecognized.</li>
+      <li>Diplomatic, legal, or policy terminology.</li>
+    </ul>
+    <p>Where the recording is unclear, the generated text should be checked against the original audio before final approval or circulation.</p>
+    <div class="screenshot">Screenshot placeholder: View Transcription page</div>
+
+    <h2>8. Editing a Transcription</h2>
+    <h3>8.1 Overview</h3>
+    <p>The Edit Transcription function allows authorized users to modify editable information associated with a transcription. If the application permits direct text editing, users may also correct transcription errors in the generated text. The available editing options depend on the user's permissions and the functions implemented in the deployed version.</p>
+    <h3>8.2 Procedure</h3>
+    <ol>
+      <li>Navigate to the Transcription List page.</li>
+      <li>Locate the record to be edited.</li>
+      <li>Click <strong>Edit</strong> or the applicable edit icon.</li>
+      <li>Review the information displayed in the editing form.</li>
+      <li>Modify the permitted fields.</li>
+      <li>Correct any transcription errors if text editing is supported.</li>
+      <li>Review the changes carefully.</li>
+      <li>Click <strong>Save</strong>, <strong>Update</strong>, or the applicable confirmation button.</li>
+      <li>Verify that the updated information is displayed correctly.</li>
+    </ol>
+    <h3>8.3 Editing Guidelines</h3>
+    <ul>
+      <li>Preserve the original meaning of the speaker's statements.</li>
+      <li>Correct spelling, punctuation, and obvious recognition errors.</li>
+      <li>Verify names, figures, and technical expressions against the recording.</li>
+      <li>Avoid introducing statements that were not made in the original recording.</li>
+      <li>Follow institutional review and approval procedures where applicable.</li>
+    </ul>
+    <h3>8.4 Saving Changes</h3>
+    <p>The application should confirm whether the changes were saved successfully. If an error occurs, review the information entered and try again, or contact the administrator. Where audit logging is enabled, changes may be recorded for accountability and traceability.</p>
+    <div class="screenshot">Screenshot placeholder: Edit Transcription form</div>
+
+    <h2>9. Deleting a Transcription</h2>
+    <h3>9.1 Overview</h3>
+    <p>The Delete Transcription function allows authorized users to remove a transcription record where deletion is permitted by the application's access-control rules and institutional policies. Deletion should be performed carefully because it may affect access to the transcription and associated information.</p>
+    <h3>9.2 Procedure</h3>
+    <ol>
+      <li>Open the Transcription List page.</li>
+      <li>Locate the transcription record to be deleted.</li>
+      <li>Click <strong>Delete</strong> or the relevant delete icon.</li>
+      <li>Review the confirmation message, if displayed.</li>
+      <li>Confirm the deletion only if you are certain that the record should be removed.</li>
+      <li>Verify that the record is no longer displayed in the list, where applicable.</li>
+    </ol>
+    <h3>9.3 Important Considerations</h3>
+    <ul>
+      <li>Confirm that the correct transcription has been selected.</li>
+      <li>Check whether the record is required for official documentation or archiving.</li>
+      <li>Follow applicable retention and records-management policies.</li>
+      <li>Obtain any necessary approval before deletion.</li>
+    </ul>
+    <p>Deletion may be permanent or subject to a configured recovery mechanism. Users should not assume that a deleted transcription can be restored.</p>
+    <p>Where deletion is restricted to administrators, users without the required permission should not see or be able to execute the delete action.</p>
+    <div class="screenshot">Screenshot placeholder: Delete confirmation dialog</div>
+
+    <h2>10. Administration Page</h2>
+    <h3>10.1 Overview</h3>
+    <p>The Administration page provides authorized personnel with access to administrative functions for managing the SmartServe application. Access to this page should be restricted to designated administrators or other users who have been granted the necessary permissions.</p>
+    <h3>10.2 Accessing the Administration Page</h3>
+    <ol>
+      <li>Sign in using an authorized account.</li>
+      <li>Locate the <strong>Administration</strong> menu in the application navigation.</li>
+      <li>Click the menu to open the administrative workspace.</li>
+      <li>Select the required administrative function.</li>
+    </ol>
+    <p>If the Administration menu is not visible, the account may not have the required permission, or the menu may not be enabled in the current deployment.</p>
+    <h3>10.3 Administrative Functions</h3>
+    <p>Depending on the deployed configuration, the Administration area may provide access to:</p>
+    <p><strong>User Management</strong></p>
+    <ul>
+      <li>View registered users.</li>
+      <li>Create or update user accounts.</li>
+      <li>Enable or disable accounts, where permitted.</li>
+      <li>Review account status.</li>
+    </ul>
+    <p><strong>Roles and Permissions</strong></p>
+    <ul>
+      <li>Assign users to appropriate roles.</li>
+      <li>Grant or revoke permissions.</li>
+      <li>Control access to the Speech-to-Text module and its functions.</li>
+      <li>Restrict administrative capabilities to designated personnel.</li>
+    </ul>
+    <p><strong>Transcription Access Management</strong></p>
+    <ul>
+      <li>Review transcription records where authorized.</li>
+      <li>Support users experiencing access issues.</li>
+      <li>Apply configured access policies.</li>
+      <li>Manage records only where the administrator has the necessary permissions.</li>
+    </ul>
+    <p><strong>System Monitoring and Support</strong></p>
+    <ul>
+      <li>Review available system status information.</li>
+      <li>Investigate reported processing or access issues.</li>
+      <li>Escalate integration or service problems to the technical support team.</li>
+      <li>Monitor relevant application logs where authorized.</li>
+    </ul>
+    <p>The functions actually available will depend on the SmartServe deployment and the permissions assigned to the administrator.</p>
+    <h3>10.4 Access Control</h3>
+    <p>Administrative access should follow the principle of least privilege. Users should receive only the permissions necessary to perform their assigned responsibilities.</p>
+    <ul>
+      <li><strong>General users:</strong> May create and view authorized transcription records.</li>
+      <li><strong>Editors:</strong> May update permitted transcription information.</li>
+      <li><strong>Supervisors:</strong> May review records within their authorized scope.</li>
+      <li><strong>Administrators:</strong> May manage users, roles, and permissions.</li>
+      <li><strong>Deletion rights:</strong> May be restricted to designated roles.</li>
+    </ul>
+    <p>These examples describe a recommended access model and should be aligned with the permissions configured in the deployed application.</p>
+    <h3>10.5 Administrative Responsibilities</h3>
+    <ul>
+      <li>Ensure that user accounts are appropriately managed.</li>
+      <li>Grant permissions according to approved responsibilities.</li>
+      <li>Review access issues and user reports.</li>
+      <li>Protect institutional information.</li>
+      <li>Follow applicable data protection and records-retention policies.</li>
+      <li>Escalate system errors and integration failures through the designated support process.</li>
+    </ul>
+    <div class="screenshot">Screenshot placeholders: Administration landing page, user management, and role/permission pages</div>
+
+    <h2>11. Security and Good Practice</h2>
+    <ol>
+      <li>Protect account credentials and never share passwords.</li>
+      <li>Sign out when using shared or public computers.</li>
+      <li>Upload only recordings that you are authorized to process.</li>
+      <li>Verify transcription accuracy before using the output as an official record.</li>
+      <li>Avoid unnecessary duplication or deletion of institutional records.</li>
+      <li>Respect the confidentiality of meeting discussions and associated documentation.</li>
+      <li>Report suspicious activity, unauthorized access, or persistent application errors.</li>
+      <li>Follow institutional information-security and data-protection policies.</li>
+    </ol>
+
+    <h2>12. Troubleshooting</h2>
+    <table>
+      <thead><tr><th>Issue</th><th>Recommended action</th></tr></thead>
+      <tbody>
+        <tr><td>Unable to access the landing page</td><td>Check the application URL and network connection. Contact technical support if the problem persists.</td></tr>
+        <tr><td>Login unsuccessful</td><td>Verify credentials and account status. Use password recovery if available.</td></tr>
+        <tr><td>Registration unavailable</td><td>Confirm whether self-registration is enabled or administrator approval is required.</td></tr>
+        <tr><td>Speech-to-Text menu not visible</td><td>Contact the administrator to verify the user's assigned permissions.</td></tr>
+        <tr><td>Unable to create a transcription</td><td>Check required fields, audio file compatibility, and any displayed validation messages.</td></tr>
+        <tr><td>Transcription processing delayed or unsuccessful</td><td>Review the record status and report persistent failures to technical support.</td></tr>
+        <tr><td>Transcription text contains errors</td><td>Review the original audio and correct the text if editing is permitted.</td></tr>
+        <tr><td>Unable to edit or delete a record</td><td>Confirm that the account has the required permission and that the record is editable.</td></tr>
+        <tr><td>Administration menu not visible</td><td>Verify administrative role assignments with the system administrator.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>13. Support and Escalation</h2>
+    <p>Users experiencing persistent issues should contact the designated SmartServe support team or institutional system administrator.</p>
+    <p>When reporting an issue, users should provide:</p>
+    <ul>
+      <li>A description of the problem.</li>
+      <li>The page or function where the issue occurred.</li>
+      <li>The approximate date and time of the incident.</li>
+      <li>Any error message displayed.</li>
+      <li>The relevant transcription reference, where appropriate and safe to share.</li>
+    </ul>
+    <p>Passwords and other confidential authentication information should never be included in support requests.</p>
+
+    <h2>14. Conclusion</h2>
+    <p>The SmartServe Speech-to-Text module supports the digitisation of audio-based documentation workflows by enabling users to submit recordings, generate transcribed text, and manage transcription records within the platform.</p>
+    <p>Correct use of the module, appropriate access control, careful review of generated text, and adherence to institutional information-management policies will help improve the reliability, accessibility, and consistency of digital meeting documentation.</p>
+
+  
+   

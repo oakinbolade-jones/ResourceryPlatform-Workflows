@@ -95,7 +95,7 @@
                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
               </button>
               <div ngbDropdownMenu>
-                <a  *ngIf="hasTranscriptionViewPermission"  ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
+                <a    ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
                   <i class="fa fa-eye me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:ViewLabel' | abpLocalization }}
                 </a>
