@@ -1,6 +1,6 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-5">
-  <!-- <img src="assets/images/logo/ecowas-circle-logo.png" alt="DCP SmartServe" style="max-height: 50px; width: auto" /> -->
+    <!-- <img src="assets/images/logo/ecowas-circle-logo.png" alt="DCP SmartServe" style="max-height: 50px; width: auto" /> -->
     <h2 class="fw-bold fs-3 mb-0 text-emphasis">{{ 'Administration::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
@@ -42,13 +42,15 @@
   <div *ngIf="!loading && !error && transcriptions.length > 0" class="filter-panel border-none rounded-0 p-0 mb-3">
     <div class="row g-3 align-items-end">
       <div class="col-12 col-md-3">
-        <label for="searchTitle" class="form-label fw-semibold mb-1">{{ 'Administration::Transcription:SearchByTitleLabel' |
+        <label for="searchTitle" class="form-label fw-semibold mb-1">{{
+          'Administration::Transcription:SearchByTitleLabel' |
           abpLocalization }}</label>
         <input id="searchTitle" type="text" class="form-control border border-success rounded-0" [value]="searchTitle"
           (input)="onTitleSearch(($any($event.target).value ?? '').toString())" placeholder="Enter title" />
       </div>
       <div class="col-12 col-md-3">
-        <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Administration::Transcription:SearchByDateLabel' |
+        <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Administration::Transcription:SearchByDateLabel'
+          |
           abpLocalization }}</label>
         <input id="searchDate" type="date" class="form-control border border-success rounded-0" [value]="searchDate"
           (input)="onDateSearch(($any($event.target).value ?? '').toString())" />
@@ -95,17 +97,20 @@
                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
               </button>
               <div ngbDropdownMenu>
-                <a    ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
+                <a ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
                   <i class="fa fa-eye me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:ViewLabel' | abpLocalization }}
                 </a>
-                <a  *ngIf="hasTranscriptionUpdatePermission"  ngbDropdownItem [routerLink]="['/transcribe/edit', item.id]">
+                <a *ngIf="hasTranscriptionUpdatePermission" ngbDropdownItem
+                  [routerLink]="['/transcribe/edit', item.id]">
                   <i class="fa fa-pencil me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:EditLabel' | abpLocalization }}
                 </a>
-                <button  *ngIf="hasTranscriptionDeletePermission"  ngbDropdownItem type="button" (click)="deleteTranscription(item)" [disabled]="deletingId === item.id">
+                <button *ngIf="hasTranscriptionDeletePermission" ngbDropdownItem type="button"
+                  (click)="deleteTranscription(item)" [disabled]="deletingId === item.id">
                   <i class="fa fa-trash me-2" aria-hidden="true"></i>
-                  {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' | abpLocalization) }}
+                  {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' |
+                  abpLocalization) }}
                 </button>
               </div>
             </div>
