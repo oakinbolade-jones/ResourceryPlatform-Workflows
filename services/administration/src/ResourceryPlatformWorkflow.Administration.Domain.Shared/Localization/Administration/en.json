@@ -1749,6 +1749,7 @@
     "Transcription:ListDescriptionLabel": "View all submitted transcriptions and select a record to see its details.",
     "Transcription:DetailsDescriptionLabel": "Access and review detailed information about your transcribed media.",
     "Transcription:NewLabel": "New Transcription",
+   "Transcription:RequestLabel": "Request Transcription Service",
     "Transcription:ViewLabel": "View",
     "Transcription:ViewHint": "Click to view transcription page in action.",
     "Transcription:DeleteLabel": "Delete",

@@ -1748,6 +1748,8 @@
     "Transcription:ListDescriptionLabel": "Affichez toutes les transcriptions soumises et sélectionnez un enregistrement pour voir ses détails.",
     "Transcription:DetailsDescriptionLabel": "Accédez et examinez des informations détaillées sur vos médias transcrits.",
     "Transcription:NewLabel": "Nouvelle transcription",
+    
+   "Transcription:RequestLabel": "Demander le service de transcription",
     "Transcription:ViewLabel": "Voir",
     "Transcription:ViewHint": "Cliquez pour voir la page de transcription en action.",
     "Transcription:DeleteLabel": "Supprimer",

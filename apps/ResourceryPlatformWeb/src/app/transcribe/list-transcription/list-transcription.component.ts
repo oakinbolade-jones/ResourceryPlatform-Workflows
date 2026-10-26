@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PermissionService } from '@abp/ng.core';
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
-
 @Component({
   selector: 'app-list-transcription',
   templateUrl: './list-transcription.component.html',
@@ -13,11 +13,23 @@ export class ListTranscriptionComponent implements OnInit {
   transcriptions: TranscriptionDto[] = [];
   searchTitle = '';
   searchDate = '';
+  hasTranscriptionCreatePermission = false;
+  hasTranscriptionViewPermission = false;
+  hasTranscriptionUpdatePermission = false;
+  hasTranscriptionDeletePermission = false;
 
-  constructor(private transcriptionService: TranscriptionService) {}
+  constructor(
+    private transcriptionService: TranscriptionService,
+    private permissionService: PermissionService
+  ) { }
 
   ngOnInit(): void {
+    this.hasTranscriptionCreatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Create');
+    this.hasTranscriptionViewPermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.View');
+    this.hasTranscriptionUpdatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Update');
+    this.hasTranscriptionDeletePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Delete');
     this.loadTranscriptions();
+
   }
 
   get filteredTranscriptions(): TranscriptionDto[] {

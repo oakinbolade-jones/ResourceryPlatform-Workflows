@@ -35,6 +35,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: '',
         order: 3,
         layout: eLayoutType.application,
+         requiredPolicy: 'Workflows.ServiceCenters'
       }, {
         path: '/documentation',
         name: 'Administration::Documentation',

@@ -4,6 +4,7 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { PermissionService } from '@abp/ng.core';
 
 type TranscriptWord = {
   id: number;
@@ -61,6 +62,10 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   currentMatchIndex = -1;
   downloadError: string | null = null;
   downloadingFormat: 'docx' | 'pdf' | 'txt' | null = null;
+  hasTranscriptionCreatePermission = false;
+  hasTranscriptionViewPermission = false;
+  hasTranscriptionUpdatePermission = false;
+  hasTranscriptionDeletePermission = false;
 
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
@@ -70,10 +75,15 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private transcriptionService: TranscriptionService,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private permissionService: PermissionService
+  ) { }
 
   ngOnInit(): void {
+    this.hasTranscriptionCreatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Create');
+    this.hasTranscriptionViewPermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.View');
+    this.hasTranscriptionUpdatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Update');
+    this.hasTranscriptionDeletePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Delete');
     this.transcriptionId = this.route.snapshot.paramMap.get('id') ?? '';
     const sourceReferenceId = this.route.snapshot.queryParamMap.get('sourceReferenceId') ?? '';
 

@@ -1,15 +1,15 @@
 ﻿<div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-4">
-    <img
+    <!-- <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
       style="max-height: 50px; width: auto"
-    />
-    <h2 class="fw-bold fs-4 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
+    /> -->
+    <h2 class="fw-bold fs-4 mb-0">{{ 'Administration::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-    <h3 class="fw-bold fs-5 mb-0">{{ 'Workflow::Transcription:EditLabel' | abpLocalization }}</h3>
+    <h3 class="fw-bold fs-5 mb-0">{{ 'Administration::Transcription:EditLabel' | abpLocalization }}</h3>
 
     <button type="button" class="btn btn-outline-success rounded-0" (click)="goBack()">
       Back to list
@@ -17,7 +17,7 @@
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
-    <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
+    <div class="fw-bold">{{ 'Administration::Transcription:LoadingLabel' | abpLocalization }}</div>
     <div class="small mt-1">Loading transcription details...</div>
     <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading transcription details">
       <div class="progress rounded-0" style="height: 0.7rem">

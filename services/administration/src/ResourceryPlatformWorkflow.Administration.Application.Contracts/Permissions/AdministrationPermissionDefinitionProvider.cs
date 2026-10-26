@@ -18,7 +18,7 @@ public class AdministrationPermissionDefinitionProvider : PermissionDefinitionPr
         );
         settingsPermissions.AddChild(
             AdministrationPermissions.Settings.Update,
-            L("Permission:Administration:Settings.Update")
+            L("Permission:Administration:Settings:Update")
         );
     }
 

@@ -1,34 +1,38 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-5">
-    <img
+    <!-- <img
       src="assets/images/logo/ecowas-circle-logo.png"
       alt="DCP SmartServe"
       style="max-height: 50px; width: auto"
-    />
-    <h2 class="fw-bold fs-3 mb-0">{{ 'Workflow::ECOWASS2Title' | abpLocalization }}</h2>
+    /> -->
+    <h2 class="fw-bold fs-3 mb-0">{{ 'Administration::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
   <div class="list-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
     <div class="list-header-content">
       <h3 class="fw-bold fs-5 mb-0">
-        {{ 'Workflow::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
+        {{ 'Administration::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
       </h3>
       <p class="mb-0 page-description text-emphasis">
-        {{ 'Workflow::Transcription:DetailsDescriptionLabel' | abpLocalization }}
+        {{ 'Administration::Transcription:DetailsDescriptionLabel' | abpLocalization }}
       </p>
     </div>
-      <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+      <!-- <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
-        {{ 'Workflow::Transcription:NewLabel' | abpLocalization }}
+        {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
+      </a> -->
+        <a *ngIf="hasTranscriptionCreatePermission" class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+        <i class="fa fa-plus me-2" aria-hidden="true"></i>
+        {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
       </a>
     <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
       <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
-      {{ 'Workflow::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
+      {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
     >
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
-    <div class="fw-bold">{{ 'Workflow::Transcription:LoadingLabel' | abpLocalization }}</div>
+    <div class="fw-bold">{{ 'Administration::Transcription:LoadingLabel' | abpLocalization }}</div>
     <div class="small mt-1">Loading transcription...</div>
     <div class="ss-loading-progress mt-2" role="progressbar" aria-label="Loading transcription">
       <div class="progress rounded-0" style="height: 0.7rem">
@@ -90,14 +94,14 @@
           {{ mediaError }}
         </div>
         <div *ngIf="!mediaUrl" class="state-banner state-empty mb-0 mt-3">
-          {{ 'Workflow::Transcription:NoVideoAudioSourceLabel' | abpLocalization }}
+          {{ 'Administration::Transcription:NoVideoAudioSourceLabel' | abpLocalization }}
         </div>
       </section>
 
       <section class="transcript-panel border-none rounded-0 py-3">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h4 class="fs-6 fw-bold mb-3">
-            {{ 'Workflow::Transcription:TranscriptLabel' | abpLocalization }}
+            {{ 'Administration::Transcription:TranscriptLabel' | abpLocalization }}
           </h4>
           <!-- <small class="text-muted">Hover to highlight, click to seek</small> -->
           <div class="d-inline-flex gap-2">
@@ -132,7 +136,7 @@
               <i class="fa fa-arrow-down" aria-hidden="true"></i>
               <span class="px-1 text-uppercase fs-6 fw-bold">txt</span> 
               <i class="fa fa-file-text-o" aria-hidden="true"></i>
-              <!-- {{ deletingId === item.id ? 'Deleting...' : ('Workflow::Transcription:DeleteLabel' | abpLocalization) }} -->
+              <!-- {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' | abpLocalization) }} -->
             </button>
           </div>
         </div>
@@ -195,7 +199,7 @@
         </div>
 
         <div *ngIf="!transcriptParseError && !hasTranscript" class="state-banner state-empty mb-3">
-          {{ 'Workflow::Transcription:NoTranscriptLabel' | abpLocalization }}
+          {{ 'Administration::Transcription:NoTranscriptLabel' | abpLocalization }}
         </div>
 
         <div *ngIf="hasTranscript" #transcriptScrollHost class="transcript-scroll-host">
