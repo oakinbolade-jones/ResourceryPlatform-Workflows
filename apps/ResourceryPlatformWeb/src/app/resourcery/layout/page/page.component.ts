@@ -87,9 +87,9 @@ export class ResourceryPageComponent implements OnInit, OnDestroy {
   }
 
   private resolveTitle(value: string): string {
-    if (value.startsWith('Workflow::')) {
+    if (value.startsWith('Administration::')) {
       const localizedValue = this.localizationService.instant(value);
-      return localizedValue && localizedValue !== value ? localizedValue : value.replace('Workflow::', '');
+      return localizedValue && localizedValue !== value ? localizedValue : value.replace('Administration::', '');
     }
 
     return value;

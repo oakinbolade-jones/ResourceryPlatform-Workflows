@@ -42,7 +42,7 @@ export class GlobalHttpErrorPopupHandlerService implements CustomHttpErrorHandle
 
     const friendlyError = this.apiErrorLocalization.showFriendlyErrorPopupFromHttpError(
       this.lastError,
-      'Workflow::Common:ApiError:Default',
+      'Administration::Common:ApiError:Default',
       'Something unexpected happened. Please try again in a moment.'
     );
 

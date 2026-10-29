@@ -10,7 +10,7 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
       data: { 
         layout: eLayoutType.empty,
-        title: 'Workflow::Home'
+        title: 'Administration::Home'
       },
   },
   { path: 'request', loadChildren: () => import('./request/request.module').then(m => m.RequestModule) },

@@ -26,7 +26,7 @@ export interface ServiceCenterDto extends FullAuditedEntityDto<string> {
 export interface ServiceDto extends FullAuditedEntityDto<string> {
   serviceCenterId?: string;
   name?: string;
-  code?: string;
+  code?: string;  
   displayName?: string;
   description?: string;
   isActive: boolean;

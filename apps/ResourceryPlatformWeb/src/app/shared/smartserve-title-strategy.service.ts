@@ -27,7 +27,7 @@ export class SmartServeTitleStrategy extends TitleStrategy {
     this.routerState = routerState;
 
     const routeTitle = this.buildTitle(routerState);
-    if (!routeTitle || routeTitle === 'Workflow::Home') {
+    if (!routeTitle || routeTitle === 'Administration::Home') {
       this.title.setTitle('SmartServe Platform - ECOWAS');
       return;
     }
@@ -37,11 +37,11 @@ export class SmartServeTitleStrategy extends TitleStrategy {
   }
 
   private resolveTitle(value: string): string {
-    if (!value.startsWith('Workflow::')) {
+    if (!value.startsWith('Administration::')) {
       return value;
     }
 
     const localizedValue = this.localizationService.instant({ key: value, defaultValue: value });
-    return localizedValue && localizedValue !== value ? localizedValue : value.replace('Workflow::', '');
+    return localizedValue && localizedValue !== value ? localizedValue : value.replace('Administration::', '');
   }
 }

@@ -11,7 +11,9 @@ namespace ResourceryPlatformWorkflow.Workflow.Requests;
 public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
     public Guid? TenantId { get; private set; }
-    public RequestType RequestType { get; private set; }
+
+    public string RequestTitle { get; private set; }
+ public RequestType RequestType { get; private set; }
     public RequestStatus RequestStatus { get; private set; }
     public string? Comment { get; private set; }
 
@@ -29,7 +31,7 @@ public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
         Documents = new List<RequestDocument>();
     }
 
-    public Request(Guid id, string documentSetUrl, string description, Guid serviceId, RequestType requestType, string comment)
+    public Request(Guid id, string documentSetUrl, string description, Guid serviceId, RequestType requestType, string comment, string requestTitle)
         : base(id)
     {
         Documents = new List<RequestDocument>();
@@ -40,7 +42,7 @@ public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
         SetRequestStatus(RequestStatus.Pending);
         SetDocumentMigrationStatus(DocumentMigrationStatus.NotStarted);
         SetComment(comment);
-        Comment = comment;
+        SetRequestTitle(requestTitle);
     }
 
     public void SetDocumentSetUrl(string documentSetUrl)
@@ -49,7 +51,13 @@ public class Request : FullAuditedAggregateRoot<Guid>, IMultiTenant
             ? null
             : documentSetUrl.Trim();
     }
-
+  public void SetRequestTitle(string requestTitle)
+    {
+        RequestTitle = string.IsNullOrWhiteSpace(requestTitle)
+            ? null
+            : requestTitle.Trim();
+            // Check.NotNullOrWhiteSpace(requestTitle, nameof(requestTitle));
+    }
     public void SetDescription(string description)
     {
         Description = string.IsNullOrWhiteSpace(description)

@@ -398,6 +398,10 @@ namespace ResourceryPlatformWorkflow.Workflow.Migrations
                     b.Property<int>("RequestStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("RequestTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RequestType")
                         .HasColumnType("int");
 

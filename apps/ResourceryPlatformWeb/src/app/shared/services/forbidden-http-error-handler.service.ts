@@ -29,7 +29,7 @@ export class ForbiddenHttpErrorHandlerService implements CustomHttpErrorHandlerS
     const fallback = 'You do not have permission to access this page or perform this action.';
     const friendlyMessage = this.apiErrorLocalization.resolveStatusMessage(
       403,
-      'Workflow::Common:ApiError:Code403',
+      'Administration::Common:ApiError:Code403',
       fallback
     );
 

@@ -28,7 +28,7 @@ export class ApiErrorLocalizationService {
   }
 
   resolveStatusMessage(status: number, defaultKey: string, defaultFallback: string): string {
-    const key = this.normalizeLocalizationKey(`Workflow::Transcription:ApiError:Status${status}`);
+    const key = this.normalizeLocalizationKey(`Administration::Transcription:ApiError:Status${status}`);
     const localizedStatusMessage = this.localizationService.instant(key);
 
     if (localizedStatusMessage && localizedStatusMessage !== key) {
@@ -68,7 +68,7 @@ export class ApiErrorLocalizationService {
       code: 'NETWORK',
       title: this.resolveFriendlyTitle(),
       message: this.t(
-        'Workflow::Common:ApiError:Network',
+        'Administration::Common:ApiError:Network',
         'We could not reach the server. Please check your connection and try again.'
       ),
     };
@@ -183,12 +183,12 @@ export class ApiErrorLocalizationService {
   }
 
   private resolveFriendlyTitle(): string {
-    return this.t('Workflow::Common:ApiError:Title', 'We hit a small issue');
+    return this.t('Administration::Common:ApiError:Title', 'We hit a small issue');
   }
 
   resolveNoCodeMessage(defaultKey: string, defaultFallback: string): string {
     return this.t(
-      'Workflow::Common:ApiError:NoCode',
+      'Administration::Common:ApiError:NoCode',
       this.t(defaultKey, defaultFallback) || 'Something unexpected happened. Please try again in a moment.'
     );
   }
@@ -203,47 +203,47 @@ export class ApiErrorLocalizationService {
 
     const map: Record<string, string> = {
       '400': this.t(
-        'Workflow::Common:ApiError:Code400',
+        'Administration::Common:ApiError:Code400',
         'We could not process that request. Please review your input and try again.'
       ),
       '401': this.t(
-        'Workflow::Common:ApiError:Code401',
+        'Administration::Common:ApiError:Code401',
         'Your session may have expired. Please sign in again.'
       ),
       '403': this.t(
-        'Workflow::Common:ApiError:Code403',
+        'Administration::Common:ApiError:Code403',
         'You do not have permission to perform this action.'
       ),
       '404': this.t(
-        'Workflow::Common:ApiError:Code404',
+        'Administration::Common:ApiError:Code404',
         'We could not find what you requested. It may have been moved or removed.'
       ),
       '409': this.t(
-        'Workflow::Common:ApiError:Code409',
+        'Administration::Common:ApiError:Code409',
         'This action conflicted with existing data. Please refresh and try again.'
       ),
       '429': this.t(
-        'Workflow::Common:ApiError:Code429',
+        'Administration::Common:ApiError:Code429',
         'Too many requests at once. Please wait a moment and try again.'
       ),
       '500': this.t(
-        'Workflow::Common:ApiError:Code500',
+        'Administration::Common:ApiError:Code500',
         'Our server ran into a problem. Please try again shortly.'
       ),
       '500.3': this.t(
-        'Workflow::Common:ApiError:Code500_3',
+        'Administration::Common:ApiError:Code500_3',
         'The service is temporarily unavailable while restarting. Please retry in a few seconds.'
       ),
       '502': this.t(
-        'Workflow::Common:ApiError:Code502',
+        'Administration::Common:ApiError:Code502',
         'A gateway error occurred. Please try again in a moment.'
       ),
       '503': this.t(
-        'Workflow::Common:ApiError:Code503',
+        'Administration::Common:ApiError:Code503',
         'The service is currently unavailable. Please try again shortly.'
       ),
       '504': this.t(
-        'Workflow::Common:ApiError:Code504',
+        'Administration::Common:ApiError:Code504',
         'The request timed out. Please try again.'
       ),
     };
@@ -390,6 +390,6 @@ export class ApiErrorLocalizationService {
       return '';
     }
 
-    return trimmed.includes('::') ? trimmed : `Workflow::${trimmed}`;
+    return trimmed.includes('::') ? trimmed : `Administration::${trimmed}`;
   }
 }

@@ -60,6 +60,7 @@ export interface CreateUpdateRequestDocumentDto {
 
 export interface CreateUpdateRequestDto {
   requestType?: RequestType;
+  requestTitle?: string;
   requestStatus?: RequestStatus;
   documentSetUrl?: string;
   description?: string;
@@ -118,6 +119,7 @@ export interface MeetingDto extends EntityDto<string> {
 
 export interface RequestDto extends FullAuditedEntityDto<string> {
   requestType?: RequestType;
+  requestTitle?: string;
   requestStatus?: RequestStatus;
   documentSetUrl?: string;
   description?: string;

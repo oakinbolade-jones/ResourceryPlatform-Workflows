@@ -80,7 +80,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return requests.ConvertAll(_requestToRequestDtoMapper.Map);
     }
 
-   // [Authorize(WorkflowPermissions.Requests.Create)]
+    // [Authorize(WorkflowPermissions.Requests.Create)]
     public async Task<RequestDto> CreateAsync(CreateUpdateRequestDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -91,7 +91,8 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
             input.Description ?? string.Empty,
             input.ServiceId,
             input.RequestType,
-            input.Comment
+            input.Comment,
+            input.RequestTitle
         );
 
         await _requestManager.SetRequestStatusAsync(request, input.RequestStatus);
@@ -122,7 +123,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return _requestToRequestDtoMapper.Map(request);
     }
 
-   // [Authorize(WorkflowPermissions.Requests.Update)]
+    // [Authorize(WorkflowPermissions.Requests.Update)]
     public async Task<RequestDto> UpdateAsync(Guid id, CreateUpdateRequestDto input)
     {
         Check.NotNull(input, nameof(input));
@@ -140,6 +141,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         var previousStatus = request.RequestStatus;
 
         await _requestManager.SetDocumentSetUrlAsync(request, input.DocumentSetUrl);
+        await _requestManager.SetRequestTitleAsync(request, input.RequestTitle);
         await _requestManager.SetDescriptionAsync(request, input.Description);
         await _requestManager.SetServiceIdAsync(request, input.ServiceId);
         await _requestManager.SetRequestTypeAsync(request, input.RequestType);
@@ -167,7 +169,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return _requestToRequestDtoMapper.Map(request);
     }
 
-    [Authorize(WorkflowPermissions.RequestDocuments.Create)]
+   // [Authorize(WorkflowPermissions.RequestDocuments.Create)]
     public async Task<RequestDto> AddDocumentsAsync(
         Guid id,
         List<CreateUpdateRequestDocumentDto> documents
@@ -210,7 +212,7 @@ public class RequestAppService : WorkflowAppService, IRequestAppService
         return _requestToRequestDtoMapper.Map(request);
     }
 
-    [Authorize(WorkflowPermissions.Requests.Delete)]
+    //[Authorize(WorkflowPermissions.Requests.Delete)]
     public Task DeleteAsync(Guid id) => _requestManager.DeleteAsync(id);
 
     private Meeting? MapMeeting(CreateUpdateMeetingDto? meeting, Guid requestId)

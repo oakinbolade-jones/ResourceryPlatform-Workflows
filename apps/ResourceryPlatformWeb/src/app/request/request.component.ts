@@ -39,6 +39,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   requestForm: FormGroup;
   services: ServiceDto[] = [];
   selectedServiceCode: string = '';
+  selectedServiceTitle: string = '';
   openAccordionItems = new Set<number>([1, 2, 3]);
   meetingRequirementGroups: MeetingRequirementGroup[] = [];
   meetingRequirementEntries: Record<string, Record<string, MeetingRequirementEntry>> = {};
@@ -58,6 +59,7 @@ export class RequestComponent implements OnInit, OnDestroy {
       ServiceId: ['', Validators.required],
       Description: ['', Validators.required],
       RequestType: [''],
+      RequestTitle: [''],
       RequestStatus: [''],
       DocumentSetUrl: [''],
     });
@@ -101,12 +103,17 @@ export class RequestComponent implements OnInit, OnDestroy {
     const selectedService = this.services.find((s) => s.id === selectedServiceId);
 
     this.selectedServiceCode = selectedService?.code || '';
+    this.selectedServiceTitle = selectedService?.name || '';
+
+    const requestTitleControl = this.requestForm.get('RequestTitle');
+    if (requestTitleControl) {
+      requestTitleControl.setValue(this.selectedServiceTitle);
+    }
 
     this.removeDynamicGroups();
 
     switch (this.selectedServiceCode) {
       case 'PID':
-
         this.requestForm.controls['RequestType'].setValue(RequestType.InternalMemorandum);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
@@ -134,24 +141,8 @@ export class RequestComponent implements OnInit, OnDestroy {
         this.requestForm.controls['RequestType'].setValue(RequestType.ElectionObservationMission);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
-      case 'EOM':
-        this.requestForm.controls['RequestType'].setValue(RequestType.ElectionObservationMission);
-        this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
-        break;
-      case 'EOM':
-        this.requestForm.controls['RequestType'].setValue(RequestType.ElectionObservationMission);
-        this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
-        break;
       case 'DC':
         this.requestForm.controls['RequestType'].setValue(RequestType.DiplomaticCocktail);
-        this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
-        break;
-      case 'IS':
-        this.requestForm.controls['RequestType'].setValue(RequestType.Interpretion);
-        this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
-        break;
-      case 'IS':
-        this.requestForm.controls['RequestType'].setValue(RequestType.Interpretion);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
       case 'IS':
@@ -166,16 +157,12 @@ export class RequestComponent implements OnInit, OnDestroy {
         this.requestForm.controls['RequestType'].setValue(RequestType.GroundTransportation);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
-      case 'GTS':
-        this.requestForm.controls['RequestType'].setValue(RequestType.GroundTransportation);
-        this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
-        break;
       case 'VP':
         this.requestForm.controls['RequestType'].setValue(RequestType.VisaProcurement);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
-      case 'VP':
-        this.requestForm.controls['RequestType'].setValue(RequestType.VisaProcurement);
+      case 'CTR':
+        this.requestForm.controls['RequestType'].setValue(RequestType.ContributionToReport);
         this.requestForm.controls['RequestStatus'].setValue(RequestStatus.Pending);
         break;
       case 'MEET':
@@ -230,6 +217,7 @@ export class RequestComponent implements OnInit, OnDestroy {
       serviceId: value.ServiceId,
       description: value.Description,
       documentSetUrl: value.DocumentSetUrl || '',
+      requestTitle: value.RequestTitle,
       requestType: value.RequestType,
       requestStatus: value.RequestStatus,
       meeting: meetingPayload,
@@ -240,9 +228,9 @@ export class RequestComponent implements OnInit, OnDestroy {
       next: (response) => {
         console.log('Request created:', response);
         this.appPopupService.show({
-          title: this.t('Workflow::Meeting:SubmitSuccessTitle', 'Request submitted'),
+          title: this.t('Administration::Meeting:SubmitSuccessTitle', 'Request submitted'),
           message: this.t(
-            'Workflow::Meeting:SubmitSuccessMessage',
+            'Administration::Meeting:SubmitSuccessMessage',
             'Your request was submitted successfully.'
           ),
           tone: 'success',
@@ -389,7 +377,7 @@ export class RequestComponent implements OnInit, OnDestroy {
     return this.requestForm.get('PidForm') as FormGroup | null;
   }
 
-  private buildMeetingItems(): Array<{ 
+  private buildMeetingItems(): Array<{
     itemName: string;
     itemCode: string;
     category: string;
@@ -400,7 +388,7 @@ export class RequestComponent implements OnInit, OnDestroy {
     budget: number | null;
     remarkObservation: string;
   }> {
-    const items: Array<{ 
+    const items: Array<{
       itemName: string;
       itemCode: string;
       category: string;
@@ -704,24 +692,24 @@ export class RequestComponent implements OnInit, OnDestroy {
     }
 
     if (control.errors['required']) {
-      return this.t('Workflow::Meeting:ValidationRequired', 'This field is required.');
+      return this.t('Administration::Meeting:ValidationRequired', 'This field is required.');
     }
 
     if (control.errors['email']) {
       return this.t(
-        'Workflow::Meeting:ValidationEmail',
+        'Administration::Meeting:ValidationEmail',
         'Please enter a valid email address.'
       );
     }
 
     if (control.errors['min']) {
       return this.t(
-        'Workflow::Meeting:ValidationMinGreaterThanZero',
+        'Administration::Meeting:ValidationMinGreaterThanZero',
         'Please enter a value greater than 0.'
       );
     }
 
-    return this.t('Workflow::Meeting:ValidationGeneric', 'Please check this field.');
+    return this.t('Administration::Meeting:ValidationGeneric', 'Please check this field.');
   }
 
   shouldShowMeetingDateRangeError(): boolean {

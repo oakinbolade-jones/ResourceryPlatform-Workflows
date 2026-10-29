@@ -9,7 +9,7 @@ const routes: Routes = [
     component: HomeComponent, 
     data: { 
       layout: eLayoutType.application,
-      title: 'Workflow::Home'
+      title: 'Administration::Home'
     } 
   },
 ];

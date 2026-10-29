@@ -6,6 +6,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Requests;
 public class CreateUpdateRequestDto
 {
     public RequestType RequestType { get; set; }
+    public string RequestTitle { get; set; } = string.Empty;
     public RequestStatus RequestStatus { get; set; }
     public string? DocumentSetUrl { get; set; }
     public string? Description { get; set; }

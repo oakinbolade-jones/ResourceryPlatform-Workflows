@@ -31,6 +31,7 @@ public static class WorkflowDbContextModelCreatingExtensions
                 .HasMaxLength(RequestConsts.MaxCommentLength);
             b.Property(x => x.ServiceId).IsRequired();
             b.Property(x => x.RequestType).IsRequired();
+            b.Property(x => x.RequestTitle).IsRequired();
             b.Property(x => x.RequestStatus).IsRequired();
             b.Property(x => x.DocumentMigrationStatus).IsRequired();
             b.Property(x => x.DocumentsPublishedAt);

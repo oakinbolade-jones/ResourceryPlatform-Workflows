@@ -27,7 +27,9 @@ public class RequestManager : DomainService
         string description,
         Guid serviceId,
         RequestType requestType,
-        string? comment = null)
+        string? comment = null,
+        string? requestTitle = null
+        )
     {
         var request = new Request(
             GuidGenerator.Create(),
@@ -35,7 +37,8 @@ public class RequestManager : DomainService
             description,
             serviceId,
             requestType,
-            comment
+            comment,
+            requestTitle
         );
 
         return Task.FromResult(request);
@@ -48,6 +51,22 @@ public class RequestManager : DomainService
         request.SetRequestType(requestType);
         return Task.CompletedTask;
     }
+       public virtual Task SetRequestTitleAsync(Request request, string requestTitle)
+    {
+        Check.NotNull(request, nameof(request));
+
+        request.SetRequestTitle(requestTitle);
+        return Task.CompletedTask;
+    }
+
+    public virtual Task SetDescriptionAsync(Request request, string description)
+    {
+        Check.NotNull(request, nameof(request));
+
+        request.SetDescription(description);
+        return Task.CompletedTask;
+    }
+
 
     public virtual Task SetRequestStatusAsync(Request request, RequestStatus requestStatus)
     {
@@ -62,14 +81,6 @@ public class RequestManager : DomainService
         Check.NotNull(request, nameof(request));
 
         request.SetDocumentSetUrl(documentSetUrl);
-        return Task.CompletedTask;
-    }
-
-    public virtual Task SetDescriptionAsync(Request request, string description)
-    {
-        Check.NotNull(request, nameof(request));
-
-        request.SetDescription(description);
         return Task.CompletedTask;
     }
 

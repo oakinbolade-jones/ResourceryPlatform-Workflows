@@ -14,7 +14,7 @@ const routes: Routes = [
     component: AccountComponent,
     data: {
       layout: eLayoutType.application,
-      title: 'Workflow::AccountAdministration',
+      title: 'Administration::AccountAdministration',
     },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'identity/roles' },
