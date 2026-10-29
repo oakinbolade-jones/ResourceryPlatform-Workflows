@@ -1,12 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace ResourceryPlatformWorkflow.Workflow;
 
@@ -23,6 +25,12 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
+
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024;
+                options.ValueLengthLimit = int.MaxValue;
+            });
 
             builder.WebHost.ConfigureKestrel(options =>
             {

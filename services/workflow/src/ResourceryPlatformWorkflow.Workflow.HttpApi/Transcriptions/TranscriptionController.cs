@@ -51,6 +51,7 @@ public class TranscriptionController(
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
     private const string DefaultOrganizationCode = "ECOWAS";
+    private const long MaxWipoRequestBodySizeBytes = 2L * 1024 * 1024 * 1024;
     private const int MaxWipoLogPayloadLength = 800;
     private const string PendingTranscriptionCacheKeyPrefix = "workflow:transcription:pending:";
     private static readonly Regex UuidPattern = new(
@@ -283,7 +284,8 @@ public class TranscriptionController(
     }
 
     [HttpPost("submit-to-wipo")]
-    [RequestSizeLimit(500_000_000)]
+    [RequestSizeLimit(MaxWipoRequestBodySizeBytes)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxWipoRequestBodySizeBytes)]
     public async Task<IActionResult> SubmitToWipoAsync([FromForm] SubmitToWipoInput input)
     {
         if (input.File == null || input.File.Length == 0)
@@ -305,7 +307,6 @@ public class TranscriptionController(
         var inputFormat = string.IsNullOrWhiteSpace(input.InputFormat)
             ? NormalizeExtension(null, input.File.FileName)
             : NormalizeExtension(input.InputFormat, input.File.FileName);
-        var uploadedDocumentData = await ReadFileBytesAsync(input.File);
         var uploadedDocumentExtension = NormalizeDocumentExtension(input.File.FileName);
 
         var uploadQuery =
@@ -328,7 +329,8 @@ public class TranscriptionController(
         staged.DateOfTranscription = input.DateOfTranscription ?? input.EventDate ?? staged.DateOfTranscription ?? DateTime.UtcNow;
         staged.EventDate = input.EventDate ?? staged.EventDate;
         staged.MediaFile = input.File.FileName;
-        staged.DocumentData = uploadedDocumentData;
+        // Do not retain the raw request file in app memory or distributed cache.
+        staged.DocumentData = null;
         staged.DocumentExtension = uploadedDocumentExtension;
         staged.Transcript = input.Transcript ?? staged.Transcript;
         staged.Language = language;
@@ -841,7 +843,7 @@ public class TranscriptionController(
                 Status = resolvedStatus,
                 InputSource = transcription.InputSource,
                 SourceReferenceId = transcription.SourceReferenceId,
-                DocumentData = staged?.DocumentData?.Length > 0 ? staged.DocumentData : transcription.DocumentData,
+                DocumentData = null,
                 DocumentExtension = !string.IsNullOrWhiteSpace(staged?.DocumentExtension)
                     ? staged.DocumentExtension
                     : transcription.DocumentExtension,
@@ -925,7 +927,7 @@ public class TranscriptionController(
                     Status = staged.Status,
                     InputSource = staged.InputSource,
                     SourceReferenceId = staged.SourceReferenceId,
-                    DocumentData = staged.DocumentData,
+                    DocumentData = null,
                     DocumentExtension = staged.DocumentExtension,
                     LinkJson = staged.LinkJson,
                     LinkSrt = staged.LinkSrt,
@@ -954,7 +956,7 @@ public class TranscriptionController(
                             Status = createOrUpdateDto.Status,
                             InputSource = createOrUpdateDto.InputSource,
                             SourceReferenceId = createOrUpdateDto.SourceReferenceId,
-                            DocumentData = createOrUpdateDto.DocumentData,
+                            DocumentData = null,
                             DocumentExtension = createOrUpdateDto.DocumentExtension,
                             LinkJson = createOrUpdateDto.LinkJson,
                             LinkSrt = createOrUpdateDto.LinkSrt,
@@ -1268,7 +1270,10 @@ public class TranscriptionController(
 
     private HttpClient CreateWipoClient()
     {
-        var client = new HttpClient();
+        var client = new HttpClient
+        {
+            Timeout = TimeSpan.FromMinutes(60)
+        };
         var raw = $"{WipoUsername}:{WipoPassword}";
         var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(raw));
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
@@ -1920,6 +1925,9 @@ public class TranscriptionController(
         public string MediaFile { get; set; }
         public string Language { get; set; }
         public string InputFormat { get; set; }
+        // Do not retain raw uploaded document bytes in app memory or Redis.
+        // Large payloads can exceed the distributed cache protocol limits.
+        [System.Text.Json.Serialization.JsonIgnore]
         public byte[] DocumentData { get; set; }
         public string DocumentExtension { get; set; }
         public string Status { get; set; }

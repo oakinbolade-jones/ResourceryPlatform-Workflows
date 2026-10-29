@@ -95,10 +95,19 @@ public class ResourceryPlatformWorkflowHostingModule : AbpModule
     {
         context.Services.AddSingleton<IDistributedLockProvider>(sp =>
         {
-            var connection = ConnectionMultiplexer.Connect(
-                configuration.GetConnectionString(ResourceryPlatformWorkflowNames.Redis)!
-            );
+            var connectionString = configuration.GetConnectionString(ResourceryPlatformWorkflowNames.Redis);
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException($"Redis connection string '{ResourceryPlatformWorkflowNames.Redis}' is not configured.");
+            }
 
+            var redisConfig = ConfigurationOptions.Parse(connectionString);
+            redisConfig.AbortOnConnectFail = false;
+            redisConfig.ConnectRetry = 5;
+            redisConfig.ConnectTimeout = 5000;
+            redisConfig.SyncTimeout = 5000;
+
+            var connection = ConnectionMultiplexer.Connect(redisConfig);
             return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
     }
@@ -118,10 +127,18 @@ public static class HostingExtensions
             .SetApplicationName(ResourceryPlatformWorkflowNames.ResourceryPlatformWorkflow);
         if (!hostingEnvironment.IsDevelopment())
         {
-            var redis = ConnectionMultiplexer.Connect(
-                configuration.GetConnectionString(ResourceryPlatformWorkflowNames.Redis)!
-            );
-            dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, $"{name}-Keys");
+            var connectionString = configuration.GetConnectionString(ResourceryPlatformWorkflowNames.Redis);
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                var redisConfig = ConfigurationOptions.Parse(connectionString);
+                redisConfig.AbortOnConnectFail = false;
+                redisConfig.ConnectRetry = 5;
+                redisConfig.ConnectTimeout = 5000;
+                redisConfig.SyncTimeout = 5000;
+
+                var redis = ConnectionMultiplexer.Connect(redisConfig);
+                dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, $"{name}-Keys");
+            }
         }
 
         return context;
