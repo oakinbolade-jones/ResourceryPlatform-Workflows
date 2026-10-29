@@ -16,8 +16,7 @@ public class CreateUpdateTranscriptionDto
     public string Status { get; set; } = "Pending";
     public InputSource InputSource { get; set; } = InputSource.Upload;
     public string SourceReferenceId { get; set; }
-        public byte[] DocumentData { get; set; }
-        public string DocumentExtension { get; set; } = string.Empty;
+    public string DocumentExtension { get; set; } = string.Empty;
     public string Transcript { get; set; } = string.Empty;
 
     public string LinkJson { get; set; } = string.Empty;

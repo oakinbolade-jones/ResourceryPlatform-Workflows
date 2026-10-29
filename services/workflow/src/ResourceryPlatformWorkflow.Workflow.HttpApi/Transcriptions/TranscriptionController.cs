@@ -843,7 +843,6 @@ public class TranscriptionController(
                 Status = resolvedStatus,
                 InputSource = transcription.InputSource,
                 SourceReferenceId = transcription.SourceReferenceId,
-                DocumentData = null,
                 DocumentExtension = !string.IsNullOrWhiteSpace(staged?.DocumentExtension)
                     ? staged.DocumentExtension
                     : transcription.DocumentExtension,
@@ -927,7 +926,6 @@ public class TranscriptionController(
                     Status = staged.Status,
                     InputSource = staged.InputSource,
                     SourceReferenceId = staged.SourceReferenceId,
-                    DocumentData = null,
                     DocumentExtension = staged.DocumentExtension,
                     LinkJson = staged.LinkJson,
                     LinkSrt = staged.LinkSrt,
@@ -956,7 +954,6 @@ public class TranscriptionController(
                             Status = createOrUpdateDto.Status,
                             InputSource = createOrUpdateDto.InputSource,
                             SourceReferenceId = createOrUpdateDto.SourceReferenceId,
-                            DocumentData = null,
                             DocumentExtension = createOrUpdateDto.DocumentExtension,
                             LinkJson = createOrUpdateDto.LinkJson,
                             LinkSrt = createOrUpdateDto.LinkSrt,

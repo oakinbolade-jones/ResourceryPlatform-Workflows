@@ -136,7 +136,7 @@ public class TranscriptionAppService(
         transcription.SetLinkTxt(input.LinkTxt);
         transcription.SetLinkDocx(input.LinkDocx);
         transcription.SetLinkVerbatimDocx(input.LinkVerbatimDocx);
-        transcription.SetDocumentData(input.DocumentData);
+        transcription.SetDocumentData(Array.Empty<byte>());
         transcription.SetDocumentExtension(input.DocumentExtension);
 
         transcription = await _transcriptionRepository.InsertAsync(transcription, autoSave: true);
@@ -174,7 +174,7 @@ public class TranscriptionAppService(
         transcription.SetLinkTxt(input.LinkTxt);
         transcription.SetLinkDocx(input.LinkDocx);
         transcription.SetLinkVerbatimDocx(input.LinkVerbatimDocx);
-        transcription.SetDocumentData(input.DocumentData);
+        transcription.SetDocumentData(Array.Empty<byte>());
         transcription.SetDocumentExtension(input.DocumentExtension);
 
         transcription = await _transcriptionRepository.UpdateAsync(transcription, autoSave: true);
@@ -313,7 +313,7 @@ public class TranscriptionAppService(
             Status = transcription.Status,
             InputSource = transcription.InputSource,
             SourceReferenceId = transcription.SourceReferenceId,
-            DocumentData = transcription.DocumentData,
+            DocumentData = null,
             DocumentExtension = transcription.DocumentExtension,
             Transcript = transcription.Transcript,
             LinkJson = transcription.LinkJson,

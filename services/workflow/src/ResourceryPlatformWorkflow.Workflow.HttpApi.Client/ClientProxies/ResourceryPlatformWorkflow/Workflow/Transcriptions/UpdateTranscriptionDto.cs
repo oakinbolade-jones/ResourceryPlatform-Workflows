@@ -30,8 +30,6 @@ public class UpdateTranscriptionDto
 
     public string SourceReferenceId { get; set; }
 
-    public byte[] DocumentData { get; set; }
-
     public string DocumentExtension { get; set; } = string.Empty;
 
     public string LinkJson { get; set; } = string.Empty;

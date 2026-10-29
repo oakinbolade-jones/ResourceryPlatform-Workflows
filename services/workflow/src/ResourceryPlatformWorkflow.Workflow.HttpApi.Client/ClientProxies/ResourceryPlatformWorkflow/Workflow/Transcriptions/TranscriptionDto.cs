@@ -31,8 +31,6 @@ public class TranscriptionDto : FullAuditedEntityDto<Guid>
 
     public string SourceReferenceId { get; set; }
 
-    public byte[] DocumentData { get; set; }
-
     public string DocumentExtension { get; set; } = string.Empty;
 
     public string Transcript { get; set; } = string.Empty;
