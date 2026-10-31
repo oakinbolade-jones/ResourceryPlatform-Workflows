@@ -1,0 +1,77 @@
+@page
+@model ResourceryPlatformWorkflow.AuthServer.Pages.ErrorModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ResourceryPlatformWorkflow.Administration.Localization
+@inject IHtmlLocalizer<AdministrationResource> AdministrationLocalizer
+@{
+    Layout = "~/Pages/Account/Templates/_AccountLayout.Custom.cshtml";
+    ViewData["Title"] = Model.Title;
+    var returnUrl = string.IsNullOrWhiteSpace(Model.ReturnUrl)
+        ? (string.IsNullOrWhiteSpace(Model.Referrer) ? "http://smartserve.ecowas.int" : Model.Referrer)
+        : Model.ReturnUrl;
+}
+
+<div class="rp-smartserve-page">
+    <div class="rp-smartserve-card">
+        <aside class="rp-smartserve-side">
+            <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
+                <a href="http://smartserve.ecowas.int">
+                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                </a>
+            </div>
+
+            <h1 class="rp-smartserve-title">@Model.Title</h1>
+        </aside>
+
+        <section class="rp-smartserve-panel">
+            <div class="alert alert-danger rounded-4" role="alert">
+                <h2 class="h5 mb-2">@Model.Title</h2>
+                <p class="mb-0">@Model.Message</p>
+            </div>
+
+            <div class="rp-smartserve-actions mt-4">
+                <button type="button" id="error-refresh-button" class="btn btn-success rp-smartserve-submit rounded-pill">
+                    @AdministrationLocalizer["Common:ApiError:Refresh"]
+                </button>
+                <button type="button" id="error-back-button" class="btn btn-outline-success rounded-pill">
+                    @AdministrationLocalizer["Common:ApiError:Back"]
+                </button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const refreshButton = document.getElementById('error-refresh-button');
+        const backButton = document.getElementById('error-back-button');
+        const returnUrl = '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(returnUrl))';
+
+        function navigateToSafeTarget() {
+            if (returnUrl && returnUrl !== 'about:blank') {
+                window.location.href = returnUrl;
+                return;
+            }
+
+            if (document.referrer && document.referrer.startsWith(window.location.origin)) {
+                window.location.href = document.referrer;
+                return;
+            }
+
+            window.history.back();
+        }
+
+        refreshButton.addEventListener('click', function () {
+            if (returnUrl && returnUrl !== 'about:blank') {
+                window.location.href = returnUrl;
+                return;
+            }
+
+            window.location.reload();
+        });
+
+        backButton.addEventListener('click', function () {
+            navigateToSafeTarget();
+        });
+    });
+</script>

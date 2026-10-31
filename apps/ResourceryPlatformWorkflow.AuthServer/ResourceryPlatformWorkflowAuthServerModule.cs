@@ -6,12 +6,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -19,6 +22,7 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Server;
 using OpenIddict.Server.AspNetCore;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
+using ResourceryPlatformWorkflow.Administration.Localization;
 using ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Middleware;
 using ResourceryPlatformWorkflow.MultiTenancy;
@@ -87,13 +91,7 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
                 options.UseAspNetCore();
             });
 
-            // if (hostingEnvironment.IsDevelopment())
-            // {
-            //     builder.AddServer(options =>
-            //     {
-            //         options.UseAspNetCore().DisableTransportSecurityRequirement();
-            //     });
-            // }
+           
             builder.AddServer(options =>
                    {
                        options.UseAspNetCore().DisableTransportSecurityRequirement();
@@ -528,7 +526,70 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
         if (!env.IsDevelopment())
         {
-            app.UseErrorPage();
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    var localizer = context.RequestServices.GetRequiredService<IStringLocalizer<AdministrationResource>>();
+                    var exception = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+                    var title = localizer["Common:ApiError:Title"];
+                    var message = localizer["Common:ApiError:NoCode"];
+                    var returnUrl = context.Request.Headers["Referer"].ToString();
+
+                    if (exception != null)
+                    {
+                        _ = exception;
+                    }
+
+                    var query = new Dictionary<string, string>
+                    {
+                        ["Title"] = title,
+                        ["Message"] = message,
+                        ["ReturnUrl"] = string.IsNullOrWhiteSpace(returnUrl) ? string.Empty : returnUrl,
+                        ["Referrer"] = string.IsNullOrWhiteSpace(returnUrl) ? string.Empty : returnUrl,
+                    };
+
+                    context.Response.Clear();
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    context.Response.Redirect(QueryHelpers.AddQueryString("/Error", query));
+                    await Task.CompletedTask;
+                });
+            });
+
+            app.UseStatusCodePages(async statusContext =>
+            {
+                var localizer = statusContext.HttpContext.RequestServices.GetRequiredService<IStringLocalizer<AdministrationResource>>();
+                var title = localizer["Common:ApiError:Title"];
+                var statusCode = statusContext.HttpContext.Response.StatusCode;
+                var message = statusCode switch
+                {
+                    StatusCodes.Status400BadRequest => localizer["Common:ApiError:Code400"],
+                    StatusCodes.Status401Unauthorized => localizer["Common:ApiError:Code401"],
+                    StatusCodes.Status403Forbidden => localizer["Common:ApiError:Code403"],
+                    StatusCodes.Status404NotFound => localizer["Common:ApiError:Code404"],
+                    StatusCodes.Status408RequestTimeout => localizer["Common:ApiError:Code504"],
+                    StatusCodes.Status413PayloadTooLarge => localizer["Common:ApiError:Code400"],
+                    StatusCodes.Status429TooManyRequests => localizer["Common:ApiError:Code429"],
+                    StatusCodes.Status500InternalServerError => localizer["Common:ApiError:Code500"],
+                    StatusCodes.Status502BadGateway => localizer["Common:ApiError:Code502"],
+                    StatusCodes.Status503ServiceUnavailable => localizer["Common:ApiError:Code503"],
+                    StatusCodes.Status504GatewayTimeout => localizer["Common:ApiError:Code504"],
+                    _ => localizer["Common:ApiError:NoCode"]
+                };
+
+                var returnUrl = statusContext.HttpContext.Request.Headers["Referer"].ToString();
+                var query = new Dictionary<string, string>
+                {
+                    ["Title"] = title,
+                    ["Message"] = message,
+                    ["ReturnUrl"] = string.IsNullOrWhiteSpace(returnUrl) ? string.Empty : returnUrl,
+                    ["Referrer"] = string.IsNullOrWhiteSpace(returnUrl) ? string.Empty : returnUrl,
+                };
+
+                statusContext.HttpContext.Response.Clear();
+                statusContext.HttpContext.Response.StatusCode = statusCode;
+                statusContext.HttpContext.Response.Redirect(QueryHelpers.AddQueryString("/Error", query));
+            });
         }
 
         app.UseCorrelationId();

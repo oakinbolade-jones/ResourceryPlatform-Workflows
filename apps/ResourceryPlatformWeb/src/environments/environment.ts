@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   application: {
     baseUrl,
-    name: 'SmartServe Platform',
+    name: 'ResourceryPlatformWorkflow',
     logoUrl: 'https://auth.smartserve.ecowas.int//Account/Login',
   },
   oAuthConfig: {
@@ -15,7 +15,6 @@ export const environment = {
     clientId: 'ResourceryPlatformWorkflow_Web',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
-    clockSkewInSec: 900,
     requireHttps: false,
   },
   apis: {

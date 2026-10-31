@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   application: {
     baseUrl,
-    name: 'SmartServe Platform',
+    name: 'ResourceryPlatformWorkflow',
     logoUrl: '',
   },
   oAuthConfig: {
@@ -16,7 +16,6 @@ export const environment = {
     clientSecret: '1q2w3e*',
     responseType: 'code',
     scope: 'offline_access profile email phone roles ResourceryPlatformWorkflowWorkflow ResourceryPlatformWorkflowIdentityService ResourceryPlatformWorkflowAdministration ResourceryPlatformWorkflowSaaS',
-    clockSkewInSec: 900,
     requireHttps: false,
   },
   apis: {
@@ -29,4 +28,3 @@ export const environment = {
     defaultResourceName: 'Administration',
   },
 } as Environment;
-

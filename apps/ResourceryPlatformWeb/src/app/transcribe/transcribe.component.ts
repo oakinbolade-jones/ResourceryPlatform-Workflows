@@ -191,7 +191,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         await this.loadCameraDevices();
       }
     } catch {
-      this.recordingError = 'Camera or microphone access was denied.';
+      this.recordingError = this.t(
+        'Administration::Transcription:CameraAccessDenied',
+        'Camera or microphone access was denied.'
+      );
       return;
     }
 
@@ -262,7 +265,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.saveStatus = 'Saving recording to server...';
+    this.saveStatus = this.t('Administration::Transcription:SavingRecording', 'Saving recording to server...');
     const filename = `recording-${new Date().toISOString().replace(/[:.]/g, '-')}.${this.recordedExtension}`;
     const formData = new FormData();
     formData.append('file', this.recordedBlob, filename);
@@ -284,7 +287,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           handledError.popupShown = true;
           throw handledError;
         }
-        this.saveStatus = `Saved on server (${this.saveDirectoryHint})`;
+        this.saveStatus = this.t(
+          'Administration::Transcription:SavedOnServer',
+          `Saved on server (${this.saveDirectoryHint})`
+        );
       })
       .catch((error: unknown) => {
         const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
@@ -295,14 +301,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
               'Unable to save recording at this time.'
             ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
-        this.saveStatus = `Save failed: ${message}`;
+        this.saveStatus = `${this.t('Administration::Transcription:SaveFailedLabel', 'Save failed')}: ${message}`;
       });
   }
 
   async transcribeVideo(): Promise<void> {
     const videoData = this.transcribeForm.get('VideoFile')?.value as Blob | File | null;
     if (!videoData) {
-      this.transcribeStatus = 'Please select or record a video first.';
+      this.transcribeStatus = this.t(
+        'Administration::Transcription:SelectVideoFirst',
+        'Please select or record a video first.'
+      );
       return;
     }
 
@@ -319,8 +328,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     const selectedLanguage = this.transcribeForm.get('Language')?.value;
     const language = this.normalizeLanguageCode(selectedLanguage);
     if (typeof selectedLanguage === 'string' && selectedLanguage.trim().toLowerCase() !== language) {
-      this.transcribeStatus =
-        'Selected language is not currently supported by the status service. Continuing with English.';
+      this.transcribeStatus = this.t(
+        'Administration::Transcription:LanguageFallback',
+        'Selected language is not currently supported by the status service. Continuing with English.'
+      );
     }
     this.transcribeForm.patchValue({ Language: language }, { emitEvent: false });
     const inputFormat = this.getInputFormat(videoData);
@@ -341,7 +352,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     formData.append('language', language);
     formData.append('inputFormat', inputFormat);
 
-    this.transcribeStatus = 'Submitting video to transcription service...';
+    this.transcribeStatus = this.t(
+      'Administration::Transcription:SubmittingVideo',
+      'Submitting video to transcription service...'
+    );
 
     try {
       const response = await fetch(this.transcribeSubmitEndpoint, {
@@ -370,7 +384,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.transcriptionReferenceId = this.resolveSourceReferenceId(responseSourceReferenceId);
       this.persistStepOneDraft();
 
-      this.transcribeStatus = 'Submitted. Waiting for transcription progress...';
+      this.transcribeStatus = this.t(
+        'Administration::Transcription:SubmittedWaiting',
+        'Submitted. Waiting for transcription progress...'
+      );
       this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
       this.isTranscribing = false;
@@ -382,7 +399,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
             'Unable to submit media for transcription right now.'
           ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
-      this.transcribeStatus = `Submit failed: ${message}`;
+      this.transcribeStatus = `${this.t('Administration::Transcription:SubmitFailedLabel', 'Submit failed')}: ${message}`;
     }
   }
 
@@ -421,14 +438,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         consecutivePollErrors = 0;
         const first = Array.isArray(payload) && payload.length > 0 ? payload[0] : null;
         if (!first) {
-          this.transcribeStatus = 'No transcription status returned yet. Retrying...';
+          this.transcribeStatus = this.t(
+            'Administration::Transcription:NoStatusYet',
+            'No transcription status returned yet. Retrying...'
+          );
           return;
         }
 
         const status = String(first.status ?? 'unknown').toLowerCase();
         const percent = Number(first.percent ?? 0);
         this.transcriptionPercent = Number.isFinite(percent) ? percent : 0;
-        this.transcribeStatus = `Status: ${status} (${this.transcriptionPercent}%)`;
+        this.transcribeStatus = `${this.t('Administration::Transcription:StatusLabel', 'Status')}: ${status} (${this.transcriptionPercent}%)`;
 
         if (first.transcript_results) {
           this.transcriptionResultLinks = this.buildResultDownloadLinks(
@@ -442,14 +462,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isTranscribing = false;
           this.isTranscriptionCompleted = true;
           this.stopStatusPolling();
-          this.transcribeStatus = `Transcription completed (${this.transcriptionPercent}%).`;
+          this.transcribeStatus = this.t(
+            'Administration::Transcription:CompletedWithPercent',
+            `Transcription completed (${this.transcriptionPercent}%).`
+          );
         }
 
         if (this.isFailureStatus(status)) {
           this.isTranscribing = false;
           this.isTranscriptionCompleted = false;
           this.stopStatusPolling();
-          this.transcribeStatus = 'Transcription failed on remote service.';
+          this.transcribeStatus = this.t(
+            'Administration::Transcription:RemoteServiceFailed',
+            'Transcription failed on remote service.'
+          );
         }
       } catch (error: unknown) {
         const statusCode =
@@ -478,7 +504,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
               'Unable to check transcription status right now.'
             ).message;
         const message = error instanceof Error && error.message ? error.message : fallbackMessage;
-        this.transcribeStatus = `Status poll error: ${message}`;
+        this.transcribeStatus = `${this.t('Administration::Transcription:StatusPollError', 'Status poll error')}: ${message}`;
       }
     };
 
@@ -576,7 +602,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         return {
           mimeType: candidate.mimeType,
           extension: candidate.extension,
-          fallbackMessage: `${requestedFormat.toUpperCase()} is not supported by this browser. Using ${candidate.extension.toUpperCase()} instead.`,
+          fallbackMessage: this.t(
+            'Administration::Transcription:FormatNotSupportedUsing',
+            `${requestedFormat.toUpperCase()} is not supported by this browser. Using ${candidate.extension.toUpperCase()} instead.`
+          ),
         };
       }
     }
@@ -584,7 +613,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       mimeType: 'video/webm',
       extension: 'webm',
-      fallbackMessage: `${requestedFormat.toUpperCase()} is not supported by this browser. Using WEBM instead.`,
+      fallbackMessage: this.t(
+        'Administration::Transcription:FormatNotSupportedFallback',
+        `${requestedFormat.toUpperCase()} is not supported by this browser. Using WEBM instead.`
+      ),
     };
   }
 
