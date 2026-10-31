@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SmartServe - Platform Unavailable</title>
+    <style>
+      :root {
+        --smartserve-dark: #0c2a40;
+        --smartserve-blue: #0d6efd;
+        --smartserve-teal: #0e8d82;
+        --smartserve-gold: #f4b740;
+        --smartserve-muted: #496172;
+        --smartserve-hero: #0f766e;
+      }
+
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #0f1720;
+        color: var(--smartserve-dark);
+      }
+
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background:
+          linear-gradient(rgba(8, 18, 28, 0.62), rgba(8, 18, 28, 0.58)),
+          url('/assets/images/bacground/landing.jpg') center/cover no-repeat fixed;
+      }
+
+      .offline-shell {
+        width: min(980px, calc(100% - 32px));
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 28px;
+        box-shadow: 0 28px 70px rgba(0,0,0,0.28);
+        backdrop-filter: blur(6px);
+      }
+
+      .offline-card {
+        background: rgba(255,255,255,0.94);
+        border-radius: 28px;
+        padding: clamp(28px, 4vw, 56px);
+        text-align: center;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .brand img {
+        width: clamp(68px, 8vw, 96px);
+        height: auto;
+      }
+
+      .brand-mark {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand-mark strong {
+        font-size: clamp(1.6rem, 3vw, 2.7rem);
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        color: var(--smartserve-dark);
+        font-family: "Millik", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .brand-mark span {
+        color: var(--smartserve-muted);
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(13,110,253,0.1), rgba(24,165,165,0.12));
+        color: var(--smartserve-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border: 1px solid rgba(13,110,253,0.15);
+        margin: 0 auto 20px;
+        box-shadow: 0 8px 18px rgba(14, 141, 130, 0.08);
+      }
+
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--smartserve-gold);
+        box-shadow: 0 0 12px rgba(244,183,64,0.8);
+        margin-right: 10px;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-family: "Millik", "Segoe UI", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4.2rem);
+        line-height: 1.06;
+        letter-spacing: -0.04em;
+        color: var(--smartserve-hero);
+      }
+
+      .lead {
+        margin: 0 auto 26px;
+        max-width: 680px;
+        color: var(--smartserve-muted);
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        line-height: 1.75;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .lang-switch {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 8px 0 18px;
+      }
+
+      .lang-button {
+        border: 1px solid rgba(12, 42, 64, 0.12);
+        background: rgba(12, 42, 64, 0.04);
+        color: var(--smartserve-dark);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-button.active {
+        background: linear-gradient(135deg, var(--smartserve-teal), var(--smartserve-blue));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 8px 18px rgba(13,110,253,0.16);
+      }
+
+      .btn {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 14px 24px;
+        font-size: 0.96rem;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .btn:hover { transform: translateY(-1px); }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--smartserve-teal), var(--smartserve-blue));
+        box-shadow: 0 12px 26px rgba(13,110,253,0.2);
+      }
+
+      .btn-secondary {
+        color: var(--smartserve-dark);
+        background: rgba(12,42,64,0.06);
+        border: 1px solid rgba(12,42,64,0.12);
+      }
+
+      .home-footer {
+        width: 100%;
+        padding: 18px 20px 8px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+      }
+
+      .home-footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 600px) {
+        .brand { flex-direction: column; }
+        .brand-mark { align-items: center; }
+        .actions { flex-direction: column; }
+        .btn { width: 100%; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="offline-shell" aria-live="polite">
+      <section class="offline-card">
+        <div class="brand" aria-label="SmartServe">
+          <img src="/assets/images/logo/ecw-smartserve-logo.png" alt="SmartServe logo" />
+          <div class="brand-mark">
+            <strong>SMARTSERVE</strong>
+            <span>ECOWAS platform</span>
+          </div>
+        </div>
+
+        <div class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span data-i18n="status">Platform unavailable</span>
+        </div>
+
+        <div class="lang-switch" aria-label="Language switcher">
+          <button class="lang-button active" type="button" data-lang="en">EN</button>
+          <button class="lang-button" type="button" data-lang="fr">FR</button>
+          <button class="lang-button" type="button" data-lang="pt">PT</button>
+        </div>
+
+        <h1 data-i18n="title">We are temporarily offline</h1>
+        <p class="lead" data-i18n="message">
+          The SmartServe platform is currently unavailable while maintenance or service restoration is in progress.
+          Please try again in a few minutes.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-primary" href="/" onclick="window.location.reload(); return false;" data-i18n="refresh">Refresh page</a>
+          <a class="btn btn-secondary" href="mailto:support@smartserve.ecowas.int" data-i18n="support">Contact support</a>
+        </div>
+      </section>
+      <div class="home-footer" aria-label="Footer information">
+        <div class="container">
+          <span>© 2026 SmartServe ECOWAS</span>
+          <span>•</span>
+          <span data-i18n="support">Contact support</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const translations = {
+        en: {
+          status: 'Platform unavailable',
+          title: 'We are temporarily offline',
+          message: 'The SmartServe platform is currently unavailable while maintenance or service restoration is in progress. Please try again in a few minutes.',
+          refresh: 'Refresh page',
+          support: 'Contact support'
+        },
+        fr: {
+          status: 'Plateforme indisponible',
+          title: 'Nous sommes temporairement hors ligne',
+          message: 'La plateforme SmartServe est actuellement indisponible pendant la maintenance ou la restauration des services. Merci de réessayer dans quelques minutes.',
+          refresh: 'Actualiser la page',
+          support: 'Contacter le support'
+        },
+        pt: {
+          status: 'Plataforma indisponível',
+          title: 'Estamos temporariamente offline',
+          message: 'A plataforma SmartServe está indisponível enquanto a manutenção ou a restauração do serviço está em andamento. Tente novamente em alguns minutos.',
+          refresh: 'Atualizar página',
+          support: 'Contactar suporte'
+        }
+      };
+
+      function detectLanguage() {
+        const browserLanguage = (navigator.language || navigator.languages?.[0] || 'en').toLowerCase();
+        if (browserLanguage.startsWith('fr')) return 'fr';
+        if (browserLanguage.startsWith('pt')) return 'pt';
+        return 'en';
+      }
+
+      function applyLanguage(lang) {
+        const selected = translations[lang] || translations.en;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (selected[key]) {
+            el.textContent = selected[key];
+          }
+        });
+
+        document.querySelectorAll('.lang-button').forEach(button => {
+          button.classList.toggle('active', button.getAttribute('data-lang') === lang);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const initialLang = detectLanguage();
+        applyLanguage(initialLang);
+
+        document.querySelectorAll('.lang-button').forEach(button => {
+          button.addEventListener('click', () => applyLanguage(button.getAttribute('data-lang')));
+        });
+      });
+    </script>
+  </body>
+</html>
