@@ -23,6 +23,7 @@ using QuestPDF.Infrastructure;
 using ResourceryPlatformWorkflow.Workflow.Permissions;
 using ResourceryPlatformWorkflow.Workflow.Transcriptions;
 using Volo.Abp;
+using Volo.Abp.BackgroundJobs;
 
 namespace ResourceryPlatformWorkflow.Workflow.Transcriptions;
 
@@ -35,7 +36,8 @@ public class TranscriptionController(
     ITranscriptionAppService transcriptionAppService,
     ILogger<TranscriptionController> logger,
     IConfiguration configuration,
-    IDistributedCache distributedCache)
+    IDistributedCache distributedCache,
+    IBackgroundJobManager backgroundJobManager)
     : WorkflowController,
         ITranscriptionAppService
 {
@@ -43,10 +45,12 @@ public class TranscriptionController(
     private readonly ILogger<TranscriptionController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     private readonly IConfiguration _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     private readonly IDistributedCache _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
+    private readonly IBackgroundJobManager _backgroundJobManager = backgroundJobManager ?? throw new ArgumentNullException(nameof(backgroundJobManager));
 
     // Update this in code to control where files are written.
     // Example: @"D:\RecordedVideos"
     private const string SaveRootPath = @"C:\RecordedVideos";
+    private const string QueuedSubmissionSubDirectory = "queued-transcription-submissions";
     private const string DefaultWipoBaseUrl = "http://172.18.25.4:8088/S2T/API/ECOWAS";
     private const string DefaultWipoUsername = "ecowasapis2t";
     private const string DefaultWipoPassword = "ecowasapipwd";
@@ -309,13 +313,6 @@ public class TranscriptionController(
             : NormalizeExtension(input.InputFormat, input.File.FileName);
         var uploadedDocumentExtension = NormalizeDocumentExtension(input.File.FileName);
 
-        var uploadQuery =
-            $"organization_code={Uri.EscapeDataString(OrganizationCode)}" +
-            $"&source_reference_id={Uri.EscapeDataString(sourceReferenceId)}" +
-            $"&language={Uri.EscapeDataString(language)}" +
-            $"&input_format={Uri.EscapeDataString(inputFormat)}";
-        var endpoint = $"{WipoBaseUrl}/MediaUpload?{uploadQuery}";
-
         var staged = await GetPendingTranscriptionAsync(sourceReferenceId) ?? new PendingTranscriptionCacheItem
         {
             SourceReferenceId = sourceReferenceId
@@ -336,231 +333,70 @@ public class TranscriptionController(
         staged.Language = language;
         staged.InputFormat = inputFormat;
         staged.InputSource = input.InputSource;
-        staged.Status = "Submitting";
+        staged.Status = "Queued";
         staged.LastUpdatedUtc = DateTime.UtcNow;
 
         await SetPendingTranscriptionAsync(staged);
 
-        using var httpClient = CreateWipoClient();
+        var stagedFilePath = await SaveQueuedSubmissionFileAsync(input.File, sourceReferenceId, inputFormat);
 
-        _logger.LogInformation(
-            "WIPO upload request prepared. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, Language={Language}, InputFormat={InputFormat}, FileName={FileName}, FileSize={FileSize}, MimeType={MimeType}",
-            endpoint,
+        await _backgroundJobManager.EnqueueAsync(new SubmitToWipoBackgroundJobArgs
+        {
+            TranscriptionId = input.TranscriptionId,
+            SourceReferenceId = sourceReferenceId,
+            Language = language,
+            InputFormat = inputFormat,
+            FilePath = stagedFilePath,
+            FileName = input.File.FileName,
+            FileContentType = input.File.ContentType
+        });
+
+        return Accepted(new
+        {
+            message = "Transcription upload queued.",
+            transcriptionId = staged.TranscriptionId,
             sourceReferenceId,
-            language,
-            inputFormat,
-            input.File.FileName,
-            input.File.Length,
-            input.File.ContentType
-        );
+            status = staged.Status,
+            statusUrl = $"/api/workflow/transcription/submission-status?sourceReferenceId={Uri.EscapeDataString(sourceReferenceId)}",
+            upstreamStatusUrl = $"/api/workflow/transcription/transcription-status?sourceReferenceId={Uri.EscapeDataString(sourceReferenceId)}&language={Uri.EscapeDataString(language)}"
+        });
+    }
 
-        async Task<HttpResponseMessage> SendUploadAsync(string filePartName)
+    [HttpGet("submission-status")]
+    public async Task<IActionResult> GetSubmissionStatusAsync([FromQuery] string sourceReferenceId)
+    {
+        var normalizedSourceReferenceId = NormalizeSourceReferenceIdOrNull(sourceReferenceId);
+        if (normalizedSourceReferenceId == null)
         {
-            using var stream = input.File.OpenReadStream();
-            using var form = new MultipartFormDataContent();
-            using var fileContent = new StreamContent(stream);
-
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue(
-                string.IsNullOrWhiteSpace(input.File.ContentType) ? "application/octet-stream" : input.File.ContentType
-            );
-
-            // Per WIPO docs, upload metadata is passed in query string.
-            // Multipart body should carry the media file as field name "data".
-            form.Add(fileContent, filePartName, input.File.FileName);
-
-            _logger.LogInformation(
-                "WIPO upload multipart built with keys=[{FilePartName}]",
-                filePartName
-            );
-
-            return await httpClient.PostAsync(endpoint, form);
+            return BadRequest(new { message = "sourceReferenceId is required and must be a valid UUID." });
         }
 
-        // WIPO docs use multipart field name "data".
-        // Keep a fallback to "file" for compatibility with older integrations.
-        var usedFilePartName = "data";
-        HttpResponseMessage response;
-        string payload;
+        sourceReferenceId = normalizedSourceReferenceId;
+        var staged = await GetPendingTranscriptionAsync(sourceReferenceId);
+        var transcription = await _transcriptionAppService.GetBySourceReferenceIdAsync(sourceReferenceId);
 
-        try
+        if (staged == null && transcription == null)
         {
-            response = await SendUploadAsync(usedFilePartName);
-            payload = await response.Content.ReadAsStringAsync();
-        }
-        catch (HttpRequestException ex)
-        {
-            staged.Status = "SubmissionFailed";
-            staged.LastUpdatedUtc = DateTime.UtcNow;
-            await SetPendingTranscriptionAsync(staged);
-            _logger.LogError(
-                ex,
-                "WIPO upload connection failed. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
-                endpoint,
-                sourceReferenceId,
-                usedFilePartName
-            );
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
-            {
-                message = "Unable to reach WIPO transcription service.",
-                endpoint,
-                sourceReferenceId,
-                filePartName = usedFilePartName,
-                details = ex.Message
-            });
-        }
-        catch (TaskCanceledException ex)
-        {
-            staged.Status = "SubmissionFailed";
-            staged.LastUpdatedUtc = DateTime.UtcNow;
-            await SetPendingTranscriptionAsync(staged);
-            _logger.LogError(
-                ex,
-                "WIPO upload timed out. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
-                endpoint,
-                sourceReferenceId,
-                usedFilePartName
-            );
-            return StatusCode(StatusCodes.Status503ServiceUnavailable, new
-            {
-                message = "WIPO transcription service timed out.",
-                endpoint,
-                sourceReferenceId,
-                filePartName = usedFilePartName,
-                details = ex.Message
-            });
-        }
-        _logger.LogInformation(
-            "WIPO upload response. StatusCode={StatusCode}, FilePartName={FilePartName}, BodySnippet={BodySnippet}",
-            (int)response.StatusCode,
-            usedFilePartName,
-            TruncateForLog(payload)
-        );
-
-        if (!response.IsSuccessStatusCode)
-        {
-            usedFilePartName = "file";
-            try
-            {
-                response = await SendUploadAsync(usedFilePartName);
-                payload = await response.Content.ReadAsStringAsync();
-            }
-            catch (HttpRequestException ex)
-            {
-                staged.Status = "SubmissionFailed";
-                staged.LastUpdatedUtc = DateTime.UtcNow;
-                await SetPendingTranscriptionAsync(staged);
-                _logger.LogError(
-                    ex,
-                    "WIPO upload retry connection failed. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
-                    endpoint,
-                    sourceReferenceId,
-                    usedFilePartName
-                );
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new
-                {
-                    message = "Unable to reach WIPO transcription service after retry.",
-                    endpoint,
-                    sourceReferenceId,
-                    filePartName = usedFilePartName,
-                    details = ex.Message
-                });
-            }
-            catch (TaskCanceledException ex)
-            {
-                staged.Status = "SubmissionFailed";
-                staged.LastUpdatedUtc = DateTime.UtcNow;
-                await SetPendingTranscriptionAsync(staged);
-                _logger.LogError(
-                    ex,
-                    "WIPO upload retry timed out. Endpoint={Endpoint}, SourceReferenceId={SourceReferenceId}, FilePartName={FilePartName}",
-                    endpoint,
-                    sourceReferenceId,
-                    usedFilePartName
-                );
-                return StatusCode(StatusCodes.Status503ServiceUnavailable, new
-                {
-                    message = "WIPO transcription service timed out after retry.",
-                    endpoint,
-                    sourceReferenceId,
-                    filePartName = usedFilePartName,
-                    details = ex.Message
-                });
-            }
-            _logger.LogWarning(
-                "WIPO upload retry response. StatusCode={StatusCode}, FilePartName={FilePartName}, BodySnippet={BodySnippet}",
-                (int)response.StatusCode,
-                usedFilePartName,
-                TruncateForLog(payload)
-            );
+            return NotFound(new { message = "No transcription job was found.", sourceReferenceId });
         }
 
-        if (!response.IsSuccessStatusCode)
-        {
-            staged.Status = "SubmissionFailed";
-            staged.WipoUploadResponseRaw = payload;
-            staged.LastUpdatedUtc = DateTime.UtcNow;
-            await SetPendingTranscriptionAsync(staged);
-            return StatusCode((int)response.StatusCode, new
-            {
-                message = "WIPO upload failed",
-                sourceReferenceId,
-                transcriptionId = input.TranscriptionId,
-                filePartName = usedFilePartName,
-                details = payload
-            });
-        }
-
-        var responseStatus = "Submitted";
-        var responseLinkJson = string.Empty;
-        var responseLinkSrt = string.Empty;
-        var responseLinkHtml = string.Empty;
-        var responseLinkTxt = string.Empty;
-        var responseLinkDocx = string.Empty;
-        var responseLinkVerbatimDocx = string.Empty;
-        var responseLinkToVideo = string.Empty;
-
-        try
-        {
-            using var json = JsonDocument.Parse(payload);
-            var first = json.RootElement.ValueKind == JsonValueKind.Array
-                ? json.RootElement.EnumerateArray().FirstOrDefault()
-                : json.RootElement;
-
-            var parsedStatus = GetJsonStringProperty(first, "status");
-            responseStatus = string.IsNullOrWhiteSpace(parsedStatus) ? responseStatus : parsedStatus;
-            responseLinkJson = GetTranscriptResultLink(first, "link_json");
-            responseLinkSrt = GetTranscriptResultLink(first, "link_srt");
-            responseLinkHtml = GetTranscriptResultLink(first, "link_html");
-            responseLinkTxt = GetTranscriptResultLink(first, "link_txt");
-            responseLinkDocx = GetTranscriptResultLink(first, "link_docx");
-            responseLinkVerbatimDocx = GetTranscriptResultLink(first, "link_verbatimdocx");
-            responseLinkToVideo = DeriveLinkToVideo(null, responseLinkJson, responseLinkHtml);
-        }
-        catch (JsonException ex)
-        {
-            _logger.LogWarning(ex, "WIPO upload response could not be parsed as JSON. Persisting submission without result links.");
-        }
-
-        staged.Status = responseStatus;
-        staged.LinkJson = responseLinkJson;
-        staged.LinkSrt = responseLinkSrt;
-        staged.LinkHtml = responseLinkHtml;
-        staged.LinkToVideo = responseLinkToVideo;
-        staged.LinkTxt = responseLinkTxt;
-        staged.LinkDocx = responseLinkDocx;
-        staged.LinkVerbatimDocx = responseLinkVerbatimDocx;
-        staged.WipoUploadResponseRaw = payload;
-        staged.LastUpdatedUtc = DateTime.UtcNow;
-        await SetPendingTranscriptionAsync(staged);
+        var status = staged?.Status ?? transcription?.Status ?? "Unknown";
+        var language = staged?.Language ?? transcription?.Language ?? "en";
 
         return Ok(new
         {
-            message = "Submitted to WIPO",
-            transcriptionId = staged.TranscriptionId,
             sourceReferenceId,
+            transcriptionId = staged?.TranscriptionId ?? transcription?.Id,
+            status,
             language,
-            inputFormat,
-            wipoResponse = payload
+            linkJson = staged?.LinkJson ?? transcription?.LinkJson,
+            linkSrt = staged?.LinkSrt ?? transcription?.LinkSrt,
+            linkHtml = staged?.LinkHtml ?? transcription?.LinkHtml,
+            linkTxt = staged?.LinkTxt ?? transcription?.LinkTxt,
+            linkDocx = staged?.LinkDocx ?? transcription?.LinkDocx,
+            linkVerbatimDocx = staged?.LinkVerbatimDocx ?? transcription?.LinkVerbatimDocx,
+            lastUpdatedUtc = staged?.LastUpdatedUtc,
+            transcriptAvailable = !string.IsNullOrWhiteSpace(transcription?.Transcript)
         });
     }
 
@@ -1718,6 +1554,24 @@ public class TranscriptionController(
         await using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);
         return memoryStream.ToArray();
+    }
+
+    private static async Task<string> SaveQueuedSubmissionFileAsync(IFormFile file, string sourceReferenceId, string inputFormat)
+    {
+        var queueDirectory = Path.Combine(SaveRootPath, QueuedSubmissionSubDirectory);
+        Directory.CreateDirectory(queueDirectory);
+
+        var extension = string.IsNullOrWhiteSpace(inputFormat)
+            ? NormalizeExtension(null, file.FileName)
+            : NormalizeExtension(inputFormat, file.FileName);
+
+        var safeFileName = $"{sourceReferenceId}_{DateTime.UtcNow:yyyyMMddHHmmssfff}.{extension}";
+        var fullPath = Path.Combine(queueDirectory, safeFileName);
+
+        await using var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
+        await file.CopyToAsync(stream);
+
+        return fullPath;
     }
 
     private static InputSource ParseInputSource(string transcriptionMode)

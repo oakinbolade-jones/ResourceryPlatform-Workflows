@@ -502,7 +502,12 @@
             <div class="fw-bold">
               {{ 'Administration::Transcription:JobStatusLabel' | abpLocalization }}
             </div>
-            <div class="small mt-1">{{ transcribeStatus }}</div>
+            <!-- <div class="small mt-1">{{ transcribeStatus }}</div> -->
+            <div *ngIf="transcriptionStage" class="mt-2">
+              <span class="transcription-stage-badge" [ngClass]="transcriptionStageClass">
+                {{ transcriptionStageLabel }}
+              </span>
+            </div>
             <!-- <div *ngIf="transcriptionReferenceId" class="small mt-1">
               <strong>{{ 'Administration::Transcription:ReferenceLabel' | abpLocalization }}:</strong>
               {{ transcriptionReferenceId }}

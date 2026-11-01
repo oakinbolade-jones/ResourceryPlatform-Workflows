@@ -205,6 +205,48 @@ form fieldset > legend.form-label {
 	}
 }
 
+.transcription-stage-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.2rem 0.65rem;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	line-height: 1.2;
+	border: 1px solid transparent;
+}
+
+.transcription-stage-badge.stage-queued,
+.transcription-stage-badge.stage-unknown {
+	background: #f1f3f5;
+	border-color: #ced4da;
+	color: #495057;
+}
+
+.transcription-stage-badge.stage-submitting {
+	background: #fff4e6;
+	border-color: #ffd8a8;
+	color: #e67700;
+}
+
+.transcription-stage-badge.stage-processing {
+	background: #e7f5ff;
+	border-color: #a5d8ff;
+	color: #1864ab;
+}
+
+.transcription-stage-badge.stage-completed {
+	background: #ebfbee;
+	border-color: #b2f2bb;
+	color: #2b8a3e;
+}
+
+.transcription-stage-badge.stage-failed {
+	background: #fff5f5;
+	border-color: #ffc9c9;
+	color: #c92a2a;
+}
+
 .btn.disabled, .btn:disabled, fieldset:disabled .btn {
     color: var(--bs-btn-disabled-color);
     pointer-events: none;

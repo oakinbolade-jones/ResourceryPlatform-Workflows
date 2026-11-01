@@ -40,6 +40,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   transcriptionReferenceId: string | null = null;
   transcriptionResultLinks: { [key: string]: string } | null = null;
   isTranscriptionCompleted = false;
+  transcriptionStage: 'queued' | 'submitting' | 'submitted' | 'processing' | 'completed' | 'failed' | null = null;
   currentStep = 1;
   isSavingStepOne = false;
   isStepOneSaved = false;
@@ -60,6 +61,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly saveEndpoint = `${environment.apis.default.url}/api/workflow/transcription/save-recording`;
   private readonly saveTranscriptionInfoEndpoint = `${environment.apis.default.url}/api/workflow/transcription/save-info`;
   private readonly transcribeSubmitEndpoint = `${environment.apis.default.url}/api/workflow/transcription/submit-to-wipo`;
+  private readonly transcribeSubmissionStatusEndpoint = `${environment.apis.default.url}/api/workflow/transcription/submission-status`;
   private readonly transcribeStatusEndpoint = `${environment.apis.default.url}/api/workflow/transcription/transcription-status`;
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
@@ -318,6 +320,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopStatusPolling();
     this.isTranscribing = true;
     this.isTranscriptionCompleted = false;
+    this.transcriptionStage = 'queued';
     this.transcriptionPercent = 0;
     this.transcriptionResultLinks = null;
 
@@ -386,7 +389,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.transcribeStatus = this.t(
         'Administration::Transcription:SubmittedWaiting',
-        'Submitted. Waiting for transcription progress...'
+        'Submission queued. Waiting for background upload to start...'
       );
       this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
@@ -407,8 +410,25 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopStatusPolling();
     const normalizedLanguage = this.normalizeLanguageCode(language);
     let consecutivePollErrors = 0;
+    let shouldPollUpstreamStatus = false;
 
     const poll = async () => {
+      if (!shouldPollUpstreamStatus) {
+        const submissionState = await this.pollQueuedSubmissionStatus(sourceReferenceId, normalizedLanguage);
+        if (submissionState === 'failed') {
+          this.stopStatusPolling();
+          this.isTranscribing = false;
+          this.isTranscriptionCompleted = false;
+          return;
+        }
+
+        if (submissionState === 'waiting') {
+          return;
+        }
+
+        shouldPollUpstreamStatus = true;
+      }
+
       const url = `${this.transcribeStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}&language=${encodeURIComponent(normalizedLanguage)}`;
 
       try {
@@ -418,6 +438,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.stopStatusPolling();
             this.isTranscribing = false;
             this.isTranscriptionCompleted = false;
+            this.transcriptionStage = 'failed';
           }
 
           const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
@@ -440,27 +461,31 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!first) {
           this.transcribeStatus = this.t(
             'Administration::Transcription:NoStatusYet',
-            'No transcription status returned yet. Retrying...'
+            'Submission completed. Waiting for upstream transcription progress...'
           );
+          this.transcriptionPercent = Math.max(this.transcriptionPercent, 30);
           return;
         }
 
         const status = String(first.status ?? 'unknown').toLowerCase();
+        this.updateTranscriptionStageFromStatus(status, true);
         const percent = Number(first.percent ?? 0);
         this.transcriptionPercent = Number.isFinite(percent) ? percent : 0;
         this.transcribeStatus = `${this.t('Administration::Transcription:StatusLabel', 'Status')}: ${status} (${this.transcriptionPercent}%)`;
 
         if (first.transcript_results) {
-          this.transcriptionResultLinks = this.buildResultDownloadLinks(
+          const resultLinks = this.buildResultDownloadLinks(
             first.transcript_results as { [key: string]: string },
             sourceReferenceId,
             normalizedLanguage
           );
+          this.transcriptionResultLinks = Object.keys(resultLinks).length > 0 ? resultLinks : null;
         }
 
         if (this.isCompletionStatus(status, this.transcriptionPercent)) {
           this.isTranscribing = false;
           this.isTranscriptionCompleted = true;
+          this.transcriptionStage = 'completed';
           this.stopStatusPolling();
           this.transcribeStatus = this.t(
             'Administration::Transcription:CompletedWithPercent',
@@ -471,6 +496,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.isFailureStatus(status)) {
           this.isTranscribing = false;
           this.isTranscriptionCompleted = false;
+          this.transcriptionStage = 'failed';
           this.stopStatusPolling();
           this.transcribeStatus = this.t(
             'Administration::Transcription:RemoteServiceFailed',
@@ -487,6 +513,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.stopStatusPolling();
           this.isTranscribing = false;
           this.isTranscriptionCompleted = false;
+          this.transcriptionStage = 'failed';
         }
 
         consecutivePollErrors += 1;
@@ -494,6 +521,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.stopStatusPolling();
           this.isTranscribing = false;
           this.isTranscriptionCompleted = false;
+          this.transcriptionStage = 'failed';
         }
 
         const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
@@ -519,6 +547,85 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 10000);
   }
 
+  private async pollQueuedSubmissionStatus(
+    sourceReferenceId: string,
+    language: string
+  ): Promise<'waiting' | 'ready-for-upstream' | 'failed'> {
+    const url = `${this.transcribeSubmissionStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        this.transcribeStatus = this.t(
+          'Administration::Transcription:SubmittedWaiting',
+          'Submission queued. Waiting for background upload to start...'
+        );
+        this.transcriptionPercent = Math.max(this.transcriptionPercent, 5);
+        return 'waiting';
+      }
+
+      const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
+        response,
+        'Administration::Transcription:ApiError:StatusCheckFailed',
+        'Unable to check transcription status right now.'
+      );
+      const handledError = new Error(friendlyError.message) as Error & {
+        popupShown?: boolean;
+        statusCode?: number;
+      };
+      handledError.popupShown = true;
+      handledError.statusCode = response.status;
+      throw handledError;
+    }
+
+    const payload = await response.json();
+    if (payload?.transcriptionId) {
+      this.transcriptionId = String(payload.transcriptionId);
+    }
+
+    const queueStatus = String(payload?.status ?? 'queued').toLowerCase();
+    this.updateTranscriptionStageFromStatus(queueStatus, false);
+    const queueProgress = this.mapQueueStatusToProgress(queueStatus);
+    this.transcriptionPercent = Math.max(this.transcriptionPercent, queueProgress);
+    this.transcribeStatus = `${this.t('Administration::Transcription:StatusLabel', 'Status')}: ${queueStatus} (${this.transcriptionPercent}%)`;
+
+    const linkJson = typeof payload?.linkJson === 'string' ? payload.linkJson : '';
+    const linkSrt = typeof payload?.linkSrt === 'string' ? payload.linkSrt : '';
+    const linkHtml = typeof payload?.linkHtml === 'string' ? payload.linkHtml : '';
+    const linkTxt = typeof payload?.linkTxt === 'string' ? payload.linkTxt : '';
+    const linkDocx = typeof payload?.linkDocx === 'string' ? payload.linkDocx : '';
+    const linkVerbatimDocx = typeof payload?.linkVerbatimDocx === 'string' ? payload.linkVerbatimDocx : '';
+
+    const resultLinks = this.buildResultDownloadLinks(
+      {
+        link_json: linkJson,
+        link_srt: linkSrt,
+        link_html: linkHtml,
+        link_txt: linkTxt,
+        link_docx: linkDocx,
+        link_verbatimdocx: linkVerbatimDocx,
+      },
+      sourceReferenceId,
+      language
+    );
+    this.transcriptionResultLinks = Object.keys(resultLinks).length > 0 ? resultLinks : null;
+
+    if (this.isFailureStatus(queueStatus)) {
+      this.transcriptionStage = 'failed';
+      this.transcribeStatus = this.t(
+        'Administration::Transcription:RemoteServiceFailed',
+        'Transcription failed on remote service.'
+      );
+      return 'failed';
+    }
+
+    if (this.isSubmissionReadyForUpstreamPolling(queueStatus)) {
+      return 'ready-for-upstream';
+    }
+
+    return 'waiting';
+  }
+
   private stopStatusPolling(): void {
     if (this.statusPollingHandle) {
       clearInterval(this.statusPollingHandle);
@@ -530,6 +637,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopStatusPolling();
     this.isTranscribing = false;
     this.isTranscriptionCompleted = false;
+    this.transcriptionStage = null;
     this.transcribeStatus = null;
     this.transcriptionPercent = 0;
     this.transcriptionId = null;
@@ -928,6 +1036,120 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private isFailureStatus(status: string): boolean {
     return status === 'failed' || status === 'error' || status === 'submissionfailed';
+  }
+
+  private isSubmissionReadyForUpstreamPolling(status: string): boolean {
+    return (
+      status === 'submitted' ||
+      status === 'processing' ||
+      status === 'finished' ||
+      status === 'done' ||
+      status === 'completed' ||
+      status === 'success' ||
+      status === 'successful' ||
+      status === 'succeeded'
+    );
+  }
+
+  private mapQueueStatusToProgress(status: string): number {
+    switch (status) {
+      case 'queued':
+        return 5;
+      case 'submitting':
+        return 15;
+      case 'submitted':
+        return 30;
+      case 'processing':
+        return 40;
+      case 'finished':
+      case 'done':
+      case 'completed':
+      case 'success':
+      case 'successful':
+      case 'succeeded':
+        return 100;
+      case 'failed':
+      case 'error':
+      case 'submissionfailed':
+        return Math.max(this.transcriptionPercent, 0);
+      default:
+        return Math.max(this.transcriptionPercent, 5);
+    }
+  }
+
+  get transcriptionStageLabel(): string {
+    switch (this.transcriptionStage) {
+      case 'queued':
+        return this.t('Administration::Transcription:StageQueued', 'Queued');
+      case 'submitting':
+        return this.t('Administration::Transcription:StageSubmitting', 'Uploading');
+      case 'submitted':
+        return this.t('Administration::Transcription:StageSubmitted', 'Submitted');
+      case 'processing':
+        return this.t('Administration::Transcription:StageProcessing', 'Processing');
+      case 'completed':
+        return this.t('Administration::Transcription:StageCompleted', 'Completed');
+      case 'failed':
+        return this.t('Administration::Transcription:StageFailed', 'Failed');
+      default:
+        return this.t('Administration::Transcription:StageUnknown', 'Unknown');
+    }
+  }
+
+  get transcriptionStageClass(): string {
+    switch (this.transcriptionStage) {
+      case 'queued':
+        return 'stage-queued';
+      case 'submitting':
+      case 'submitted':
+        return 'stage-submitting';
+      case 'processing':
+        return 'stage-processing';
+      case 'completed':
+        return 'stage-completed';
+      case 'failed':
+        return 'stage-failed';
+      default:
+        return 'stage-unknown';
+    }
+  }
+
+  private updateTranscriptionStageFromStatus(status: string, fromUpstreamStatus: boolean): void {
+    const normalized = (status ?? '').trim().toLowerCase();
+
+    if (this.isFailureStatus(normalized)) {
+      this.transcriptionStage = 'failed';
+      return;
+    }
+
+    if (this.isCompletionStatus(normalized, this.transcriptionPercent)) {
+      this.transcriptionStage = 'completed';
+      return;
+    }
+
+    if (fromUpstreamStatus) {
+      this.transcriptionStage = 'processing';
+      return;
+    }
+
+    if (normalized === 'queued') {
+      this.transcriptionStage = 'queued';
+      return;
+    }
+
+    if (normalized === 'submitting') {
+      this.transcriptionStage = 'submitting';
+      return;
+    }
+
+    if (normalized === 'submitted') {
+      this.transcriptionStage = 'submitted';
+      return;
+    }
+
+    if (normalized === 'processing') {
+      this.transcriptionStage = 'processing';
+    }
   }
 
   private normalizeLanguageCode(language: unknown): string {
