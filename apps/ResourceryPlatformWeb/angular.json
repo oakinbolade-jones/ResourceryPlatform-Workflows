@@ -34,10 +34,9 @@
               "js-sha256"
             ],
             "assets": [
-              
-              "src/maintenance.html",
               "src/favicon.ico",
               "src/assets",
+              "src/maintenance.html",
               {
                 "glob": "Web.config",
                 "input": ".",
@@ -179,8 +178,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/maintenance.html"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
