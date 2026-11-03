@@ -53,6 +53,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private recordedExtension = 'webm';
   private activeMimeType = 'video/webm';
   private statusPollingHandle: ReturnType<typeof setInterval> | null = null;
+  private isStatusPollRequestInFlight = false;
   private tooltipInstances: Array<{ hide: () => void; dispose: () => void }> = [];
 
   // Configure where server-side saving should happen.
@@ -66,7 +67,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly saveDirectoryHint = 'D:/RecordedVideos';
   private readonly transcriptionDraftStorageKey = 'workflow.transcription.draft';
-  private readonly maxConsecutiveStatusPollErrors = 1;
+  private readonly maxConsecutiveStatusPollErrors = 3;
+  private readonly statusPollingIntervalMs = 12000;
   private readonly supportedLanguageCodes = ['en', 'fr', 'pt', 'xx'];
   private readonly uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -145,6 +147,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.disposeTooltips();
     this.stopStatusPolling();
+    this.isStatusPollRequestInFlight = false;
     this.stopStream();
     if (this.objectUrl) {
       URL.revokeObjectURL(this.objectUrl);
@@ -408,6 +411,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private beginStatusPolling(sourceReferenceId: string, language: string): void {
     this.stopStatusPolling();
+    this.isStatusPollRequestInFlight = false;
     const normalizedLanguage = this.normalizeLanguageCode(language);
     let consecutivePollErrors = 0;
     let shouldPollUpstreamStatus = false;
@@ -434,23 +438,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          if (response.status >= 500) {
-            this.stopStatusPolling();
-            this.isTranscribing = false;
-            this.isTranscriptionCompleted = false;
-            this.transcriptionStage = 'failed';
+          if (response.status === 404 || response.status === 408 || response.status === 429) {
+            this.transcribeStatus = this.t(
+              'Administration::Transcription:NoStatusYet',
+              'Submission completed. Waiting for upstream transcription progress...'
+            );
+            this.transcriptionPercent = Math.max(this.transcriptionPercent, 30);
+            return;
           }
 
-          const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
+          const errorMessage = await this.extractPollingErrorMessage(
             response,
-            'Administration::Transcription:ApiError:StatusCheckFailed',
             'Unable to check transcription status right now.'
           );
-          const handledError = new Error(friendlyError.message) as Error & {
-            popupShown?: boolean;
-            statusCode?: number;
-          };
-          handledError.popupShown = true;
+          const handledError = new Error(errorMessage) as Error & { statusCode?: number };
           handledError.statusCode = response.status;
           throw handledError;
         }
@@ -524,14 +525,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           this.transcriptionStage = 'failed';
         }
 
-        const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
-        const fallbackMessage = isHandledError
-          ? 'Unable to check transcription status right now.'
-          : this.apiErrorLocalization.showFriendlyErrorPopupFromNetwork(
-              'Administration::Transcription:ApiError:StatusCheckFailed',
-              'Unable to check transcription status right now.'
-            ).message;
-        const message = error instanceof Error && error.message ? error.message : fallbackMessage;
+        const message = error instanceof Error && error.message
+          ? error.message
+          : 'Unable to check transcription status right now.';
         this.transcribeStatus = `${this.t('Administration::Transcription:StatusPollError', 'Status poll error')}: ${message}`;
       }
     };
@@ -543,8 +539,15 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
 
-      void poll();
-    }, 10000);
+      if (this.isStatusPollRequestInFlight) {
+        return;
+      }
+
+      this.isStatusPollRequestInFlight = true;
+      void poll().finally(() => {
+        this.isStatusPollRequestInFlight = false;
+      });
+    }, this.statusPollingIntervalMs);
   }
 
   private async pollQueuedSubmissionStatus(
@@ -564,16 +567,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
         return 'waiting';
       }
 
-      const friendlyError = await this.apiErrorLocalization.showFriendlyErrorPopupFromResponse(
+      if (response.status === 408 || response.status === 429 || response.status === 503 || response.status === 504) {
+        this.transcribeStatus = this.t(
+          'Administration::Transcription:SubmittedWaiting',
+          'Submission queued. Waiting for background upload to start...'
+        );
+        this.transcriptionPercent = Math.max(this.transcriptionPercent, 5);
+        return 'waiting';
+      }
+
+      const errorMessage = await this.extractPollingErrorMessage(
         response,
-        'Administration::Transcription:ApiError:StatusCheckFailed',
         'Unable to check transcription status right now.'
       );
-      const handledError = new Error(friendlyError.message) as Error & {
-        popupShown?: boolean;
-        statusCode?: number;
-      };
-      handledError.popupShown = true;
+      const handledError = new Error(errorMessage) as Error & { statusCode?: number };
       handledError.statusCode = response.status;
       throw handledError;
     }
@@ -631,10 +638,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       clearInterval(this.statusPollingHandle);
       this.statusPollingHandle = null;
     }
+
+    this.isStatusPollRequestInFlight = false;
   }
 
   private resetTranscriptionState(): void {
     this.stopStatusPolling();
+    this.isStatusPollRequestInFlight = false;
     this.isTranscribing = false;
     this.isTranscriptionCompleted = false;
     this.transcriptionStage = null;
@@ -1150,6 +1160,33 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (normalized === 'processing') {
       this.transcriptionStage = 'processing';
     }
+  }
+
+  private async extractPollingErrorMessage(response: Response, fallback: string): Promise<string> {
+    try {
+      const payload = await response.clone().json();
+      if (payload && typeof payload === 'object') {
+        const message = typeof payload.message === 'string' ? payload.message : '';
+        const details = typeof payload.details === 'string' ? payload.details : '';
+        const combined = [message, details].filter(Boolean).join(' - ').trim();
+        if (combined) {
+          return combined;
+        }
+      }
+    } catch {
+      // Ignore parse failures and fallback to text/body status.
+    }
+
+    try {
+      const text = (await response.text()).trim();
+      if (text) {
+        return text;
+      }
+    } catch {
+      // Ignore text read errors.
+    }
+
+    return `${fallback} (HTTP ${response.status})`;
   }
 
   private normalizeLanguageCode(language: unknown): string {
