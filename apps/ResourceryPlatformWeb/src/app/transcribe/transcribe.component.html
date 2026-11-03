@@ -23,43 +23,27 @@
 
   <div class="wizard-steps mb-4">
     <div class="wizard-steps-left">
-      <button
-        type="button"
-        class="wizard-step"
-        [class.active]="currentStep === 1"
-        (click)="goToStep(1)"
-      >
+      <button type="button" class="wizard-step" [class.active]="currentStep === 1" (click)="goToStep(1)">
         <span class="wizard-step-index">1</span>
         <span class="wizard-step-label fs-5">{{
           'Administration::Transcription:StepOne' | abpLocalization
-        }}</span>
+          }}</span>
       </button>
-      <button
-        type="button"
-        class="wizard-step"
-        [class.active]="currentStep === 2"
-        [class.disabled]="!isStepOneValid"
-        [disabled]="!isStepOneValid"
-        (click)="goToStep(2)"
-      >
+      <button type="button" class="wizard-step" [class.active]="currentStep === 2" [class.disabled]="!isStepOneValid"
+        [disabled]="!isStepOneValid" (click)="goToStep(2)">
         <span class="wizard-step-index">2</span>
         <span class="wizard-step-label fs-5">{{
           'Administration::Transcription:StepTwo' | abpLocalization
-        }}</span>
+          }}</span>
       </button>
     </div>
-    <button
-      type="button"
-      class="wizard-step wizard-step-end active"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        [attr.data-bs-title]="'Administration::Transcription:ViewTranscriptionListLabel' | abpLocalization"
-      (click)="goToTranscriptionListPage()"
-    >
+    <button type="button" class="wizard-step wizard-step-end active" data-bs-toggle="tooltip" data-bs-placement="top"
+      [attr.data-bs-title]="'Administration::Transcription:ViewTranscriptionListLabel' | abpLocalization"
+      (click)="goToTranscriptionListPage()">
       <!-- <span class="wizard-step-index">3</span> -->
       <span class="wizard-step-label fs-5">{{
         'Administration::Transcription:TranscriptionsLabel' | abpLocalization
-      }}</span>
+        }}</span>
     </button>
   </div>
 
@@ -71,88 +55,51 @@
             <div class="col-12 col-md-6">
               <label for="Title" class="form-label fw-semibold fs-5">
                 {{ 'Administration::Transcription:TitleLabel' | abpLocalization }}
-                <i
-                  class="fa fa-info ms-1 tooltip-info-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
+                <i class="fa fa-info ms-1 tooltip-info-icon" data-bs-toggle="tooltip" data-bs-placement="right"
                   [attr.data-bs-title]="
                     'Administration::Transcription:TitlePlaceHolder' | abpLocalization
-                  "
-                  role="tooltip"
-                ></i>
+                  " role="tooltip"></i>
               </label>
-              <input
-                id="Title"
-                class="form-control border border-success p-2 rounded-0 fs-5"
-                type="text"
-                formControlName="Title"
-                required
-                placeholder="{{ 'Administration::Transcription:TitlePlaceHolder' | abpLocalization }}"
-              />
+              <input id="Title" class="form-control border border-success p-2 rounded-0 fs-5" type="text"
+                formControlName="Title" required
+                placeholder="{{ 'Administration::Transcription:TitlePlaceHolder' | abpLocalization }}" />
             </div>
           </div>
 
           <div class="row g-3 mb-4">
             <div class="col-12">
-              <label for="Description" class="form-label fw-semibold fs-5"
-                >{{ 'Administration::Transcription:DescriptionLabel' | abpLocalization }}
-                <i
-                  class="fa fa-info ms-1 tooltip-info-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
+              <label for="Description" class="form-label fw-semibold fs-5">{{
+                'Administration::Transcription:DescriptionLabel' | abpLocalization }}
+                <i class="fa fa-info ms-1 tooltip-info-icon" data-bs-toggle="tooltip" data-bs-placement="right"
                   [attr.data-bs-title]="'Administration::Transcription:DescriptionHint' | abpLocalization"
-                  role="tooltip"
-                ></i>
+                  role="tooltip"></i>
               </label>
-              <textarea
-                id="Description"
-                class="form-control border border-success p-2 rounded-0 fs-5"
-                formControlName="Description"
-                rows="4"
-                required
-                placeholder="{{
+              <textarea id="Description" class="form-control border border-success p-2 rounded-0 fs-5"
+                formControlName="Description" rows="4" required placeholder="{{
                   'Administration::Transcription:DescriptionPlaceHolder' | abpLocalization
-                }}"
-              ></textarea>
+                }}"></textarea>
             </div>
           </div>
 
           <div class="row g-3 mb-5">
             <div class="col-12 col-md-4">
-              <label for="DateOfTranscription" class="form-label fw-semibold fs-5"
-                >{{ 'Administration::Transcription:EventDateLabel' | abpLocalization
-                }}<i
-                  class="fa fa-info ms-1 tooltip-info-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
+              <label for="DateOfTranscription" class="form-label fw-semibold fs-5">{{
+                'Administration::Transcription:EventDateLabel' | abpLocalization
+                }}<i class="fa fa-info ms-1 tooltip-info-icon" data-bs-toggle="tooltip" data-bs-placement="right"
                   [attr.data-bs-title]="'Administration::Transcription:EventDateHint' | abpLocalization"
-                  role="tooltip"
-                ></i>
+                  role="tooltip"></i>
               </label>
-              <input
-                id="EventDate"
-                class="form-control border border-success p-2 rounded-0 fs-5"
-                type="datetime-local"
-                formControlName="EventDate"
-                required
-              />
+              <input id="EventDate" class="form-control border border-success p-2 rounded-0 fs-5" type="datetime-local"
+                formControlName="EventDate" required />
             </div>
             <div class="col-12 col-md-4">
-              <label for="Language" class="form-label fw-semibold fs-5"
-                >{{ 'Administration::Transcription:LanguageLabel' | abpLocalization }}
-                <i
-                  class="fa fa-info ms-1 tooltip-info-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
+              <label for="Language" class="form-label fw-semibold fs-5">{{ 'Administration::Transcription:LanguageLabel'
+                | abpLocalization }}
+                <i class="fa fa-info ms-1 tooltip-info-icon" data-bs-toggle="tooltip" data-bs-placement="right"
                   [attr.data-bs-title]="'Administration::Transcription:LanguageHint' | abpLocalization"
-                  role="tooltip"
-                ></i
-              ></label>
-              <select
-                id="Language"
-                class="form-select border border-success p-2 rounded-0 fs-5"
-                formControlName="Language"
-              >
+                  role="tooltip"></i></label>
+              <select id="Language" class="form-select border border-success p-2 rounded-0 fs-5"
+                formControlName="Language">
                 <option value="en">
                   {{ 'Administration::Transcription:LanguageEnglish' | abpLocalization }}
                 </option>
@@ -170,26 +117,15 @@
           </div>
           <div class="row g-3 mb-4">
             <div class="col-12 mb-4">
-              <label class="form-label fw-semibold fs-5"
-                >{{ 'Administration::Transcription:ModeLabel' | abpLocalization }}
-                <i
-                  class="fa fa-info ms-1 tooltip-info-icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="right"
-                  [attr.data-bs-title]="'Administration::Transcription:ModeHint' | abpLocalization"
-                  role="tooltip"
-                ></i>
+              <label class="form-label fw-semibold fs-5">{{ 'Administration::Transcription:ModeLabel' | abpLocalization
+                }}
+                <i class="fa fa-info ms-1 tooltip-info-icon" data-bs-toggle="tooltip" data-bs-placement="right"
+                  [attr.data-bs-title]="'Administration::Transcription:ModeHint' | abpLocalization" role="tooltip"></i>
               </label>
               <div class="d-flex gap-4">
                 <div class="form-check">
-                  <input
-                    class="form-check-input border border-success fs-5"
-                    type="radio"
-                    id="modeUpload"
-                    formControlName="TranscriptionMode"
-                    value="upload"
-                    [checked]="selectedMode === 'upload'"
-                  />
+                  <input class="form-check-input border border-success fs-5" type="radio" id="modeUpload"
+                    formControlName="TranscriptionMode" value="upload" [checked]="selectedMode === 'upload'" />
                   <label class="form-check-label fs-5" for="modeUpload">
                     {{ 'Administration::Transcription:ModeVideoUpload' | abpLocalization }}
                   </label>
@@ -216,19 +152,15 @@
           </div>
 
           <div class="d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-success rounded-1 px-3 fs-5"
-              [disabled]="isSavingStepOne"
-              (click)="saveTranscriptionInfoAndContinue()"
-            >
+            <button type="button" class="btn btn-success rounded-1 px-3 fs-5" [disabled]="isSavingStepOne"
+              (click)="saveTranscriptionInfoAndContinue()">
               <i class="fa fa-save me-2" aria-hidden="true"></i>
               {{
-                isSavingStepOne
-                  ? ('Administration::Transcription:Saving' | abpLocalization)
-                  : isStepOneSaved
-                    ? ('Administration::Transcription:Continue' | abpLocalization)
-                    : ('Administration::Transcription:SaveAndContinue' | abpLocalization)
+              isSavingStepOne
+              ? ('Administration::Transcription:Saving' | abpLocalization)
+              : isStepOneSaved
+              ? ('Administration::Transcription:Continue' | abpLocalization)
+              : ('Administration::Transcription:SaveAndContinue' | abpLocalization)
               }}
             </button>
           </div>
@@ -239,8 +171,7 @@
             <div class="col-12 col-md-12 py-1">
               <!-- <label class="form-label fs-5 fw-semibold"> Event: </label>  -->
               <label class="form-label fs-5 fw-bold">
-                {{ transcribeForm.get('Title')?.value }}</label
-              >
+                {{ transcribeForm.get('Title')?.value }}</label>
               <!-- <input
                 id="TitleReadonly"
                 class="form-control border-0 py-1 rounded-0 fw-semibold"
@@ -269,39 +200,37 @@
           <div *ngIf="selectedMode === 'upload'" class="mb-4 p-4 border border-success rounded-0">
             <label class="form-label fw-semibold fs-5">{{
               'Administration::Transcription:ModeVideoUpload' | abpLocalization
-            }}</label>
-            <input
-              id="VideoFile"
-              class="visually-hidden fs-5"
-              type="file"
-              accept="audio/*,video/*"
-              (change)="onVideoFileSelected($event)"
-            />
+              }}</label>
+            <input id="VideoFile" class="visually-hidden fs-5" type="file" accept="audio/*,video/*"
+              (change)="onVideoFileSelected($event)" />
             <label for="VideoFile" class="modern-upload-dropzone mt-2 mb-2">
               <i class="fa fa-cloud-upload modern-upload-icon" aria-hidden="true"></i>
               <span class="modern-upload-title fs-5">{{
                 'Administration::Transcription:DropVideoHereOrClick' | abpLocalization
-              }}</span>
+                }}</span>
               <span class="modern-upload-subtitle fs-5">{{
                 'Administration::Transcription:VideoFormats' | abpLocalization
-              }}</span>
-              <span
-                *ngIf="transcribeForm.get('VideoFile')?.value?.name"
-                class="modern-upload-file fs-5"
-              >
+                }}</span>
+              <span *ngIf="transcribeForm.get('VideoFile')?.value?.name" class="modern-upload-file fs-5">
                 Selected: {{ transcribeForm.get('VideoFile')?.value?.name }}
               </span>
             </label>
-            <small class="text-muted fs-6">{{
+            <!-- <small class="text-muted fs-6">{{
               'Administration::Transcription:VideoUploadHint' | abpLocalization
-            }}</small>
-            <div class="mt-4 mb-4">
-              <button
-                type="button"
-                class="btn btn-success rounded-1 fs-5"
-                [disabled]="!transcribeForm.get('VideoFile')?.value || isTranscribing"
-                (click)="transcribeVideo()"
-              >
+              }}</small>
+               -->
+            <div class="mt-2">
+              <button type="button" class="btn btn-link btn-sm p-0 text-muted text-decoration-none"
+                data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top"
+                data-bs-content="{{ 'Administration::Transcription:RecordHint' | abpLocalization }}">
+                <i class="fa fa-lightbulb me-1"></i>
+                Recording tip
+                <i class="fa fa-info-circle ms-1"></i>
+              </button>
+            </div>
+            <div class="mt-4 mb-1">
+              <button type="button" class="btn btn-success rounded-1 fs-5"
+                [disabled]="!transcribeForm.get('VideoFile')?.value || isTranscribing" (click)="transcribeVideo()">
                 <i class="fa fa-language me-2" aria-hidden="true"></i>
                 {{ 'Administration::Transcription:TranscribeLabel' | abpLocalization }}
               </button>
@@ -309,13 +238,9 @@
           </div>
 
           <!-- Record container -->
-          <div
-            *ngIf="selectedMode === 'record'"
-            class="mb-4 p-4 border border-success rounded-0 fs-5"
-          >
+          <div *ngIf="selectedMode === 'record'" class="mb-4 p-4 border border-success rounded-0 fs-5">
             <label class="form-label fw-bold text-success fs-5">
-              {{ 'Administration::Transcription:ModeRecordTitle' | abpLocalization }}</label
-            >
+              {{ 'Administration::Transcription:ModeRecordTitle' | abpLocalization }}</label>
 
             <!-- Error -->
             <div *ngIf="recordingError" class="alert alert-danger rounded-0 mt-2 py-2 fs-5">
@@ -331,29 +256,25 @@
                 <div class="mt-3" *ngIf="availableCameras.length > 0">
                   <label for="CameraSelect" class="form-label fw-semibold fs-6">{{
                     'Administration::Transcription:CameraLabel' | abpLocalization
-                  }} </label>:<span class="fs-6 ms-1">{{ 'Administration::Transcription:CameraAddLabel' | abpLocalization }}</span>
+                    }} </label>:<span class="fs-6 ms-1">{{ 'Administration::Transcription:CameraAddLabel' |
+                    abpLocalization }}</span>
                   <div class="d-flex align-items-center gap-2">
-                    <select
-                      id="CameraSelect"
-                      class="form-select border border-success rounded-0 fs-5"
-                      style="max-width: 320px"
-                      [(ngModel)]="selectedCameraId"
-                      [ngModelOptions]="{ standalone: true }"
-                      [disabled]="isRecording"
-                    >
+                    <select id="CameraSelect" class="form-select border border-success rounded-0 fs-5"
+                      style="max-width: 320px" [(ngModel)]="selectedCameraId" [ngModelOptions]="{ standalone: true }"
+                      [disabled]="isRecording">
                       <option *ngFor="let cam of availableCameras" [value]="cam.deviceId">
                         {{
-                          cam.label ||
-                            ('Administration::Transcription:CameraLabel' | abpLocalization) +
-                              ' ' +
-                              (availableCameras.indexOf(cam) + 1)
+                        cam.label ||
+                        ('Administration::Transcription:CameraLabel' | abpLocalization) +
+                        ' ' +
+                        (availableCameras.indexOf(cam) + 1)
                         }}
                       </option>
                     </select>
                   </div>
                   <small class="text-muted fs-6">{{
                     'Administration::Transcription:SelectCameraHint' | abpLocalization
-                  }}</small>
+                    }}</small>
                 </div>
               </div>
               <div class="col col-md-4">
@@ -361,21 +282,16 @@
                 <div class="mt-3">
                   <label for="OutputFormat" class="form-label fw-semibold fs-6">{{
                     'Administration::Transcription:OutputFormatLabel' | abpLocalization
-                  }}</label>
-                  <select
-                    id="OutputFormat"
-                    class="form-select border border-success rounded-0 fs-6 col-md-2"
-                    style="max-width: 320px"
-                    formControlName="OutputFormat"
-                    [disabled]="isRecording"
-                  >
+                    }}</label>
+                  <select id="OutputFormat" class="form-select border border-success rounded-0 fs-6 col-md-2"
+                    style="max-width: 320px" formControlName="OutputFormat" [disabled]="isRecording">
                     <option *ngFor="let format of formatOptions" [value]="format.value">
                       {{ format.label }}
                     </option>
                   </select>
                   <small class="text-muted fs-6">{{
                     'Administration::Transcription:OutputFormatHint' | abpLocalization
-                  }}</small>
+                    }}</small>
                 </div>
               </div>
             </div>
@@ -387,41 +303,25 @@
 
             <!-- Controls -->
             <div class="d-flex align-items-center gap-3 mt-3">
-              <button
-                type="button"
-                class="btn btn-outline-success rounded-1 fs-6"
-                [disabled]="isRecording"
-                (click)="startRecording()"
-              >
+              <button type="button" class="btn btn-outline-success rounded-1 fs-6" [disabled]="isRecording"
+                (click)="startRecording()">
                 <i class="fa fa-circle me-2" aria-hidden="true"></i>
                 {{ 'Administration::Transcription:StartRecordingLabel' | abpLocalization }}
               </button>
               <!-- Pause button -->
-              <button
-                type="button"
-                class="btn btn-outline-success rounded-1 fs-6"
-                *ngIf="isRecording && !isPaused"
-                (click)="pauseRecording()"
-              >
+              <button type="button" class="btn btn-outline-success rounded-1 fs-6" *ngIf="isRecording && !isPaused"
+                (click)="pauseRecording()">
                 <i class="fa fa-pause me-2" aria-hidden="true"></i>
                 {{ 'Administration::Transcription:PauseRecordingLabel' | abpLocalization }}
               </button>
               <!-- Continue button -->
-              <button
-                type="button"
-                class="btn btn-outline-success rounded-1 fs-6"
-                *ngIf="isRecording && isPaused"
-                (click)="resumeRecording()"
-              >
+              <button type="button" class="btn btn-outline-success rounded-1 fs-6" *ngIf="isRecording && isPaused"
+                (click)="resumeRecording()">
                 <i class="fa fa-play me-2" aria-hidden="true"></i>
                 {{ 'Administration::Transcription:ContinueRecordingLabel' | abpLocalization }}
               </button>
-              <button
-                type="button"
-                class="btn btn-outline-success rounded-1 fs-6"
-                [disabled]="!isRecording"
-                (click)="stopRecording()"
-              >
+              <button type="button" class="btn btn-outline-success rounded-1 fs-6" [disabled]="!isRecording"
+                (click)="stopRecording()">
                 <i class="fa fa-stop me-2" aria-hidden="true"></i>
                 {{ 'Administration::Transcription:StopRecordingLabel' | abpLocalization }}
               </button>
@@ -439,53 +339,30 @@
             <div class="mt-3" [style.display]="isRecording ? 'block' : 'none'">
               <label class="form-label text-muted fs-6 fw-semibold">{{
                 'Administration::Transcription:LivePreviewLabel' | abpLocalization
-              }}</label>
-              <video
-                #livePreview
-                class="w-100 border border-secondary rounded-0"
-                style="max-height: 480px; background: #000"
-                autoplay
-                playsinline
-                muted
-              ></video>
+                }}</label>
+              <video #livePreview class="w-100 border border-secondary rounded-0"
+                style="max-height: 480px; background: #c79e9e" autoplay playsinline muted></video>
             </div>
 
             <!-- Recorded playback -->
             <div *ngIf="recordedVideoUrl" class="mt-4">
               <label class="form-label fw-bold">{{
                 'Administration::Transcription:RecordedPlaybackLabel' | abpLocalization
-              }}</label>
-              <video
-                #recordedPlayback
-                class="w-100 border border-success rounded-0"
-                style="max-height: 480px"
-                [src]="recordedVideoUrl"
-                controls
-              ></video>
+                }}</label>
+              <video #recordedPlayback class="w-100 border border-success rounded-0" style="max-height: 480px"
+                [src]="recordedVideoUrl" controls></video>
               <!-- Save button -->
               <div class="mt-3">
-                <button
-                  type="button"
-                  class="btn btn-outline-success rounded-1 fs-6"
-                  (click)="saveRecording()"
-                >
+                <button type="button" class="btn btn-outline-success rounded-1 fs-6" (click)="saveRecording()">
                   <i class="fa fa-save me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:SaveRecordingLabel' | abpLocalization }}
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-success rounded-1 fs-6 ms-2"
-                  (click)="downloadRecording()"
-                >
+                <button type="button" class="btn btn-outline-success rounded-1 fs-6 ms-2" (click)="downloadRecording()">
                   <i class="fa fa-download me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:DownloadLabel' | abpLocalization }}
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-success rounded-1 fs-6 ms-2"
-                  [disabled]="!transcribeForm.get('VideoFile')?.value || isTranscribing"
-                  (click)="transcribeVideo()"
-                >
+                <button type="button" class="btn btn-success rounded-1 fs-6 ms-2"
+                  [disabled]="!transcribeForm.get('VideoFile')?.value || isTranscribing" (click)="transcribeVideo()">
                   <i class="fa fa-language me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:TranscribeLabel' | abpLocalization }}
                 </button>
@@ -493,9 +370,18 @@
               <small *ngIf="saveStatus" class="text-muted d-block mt-2">{{ saveStatus }}</small>
             </div>
 
-            <small class="text-muted d-block mt-2">{{
+            <!-- <small class="text-muted d-block mt-2">{{
               'Administration::Transcription:RecordHint' | abpLocalization
-            }}</small>
+            }}</small> -->
+            <div class="mt-2">
+              <!-- <button type="button" class="btn btn-link btn-sm p-0 text-muted text-decoration-none"
+                data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top"
+                data-bs-content="{{ 'Administration::Transcription:RecordTip' | abpLocalization }}">
+                <i class="fa fa-lightbulb me-1"></i>
+                 {{ 'Administration::Transcription:RecordHint' | abpLocalization }}
+                <i class="fa fa-info-circle ms-1"></i>
+              </button> -->
+            </div>
           </div>
           <!-- Record container End-->
           <div *ngIf="transcribeStatus" class="mb-4 p-3 border border-success rounded-0 bg-light">
@@ -503,7 +389,7 @@
               {{ 'Administration::Transcription:JobStatusLabel' | abpLocalization }}
             </div>
             <!-- <div class="small mt-1">{{ transcribeStatus }}</div> -->
-            <div *ngIf="transcriptionStage" class="mt-2">
+            <div *ngIf="transcriptionStage" class="mt-1 mb-3">
               <span class="transcription-stage-badge" [ngClass]="transcriptionStageClass">
                 {{ transcriptionStageLabel }}
               </span>
@@ -522,19 +408,10 @@
               <strong>{{ 'Administration::Transcription:ProgressLabel' | abpLocalization }}:</strong>
               {{ transcriptionPercent }}%
             </div>
-            <div
-              class="transcription-progress mt-2"
-              role="progressbar"
-              aria-label="Transcription progress"
-            >
+            <div class="transcription-progress mt-2" role="progressbar" aria-label="Transcription progress">
               <div class="progress rounded-0" style="height: 0.7rem">
-                <div
-                  class="progress-bar bg-success"
-                  [style.width.%]="transcriptionPercent"
-                  [attr.aria-valuenow]="transcriptionPercent"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
+                <div class="progress-bar bg-success" [style.width.%]="transcriptionPercent"
+                  [attr.aria-valuenow]="transcriptionPercent" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
 
@@ -551,20 +428,11 @@
           <hr class="my-5" />
 
           <div class="d-flex flex-wrap gap-2 align-items-center justify-content-end">
-            <button
-              type="button"
-              class="btn btn-outline-success rounded-1 fs-5"
-              (click)="goToStep(1)"
-            >
+            <button type="button" class="btn btn-outline-success rounded-1 fs-5" (click)="goToStep(1)">
               {{ 'Administration::Transcription:BackToPreviousStepLabel' | abpLocalization }}
             </button>
-            <button
-              type="button"
-               class="btn rounded-1 fs-5"
-              [class]="viewTranscriptionButtonClass"
-              [disabled]="!canViewTranscription"
-              (click)="goToViewPage()"
-            >
+            <button type="button" class="btn rounded-1 fs-5" [class]="viewTranscriptionButtonClass"
+              [disabled]="!canViewTranscription" (click)="goToViewPage()">
               {{ 'Administration::Transcription:ViewTranscriptionLabel' | abpLocalization }}
             </button>
             <!-- <button
