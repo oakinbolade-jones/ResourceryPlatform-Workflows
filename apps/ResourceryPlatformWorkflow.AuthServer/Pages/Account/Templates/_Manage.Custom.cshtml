@@ -41,16 +41,16 @@
                 </a>
             </div>
 
-            <ul class="nav nav-tabs mb-4 manage-tabs" role="tablist">
+            <ul class="nav nav-tabs mb-4 manage-tabs border-bottom border-success" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link px-4 py-2 @(!isPasswordTab ? "active" : string.Empty)" id="profile-tab"
+                    <button class="nav-link px-4 py-2 border-bottom border-success @(!isPasswordTab ? "active" : string.Empty)" id="profile-tab"
                             data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab"
                             aria-controls="profile-tab-pane" aria-selected="@(!isPasswordTab)">
                         @LA["Account:AccountInformation"]
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link px-4 py-2 @(isPasswordTab ? "active" : string.Empty)" id="password-tab"
+                    <button class="nav-link px-4 py-2 border-bottom border-success @(isPasswordTab ? "active" : string.Empty)" id="password-tab"
                             data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab"
                             aria-controls="password-tab-pane" aria-selected="@(isPasswordTab)">
                         @LA["Account:ResetPassword"]
