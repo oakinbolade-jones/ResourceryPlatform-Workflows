@@ -396,6 +396,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       this.beginStatusPolling(this.transcriptionReferenceId, language);
     } catch (error: unknown) {
+      const recovered = await this.tryRecoverAfterSubmitNetworkError(sourceReferenceId, language);
+      if (recovered) {
+        return;
+      }
+
       this.isTranscribing = false;
       const isHandledError = error instanceof Error && (error as Error & { popupShown?: boolean }).popupShown;
       const fallbackMessage = isHandledError
@@ -406,6 +411,34 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
           ).message;
       const message = error instanceof Error && error.message ? error.message : fallbackMessage;
       this.transcribeStatus = `${this.t('Administration::Transcription:SubmitFailedLabel', 'Submit failed')}: ${message}`;
+    }
+  }
+
+  private async tryRecoverAfterSubmitNetworkError(sourceReferenceId: string, language: string): Promise<boolean> {
+    try {
+      const url = `${this.transcribeSubmissionStatusEndpoint}?sourceReferenceId=${encodeURIComponent(sourceReferenceId)}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        return false;
+      }
+
+      const payload = await response.json();
+      if (payload?.transcriptionId) {
+        this.transcriptionId = String(payload.transcriptionId);
+      }
+
+      const queueStatus = String(payload?.status ?? 'queued').toLowerCase();
+      this.updateTranscriptionStageFromStatus(queueStatus, false);
+      this.transcriptionPercent = Math.max(this.transcriptionPercent, this.mapQueueStatusToProgress(queueStatus));
+      this.transcribeStatus = this.t(
+        'Administration::Transcription:SubmittedWaiting',
+        'Submission queued. Waiting for background upload to start...'
+      );
+
+      this.beginStatusPolling(sourceReferenceId, language);
+      return true;
+    } catch {
+      return false;
     }
   }
 
