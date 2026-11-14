@@ -78,21 +78,25 @@
           {{ transcription.dateOfTranscription | date: 'long' }}
         </p>
 
-        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-          <div class="input-group" style="max-width: 240px;">
-            <span class="input-group-text bg-white border border-success text-success">
-              <i class="fa fa-language" aria-hidden="true"></i>
+        <div class="d-flex flex-wrap align-items-end gap-3 mb-3">
+          <div class="d-inline-flex flex-column align-items-start gap-2">
+            <span class="fw-semibold text-muted">
+              {{ 'Administration::Transcription:DownloadTranslationLabel' | abpLocalization }}
             </span>
-            <select
-              class="form-select border border-success rounded-0 fs-6"
-              [disabled]="!canDownload('txt') || downloadingFormat !== null"
-              [ngModel]="selectedTranslationLanguage"
-              (ngModelChange)="onTranslateLanguageChange($event)"
-            >
-              <option *ngFor="let option of translationOptions" [value]="option.code">
-                {{ option.label }}
-              </option>
-            </select>
+            <div class="input-group" style="max-width: 340px">
+              <span class="input-group-text bg-white border border-success text-success">
+                <i class="fa fa-language" aria-hidden="true"></i>
+              </span>
+              <select
+                class="form-select border border-success rounded-0 fs-6"
+                [disabled]="!canDownload('txt') || downloadingFormat !== null"
+                [(ngModel)]="downloadMenuLanguage"
+              >
+                <option *ngFor="let option of translationOptions" [ngValue]="option.code || null">
+                  {{ option.labelKey | abpLocalization }}
+                </option>
+              </select>
+            </div>
           </div>
 
           <div *ngIf="downloadMenuLanguage" class="d-inline-flex align-items-center gap-2">

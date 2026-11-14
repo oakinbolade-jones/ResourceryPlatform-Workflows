@@ -61,7 +61,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   searchMatchCount = 0;
   currentMatchIndex = -1;
   downloadError: string | null = null;
-  downloadingFormat: 'docx' | 'pdf' | 'txt' | 'excel' | null = null;
+  downloadingFormat: 'docx' | 'pdf' | 'txt' |  null = null;
   hasTranscriptionCreatePermission = false;
   hasTranscriptionViewPermission = false;
   hasTranscriptionUpdatePermission = false;
@@ -447,7 +447,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.onWordClick(firstWord);
   }
 
-  get translationOptions(): Array<{ code: string; label: string }> {
+  get translationOptions(): Array<{ code: string; labelKey: string }> {
     const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
     const isSourceLanguageSupported = this.translationLanguageCodes.includes(
       sourceLanguage as (typeof this.translationLanguageCodes)[number]
@@ -459,17 +459,9 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
         : this.translationLanguageCodes.filter(code => code !== sourceLanguage);
 
     return [
-      { code: '', label: 'Translate and download' },
-      ...languages.map(code => ({ code, label: code.toUpperCase() })),
+      { code: '', labelKey: 'Administration::Transcription:SelectTranslationLanguageLabel' },
+      ...languages.map(code => ({ code, labelKey: this.resolveLanguageLabelKey(code) })),
     ];
-  }
-
-  get selectedTranslationLanguage(): string {
-    return this.downloadMenuLanguage ?? '';
-  }
-
-  set selectedTranslationLanguage(value: string) {
-    this.downloadMenuLanguage = value;
   }
 
   canDownload(format: 'docx' | 'pdf' | 'txt'): boolean {
@@ -490,8 +482,15 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.downloadMenuLanguage = null;
   }
 
-  onTranslateLanguageChange(languageCode: string): void {
-    this.downloadMenuLanguage = languageCode || null;
+  private resolveLanguageLabelKey(languageCode: string): string {
+    switch (languageCode) {
+      case 'fr':
+        return 'Administration::Transcription:LanguageFrench';
+      case 'pt':
+        return 'Administration::Transcription:LanguagePortuguese';
+      default:
+        return 'Administration::Transcription:LanguageEnglish';
+    }
   }
 
   private normalizeLanguageCode(language: string | null | undefined): string {
@@ -613,8 +612,9 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       this.downloadError = null;
       this.downloadingFormat = format;
-      const translatedText = await this.translateTranscriptText(languageCode);
-      this.downloadResult(format, translatedText, languageCode);
+      const normalizedLanguageCode = this.normalizeLanguageCode(languageCode);
+      const translatedText = await this.translateTranscriptText(normalizedLanguageCode);
+      this.downloadResult(format, translatedText, normalizedLanguageCode);
     } catch (error) {
       this.downloadError =
         error instanceof Error ? error.message : 'Unable to translate and download the selected transcription text.';

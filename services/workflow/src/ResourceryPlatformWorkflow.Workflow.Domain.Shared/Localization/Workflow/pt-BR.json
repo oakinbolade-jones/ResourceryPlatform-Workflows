@@ -1815,6 +1815,8 @@
     "Transcription:LanguageFrench": "Francês",
     "Transcription:LanguagePortuguese": "Português",
     "Transcription:LanguageFloor": "Andar (vários idiomas)",
+    "Transcription:DownloadTranslationLabel": "Baixar tradução",
+    "Transcription:SelectTranslationLanguageLabel": "Selecionar idioma",
     "Transcription:CameraLabel": "Câmera",
     "Transcription:CameraHint": "Selecione a câmera desejada para gravação.",
     "Transcription:CameraAddLabel": "Adicione uma câmera ao seu PC.",

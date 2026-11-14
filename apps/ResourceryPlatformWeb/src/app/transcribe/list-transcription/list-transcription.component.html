@@ -91,23 +91,25 @@
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
           <td class="text-center">
             <div ngbDropdown class="d-inline-block actions-dropdown">
-              <button class="btn btn-sm" ngbDropdownToggle type="button"
+              <button class="btn btn-sm btn-outline-success rounded-5 px-2" ngbDropdownToggle type="button"
                 [attr.aria-label]="'Administration::Actions' | abpLocalization"
                 [title]="'Administration::Actions' | abpLocalization">
                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
               </button>
               <div ngbDropdownMenu>
-                <a ngbDropdownItem [routerLink]="['/transcribe/view', item.id]">
+                <button *ngIf="hasTranscriptionViewPermission" ngbDropdownItem type="button"
+                  class="d-flex align-items-center" [routerLink]="['/transcribe/view', item.id]">
                   <i class="fa fa-eye me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:ViewLabel' | abpLocalization }}
-                </a>
-                <a *ngIf="hasTranscriptionUpdatePermission" ngbDropdownItem
-                  [routerLink]="['/transcribe/edit', item.id]">
+                </button>
+                <button *ngIf="hasTranscriptionUpdatePermission" ngbDropdownItem type="button"
+                  class="d-flex align-items-center" [routerLink]="['/transcribe/edit', item.id]">
                   <i class="fa fa-pencil me-2" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:EditLabel' | abpLocalization }}
-                </a>
+                </button>
                 <button *ngIf="hasTranscriptionDeletePermission" ngbDropdownItem type="button"
-                  (click)="deleteTranscription(item)" [disabled]="deletingId === item.id">
+                  class="d-flex align-items-center" (click)="deleteTranscription(item)"
+                  [disabled]="deletingId === item.id">
                   <i class="fa fa-trash me-2" aria-hidden="true"></i>
                   {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' |
                   abpLocalization) }}

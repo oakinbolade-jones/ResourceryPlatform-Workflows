@@ -6,11 +6,9 @@
 # launchSettings - IDE launch profiles
 **/launchSettings.json merge=keepOurs
 
-# appsettings - Configuration files (environment-specific)
-appsettings.json merge=keepOurs
-appsettings.*.json merge=keepOurs
-**/appsettings.json merge=keepOurs
-**/appsettings.*.json merge=keepOurs
+# Environment-specific configuration merge rules
+appsettings.Production.json merge=keepours
+appsettings.Staging.json merge=keepours
 
 # .env files - Environment variables
 .env merge=keepOurs

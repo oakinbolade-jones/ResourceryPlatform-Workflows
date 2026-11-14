@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "ResourceryPlatformWorkflow.Documents": {
+      "path": "ResourceryPlatformWorkflow.Documents.abpmdl.json"
+    }
+  }
+}

@@ -1815,6 +1815,8 @@
     "Transcription:LanguageFrench": "Français",
     "Transcription:LanguagePortuguese": "portugais",
     "Transcription:LanguageFloor": "Étage (plusieurs langues)",
+    "Transcription:DownloadTranslationLabel": "Télécharger la traduction",
+    "Transcription:SelectTranslationLanguageLabel": "Sélectionner la langue",
     "Transcription:CameraLabel": "Caméra",
     "Transcription:CameraHint": "Sélectionnez la caméra souhaitée pour l'enregistrement.",
     "Transcription:CameraAddLabel": "Ajoutez une caméra à votre PC.",

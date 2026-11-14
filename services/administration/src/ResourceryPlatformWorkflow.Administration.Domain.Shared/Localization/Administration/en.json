@@ -1789,6 +1789,8 @@
     "Transcription:LanguageFrench": "French",
     "Transcription:LanguagePortuguese": "Portuguese",
     "Transcription:LanguageFloor": "Floor (Multiple Languages)",
+    "Transcription:DownloadTranslationLabel": "Download translation",
+    "Transcription:SelectTranslationLanguageLabel": "Select language",
     "Transcription:CameraLabel": "Camera",
     "Transcription:CameraHint": "Select the desired camera for recording.",
     "Transcription:CameraAddLabel": "Add a camera to your PC.",
