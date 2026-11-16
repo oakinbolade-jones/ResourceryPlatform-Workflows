@@ -73,46 +73,45 @@
       <thead>
         <tr>
           <th class="text-center">#</th>
-          <th>Title</th>
-          <th>Language</th>
-          <th>Status</th>
-          <th>Date</th>
-          <th class="text-center">Action</th>
+          <th>{{ 'Administration::Transcription:TitleLabel' | abpLocalization }}</th>
+          <th>{{ 'Administration::Transcription:LanguageLabel' | abpLocalization }}</th>
+          <th>{{ 'Administration::Transcription:StatusLabel' | abpLocalization }}</th>
+          <th>{{ 'Administration::Transcription:EventDateLabel' | abpLocalization }}</th>
+          <th class="text-center">{{ actionLabel }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of filteredTranscriptions; let rowIndex = index">
           <td class="text-center fw-semibold">{{ rowIndex + 1 }}</td>
-          <td class="fw-semibold">{{ item.title || 'Untitled transcription' }}</td>
+          <td class="fw-semibold">{{ item.title || untitledTranscriptionLabel }}</td>
           <td>{{ item.language || 'N/A' }}</td>
           <td>
             <span class="status-pill">{{ item.status || 'N/A' }}</span>
           </td>
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
           <td class="text-center">
-            <div ngbDropdown class="d-inline-block actions-dropdown">
-              <button class="btn btn-sm btn-outline-success rounded-5 px-2" ngbDropdownToggle type="button"
+            <div ngbDropdown [container]="'body'" class="d-inline-block actions-dropdown">
+              <button class="btn btn-sm " ngbDropdownToggle type="button"
                 [attr.aria-label]="'Administration::Actions' | abpLocalization"
                 [title]="'Administration::Actions' | abpLocalization">
                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
               </button>
-              <div ngbDropdownMenu>
+              <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
                 <button *ngIf="hasTranscriptionViewPermission" ngbDropdownItem type="button"
-                  class="d-flex align-items-center" [routerLink]="['/transcribe/view', item.id]">
-                  <i class="fa fa-eye me-2" aria-hidden="true"></i>
+                  class="d-flex align-items-center py-2" [routerLink]="['/transcribe/view', item.id]">
+                  <i class="fa fa-eye me-3" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:ViewLabel' | abpLocalization }}
                 </button>
                 <button *ngIf="hasTranscriptionUpdatePermission" ngbDropdownItem type="button"
-                  class="d-flex align-items-center" [routerLink]="['/transcribe/edit', item.id]">
-                  <i class="fa fa-pencil me-2" aria-hidden="true"></i>
+                  class="d-flex align-items-center py-2" [routerLink]="['/transcribe/edit', item.id]">
+                  <i class="fa fa-pencil me-3" aria-hidden="true"></i>
                   {{ 'Administration::Transcription:EditLabel' | abpLocalization }}
                 </button>
                 <button *ngIf="hasTranscriptionDeletePermission" ngbDropdownItem type="button"
-                  class="d-flex align-items-center" (click)="deleteTranscription(item)"
+                  class="d-flex align-items-center  py-2" (click)="deleteTranscription(item)"
                   [disabled]="deletingId === item.id">
-                  <i class="fa fa-trash me-2" aria-hidden="true"></i>
-                  {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' |
-                  abpLocalization) }}
+                  <i class="fa fa-trash me-3" aria-hidden="true"></i>
+                  {{ deletingId === item.id ? ('Administration::Transcription:DeleteConfirmationDeletingLabel' | abpLocalization) : ('Administration::Transcription:DeleteLabel' | abpLocalization) }}
                 </button>
               </div>
             </div>
@@ -122,3 +121,30 @@
     </table>
   </div>
 </div>
+
+<ng-template #deleteTranscriptionModal let-modal>
+  <div class="modal-header border-0 pb-2">
+    <h4 class="modal-title fw-bold mb-0">{{ 'Administration::Transcription:DeleteConfirmationHeader' | abpLocalization }}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body pt-2">
+    <p class="mb-2">
+      {{ 'Administration::Transcription:DeleteConfirmationBody' | abpLocalization }}
+      <strong>"{{ deleteConfirmationTitle }}"</strong>?
+    </p>
+    <div class="text-muted small mb-0">
+      {{ 'Administration::Transcription:DeleteConfirmationSubLabel' | abpLocalization }}
+    </div>
+  </div>
+  <div class="modal-footer border-0 pt-2">
+    <button type="button" class="btn btn-outline-success" (click)="modal.dismiss()">
+      {{ 'Administration::Transcription:DeleteConfirmationCancelLabel' | abpLocalization }}
+    </button>
+    <button type="button" class="btn btn-success" (click)="modal.close()"
+      [disabled]="deletingId === pendingDeleteItem?.id">
+      {{ deletingId === pendingDeleteItem?.id
+        ? ('Administration::Transcription:DeleteConfirmationDeletingLabel' | abpLocalization)
+        : ('Administration::Transcription:DeleteConfirmationDeleteLabel' | abpLocalization) }}
+    </button>
+  </div>
+</ng-template>

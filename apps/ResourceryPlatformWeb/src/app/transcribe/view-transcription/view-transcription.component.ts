@@ -67,13 +67,40 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   hasTranscriptionUpdatePermission = false;
   hasTranscriptionDeletePermission = false;
   downloadMenuLanguage: string | null = null;
+  summaryMenuLanguage: string | null = null;
+  selectedSummaryType: string | null = null;
+  translatedPreviewText: string | null = null;
+  translatedPreviewLanguage: string | null = null;
+  summaryPreviewText: string | null = null;
+  summaryPreviewLanguage: string | null = null;
+  summaryPreviewType: string | null = null;
 
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
   private searchMatchPositions: Array<{ lineId: number }> = [];
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly translationEndpoint = `${environment.apis.default.url}/api/workflow/translations/translate`;
+  private readonly summaryEndpoint = `${environment.apis.default.url}/api/workflow/summarization/summarize`;
   private readonly translationLanguageCodes = ['en', 'fr', 'pt'] as const;
+  private readonly summaryLanguageCodes = ['en', 'fr', 'pt'] as const;
+  private readonly availableSummaryTypes = [
+    {
+      value: 'ExecutiveSummary',
+      labelKey: 'Administration::Transcription:SummaryTypeExecutiveSummary'
+    },
+    {
+      value: 'AbstractiveSummary',
+      labelKey: 'Administration::Transcription:SummaryTypeAbstractiveSummary'
+    },
+    {
+      value: 'ExtractiveSummary',
+      labelKey: 'Administration::Transcription:SummaryTypeExtractiveSummary'
+    },
+    {
+      value: 'DetailedMinutes',
+      labelKey: 'Administration::Transcription:SummaryTypeDetailedMinutes'
+    }
+  ] as const;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,6 +114,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.hasTranscriptionViewPermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.View');
     this.hasTranscriptionUpdatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Update');
     this.hasTranscriptionDeletePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Delete');
+    this.selectedSummaryType = this.availableSummaryTypes[0].value;
     this.transcriptionId = this.route.snapshot.paramMap.get('id') ?? '';
     const sourceReferenceId = this.route.snapshot.queryParamMap.get('sourceReferenceId') ?? '';
 
@@ -162,6 +190,11 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.transcription = transcription;
     this.mediaError = null;
     this.mediaUrl = this.resolveMediaUrl(transcription);
+    this.translatedPreviewText = null;
+    this.translatedPreviewLanguage = null;
+    this.summaryPreviewText = null;
+    this.summaryPreviewLanguage = null;
+    this.summaryPreviewType = null;
     this.bindTranscriptFromField(transcription);
     this.loading = false;
   }
@@ -464,6 +497,20 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     ];
   }
 
+  get summaryLanguageOptions(): Array<{ code: string; labelKey: string }> {
+    return [
+      { code: '', labelKey: 'Administration::Transcription:SelectSummaryLanguageLabel' },
+      ...this.summaryLanguageCodes.map(code => ({ code, labelKey: this.resolveLanguageLabelKey(code) })),
+    ];
+  }
+
+  get summaryTypeOptions(): Array<{ value: string; labelKey: string }> {
+    return [
+      { value: '', labelKey: 'Administration::Transcription:SelectSummaryTypePlaceholder' },
+      ...this.availableSummaryTypes,
+    ];
+  }
+
   canDownload(format: 'docx' | 'pdf' | 'txt'): boolean {
     if (!this.transcription) {
       return false;
@@ -493,6 +540,26 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
   }
 
+  private appendPreviewEntry(
+    existingText: string | null,
+    selectionLabel: string,
+    content: string
+  ): string {
+    const trimmedContent = content.trim();
+    if (!trimmedContent) {
+      return existingText ?? '';
+    }
+
+    const divider = '----------------------------------------';
+    const entry = `${selectionLabel}\n${divider}\n${trimmedContent}`;
+
+    if (!existingText || !existingText.trim()) {
+      return entry;
+    }
+
+    return `${existingText.trim()}\n\n${entry}`;
+  }
+
   private normalizeLanguageCode(language: string | null | undefined): string {
     const normalized = (language ?? '').trim().toLowerCase();
     if (!normalized) {
@@ -512,16 +579,65 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     return transcriptValue.trim();
   }
 
-  private async translateTranscriptText(targetLanguage: string): Promise<string> {
-    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+  private summarizeTranscriptText(): string {
     const transcriptText = this.getTranscriptText();
-
     if (!transcriptText) {
+      return '';
+    }
+
+    const normalizedText = transcriptText.replace(/\s+/g, ' ').trim();
+    const sentences = normalizedText.split(/(?<=[.!?])\s+/).map(part => part.trim()).filter(Boolean);
+
+    if (!sentences.length) {
+      return normalizedText.slice(0, 1200);
+    }
+
+    const summarySentences = sentences.slice(0, Math.min(5, sentences.length));
+    const summaryText = summarySentences.join(' ');
+    return summaryText.length > 1200 ? `${summaryText.slice(0, 1197).trim()}...` : summaryText;
+  }
+
+  private async summarizeText(text: string, targetLanguage: string, summaryType: string): Promise<string> {
+    if (!text.trim()) {
+      throw new Error('No transcript text is available to summarize.');
+    }
+
+    const payload = {
+      transcript: text,
+      summaryType,
+      language: targetLanguage,
+    };
+
+    try {
+      const response = await firstValueFrom(
+        this.http.post<{ summary?: string; Summary?: string }>(this.summaryEndpoint, payload)
+      );
+
+      const summaryText = response?.summary ?? response?.Summary ?? '';
+      if (summaryText.trim()) {
+        return summaryText;
+      }
+    } catch (error) {
+      console.warn('Summary endpoint call failed; falling back to local summary generation.', error);
+    }
+
+    const fallbackSummary = this.summarizeTranscriptText();
+    if (!fallbackSummary.trim()) {
+      throw new Error('The summarization service returned no summary content.');
+    }
+
+    return fallbackSummary;
+  }
+
+  private async translateText(text: string, targetLanguage: string): Promise<string> {
+    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+
+    if (!text.trim()) {
       throw new Error('No transcript text is available to translate.');
     }
 
     const payload = {
-      text: transcriptText,
+      text,
       sourceLanguage: sourceLanguage === 'xx' ? null : sourceLanguage,
       targetLanguage,
     };
@@ -536,6 +652,10 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     }
 
     return translatedText;
+  }
+
+  private async translateTranscriptText(targetLanguage: string): Promise<string> {
+    return this.translateText(this.getTranscriptText(), targetLanguage);
   }
 
   async downloadResult(
@@ -614,10 +734,46 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
       this.downloadingFormat = format;
       const normalizedLanguageCode = this.normalizeLanguageCode(languageCode);
       const translatedText = await this.translateTranscriptText(normalizedLanguageCode);
+      this.translatedPreviewText = this.appendPreviewEntry(
+        this.translatedPreviewText,
+        `Language: ${normalizedLanguageCode.toUpperCase()}`,
+        translatedText
+      );
+      this.translatedPreviewLanguage = normalizedLanguageCode;
       this.downloadResult(format, translatedText, normalizedLanguageCode);
     } catch (error) {
       this.downloadError =
         error instanceof Error ? error.message : 'Unable to translate and download the selected transcription text.';
+    } finally {
+      this.downloadingFormat = null;
+    }
+  }
+
+  async downloadSummaryResult(
+    languageCode: string,
+    summaryType: string,
+    format: 'docx' | 'pdf' | 'txt'
+  ): Promise<void> {
+    try {
+      this.downloadError = null;
+      this.downloadingFormat = format;
+      const normalizedLanguageCode = this.normalizeLanguageCode(languageCode);
+      const summaryText = await this.summarizeText(
+        this.getTranscriptText(),
+        normalizedLanguageCode,
+        summaryType
+      );
+      this.summaryPreviewText = this.appendPreviewEntry(
+        this.summaryPreviewText,
+        `Language: ${normalizedLanguageCode.toUpperCase()} | Type: ${summaryType}`,
+        summaryText
+      );
+      this.summaryPreviewLanguage = normalizedLanguageCode;
+      this.summaryPreviewType = summaryType;
+      this.downloadResult(format, summaryText, normalizedLanguageCode);
+    } catch (error) {
+      this.downloadError =
+        error instanceof Error ? error.message : 'Unable to summarize and download the selected transcription text.';
     } finally {
       this.downloadingFormat = null;
     }

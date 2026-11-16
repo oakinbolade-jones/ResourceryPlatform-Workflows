@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Azure.Identity;
 
 namespace ResourceryPlatformWorkflow.Administration;
 
@@ -20,9 +22,20 @@ public class Program
             Log.Information("Starting web host.");
 
             var builder = WebApplication.CreateBuilder(args);
+
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
+            // Read the Key Vault address
+            var vaultUri = builder.Configuration["KeyVault:VaultUri"];
 
+            // Register Azure Key Vault
+            if (!string.IsNullOrWhiteSpace(vaultUri))
+            {
+                builder.Configuration.AddAzureKeyVault(
+                    new Uri(vaultUri),
+                    new DefaultAzureCredential()
+                );
+            }
             builder.AddSqlServerDbContext<AdministrationDbContext>(
                 connectionName: ResourceryPlatformWorkflowNames.AdministrationDb,
                 configure => configure.DisableRetry = true

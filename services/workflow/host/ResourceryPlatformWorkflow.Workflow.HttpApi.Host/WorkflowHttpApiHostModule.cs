@@ -9,6 +9,9 @@ using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.Extensions.DependencyInjection;
+using ResourceryPlatformWorkflow.Workflow.Summarization;
+
 
 namespace ResourceryPlatformWorkflow.Workflow;
 
@@ -29,7 +32,8 @@ public class WorkflowHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
 
         context.ConfigureMicroservice(ResourceryPlatformWorkflowNames.WorkflowApi);
-
+       
+          
         if (hostingEnvironment.IsDevelopment())
         {
             Configure<AbpVirtualFileSystemOptions>(options =>

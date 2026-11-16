@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { PermissionService } from '@abp/ng.core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { LocalizationService, PermissionService } from '@abp/ng.core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/transcriptions';
 @Component({
   selector: 'app-list-transcription',
@@ -7,6 +8,8 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
   styleUrls: ['./list-transcription.component.scss'],
 })
 export class ListTranscriptionComponent implements OnInit {
+  @ViewChild('deleteTranscriptionModal') deleteTranscriptionModal!: TemplateRef<unknown>;
+
   loading = false;
   error: string | null = null;
   deletingId: string | null = null;
@@ -17,11 +20,20 @@ export class ListTranscriptionComponent implements OnInit {
   hasTranscriptionViewPermission = false;
   hasTranscriptionUpdatePermission = false;
   hasTranscriptionDeletePermission = false;
+  pendingDeleteItem: TranscriptionDto | null = null;
+  deleteConfirmationTitle = '';
+  actionLabel = 'Action';
+  untitledTranscriptionLabel = 'Untitled transcription';
 
   constructor(
     private transcriptionService: TranscriptionService,
-    private permissionService: PermissionService
-  ) { }
+    private permissionService: PermissionService,
+    private localizationService: LocalizationService,
+    private modalService: NgbModal
+  ) {
+    this.actionLabel = this.t('Administration::Transcription:ActionLabel', 'Action');
+    this.untitledTranscriptionLabel = this.t('Administration::Transcription:UntitledTranscription', 'Untitled transcription');
+  }
 
   ngOnInit(): void {
     this.hasTranscriptionCreatePermission = this.permissionService.getGrantedPolicy('Workflows.Transcriptions.Create');
@@ -62,11 +74,30 @@ export class ListTranscriptionComponent implements OnInit {
       return;
     }
 
-    const confirmed = window.confirm('Are you sure you want to delete this transcription?');
-    if (!confirmed) {
+    this.pendingDeleteItem = item;
+    this.deleteConfirmationTitle = item.title?.trim() || this.untitledTranscriptionLabel;
+
+    const modalRef = this.modalService.open(this.deleteTranscriptionModal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'md',
+    });
+
+    modalRef.result.then(
+      () => this.confirmDeleteTranscription(),
+      () => {
+        this.pendingDeleteItem = null;
+        this.deleteConfirmationTitle = '';
+      }
+    );
+  }
+
+  confirmDeleteTranscription(): void {
+    if (!this.pendingDeleteItem?.id) {
       return;
     }
 
+    const item = this.pendingDeleteItem;
     this.deletingId = item.id;
     this.error = null;
 
@@ -74,12 +105,21 @@ export class ListTranscriptionComponent implements OnInit {
       next: () => {
         this.transcriptions = this.transcriptions.filter(x => x.id !== item.id);
         this.deletingId = null;
+        this.pendingDeleteItem = null;
+        this.deleteConfirmationTitle = '';
       },
       error: () => {
-        this.error = 'Unable to delete transcription.';
+        this.error = this.t('Administration::Transcription:DeleteFailedLabel', 'Unable to delete transcription.');
         this.deletingId = null;
+        this.pendingDeleteItem = null;
+        this.deleteConfirmationTitle = '';
       },
     });
+  }
+
+  private t(key: string, fallback: string): string {
+    const value = this.localizationService.instant(key);
+    return value && value !== key ? value : fallback;
   }
 
   private loadTranscriptions(): void {

@@ -11,9 +11,13 @@
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h3 class="fw-bold fs-5 mb-0">{{ 'Administration::Transcription:EditLabel' | abpLocalization }}</h3>
 
-    <button type="button" class="btn btn-outline-success rounded-0" (click)="goBack()">
+    <!-- <button type="button" class="btn btn-outline-success rounded-5" (click)="goBack()">
       Back to list
-    </button>
+    </button> -->
+       <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
+      <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
+      {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a>
+
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
@@ -32,32 +36,32 @@
     <div class="row g-3">
       <div class="col-12 col-md-6">
         <label class="form-label fw-semibold mb-1">Title</label>
-        <input type="text" class="form-control border border-success rounded-0" formControlName="title" />
+        <input type="text" class="form-control border border-success rounded-1 p-2" formControlName="title" />
       </div>
 
       <div class="col-12 col-md-6">
         <label class="form-label fw-semibold mb-1">Event Date</label>
-        <input type="date" class="form-control border border-success rounded-0" formControlName="eventDate" />
+        <input type="date" class="form-control border border-success rounded-1 p-2" formControlName="eventDate" />
       </div>
 
       <div class="col-12 col-md-6">
         <label class="form-label fw-semibold mb-1">Language</label>
-        <input type="text" class="form-control border border-success rounded-0" formControlName="language" />
+        <input type="text" class="form-control border border-success rounded-1 p-2" formControlName="language" />
       </div>
 
       <div class="col-12 col-md-6">
         <label class="form-label fw-semibold mb-1">Status</label>
-        <input type="text" class="form-control border border-success rounded-0" formControlName="status" />
+        <input type="text" class="form-control border border-success rounded-1 p-2" formControlName="status" />
       </div>
 
       <div class="col-12">
         <label class="form-label fw-semibold mb-1">Description</label>
-        <textarea rows="4" class="form-control border border-success rounded-0" formControlName="description"></textarea>
+        <textarea rows="4" class="form-control border border-success rounded-1 p-2" formControlName="description"></textarea>
       </div>
 
       <div class="col-12">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" formControlName="isPublic" id="isPublic" />
+          <input class="form-check-input p-2 me-2 border border-2 rounded-1 border-success ng-valid ng-dirty ng-touched" type="checkbox" formControlName="isPublic" id="isPublic" />
           <label class="form-check-label" for="isPublic">Public</label>
         </div>
       </div>

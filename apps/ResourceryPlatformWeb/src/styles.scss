@@ -756,6 +756,35 @@ abp-loader .progress-bar {
   background-color: var(--oc-teal-9) !important;
 }
 
+.actions-dropdown {
+  position: relative;
+  z-index: 2147483647;
+  isolation: isolate;
+}
+
 .actions-dropdown .dropdown-toggle::after {
   display: none !important;
+}
+
+.actions-dropdown .dropdown-menu,
+.actions-dropdown .dropdown-menu.show,
+.actions-dropdown .dropdown-menu[style*='display: block'] {
+  position: absolute !important;
+  z-index: 3000 !important;
+  min-width: 12rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(21, 128, 61, 0.15);
+  box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.08);
+  padding: 0.3rem;
+}
+
+.actions-dropdown .dropdown-item {
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.actions-dropdown .dropdown-item:hover,
+.actions-dropdown .dropdown-item:focus {
+  background: rgba(21, 128, 61, 0.08);
+  color: #14532d;
 }

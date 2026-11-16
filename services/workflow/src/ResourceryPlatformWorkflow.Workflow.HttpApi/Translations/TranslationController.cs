@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using ResourceryPlatformWorkflow.Workflow.Summarization.Dtos;
 
 namespace ResourceryPlatformWorkflow.Workflow.Translations;
 
@@ -9,7 +10,8 @@ namespace ResourceryPlatformWorkflow.Workflow.Translations;
 [ApiExplorerSettings(IgnoreApi = false)]
 [ApiController]
 [Route("api/workflow/translations")]
-public class TranslationController(ITranslationAppService appService)
+public class TranslationController(
+    ITranslationAppService appService)
     : WorkflowController,
         ITranslationAppService
 {
