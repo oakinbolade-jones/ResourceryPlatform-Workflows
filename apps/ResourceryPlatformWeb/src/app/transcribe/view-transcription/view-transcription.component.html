@@ -17,18 +17,17 @@
         {{ 'Administration::Transcription:DetailsDescriptionLabel' | abpLocalization }}
       </p>
     </div>
-      <!-- <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+    <!-- <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
         {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
       </a> -->
-        <a *ngIf="hasTranscriptionCreatePermission" class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
-        <i class="fa fa-plus me-2" aria-hidden="true"></i>
-        {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
-      </a>
+    <a *ngIf="hasTranscriptionCreatePermission" class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+      <i class="fa fa-plus me-2" aria-hidden="true"></i>
+      {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
+    </a>
     <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
       <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
-      {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a
-    >
+      {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a>
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
@@ -45,10 +44,7 @@
     {{ error }}
   </div>
 
-  <div
-    *ngIf="transcription && !loading"
-    class="transcription-details border-none rounded-0 px-0 py-0"
-  >
+  <div *ngIf="transcription && !loading" class="transcription-details border-none rounded-0 px-0 py-0">
     <!-- <div class="row mb-5">
       <div class="col-12 col-md-4">
         <div class="fw-bold fs-6">Title</div>
@@ -75,21 +71,52 @@
       <section class="player-panel border-none rounded-0 py-3">
         <h4 class="fs-6 fw-bold mb-3">{{ transcription.title || 'Untitled transcription' }}</h4>
 
-        <video
-          #videoPlayer
-          class="transcription-video"
-          [src]="mediaUrl || null"
-          controls
-          preload="metadata"
-          (play)="onVideoPlay()"
-          (pause)="onVideoPause()"
-          (seeked)="onVideoSeeked()"
-          (error)="onVideoError()"
-          (canplay)="onVideoCanPlay()"
-        ></video>
-        <p class="fs-6 fw-semibold text-muted">
+        <video #videoPlayer class="transcription-video" [src]="mediaUrl || null" controls preload="metadata"
+          (play)="onVideoPlay()" (pause)="onVideoPause()" (seeked)="onVideoSeeked()" (error)="onVideoError()"
+          (canplay)="onVideoCanPlay()"></video>
+        <p class="fs-6 fw-semibold text-muted mb-3">
           {{ transcription.dateOfTranscription | date: 'long' }}
         </p>
+
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <div class="input-group" style="max-width: 240px;">
+            <span class="input-group-text bg-white border border-success text-success">
+              <i class="fa fa-language" aria-hidden="true"></i>
+            </span>
+            <select
+              class="form-select border border-success rounded-0 fs-6"
+              [disabled]="!canDownload('txt') || downloadingFormat !== null"
+              [ngModel]="selectedTranslationLanguage"
+              (ngModelChange)="onTranslateLanguageChange($event)"
+            >
+              <option *ngFor="let option of translationOptions" [value]="option.code">
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+
+          <div *ngIf="downloadMenuLanguage" class="d-inline-flex align-items-center gap-2">
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null"
+              (click)="downloadTranslatedResult(downloadMenuLanguage, 'docx')">
+              <i class="fa fa-file-word-o me-1" aria-hidden="true"></i>
+              DOCX
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null"
+              (click)="downloadTranslatedResult(downloadMenuLanguage, 'pdf')">
+              <i class="fa fa-file-pdf-o me-1" aria-hidden="true"></i>
+              PDF
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null"
+              (click)="downloadTranslatedResult(downloadMenuLanguage, 'txt')">
+              <i class="fa fa-file-text-o me-1" aria-hidden="true"></i>
+              TXT
+            </button>
+          </div>
+        </div>
+
         <div *ngIf="mediaError" class="state-banner state-error mb-0 mt-3">
           {{ mediaError }}
         </div>
@@ -104,39 +131,24 @@
             {{ 'Administration::Transcription:TranscriptLabel' | abpLocalization }}
           </h4>
           <!-- <small class="text-muted">Hover to highlight, click to seek</small> -->
-          <div class="d-inline-flex gap-2">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success rounded-5"
-              [disabled]="!canDownload('docx') || downloadingFormat !== null"
-              (click)="downloadResult('docx')"
-            >
+          <div class="d-inline-flex align-items-center gap-2 position-relative flex-wrap">
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="!canDownload('docx') || downloadingFormat !== null" (click)="downloadResult('docx')">
               <i class="fa fa-arrow-down" aria-hidden="true"></i>
-              <span class="px-1 text-uppercase fs-6 fw-bold">docx</span> 
+              <span class="px-1 text-uppercase fs-6 fw-bold">docx</span>
               <i class="fa fa-file-word-o" aria-hidden="true"></i>
             </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success rounded-5"
-              [disabled]="!canDownload('pdf') || downloadingFormat !== null"
-              (click)="downloadResult('pdf')"
-            >
-              <i class="fa fa-arrow-down" aria-hidden="true">
-                
-              </i>
-              <span class="px-1 text-uppercase fs-6 fw-bold">pdf</span> 
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="!canDownload('pdf') || downloadingFormat !== null" (click)="downloadResult('pdf')">
+              <i class="fa fa-arrow-down" aria-hidden="true"></i>
+              <span class="px-1 text-uppercase fs-6 fw-bold">pdf</span>
               <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
             </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success rounded-5"
-              [disabled]="!canDownload('txt') || downloadingFormat !== null"
-              (click)="downloadResult('txt')"
-            >
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="!canDownload('txt') || downloadingFormat !== null" (click)="downloadResult('txt')">
               <i class="fa fa-arrow-down" aria-hidden="true"></i>
-              <span class="px-1 text-uppercase fs-6 fw-bold">txt</span> 
+              <span class="px-1 text-uppercase fs-6 fw-bold">txt</span>
               <i class="fa fa-file-text-o" aria-hidden="true"></i>
-              <!-- {{ deletingId === item.id ? 'Deleting...' : ('Administration::Transcription:DeleteLabel' | abpLocalization) }} -->
             </button>
           </div>
         </div>
@@ -149,20 +161,11 @@
         <div class="transcript-search-bar mb-3">
           <div class="transcript-search-input-wrap">
             <i class="fa fa-search transcript-search-icon" aria-hidden="true"></i>
-            <input
-              type="text"
-              class="form-control border border-success rounded-0 ps-4 fs-6 transcript-search-input"
-              placeholder="Search in transcript..."
-              [value]="searchQuery"
-              (input)="onSearchChange($any($event.target).value)"
-            />
-            <button
-              *ngIf="searchQuery"
-              type="button"
-              class="transcript-search-clear"
-              (click)="clearSearch()"
-              aria-label="Clear search"
-            >
+            <input type="text" class="form-control border border-success rounded-0 ps-4 fs-6 transcript-search-input"
+              placeholder="Search in transcript..." [value]="searchQuery"
+              (input)="onSearchChange($any($event.target).value)" />
+            <button *ngIf="searchQuery" type="button" class="transcript-search-clear" (click)="clearSearch()"
+              aria-label="Clear search">
               <i class="fa fa-times" aria-hidden="true"></i>
             </button>
           </div>
@@ -173,22 +176,12 @@
               </ng-container>
               <ng-container *ngIf="searchMatchCount === 0">No results</ng-container>
             </span>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success rounded-0"
-              [disabled]="searchMatchCount === 0"
-              (click)="navigateSearch(-1)"
-              aria-label="Previous match"
-            >
+            <button type="button" class="btn btn-sm btn-outline-success rounded-0" [disabled]="searchMatchCount === 0"
+              (click)="navigateSearch(-1)" aria-label="Previous match">
               <i class="fa fa-chevron-up" aria-hidden="true"></i>
             </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-success rounded-0"
-              [disabled]="searchMatchCount === 0"
-              (click)="navigateSearch(1)"
-              aria-label="Next match"
-            >
+            <button type="button" class="btn btn-sm btn-outline-success rounded-0" [disabled]="searchMatchCount === 0"
+              (click)="navigateSearch(1)" aria-label="Next match">
               <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
           </div>
@@ -203,35 +196,23 @@
         </div>
 
         <div *ngIf="hasTranscript" #transcriptScrollHost class="transcript-scroll-host">
-          <div
-            *ngFor="let line of transcriptLines; trackBy: trackByLine"
-            class="transcript-line"
-            [class.line-active]="isLineActive(line.id)"
-            [class.line-hover]="hoveredLineId === line.id"
-            (mouseenter)="onLineHover(line.id)"
-            (mouseleave)="onLineHover(null)"
-            (click)="onLineClick(line)"
-          >
+          <div *ngFor="let line of transcriptLines; trackBy: trackByLine" class="transcript-line"
+            [class.line-active]="isLineActive(line.id)" [class.line-hover]="hoveredLineId === line.id"
+            (mouseenter)="onLineHover(line.id)" (mouseleave)="onLineHover(null)" (click)="onLineClick(line)">
             <ng-container *ngFor="let segment of getDisplaySegments(line); trackBy: trackBySegment">
-              <span
-                *ngIf="segment.word; else plainText"
-                class="transcript-word"
+              <span *ngIf="segment.word; else plainText" class="transcript-word"
                 [class.search-match]="segment.isSearchMatch"
                 [class.search-match-current]="segment.isSearchMatch && segment.searchMatchIndex === currentMatchIndex"
-                [attr.data-word-id]="segment.word?.id"
-                [attr.data-search-idx]="segment.searchMatchIndex ?? null"
+                [attr.data-word-id]="segment.word?.id" [attr.data-search-idx]="segment.searchMatchIndex ?? null"
                 [class.word-active]="segment.word ? isWordActive(segment.word.id) : false"
                 [class.word-hover]="segment.word ? hoveredWordId === segment.word.id : false"
                 (mouseenter)="segment.word && onWordHover(segment.word.id, line.id)"
                 (mouseleave)="onWordHover(null, null)"
-                (click)="segment.word && onWordClick(segment.word); $event.stopPropagation()"
-              >{{ segment.text }}</span>
+                (click)="segment.word && onWordClick(segment.word); $event.stopPropagation()">{{ segment.text }}</span>
               <ng-template #plainText>
-                <span
-                  [class.search-match]="segment.isSearchMatch"
+                <span [class.search-match]="segment.isSearchMatch"
                   [class.search-match-current]="segment.isSearchMatch && segment.searchMatchIndex === currentMatchIndex"
-                  [attr.data-search-idx]="segment.searchMatchIndex ?? null"
-                >{{ segment.text }}</span>
+                  [attr.data-search-idx]="segment.searchMatchIndex ?? null">{{ segment.text }}</span>
               </ng-template>
             </ng-container>
           </div>

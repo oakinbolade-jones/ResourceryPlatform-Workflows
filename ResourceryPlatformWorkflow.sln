@@ -1,12 +1,13 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.3.11520.95
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{661E60BC-C11D-4DC2-BE69-7C881B63EF14}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateway", "gateway", "{50F75265-B9B9-48FF-A9CC-9DB82BDDF183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Gateway", "gateway\ResourceryPlatformWorkflow.Gateway\ResourceryPlatformWorkflow.Gateway.csproj", "{7FFE8939-42FE-406B-AE95-1B333B94D574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Gateway", "gateway\ResourceryPlatformWorkflow.Gateway\ResourceryPlatformWorkflow.Gateway.csproj", "{7FFE8939-42FE-406B-AE95-1B333B94D574}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{2216AB8B-86C2-4528-8914-E7DB8303D7AA}"
 EndProject
@@ -14,163 +15,159 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "administration", "administr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{96D54D27-B1D3-415A-9307-DE6072FE4661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Host", "services\administration\host\ResourceryPlatformWorkflow.Administration.HttpApi.Host\ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj", "{9C91C08A-48D3-4AED-8D30-00DBE43A67CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Host", "services\administration\host\ResourceryPlatformWorkflow.Administration.HttpApi.Host\ResourceryPlatformWorkflow.Administration.HttpApi.Host.csproj", "{9C91C08A-48D3-4AED-8D30-00DBE43A67CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3A012114-4BF2-40AF-9C5F-B1D80C5A8359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Application", "services\administration\src\ResourceryPlatformWorkflow.Administration.Application\ResourceryPlatformWorkflow.Administration.Application.csproj", "{7FF48BC0-0C30-485B-A5FF-A2D517C352A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Application", "services\administration\src\ResourceryPlatformWorkflow.Administration.Application\ResourceryPlatformWorkflow.Administration.Application.csproj", "{7FF48BC0-0C30-485B-A5FF-A2D517C352A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Application.Contracts", "services\administration\src\ResourceryPlatformWorkflow.Administration.Application.Contracts\ResourceryPlatformWorkflow.Administration.Application.Contracts.csproj", "{2D500E44-3DB2-4F35-B0AC-ED6924147623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Application.Contracts", "services\administration\src\ResourceryPlatformWorkflow.Administration.Application.Contracts\ResourceryPlatformWorkflow.Administration.Application.Contracts.csproj", "{2D500E44-3DB2-4F35-B0AC-ED6924147623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Domain", "services\administration\src\ResourceryPlatformWorkflow.Administration.Domain\ResourceryPlatformWorkflow.Administration.Domain.csproj", "{98BA6607-7FF8-41EE-9486-13A5A25ABBBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Domain", "services\administration\src\ResourceryPlatformWorkflow.Administration.Domain\ResourceryPlatformWorkflow.Administration.Domain.csproj", "{98BA6607-7FF8-41EE-9486-13A5A25ABBBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Domain.Shared", "services\administration\src\ResourceryPlatformWorkflow.Administration.Domain.Shared\ResourceryPlatformWorkflow.Administration.Domain.Shared.csproj", "{EE4D69EF-A3D7-4249-BB82-16E01CDFB035}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Domain.Shared", "services\administration\src\ResourceryPlatformWorkflow.Administration.Domain.Shared\ResourceryPlatformWorkflow.Administration.Domain.Shared.csproj", "{EE4D69EF-A3D7-4249-BB82-16E01CDFB035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.EntityFrameworkCore", "services\administration\src\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj", "{33165657-5066-42EB-A8E8-C1FABF497CC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.EntityFrameworkCore", "services\administration\src\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.csproj", "{33165657-5066-42EB-A8E8-C1FABF497CC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.HttpApi", "services\administration\src\ResourceryPlatformWorkflow.Administration.HttpApi\ResourceryPlatformWorkflow.Administration.HttpApi.csproj", "{67764757-4C60-4469-B26F-2E06A4D82E96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.HttpApi", "services\administration\src\ResourceryPlatformWorkflow.Administration.HttpApi\ResourceryPlatformWorkflow.Administration.HttpApi.csproj", "{67764757-4C60-4469-B26F-2E06A4D82E96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Client", "services\administration\src\ResourceryPlatformWorkflow.Administration.HttpApi.Client\ResourceryPlatformWorkflow.Administration.HttpApi.Client.csproj", "{07FF2F9F-DB2B-4687-8A58-5846A8628FCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Client", "services\administration\src\ResourceryPlatformWorkflow.Administration.HttpApi.Client\ResourceryPlatformWorkflow.Administration.HttpApi.Client.csproj", "{07FF2F9F-DB2B-4687-8A58-5846A8628FCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1C6A933B-F36D-4742-A17D-77EAAFF52EB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Application.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.Application.Tests\ResourceryPlatformWorkflow.Administration.Application.Tests.csproj", "{546A3FE3-E10E-4DED-B6BC-B8932AED43CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Application.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.Application.Tests\ResourceryPlatformWorkflow.Administration.Application.Tests.csproj", "{546A3FE3-E10E-4DED-B6BC-B8932AED43CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.Domain.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.Domain.Tests\ResourceryPlatformWorkflow.Administration.Domain.Tests.csproj", "{7638EF6C-99BB-4147-AEB1-7DD712B5EF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.Domain.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.Domain.Tests\ResourceryPlatformWorkflow.Administration.Domain.Tests.csproj", "{7638EF6C-99BB-4147-AEB1-7DD712B5EF8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests.csproj", "{52FE1185-8EA4-4BD2-9694-92AB7949A718}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests", "services\administration\test\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.Administration.EntityFrameworkCore.Tests.csproj", "{52FE1185-8EA4-4BD2-9694-92AB7949A718}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp", "services\administration\test\ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp.csproj", "{CE9E302E-3388-42ED-9856-12036B1DEFE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp", "services\administration\test\ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.Administration.HttpApi.Client.ConsoleTestApp.csproj", "{CE9E302E-3388-42ED-9856-12036B1DEFE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Administration.TestBase", "services\administration\test\ResourceryPlatformWorkflow.Administration.TestBase\ResourceryPlatformWorkflow.Administration.TestBase.csproj", "{8610B662-4198-41D6-BEC3-31B3C7C117F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Administration.TestBase", "services\administration\test\ResourceryPlatformWorkflow.Administration.TestBase\ResourceryPlatformWorkflow.Administration.TestBase.csproj", "{8610B662-4198-41D6-BEC3-31B3C7C117F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{3429A196-0AB0-40F0-A82B-F5FE9C8CE8E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{E9635B14-F42B-4D6A-AAE9-B96134CCF8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Host", "services\identity\host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host.csproj", "{3C36ED71-7267-4908-BC08-0BA27C249B1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Host", "services\identity\host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host\ResourceryPlatformWorkflow.IdentityService.HttpApi.Host.csproj", "{3C36ED71-7267-4908-BC08-0BA27C249B1E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{818EC72D-EAF5-471E-A9F6-FC764BE84CBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Application", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Application\ResourceryPlatformWorkflow.IdentityService.Application.csproj", "{87F990ED-4D61-4F7E-A22B-A2508CF5819F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Application", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Application\ResourceryPlatformWorkflow.IdentityService.Application.csproj", "{87F990ED-4D61-4F7E-A22B-A2508CF5819F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Application.Contracts", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Application.Contracts\ResourceryPlatformWorkflow.IdentityService.Application.Contracts.csproj", "{7A770A7E-1FA4-4311-94C9-00C4B1F603AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Application.Contracts", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Application.Contracts\ResourceryPlatformWorkflow.IdentityService.Application.Contracts.csproj", "{7A770A7E-1FA4-4311-94C9-00C4B1F603AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Domain", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Domain\ResourceryPlatformWorkflow.IdentityService.Domain.csproj", "{547B11AF-9ECA-41DE-ADF7-9745E5BC28A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Domain", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Domain\ResourceryPlatformWorkflow.IdentityService.Domain.csproj", "{547B11AF-9ECA-41DE-ADF7-9745E5BC28A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Domain.Shared", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Domain.Shared\ResourceryPlatformWorkflow.IdentityService.Domain.Shared.csproj", "{1AF65910-2864-4D65-B740-4ECB68CA398B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Domain.Shared", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.Domain.Shared\ResourceryPlatformWorkflow.IdentityService.Domain.Shared.csproj", "{1AF65910-2864-4D65-B740-4ECB68CA398B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.csproj", "{2F4F0A6B-E097-46D7-B905-EF379D663F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.csproj", "{2F4F0A6B-E097-46D7-B905-EF379D663F99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.HttpApi\ResourceryPlatformWorkflow.IdentityService.HttpApi.csproj", "{40B4E362-4B8B-4F33-BB9C-D28376BEA5FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.HttpApi\ResourceryPlatformWorkflow.IdentityService.HttpApi.csproj", "{40B4E362-4B8B-4F33-BB9C-D28376BEA5FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Client", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.csproj", "{CF76196C-8758-40E8-BC59-A84AEA6F6BFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Client", "services\identity\src\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.csproj", "{CF76196C-8758-40E8-BC59-A84AEA6F6BFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{154C6F6F-9C2D-4F4A-A1A5-2BD9F322F7B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Application.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.Application.Tests\ResourceryPlatformWorkflow.IdentityService.Application.Tests.csproj", "{82A8C91C-5F2F-4259-BE17-9246BA2190C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Application.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.Application.Tests\ResourceryPlatformWorkflow.IdentityService.Application.Tests.csproj", "{82A8C91C-5F2F-4259-BE17-9246BA2190C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.Domain.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.Domain.Tests\ResourceryPlatformWorkflow.IdentityService.Domain.Tests.csproj", "{E5364AD6-FC31-4EA8-917D-5C8283A54A93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.Domain.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.Domain.Tests\ResourceryPlatformWorkflow.IdentityService.Domain.Tests.csproj", "{E5364AD6-FC31-4EA8-917D-5C8283A54A93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests.csproj", "{54AAC843-4E2D-464E-B8CD-F505D5ABDBFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.IdentityService.EntityFrameworkCore.Tests.csproj", "{54AAC843-4E2D-464E-B8CD-F505D5ABDBFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp.csproj", "{66CF8BDB-B8C7-4D9B-8656-8ACFD95FF83F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.IdentityService.HttpApi.Client.ConsoleTestApp.csproj", "{66CF8BDB-B8C7-4D9B-8656-8ACFD95FF83F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.IdentityService.TestBase", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.TestBase\ResourceryPlatformWorkflow.IdentityService.TestBase.csproj", "{7225FFE9-696E-41D6-A221-7F253216E839}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.IdentityService.TestBase", "services\identity\test\ResourceryPlatformWorkflow.IdentityService.TestBase\ResourceryPlatformWorkflow.IdentityService.TestBase.csproj", "{7225FFE9-696E-41D6-A221-7F253216E839}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "saas", "saas", "{DE7668EA-5EAF-4144-BE6F-07C51A4A625F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{C7BB3A8C-DA36-4C5E-BA25-69063C7C0640}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Host", "services\saas\host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host.csproj", "{A2484715-9385-4CC5-BE2E-C3D8D5A696FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Host", "services\saas\host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host\ResourceryPlatformWorkflow.SaaS.HttpApi.Host.csproj", "{A2484715-9385-4CC5-BE2E-C3D8D5A696FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B5A7FF02-13F3-450B-B78F-C354C4514497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Application", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Application\ResourceryPlatformWorkflow.SaaS.Application.csproj", "{37309A09-2F35-412F-B7E5-8333DB066E27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Application", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Application\ResourceryPlatformWorkflow.SaaS.Application.csproj", "{37309A09-2F35-412F-B7E5-8333DB066E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Application.Contracts", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Application.Contracts\ResourceryPlatformWorkflow.SaaS.Application.Contracts.csproj", "{859AE8D3-52D9-4DEB-88CE-261C7C69DCF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Application.Contracts", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Application.Contracts\ResourceryPlatformWorkflow.SaaS.Application.Contracts.csproj", "{859AE8D3-52D9-4DEB-88CE-261C7C69DCF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Domain", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Domain\ResourceryPlatformWorkflow.SaaS.Domain.csproj", "{AA062B08-D685-409F-8C5B-32D3A5D42E9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Domain", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Domain\ResourceryPlatformWorkflow.SaaS.Domain.csproj", "{AA062B08-D685-409F-8C5B-32D3A5D42E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Domain.Shared", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Domain.Shared\ResourceryPlatformWorkflow.SaaS.Domain.Shared.csproj", "{65E181C9-4944-4243-AEA1-8F50A11E213E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Domain.Shared", "services\saas\src\ResourceryPlatformWorkflow.SaaS.Domain.Shared\ResourceryPlatformWorkflow.SaaS.Domain.Shared.csproj", "{65E181C9-4944-4243-AEA1-8F50A11E213E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore", "services\saas\src\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.csproj", "{208B38EC-B843-4A21-BE61-F0CFFC6096A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore", "services\saas\src\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.csproj", "{208B38EC-B843-4A21-BE61-F0CFFC6096A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.HttpApi", "services\saas\src\ResourceryPlatformWorkflow.SaaS.HttpApi\ResourceryPlatformWorkflow.SaaS.HttpApi.csproj", "{512E6CED-3AF6-4596-A25C-29DAC3A0021C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.HttpApi", "services\saas\src\ResourceryPlatformWorkflow.SaaS.HttpApi\ResourceryPlatformWorkflow.SaaS.HttpApi.csproj", "{512E6CED-3AF6-4596-A25C-29DAC3A0021C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Client", "services\saas\src\ResourceryPlatformWorkflow.SaaS.HttpApi.Client\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.csproj", "{30B6A5B1-6600-42CE-8B22-95A1E5F1FD12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Client", "services\saas\src\ResourceryPlatformWorkflow.SaaS.HttpApi.Client\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.csproj", "{30B6A5B1-6600-42CE-8B22-95A1E5F1FD12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FAFF3C55-EE41-4EE7-83F3-0017A2FD7384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Application.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.Application.Tests\ResourceryPlatformWorkflow.SaaS.Application.Tests.csproj", "{20AAD74D-5D31-4C20-8D28-E58541BE3574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Application.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.Application.Tests\ResourceryPlatformWorkflow.SaaS.Application.Tests.csproj", "{20AAD74D-5D31-4C20-8D28-E58541BE3574}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.Domain.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.Domain.Tests\ResourceryPlatformWorkflow.SaaS.Domain.Tests.csproj", "{B1E6751D-4BEE-4DEF-AC0F-A4F9A9F48931}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.Domain.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.Domain.Tests\ResourceryPlatformWorkflow.SaaS.Domain.Tests.csproj", "{B1E6751D-4BEE-4DEF-AC0F-A4F9A9F48931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests.csproj", "{A08CF9AA-C7B5-43ED-BF15-DBF5D8A63481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests", "services\saas\test\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore.Tests.csproj", "{A08CF9AA-C7B5-43ED-BF15-DBF5D8A63481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp", "services\saas\test\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp.csproj", "{BEFEEC0F-6D94-464A-B4E3-214BB937D9CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp", "services\saas\test\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp\ResourceryPlatformWorkflow.SaaS.HttpApi.Client.ConsoleTestApp.csproj", "{BEFEEC0F-6D94-464A-B4E3-214BB937D9CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.SaaS.TestBase", "services\saas\test\ResourceryPlatformWorkflow.SaaS.TestBase\ResourceryPlatformWorkflow.SaaS.TestBase.csproj", "{01F98871-B7E4-48E3-8F3E-E40D74D617B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.SaaS.TestBase", "services\saas\test\ResourceryPlatformWorkflow.SaaS.TestBase\ResourceryPlatformWorkflow.SaaS.TestBase.csproj", "{01F98871-B7E4-48E3-8F3E-E40D74D617B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{1FD6015A-E576-4977-B84E-A4333BBC1C2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.DbMigrator", "shared\ResourceryPlatformWorkflow.DbMigrator\ResourceryPlatformWorkflow.DbMigrator.csproj", "{5A7BBFE2-934C-4AFF-9FB4-46E8A1800A78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.DbMigrator", "shared\ResourceryPlatformWorkflow.DbMigrator\ResourceryPlatformWorkflow.DbMigrator.csproj", "{5A7BBFE2-934C-4AFF-9FB4-46E8A1800A78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Hosting.Shared", "shared\ResourceryPlatformWorkflow.Hosting.Shared\ResourceryPlatformWorkflow.Hosting.Shared.csproj", "{ADDF86CB-7709-46B0-B02D-F6EA4010FF99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Hosting.Shared", "shared\ResourceryPlatformWorkflow.Hosting.Shared\ResourceryPlatformWorkflow.Hosting.Shared.csproj", "{ADDF86CB-7709-46B0-B02D-F6EA4010FF99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Microservice.Shared", "shared\ResourceryPlatformWorkflow.Microservice.Shared\ResourceryPlatformWorkflow.Microservice.Shared.csproj", "{35BB7A7D-3D82-43D4-88DB-12AFAC3BD528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Microservice.Shared", "shared\ResourceryPlatformWorkflow.Microservice.Shared\ResourceryPlatformWorkflow.Microservice.Shared.csproj", "{35BB7A7D-3D82-43D4-88DB-12AFAC3BD528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.ServiceDefaults", "shared\ResourceryPlatformWorkflow.ServiceDefaults\ResourceryPlatformWorkflow.ServiceDefaults.csproj", "{534EB2F9-687C-4135-8EF0-048BB34B44B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.ServiceDefaults", "shared\ResourceryPlatformWorkflow.ServiceDefaults\ResourceryPlatformWorkflow.ServiceDefaults.csproj", "{534EB2F9-687C-4135-8EF0-048BB34B44B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Shared", "shared\ResourceryPlatformWorkflow.Shared\ResourceryPlatformWorkflow.Shared.csproj", "{997D3E8F-D8D8-4DBD-8A58-11044DE1D343}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Shared", "shared\ResourceryPlatformWorkflow.Shared\ResourceryPlatformWorkflow.Shared.csproj", "{997D3E8F-D8D8-4DBD-8A58-11044DE1D343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.AuthServer", "apps\ResourceryPlatformWorkflow.AuthServer\ResourceryPlatformWorkflow.AuthServer.csproj", "{38A449EC-17A6-486A-9CEC-6B07297E4372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.AuthServer", "apps\ResourceryPlatformWorkflow.AuthServer\ResourceryPlatformWorkflow.AuthServer.csproj", "{38A449EC-17A6-486A-9CEC-6B07297E4372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.AppHost", "apps\ResourceryPlatformWorkflow.AppHost\ResourceryPlatformWorkflow.AppHost.csproj", "{6254C326-74B6-440C-BDB4-B55903916E43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.AppHost", "apps\ResourceryPlatformWorkflow.AppHost\ResourceryPlatformWorkflow.AppHost.csproj", "{6254C326-74B6-440C-BDB4-B55903916E43}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourceryPlatformWorkflow.WebApp", "ResourceryPlatformWorkflow.WebApp", "{F5CE5219-BA3A-48F5-BFF2-4A312FCEFCEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7FA6F621-DD0C-4712-A609-7BBEB0C35BC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.WebApp.Blazor", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor\ResourceryPlatformWorkflow.WebApp.Blazor.csproj", "{3B4EC11C-D30A-4104-8079-BC4C957A4D85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.WebApp.Blazor", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor\ResourceryPlatformWorkflow.WebApp.Blazor.csproj", "{3B4EC11C-D30A-4104-8079-BC4C957A4D85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.WebApp.Blazor.Client", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor.Client\ResourceryPlatformWorkflow.WebApp.Blazor.Client.csproj", "{3B68FC5B-A3E1-4219-BDDA-74F1F7817B7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.WebApp.Blazor.Client", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Blazor.Client\ResourceryPlatformWorkflow.WebApp.Blazor.Client.csproj", "{3B68FC5B-A3E1-4219-BDDA-74F1F7817B7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.WebApp.Domain.Shared", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Domain.Shared\ResourceryPlatformWorkflow.WebApp.Domain.Shared.csproj", "{A3FE1E4C-F1A1-4DB6-A5E8-718965965E62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.WebApp.Domain.Shared", "apps\ResourceryPlatformWorkflow.WebApp\src\ResourceryPlatformWorkflow.WebApp.Domain.Shared\ResourceryPlatformWorkflow.WebApp.Domain.Shared.csproj", "{A3FE1E4C-F1A1-4DB6-A5E8-718965965E62}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflow", "workflow", "{1A869FA9-F8FF-E58C-EBA5-3C1869102738}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F166FE2-DFBD-EDBF-B35F-67B829196365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Application", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Application\ResourceryPlatformWorkflow.Workflow.Application.csproj", "{3CB02B3D-C392-491D-B522-AAD4F632A940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Application", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Application\ResourceryPlatformWorkflow.Workflow.Application.csproj", "{3CB02B3D-C392-491D-B522-AAD4F632A940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Application.Contracts", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Application.Contracts\ResourceryPlatformWorkflow.Workflow.Application.Contracts.csproj", "{C33C304B-DD23-40F1-82CE-E67AB961085F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Application.Contracts", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Application.Contracts\ResourceryPlatformWorkflow.Workflow.Application.Contracts.csproj", "{C33C304B-DD23-40F1-82CE-E67AB961085F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Domain.Shared", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Domain.Shared\ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj", "{A19ED633-5326-446E-ACC4-C063016B6686}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Domain.Shared", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Domain.Shared\ResourceryPlatformWorkflow.Workflow.Domain.Shared.csproj", "{A19ED633-5326-446E-ACC4-C063016B6686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Domain", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Domain\ResourceryPlatformWorkflow.Workflow.Domain.csproj", "{E5753643-4B73-43D9-8147-605268E25B44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Domain", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.Domain\ResourceryPlatformWorkflow.Workflow.Domain.csproj", "{E5753643-4B73-43D9-8147-605268E25B44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3C6E5EA6-16AB-955C-1813-1FE5BA61DE70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Application.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.Application.Tests\ResourceryPlatformWorkflow.Workflow.Application.Tests.csproj", "{74550CB0-6772-4DEF-AE1F-E5CB22241A62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Application.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.Application.Tests\ResourceryPlatformWorkflow.Workflow.Application.Tests.csproj", "{74550CB0-6772-4DEF-AE1F-E5CB22241A62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.Domain.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.Domain.Tests\ResourceryPlatformWorkflow.Workflow.Domain.Tests.csproj", "{3BC426F6-9B78-4F12-8A4A-AA3B7C9DF848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.Domain.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.Domain.Tests\ResourceryPlatformWorkflow.Workflow.Domain.Tests.csproj", "{3BC426F6-9B78-4F12-8A4A-AA3B7C9DF848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests.csproj", "{840ABBF8-681A-442B-9B47-692E826F6F38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.Tests.csproj", "{840ABBF8-681A-442B-9B47-692E826F6F38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.csproj", "{3AD78B6D-A767-433E-9D8B-7C38FF1D08C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore\ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore.csproj", "{3AD78B6D-A767-433E-9D8B-7C38FF1D08C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.TestBase", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.TestBase\ResourceryPlatformWorkflow.Workflow.TestBase.csproj", "{86DE0612-86A4-44C4-B851-C501083128E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.TestBase", "services\workflow\test\ResourceryPlatformWorkflow.Workflow.TestBase\ResourceryPlatformWorkflow.Workflow.TestBase.csproj", "{86DE0612-86A4-44C4-B851-C501083128E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{FD984C26-023D-4A3E-9624-39FD69869D33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.HttpApi.Host", "services\workflow\host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host.csproj", "{9F4A9886-CFB5-4A3D-8DC3-D68AC16B9B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.HttpApi.Host", "services\workflow\host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host\ResourceryPlatformWorkflow.Workflow.HttpApi.Host.csproj", "{9F4A9886-CFB5-4A3D-8DC3-D68AC16B9B80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceryPlatformWorkflow.Workflow.HttpApi", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.HttpApi\ResourceryPlatformWorkflow.Workflow.HttpApi.csproj", "{8574274C-18E1-4FDC-97F7-47C6634A76FE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E-EAC7-C090-1BA3-A61EC2A24D84}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfilePersistenceProbe", "tools\ProfilePersistenceProbe\ProfilePersistenceProbe.csproj", "{4F4B0A93-C956-471B-B02A-6EED18E2CD36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceryPlatformWorkflow.Workflow.HttpApi", "services\workflow\src\ResourceryPlatformWorkflow.Workflow.HttpApi\ResourceryPlatformWorkflow.Workflow.HttpApi.csproj", "{8574274C-18E1-4FDC-97F7-47C6634A76FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -914,18 +911,6 @@ Global
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x64.Build.0 = Release|Any CPU
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE}.Release|x86.Build.0 = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x64.Build.0 = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Debug|x86.Build.0 = Debug|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x64.ActiveCfg = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x64.Build.0 = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x86.ActiveCfg = Release|Any CPU
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1010,7 +995,6 @@ Global
 		{FD984C26-023D-4A3E-9624-39FD69869D33} = {1A869FA9-F8FF-E58C-EBA5-3C1869102738}
 		{9F4A9886-CFB5-4A3D-8DC3-D68AC16B9B80} = {FD984C26-023D-4A3E-9624-39FD69869D33}
 		{8574274C-18E1-4FDC-97F7-47C6634A76FE} = {1F166FE2-DFBD-EDBF-B35F-67B829196365}
-		{4F4B0A93-C956-471B-B02A-6EED18E2CD36} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B6BA14C-DD65-4EE6-9415-2CCC1EBDB508}

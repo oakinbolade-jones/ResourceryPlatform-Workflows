@@ -6,6 +6,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.SettingManagement;
+using Volo.Abp.Emailing;
 
 namespace ResourceryPlatformWorkflow.Administration;
 
@@ -17,4 +18,5 @@ namespace ResourceryPlatformWorkflow.Administration;
 [DependsOn(typeof(AbpSettingManagementDomainModule))]
 [DependsOn(typeof(AbpAuditLoggingDomainModule))]
 [DependsOn(typeof(AbpFeatureManagementDomainModule))]
-public class AdministrationDomainModule : AbpModule { }
+[DependsOn(typeof(AbpEmailingModule))]
+    public class AdministrationDomainModule : AbpModule { }

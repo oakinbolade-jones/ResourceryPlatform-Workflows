@@ -61,16 +61,19 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   searchMatchCount = 0;
   currentMatchIndex = -1;
   downloadError: string | null = null;
-  downloadingFormat: 'docx' | 'pdf' | 'txt' | null = null;
+  downloadingFormat: 'docx' | 'pdf' | 'txt' | 'excel' | null = null;
   hasTranscriptionCreatePermission = false;
   hasTranscriptionViewPermission = false;
   hasTranscriptionUpdatePermission = false;
   hasTranscriptionDeletePermission = false;
+  downloadMenuLanguage: string | null = null;
 
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
   private searchMatchPositions: Array<{ lineId: number }> = [];
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
+  private readonly translationEndpoint = `${environment.apis.default.url}/api/workflow/translations/translate`;
+  private readonly translationLanguageCodes = ['en', 'fr', 'pt'] as const;
 
   constructor(
     private route: ActivatedRoute,
@@ -444,6 +447,31 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     this.onWordClick(firstWord);
   }
 
+  get translationOptions(): Array<{ code: string; label: string }> {
+    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+    const isSourceLanguageSupported = this.translationLanguageCodes.includes(
+      sourceLanguage as (typeof this.translationLanguageCodes)[number]
+    );
+
+    const languages =
+      sourceLanguage === 'xx' || !isSourceLanguageSupported
+        ? [...this.translationLanguageCodes]
+        : this.translationLanguageCodes.filter(code => code !== sourceLanguage);
+
+    return [
+      { code: '', label: 'Translate and download' },
+      ...languages.map(code => ({ code, label: code.toUpperCase() })),
+    ];
+  }
+
+  get selectedTranslationLanguage(): string {
+    return this.downloadMenuLanguage ?? '';
+  }
+
+  set selectedTranslationLanguage(value: string) {
+    this.downloadMenuLanguage = value;
+  }
+
   canDownload(format: 'docx' | 'pdf' | 'txt'): boolean {
     if (!this.transcription) {
       return false;
@@ -454,7 +482,79 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     return hasTranscript;
   }
 
-  async downloadResult(format: 'docx' | 'pdf' | 'txt'): Promise<void> {
+  toggleTranslationMenu(languageCode: string): void {
+    this.downloadMenuLanguage = this.downloadMenuLanguage === languageCode ? null : languageCode;
+  }
+
+  closeTranslationMenu(): void {
+    this.downloadMenuLanguage = null;
+  }
+
+  onTranslateLanguageChange(languageCode: string): void {
+    this.downloadMenuLanguage = languageCode || null;
+  }
+
+  private normalizeLanguageCode(language: string | null | undefined): string {
+    const normalized = (language ?? '').trim().toLowerCase();
+    if (!normalized) {
+      return 'en';
+    }
+
+    const withoutRegion = normalized.split('-')[0];
+    return withoutRegion || 'en';
+  }
+
+  private getTranscriptText(): string {
+    if (this.transcriptLines.length > 0) {
+      return this.transcriptLines.map(line => line.text).join('\n').trim();
+    }
+
+    const transcriptValue = (this.transcription as unknown as { transcript?: string }).transcript ?? '';
+    return transcriptValue.trim();
+  }
+
+  private async translateTranscriptText(targetLanguage: string): Promise<string> {
+    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+    const transcriptText = this.getTranscriptText();
+
+    if (!transcriptText) {
+      throw new Error('No transcript text is available to translate.');
+    }
+
+    const payload = {
+      text: transcriptText,
+      sourceLanguage: sourceLanguage === 'xx' ? null : sourceLanguage,
+      targetLanguage,
+    };
+
+    const response = await firstValueFrom(
+      this.http.post<{ translatedText?: string }>(this.translationEndpoint, payload)
+    );
+
+    const translatedText = response?.translatedText ?? '';
+    if (!translatedText.trim()) {
+      throw new Error('The translation service returned no translated text.');
+    }
+
+    return translatedText;
+  }
+
+  async downloadResult(
+    format: 'docx' | 'pdf' | 'txt',
+    translatedTextOverride?: string,
+    targetLanguageOverride?: string
+  ): Promise<void> {
+    if (translatedTextOverride) {
+      this.downloadError = null;
+      const targetLanguage = targetLanguageOverride ?? this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+      const fileName = this.resolveTranslatedFileName(format, targetLanguage);
+      const mimeType = this.resolveDownloadMimeType(format);
+      const blob = this.createTranslatedFileBlob(format, translatedTextOverride);
+      this.triggerDownload(blob, fileName, mimeType);
+      this.closeTranslationMenu();
+      return;
+    }
+
     if (!this.transcription) {
       return;
     }
@@ -507,6 +607,116 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     } finally {
       this.downloadingFormat = null;
     }
+  }
+
+  async downloadTranslatedResult(languageCode: string, format: 'docx' | 'pdf' | 'txt'): Promise<void> {
+    try {
+      this.downloadError = null;
+      this.downloadingFormat = format;
+      const translatedText = await this.translateTranscriptText(languageCode);
+      this.downloadResult(format, translatedText, languageCode);
+    } catch (error) {
+      this.downloadError =
+        error instanceof Error ? error.message : 'Unable to translate and download the selected transcription text.';
+    } finally {
+      this.downloadingFormat = null;
+    }
+  }
+
+  private resolveDownloadMimeType(format: 'docx' | 'pdf' | 'txt'): string {
+    switch (format) {
+      case 'docx':
+        return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      case 'pdf':
+        return 'application/pdf';
+      default:
+        return 'text/plain;charset=utf-8';
+    }
+  }
+
+  private createTranslatedFileBlob(format: 'docx' | 'pdf' | 'txt', translatedText: string): Blob {
+    const normalizedText = translatedText.replace(/\r\n/g, '\n');
+
+    if (format === 'pdf') {
+      return new Blob([this.buildPdfContent(normalizedText)], { type: 'application/pdf' });
+    }
+
+    if (format === 'docx') {
+      return new Blob([normalizedText], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    }
+
+    return new Blob([normalizedText], { type: 'text/plain;charset=utf-8' });
+  }
+
+  private buildPdfContent(text: string): string {
+    const lines = text.split('\n');
+    const pageWidth = 595;
+    const pageHeight = 842;
+    const margin = 50;
+    const fontSize = 12;
+    const lineHeight = 18;
+    const escapedText = lines
+      .map(line => line.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)'))
+      .join(') Tj\nBT /F1 ' + fontSize + ' Tf 50 ');
+
+    let content = '';
+    lines.forEach((line, index) => {
+      const y = pageHeight - margin - index * lineHeight;
+      const safeLine = line.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+      content += `BT /F1 ${fontSize} Tf 50 ${y} Td (${safeLine}) Tj ET\n`;
+    });
+
+    const objects = [
+      '<< /Type /Catalog /Pages 2 0 R >>',
+      '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+      '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>',
+      `<< /Length ${content.length} >>\nstream\n${content}endstream`,
+      '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+    ];
+
+    let pdf = '%PDF-1.4\n';
+    const offsets: number[] = [];
+    objects.forEach((obj, index) => {
+      offsets.push(pdf.length);
+      pdf += `${index + 1} 0 obj\n${obj}\nendobj\n`;
+    });
+
+    const xrefStart = pdf.length;
+    pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+    offsets.forEach(offset => pdf += `${String(offset).padStart(10, '0')} 00000 n \n`);
+    pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
+
+    return pdf;
+  }
+
+  private triggerDownload(blob: Blob, fileName: string, mimeType: string): void {
+    const objectUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = fileName;
+    link.type = mimeType;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(objectUrl);
+  }
+
+  private resolveTranslatedFileName(format: 'docx' | 'pdf' | 'txt', languageCode: string): string {
+    const baseDate = this.transcription?.dateOfTranscription
+      ? new Date(this.transcription.dateOfTranscription)
+      : new Date();
+
+    const timestamp = [
+      baseDate.getFullYear().toString(),
+      (baseDate.getMonth() + 1).toString().padStart(2, '0'),
+      baseDate.getDate().toString().padStart(2, '0'),
+      baseDate.getHours().toString().padStart(2, '0'),
+      baseDate.getMinutes().toString().padStart(2, '0'),
+      baseDate.getSeconds().toString().padStart(2, '0'),
+    ].join('');
+
+    const slug = (this.transcription?.title ?? 'transcription').trim().toLowerCase().replace(/[^a-z0-9]+/g, '') || 'transcription';
+    return `${timestamp}-${slug}_${languageCode}.${format}`;
   }
 
   private resolveFileName(_response: HttpResponse<Blob>, format: 'docx' | 'pdf' | 'txt'): string {
