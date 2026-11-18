@@ -8,6 +8,7 @@ using Volo.Abp.Modularity;
 namespace ResourceryPlatformWorkflow.Workflow;
 
 [DependsOn(typeof(WorkflowApplicationContractsModule))]
+[DependsOn(typeof(WorkflowApplicationModule))]
 [DependsOn(typeof(AbpAspNetCoreMvcModule))]
 public class WorkflowHttpApiModule : AbpModule
 {
@@ -21,9 +22,18 @@ public class WorkflowHttpApiModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+          Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ConventionalControllers.Create(
+                typeof(WorkflowApplicationModule).Assembly
+            );
+        });
+
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources.Get<WorkflowResource>().AddBaseTypes(typeof(AbpUiResource));
         });
+
+     
     }
 }

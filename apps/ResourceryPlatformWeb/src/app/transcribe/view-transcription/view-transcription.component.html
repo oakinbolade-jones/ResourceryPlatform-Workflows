@@ -8,26 +8,27 @@
     <h2 class="fw-bold fs-3 mb-0">{{ 'Administration::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
-  <div class="list-header d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
-    <div class="list-header-content">
-      <h3 class="fw-bold fs-5 mb-0">
-        {{ 'Administration::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
-      </h3>
-      <p class="mb-0 page-description text-emphasis">
-        {{ 'Administration::Transcription:DetailsDescriptionLabel' | abpLocalization }}
-      </p>
+  <div class="list-header row g-3 align-items-end mb-4">
+    <div class="col-12 col-lg-4">
+      <div class="list-header-content">
+        <h3 class="fw-bold fs-5 mb-0">
+          {{ 'Administration::Transcription:TranscriptionDetailsLabel' | abpLocalization }}
+        </h3>
+        <p class="mb-0 page-description text-emphasis">
+          {{ 'Administration::Transcription:DetailsDescriptionLabel' | abpLocalization }}
+        </p>
+      </div>
     </div>
-    <!-- <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
+    <div class="col-12 col-lg-8 d-flex justify-content-start justify-content-lg-end flex-wrap gap-2">
+      <a *ngIf="hasTranscriptionCreatePermission" class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
         <i class="fa fa-plus me-2" aria-hidden="true"></i>
         {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
-      </a> -->
-    <a *ngIf="hasTranscriptionCreatePermission" class="btn btn-success rounded-5 px-4" routerLink="/transcribe">
-      <i class="fa fa-plus me-2" aria-hidden="true"></i>
-      {{ 'Administration::Transcription:NewLabel' | abpLocalization }}
-    </a>
-    <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
-      <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
-      {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}</a>
+      </a>
+      <a class="btn btn-success rounded-5 px-4" routerLink="/transcribe/list">
+        <i class="fa fa-chevron-left me-2" aria-hidden="true"></i>
+        {{ 'Administration::Transcription:BackToTranscriptionListLabel' | abpLocalization }}
+      </a>
+    </div>
   </div>
 
   <div *ngIf="loading" class="state-banner state-loading ss-loading-state">
@@ -78,43 +79,97 @@
           {{ transcription.dateOfTranscription | date: 'long' }}
         </p>
 
-        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-          <div class="input-group" style="max-width: 240px;">
-            <span class="input-group-text bg-white border border-success text-success">
-              <i class="fa fa-language" aria-hidden="true"></i>
+        <div class="d-flex flex-wrap align-items-end gap-3 mb-3">
+          <div class="d-inline-flex flex-column align-items-start gap-2">
+            <span class="fw-bold text-muted">
+              {{ 'Administration::Transcription:DownloadTranslationLabel' | abpLocalization }}
             </span>
-            <select
-              class="form-select border border-success rounded-0 fs-6"
-              [disabled]="!canDownload('txt') || downloadingFormat !== null"
-              [ngModel]="selectedTranslationLanguage"
-              (ngModelChange)="onTranslateLanguageChange($event)"
-            >
-              <option *ngFor="let option of translationOptions" [value]="option.code">
-                {{ option.label }}
-              </option>
-            </select>
+            <div class="input-group" style="max-width: 340px">
+              <span class="input-group-text bg-white border border-success text-success">
+                <i class="fa fa-language" aria-hidden="true"></i>
+              </span>
+              <select class="form-select border border-success rounded-0 fs-6"
+                [disabled]="!canDownload('txt') || downloadingFormat !== null" [(ngModel)]="downloadMenuLanguage">
+                <option *ngFor="let option of translationOptions" [ngValue]="option.code || null">
+                  {{ option.labelKey | abpLocalization }}
+                </option>
+              </select>
+            </div>
           </div>
 
           <div *ngIf="downloadMenuLanguage" class="d-inline-flex align-items-center gap-2">
             <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null" (click)="downloadTranslatedResult(downloadMenuLanguage, 'docx')">
+              <i class="fa fa-file-word-o me-1" aria-hidden="true"></i>
+              DOCX
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null" (click)="downloadTranslatedResult(downloadMenuLanguage, 'pdf')">
+              <i class="fa fa-file-pdf-o me-1" aria-hidden="true"></i>
+              PDF
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="downloadingFormat !== null" (click)="downloadTranslatedResult(downloadMenuLanguage, 'txt')">
+              <i class="fa fa-file-text-o me-1" aria-hidden="true"></i>
+              TXT
+            </button>
+          </div>
+
+          <div class="d-inline-flex flex-column align-items-start gap-2">
+            <span class="fw-bold text-muted">
+              {{ 'Administration::Transcription:DownloadSummaryLabel' | abpLocalization }}
+            </span>
+
+            <div class="d-flex flex-wrap gap-2">
+              <div class="input-group" style="max-width: 340px">
+                <span class="input-group-text bg-white border border-success text-success">
+                  <i class="fa fa-language" aria-hidden="true"></i>
+                </span>
+                <select class="form-select border border-success rounded-0 fs-6"
+                  [disabled]="!canDownload('txt') || downloadingFormat !== null" [(ngModel)]="summaryMenuLanguage">
+                  <option *ngFor="let option of summaryLanguageOptions" [ngValue]="option.code || null">
+                    {{ option.labelKey | abpLocalization }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="input-group" style="max-width: 340px">
+                <span class="input-group-text bg-white border border-success text-success">
+                  <i class="fa fa-list-ul" aria-hidden="true"></i>
+                </span>
+                <select class="form-select border border-success rounded-0 fs-6"
+                  [disabled]="!canDownload('txt') || downloadingFormat !== null" [(ngModel)]="selectedSummaryType">
+                  <option *ngFor="let option of summaryTypeOptions" [ngValue]="option.value || null">
+                    {{ option.labelKey | abpLocalization }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="summaryMenuLanguage && selectedSummaryType" class="d-inline-flex align-items-center gap-2">
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="downloadingFormat !== null"
-              (click)="downloadTranslatedResult(downloadMenuLanguage, 'docx')">
+              (click)="downloadSummaryResult(summaryMenuLanguage, selectedSummaryType, 'docx')">
               <i class="fa fa-file-word-o me-1" aria-hidden="true"></i>
               DOCX
             </button>
             <button type="button" class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="downloadingFormat !== null"
-              (click)="downloadTranslatedResult(downloadMenuLanguage, 'pdf')">
+              (click)="downloadSummaryResult(summaryMenuLanguage, selectedSummaryType, 'pdf')">
               <i class="fa fa-file-pdf-o me-1" aria-hidden="true"></i>
               PDF
             </button>
             <button type="button" class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="downloadingFormat !== null"
-              (click)="downloadTranslatedResult(downloadMenuLanguage, 'txt')">
+              (click)="downloadSummaryResult(summaryMenuLanguage, selectedSummaryType, 'txt')">
               <i class="fa fa-file-text-o me-1" aria-hidden="true"></i>
               TXT
             </button>
           </div>
+
+
+
         </div>
 
         <div *ngIf="mediaError" class="state-banner state-error mb-0 mt-3">
@@ -274,5 +329,55 @@
         </div>
       </section>
     </div>
+
+    <section class="mt-4 pt-4 border-top border-success">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-3 gap-2">
+        <h4 class="fs-5 fw-bold mb-0">
+          {{ 'Administration::Transcription:PreviewLabel' | abpLocalization }}
+        </h4>
+        <small class="text-muted">
+          {{ 'Administration::Transcription:PreviewDescription' | abpLocalization }}
+        </small>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-xl-6 d-flex">
+          <div class="w-100 border border-success rounded-3 p-3 h-100 d-flex flex-column" style="min-height: 320px; max-height: 450px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="fs-6 fw-bold mb-0">
+                {{ 'Administration::Transcription:DownloadTranslationLabel' | abpLocalization }}
+              </h5>
+              <small *ngIf="translatedPreviewLanguage" class="text-muted text-uppercase">{{ translatedPreviewLanguage }}</small>
+            </div>
+            <div class="small text-muted mb-2" *ngIf="!translatedPreviewText">
+              {{ 'Administration::Transcription:PreviewTranslationEmpty' | abpLocalization }}
+            </div>
+            <div class="flex-grow-1 overflow-auto fs-6" style="white-space: pre-wrap;">
+              {{ translatedPreviewText }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-6 d-flex">
+          <div class="w-100 border border-success rounded-3 p-3 h-100 d-flex flex-column" style="min-height: 320px; max-height: 450px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="fs-6 fw-bold mb-0">
+                {{ 'Administration::Transcription:DownloadSummaryLabel' | abpLocalization }}
+              </h5>
+              <small *ngIf="summaryPreviewLanguage" class="text-muted">
+                {{ summaryPreviewLanguage | uppercase }}
+                <span *ngIf="summaryPreviewType"> • {{ summaryPreviewType }}</span>
+              </small>
+            </div>
+            <div class="small text-muted mb-2" *ngIf="!summaryPreviewText">
+              {{ 'Administration::Transcription:PreviewSummaryEmpty' | abpLocalization }}
+            </div>
+            <div class="flex-grow-1 overflow-auto fs-6" style="white-space: pre-wrap;">
+              {{ summaryPreviewText }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

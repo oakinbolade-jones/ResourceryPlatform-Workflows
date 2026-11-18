@@ -1,0 +1,79 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "ResourceryPlatformWorkflow.Mailing.Domain.Shared": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.Domain.Shared/ResourceryPlatformWorkflow.Mailing.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Domain": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.Domain/ResourceryPlatformWorkflow.Mailing.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Application.Contracts": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.Application.Contracts/ResourceryPlatformWorkflow.Mailing.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Application": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.Application/ResourceryPlatformWorkflow.Mailing.Application.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore/ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.MongoDB": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.MongoDB/ResourceryPlatformWorkflow.Mailing.MongoDB.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.HttpApi": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.HttpApi/ResourceryPlatformWorkflow.Mailing.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.HttpApi.Client": {
+      "path": "src/ResourceryPlatformWorkflow.Mailing.HttpApi.Client/ResourceryPlatformWorkflow.Mailing.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "ResourceryPlatformWorkflow.Mailing.TestBase": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.TestBase/ResourceryPlatformWorkflow.Mailing.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore.Tests": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore.Tests/ResourceryPlatformWorkflow.Mailing.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.MongoDB.Tests": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.MongoDB.Tests/ResourceryPlatformWorkflow.Mailing.MongoDB.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Domain.Tests": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.Domain.Tests/ResourceryPlatformWorkflow.Mailing.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Application.Tests": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.Application.Tests/ResourceryPlatformWorkflow.Mailing.Application.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.HttpApi.Host": {
+      "path": "host/ResourceryPlatformWorkflow.Mailing.HttpApi.Host/ResourceryPlatformWorkflow.Mailing.HttpApi.Host.abppkg.json",
+      "folder": "host"
+    },
+    "ResourceryPlatformWorkflow.Mailing.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/ResourceryPlatformWorkflow.Mailing.HttpApi.Client.ConsoleTestApp/ResourceryPlatformWorkflow.Mailing.HttpApi.Client.ConsoleTestApp.abppkg.json",
+      "folder": "test"
+    },
+    "ResourceryPlatformWorkflow.Mailing.IdentityServer": {
+      "path": "host/ResourceryPlatformWorkflow.Mailing.IdentityServer/ResourceryPlatformWorkflow.Mailing.IdentityServer.abppkg.json",
+      "folder": "host"
+    },
+    "ResourceryPlatformWorkflow.Mailing.Host.Shared": {
+      "path": "host/ResourceryPlatformWorkflow.Mailing.Host.Shared/ResourceryPlatformWorkflow.Mailing.Host.Shared.abppkg.json",
+      "folder": "host"
+    }
+  }
+}

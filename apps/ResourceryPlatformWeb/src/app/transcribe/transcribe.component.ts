@@ -349,6 +349,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit, OnDestroy {
       formData.append('transcriptionId', this.transcriptionId);
     }
     formData.append('title', this.transcribeForm.get('Title')?.value ?? 'Untitled Transcription');
+    formData.append('description', this.transcribeForm.get('Description')?.value ?? '');
     const eventDate = this.transcribeForm.get('EventDate')?.value;
     formData.append('dateOfTranscription', eventDate);
     formData.append('eventDate', eventDate);

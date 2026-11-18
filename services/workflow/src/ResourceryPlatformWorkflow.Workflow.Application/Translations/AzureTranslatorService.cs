@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ResourceryPlatformWorkflow.Workflow.Translations;
 
-namespace SmartServe.Workflow.Translations;
+namespace ResourceryPlatformWorkflow.Workflow.Translations;
 
 public class AzureTranslatorService : ITranslationService
 {

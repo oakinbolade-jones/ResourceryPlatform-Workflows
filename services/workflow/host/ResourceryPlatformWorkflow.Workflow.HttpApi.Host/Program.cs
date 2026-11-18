@@ -9,6 +9,8 @@ using ResourceryPlatformWorkflow.Administration.EntityFrameworkCore;
 using ResourceryPlatformWorkflow.Workflow.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Configuration;
+using Azure.Identity;
 
 namespace ResourceryPlatformWorkflow.Workflow;
 
@@ -18,6 +20,7 @@ public class Program
     {
         ResourceryPlatformWorkflowLogging.Initialize();
 
+
         try
         {
             Log.Information("Starting web host.");
@@ -25,7 +28,18 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
+            
+            // Read the Key Vault address
+            var vaultUri = builder.Configuration["AzureTranslator:Endpoint"];
 
+            // Register Azure Key Vault
+            if (!string.IsNullOrWhiteSpace(vaultUri))
+            {
+                builder.Configuration.AddAzureKeyVault(
+                    new Uri(vaultUri),
+                    new DefaultAzureCredential()
+                );
+            }
             builder.Services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = 2L * 1024 * 1024 * 1024;
