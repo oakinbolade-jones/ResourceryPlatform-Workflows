@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ResourceryPlatformWorkflow.Administration.Migrations
 {
     [DbContext(typeof(AdministrationDbContext))]
-    [Migration("20260503185551_Init")]
-    partial class Init
+    [Migration("20261117173601_Initialization")]
+    partial class Initialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

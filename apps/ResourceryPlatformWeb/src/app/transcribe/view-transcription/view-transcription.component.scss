@@ -230,6 +230,24 @@
     min-width: 4rem;
     text-align: center;
   }
+
+  .summary-panel {
+    background: #f7fbf8;
+  }
+
+  .translation-panel {
+    background: #f7fbf8;
+  }
+
+  .translation-result {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #d9e8de;
+    color: #244737;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
 }
 
 @media (max-width: 767.98px) {

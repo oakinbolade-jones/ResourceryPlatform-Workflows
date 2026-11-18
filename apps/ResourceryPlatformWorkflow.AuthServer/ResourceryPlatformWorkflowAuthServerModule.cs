@@ -30,9 +30,10 @@ using ResourceryPlatformWorkflow.SaaS.EntityFrameworkCore;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
@@ -46,8 +47,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using ResourceryPlatformWorkflow.Workflow;
 using Volo.Abp.Security.Claims;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using StackExchange.Redis;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
@@ -58,7 +57,7 @@ namespace ResourceryPlatformWorkflow;
 [DependsOn(typeof(AbpAccountApplicationModule))]
 [DependsOn(typeof(AbpAccountHttpApiModule))]
 [DependsOn(typeof(AbpAccountWebOpenIddictModule))]
-[DependsOn(typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule))]
+[DependsOn(typeof(AbpAspNetCoreMvcUiBasicThemeModule))]
 [DependsOn(typeof(AbpAspNetCoreSerilogModule))]
 [DependsOn(typeof(AbpAutofacModule))]
 [DependsOn(typeof(AbpCachingStackExchangeRedisModule))]
@@ -105,6 +104,15 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+        // The local launch profile uses Staging, but repeated 16 MB bundle generation is unnecessary.
+        if (!hostingEnvironment.IsProduction())
+        {
+            Configure<AbpBundlingOptions>(options =>
+            {
+                options.Mode = BundlingMode.None;
+            });
+        }
+
         // Trust the X-Forwarded-Proto header from IIS (reverse proxy / SSL termination).
         context.Services.Configure<ForwardedHeadersOptions>(options =>
         {
@@ -136,17 +144,6 @@ public class ResourceryPlatformWorkflowAuthServerModule : AbpModule
 
         // Ensure Razor Pages are enabled
         context.Services.AddRazorPages();
-
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
 
         Configure<AbpAuditingOptions>(options =>
         {

@@ -198,6 +198,11 @@
   resolved "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-6.7.2.tgz"
   integrity sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==
 
+"@popperjs/core@^2.11.8":
+  version "2.11.8"
+  resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
 ansi-colors@^4.1.3:
   version "4.1.3"
   resolved "https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.3.tgz"
@@ -218,10 +223,10 @@ bootstrap-daterangepicker@^3.1.0:
     jquery ">=1.10"
     moment "^2.9.0"
 
-bootstrap@^5.3.3:
-  version "5.3.8"
-  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.8.tgz"
-  integrity sha512-HP1SZDqaLDPwsNiqRqi5NcP0SSXciX2s9E+RyqJIIqGo+vJeN5AJVM98CXmW/Wux0nQ5L7jeWUdplCEf0Ee+tg==
+bootstrap@^5.3.3, bootstrap@^5.3.9:
+  version "5.3.9"
+  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.9.tgz"
+  integrity sha512-20cU0rcfw8WdxtVbmfU+xT2EjvVTw9Ror/h1Qvd7DXCujRg8OO9mdBCsmTHdJFf3BuadmBNJtgIuUXsBqSkk/w==
 
 datatables.net-bs5@^2.1.8:
   version "2.3.6"
@@ -231,7 +236,7 @@ datatables.net-bs5@^2.1.8:
     datatables.net "2.3.6"
     jquery ">=1.7"
 
-datatables.net@2.3.6, datatables.net@^2.1.8:
+datatables.net@^2.1.8, datatables.net@2.3.6:
   version "2.3.6"
   resolved "https://registry.npmjs.org/datatables.net/-/datatables.net-2.3.6.tgz"
   integrity sha512-xQ/dCxrjfxM0XY70wSIzakkTZ6ghERwlLmAPyCnu8Sk5cyt9YvOVyOsFNOa/BZ/lM63Q3i2YSSvp/o7GXZGsbg==
@@ -260,12 +265,12 @@ jquery-validation-unobtrusive@^4.0.0:
     jquery "^3.6.0"
     jquery-validation ">=1.19"
 
-jquery-validation@>=1.19, jquery-validation@^1.21.0:
+jquery-validation@^1.21.0, jquery-validation@>=1.19:
   version "1.22.0"
   resolved "https://registry.npmjs.org/jquery-validation/-/jquery-validation-1.22.0.tgz"
   integrity sha512-W/e+/suHHWHxdE9Byt9eMtYchy6a+RG9pqGTDiqz6DWcgwhrxVh2OVl8jCi3NSkmACeOW/wiPgLN3KM63+aSWg==
 
-jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.2.6, "jquery@>=1.5.0 <4.0", jquery@>=1.7, jquery@>=1.7.2, "jquery@>=3.4.0 <4.0.0", jquery@^3.6.0, jquery@~3.7.1:
+"jquery@^1.7 || ^2.0 || ^3.1 || ^4.0", jquery@^3.6.0, jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.2.6, "jquery@>=1.5.0 <4.0", jquery@>=1.7, jquery@>=1.7.2, "jquery@>=3.4.0 <4.0.0", jquery@~3.7.1:
   version "3.7.1"
   resolved "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
@@ -293,9 +298,9 @@ malihu-custom-scrollbar-plugin@^3.1.5:
     jquery-mousewheel ">=3.0.6"
 
 moment@^2.30.1, moment@^2.9.0:
-  version "2.30.1"
-  resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
-  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
+  version "2.31.0"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.31.0.tgz"
+  integrity sha512-0acOTfMiWOheYS4eoWb80yYMb/JLvVv9SHbs2PehaDzfUG0Bw855SKyk0IKTnPGa5+U2bmi3W68l1+sGLX/pvw==
 
 select2@^4.0.13:
   version "4.0.13"

@@ -4,7 +4,7 @@ import { TranscriptionDto, TranscriptionService } from '../../proxy/workflow/tra
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { PermissionService } from '@abp/ng.core';
+import { LocalizationService, PermissionService } from '@abp/ng.core';
 
 type TranscriptWord = {
   id: number;
@@ -67,19 +67,30 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   hasTranscriptionUpdatePermission = false;
   hasTranscriptionDeletePermission = false;
   downloadMenuLanguage: string | null = null;
+  translationText = '';
+  translationLanguage = '';
+  translationError: string | null = null;
+  translatingTranscript = false;
+  summaryText = '';
+  summaryLanguage = '';
+  summaryError: string | null = null;
+  summarizing = false;
+  translatingSummary = false;
 
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
   private searchMatchPositions: Array<{ lineId: number }> = [];
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly translationEndpoint = `${environment.apis.default.url}/api/workflow/translations/translate`;
+  private readonly summarizationEndpoint = `${environment.apis.default.url}/api/workflow/summarization/summarize`;
   private readonly translationLanguageCodes = ['en', 'fr', 'pt'] as const;
 
   constructor(
     private route: ActivatedRoute,
     private transcriptionService: TranscriptionService,
     private http: HttpClient,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private localizationService: LocalizationService
   ) { }
 
   ngOnInit(): void {
@@ -521,8 +532,12 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
       throw new Error('No transcript text is available to translate.');
     }
 
+    return this.translateText(transcriptText, sourceLanguage, targetLanguage);
+  }
+
+  private async translateText(text: string, sourceLanguage: string, targetLanguage: string): Promise<string> {
     const payload = {
-      text: transcriptText,
+      text,
       sourceLanguage: sourceLanguage === 'xx' ? null : sourceLanguage,
       targetLanguage,
     };
@@ -533,10 +548,89 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
 
     const translatedText = response?.translatedText ?? '';
     if (!translatedText.trim()) {
-      throw new Error('The translation service returned no translated text.');
+      throw new Error(this.t('Transcription:EmptyTranslation', 'The translation service returned no translated text.'));
     }
 
     return translatedText;
+  }
+
+  async translateTranscript(targetLanguage: string): Promise<void> {
+    if (!targetLanguage) {
+      return;
+    }
+
+    this.translationError = null;
+    this.translatingTranscript = true;
+    try {
+      this.translationText = await this.translateTranscriptText(targetLanguage);
+      this.translationLanguage = targetLanguage;
+    } catch (error) {
+      this.translationError = error instanceof Error
+        ? error.message
+        : this.t('Transcription:TranslateFailed', 'Unable to translate the transcription.');
+    } finally {
+      this.translatingTranscript = false;
+    }
+  }
+
+  private t(key: string, fallback: string): string {
+    const normalizedKey = `Administration::${key}`;
+    const value = this.localizationService.instant(normalizedKey);
+    return value && value !== normalizedKey ? value : fallback;
+  }
+
+  async summarizeTranscript(): Promise<void> {
+    const transcriptText = this.getTranscriptText();
+    if (!transcriptText) {
+      this.summaryError = 'No transcript text is available to summarize.';
+      return;
+    }
+
+    this.summaryError = null;
+    this.summarizing = true;
+    try {
+      const language = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+      const response = await firstValueFrom(
+        this.http.post<{ summary?: string; language?: string }>(this.summarizationEndpoint, {
+          text: transcriptText,
+          language: language === 'xx' ? null : language,
+          sentenceCount: 5,
+        })
+      );
+
+      this.summaryText = response?.summary?.trim() ?? '';
+      this.summaryLanguage = response?.language ?? language;
+      if (!this.summaryText) {
+        throw new Error('The summarization service returned no summary.');
+      }
+    } catch (error) {
+      this.summaryError =
+        error instanceof Error ? error.message : 'Unable to summarize the transcription.';
+    } finally {
+      this.summarizing = false;
+    }
+  }
+
+  async translateSummary(targetLanguage: string): Promise<void> {
+    if (!this.summaryText || !targetLanguage) {
+      return;
+    }
+
+    this.summaryError = null;
+    this.translatingSummary = true;
+    try {
+      this.summaryText = await this.translateText(
+        this.summaryText,
+        this.summaryLanguage || this.normalizeLanguageCode(this.transcription?.language ?? 'en'),
+        targetLanguage
+      );
+      this.summaryLanguage = targetLanguage;
+    } catch (error) {
+      this.summaryError =
+        error instanceof Error ? error.message : 'Unable to translate the summary.';
+    } finally {
+      this.translatingSummary = false;
+    }
   }
 
   async downloadResult(

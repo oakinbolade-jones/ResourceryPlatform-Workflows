@@ -157,57 +157,112 @@
           {{ downloadError }}
         </div>
 
-        <!-- Search bar -->
+        <div *ngIf="summaryError" class="state-banner state-error mb-3">
+          {{ summaryError }}
+        </div>
+
+        <div class="summary-panel border border-success mb-3 p-3">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <div>
+              <h5 class="fs-6 fw-bold mb-0">{{ 'Administration::Transcription:SummaryTitle' | abpLocalization }}</h5>
+              <small class="text-muted">{{ 'Administration::Transcription:SummaryDescription' | abpLocalization }}</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-success rounded-5"
+              [disabled]="!canDownload('txt') || summarizing || translatingSummary"
+              (click)="summarizeTranscript()">
+              <i class="fa fa-magic me-1" aria-hidden="true"></i>
+              <ng-container *ngIf="summarizing">{{ 'Administration::Transcription:Summarizing' | abpLocalization }}</ng-container>
+              <ng-container *ngIf="!summarizing && summaryText">{{ 'Administration::Transcription:RegenerateSummary' | abpLocalization }}</ng-container>
+              <ng-container *ngIf="!summarizing && !summaryText">{{ 'Administration::Transcription:Summarize' | abpLocalization }}</ng-container>
+            </button>
+          </div>
+
+          <div *ngIf="summaryText" class="summary-result">
+            <p class="mb-3">{{ summaryText }}</p>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <label class="small fw-semibold mb-0">{{ 'Administration::Transcription:TranslateSummary' | abpLocalization }}</label>
+              <button *ngFor="let language of translationOptions.slice(1)" type="button"
+                class="btn btn-sm btn-outline-success rounded-5"
+                [disabled]="translatingSummary || language.code === summaryLanguage"
+                (click)="translateSummary(language.code)">
+                {{ language.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="translationError" class="state-banner state-error mb-3">
+          {{ translationError }}
+        </div>
+
+        <div class="translation-panel border border-success mb-3 p-3">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <div>
+              <h5 class="fs-6 fw-bold mb-0">{{ 'Administration::Transcription:TranslationPaneTitle' | abpLocalization }}</h5>
+              <small class="text-muted">{{ 'Administration::Transcription:TranslationPaneDescription' | abpLocalization }}</small>
+            </div>
+            <div class="d-inline-flex align-items-center gap-2">
+              <select class="form-select form-select-sm border-success"
+                [disabled]="!canDownload('txt') || translatingTranscript"
+                [ngModel]="translationLanguage"
+                (ngModelChange)="translateTranscript($event)">
+                <option value="">{{ 'Administration::Transcription:SelectTargetLanguage' | abpLocalization }}</option>
+                <option *ngFor="let language of translationOptions.slice(1)" [value]="language.code">
+                  {{ language.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf="translatingTranscript" class="small text-muted">
+            {{ 'Administration::Transcription:Translating' | abpLocalization }}
+          </div>
+          <div *ngIf="translationText && !translatingTranscript" class="translation-result">
+            {{ translationText }}
+          </div>
+        </div>
+
         <div class="transcript-search-bar mb-3">
           <div class="transcript-search-input-wrap">
             <i class="fa fa-search transcript-search-icon" aria-hidden="true"></i>
             <input type="text" class="form-control border border-success rounded-0 ps-4 fs-6 transcript-search-input"
-              placeholder="Search in transcript..." [value]="searchQuery"
+              [placeholder]="'Administration::Transcription:SearchPlaceholder' | abpLocalization" [value]="searchQuery"
               (input)="onSearchChange($any($event.target).value)" />
             <button *ngIf="searchQuery" type="button" class="transcript-search-clear" (click)="clearSearch()"
-              aria-label="Clear search">
+              [attr.aria-label]="'Administration::Transcription:ClearSearchAria' | abpLocalization">
               <i class="fa fa-times" aria-hidden="true"></i>
             </button>
           </div>
           <div class="transcript-search-nav" *ngIf="searchQuery">
             <span class="transcript-search-count fs-6">
-              <ng-container *ngIf="searchMatchCount > 0">
-                {{ currentMatchIndex + 1 }} / {{ searchMatchCount }}
-              </ng-container>
-              <ng-container *ngIf="searchMatchCount === 0">No results</ng-container>
+              <ng-container *ngIf="searchMatchCount > 0">{{ currentMatchIndex + 1 }} / {{ searchMatchCount }}</ng-container>
+              <ng-container *ngIf="searchMatchCount === 0">{{ 'Administration::Transcription:NoSearchResults' | abpLocalization }}</ng-container>
             </span>
             <button type="button" class="btn btn-sm btn-outline-success rounded-0" [disabled]="searchMatchCount === 0"
-              (click)="navigateSearch(-1)" aria-label="Previous match">
+              (click)="navigateSearch(-1)" [attr.aria-label]="'Administration::Transcription:PreviousMatchAria' | abpLocalization">
               <i class="fa fa-chevron-up" aria-hidden="true"></i>
             </button>
             <button type="button" class="btn btn-sm btn-outline-success rounded-0" [disabled]="searchMatchCount === 0"
-              (click)="navigateSearch(1)" aria-label="Next match">
+              (click)="navigateSearch(1)" [attr.aria-label]="'Administration::Transcription:NextMatchAria' | abpLocalization">
               <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button>
           </div>
         </div>
 
-        <div *ngIf="transcriptParseError" class="state-banner state-error mb-3">
-          {{ transcriptParseError }}
-        </div>
-
+        <div *ngIf="transcriptParseError" class="state-banner state-error mb-3">{{ transcriptParseError }}</div>
         <div *ngIf="!transcriptParseError && !hasTranscript" class="state-banner state-empty mb-3">
           {{ 'Administration::Transcription:NoTranscriptLabel' | abpLocalization }}
         </div>
-
         <div *ngIf="hasTranscript" #transcriptScrollHost class="transcript-scroll-host">
           <div *ngFor="let line of transcriptLines; trackBy: trackByLine" class="transcript-line"
             [class.line-active]="isLineActive(line.id)" [class.line-hover]="hoveredLineId === line.id"
             (mouseenter)="onLineHover(line.id)" (mouseleave)="onLineHover(null)" (click)="onLineClick(line)">
             <ng-container *ngFor="let segment of getDisplaySegments(line); trackBy: trackBySegment">
-              <span *ngIf="segment.word; else plainText" class="transcript-word"
-                [class.search-match]="segment.isSearchMatch"
+              <span *ngIf="segment.word; else plainText" class="transcript-word" [class.search-match]="segment.isSearchMatch"
                 [class.search-match-current]="segment.isSearchMatch && segment.searchMatchIndex === currentMatchIndex"
                 [attr.data-word-id]="segment.word?.id" [attr.data-search-idx]="segment.searchMatchIndex ?? null"
                 [class.word-active]="segment.word ? isWordActive(segment.word.id) : false"
                 [class.word-hover]="segment.word ? hoveredWordId === segment.word.id : false"
-                (mouseenter)="segment.word && onWordHover(segment.word.id, line.id)"
-                (mouseleave)="onWordHover(null, null)"
+                (mouseenter)="segment.word && onWordHover(segment.word.id, line.id)" (mouseleave)="onWordHover(null, null)"
                 (click)="segment.word && onWordClick(segment.word); $event.stopPropagation()">{{ segment.text }}</span>
               <ng-template #plainText>
                 <span [class.search-match]="segment.isSearchMatch"

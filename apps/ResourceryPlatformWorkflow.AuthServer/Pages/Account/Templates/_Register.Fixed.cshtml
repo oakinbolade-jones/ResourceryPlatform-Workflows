@@ -1,0 +1,146 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@model Volo.Abp.Account.Web.Pages.Account.RegisterModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject IHtmlLocalizer<ResourceryPlatformWorkflow.Administration.Localization.AdministrationResource> LA
+
+<div class="rp-smartserve-page rp-smartserve-page-register">
+    <div class="rp-smartserve-card">
+        <aside class="rp-smartserve-side">
+            <div class="rp-smartserve-brand" aria-label="ECOWAS SmartServe logo">
+                <a href="http://smartserve.ecowas.int">
+                    <img src="/images/logo/ecw-smartserve-logo-no-text.png" alt="ECOWAS" />
+                </a>
+            </div>
+            <h1 class="rp-smartserve-title">@L["Register"]</h1>
+            <p class="rp-smartserve-subtitle">
+                @L["AlreadyRegistered"]
+                <a href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["Login"]</a>
+            </p>
+        </aside>
+
+        <section class="rp-smartserve-panel">
+            @if (!Model.IsExternalLogin && Model.VisibleExternalProviders.Any())
+            {
+                <div class="rp-smartserve-external">
+                    <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl"
+                          asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post" class="rp-smartserve-provider-form">
+                        @foreach (var provider in Model.VisibleExternalProviders)
+                        {
+                            <button type="submit" class="btn btn-outline-success rp-smartserve-provider-btn"
+                                    name="provider" value="@provider.AuthenticationScheme">
+                                @if (provider.AuthenticationScheme == "Microsoft")
+                                {
+                                    <img src="/images/logo/ecowas-logo.png" alt="ECOWAS Commission" />
+                                    <span>@LA["Account:RegisterWithECOWASMail"]</span>
+                                }
+                                else
+                                {
+                                    <span>@provider.DisplayName</span>
+                                }
+                            </button>
+                        }
+                    </form>
+                </div>
+                <div class="rp-smartserve-divider"><span>@LA["ECOWASAccountOR"]</span></div>
+            }
+
+            @if (Model.EnableLocalRegister || Model.IsExternalLogin)
+            {
+                <form method="post" class="rp-smartserve-form" id="registerForm">
+                    <abp-validation-summary />
+
+                    <div class="rp-smartserve-field mb-4">
+                        <div class="form-floating rp-smartserve-floating-field">
+                            <input asp-for="Input.UserName" class="form-control rp-smartserve-input" autocomplete="off"
+                                   required placeholder="@LA["Account:EnterUsername"]" />
+                            <label asp-for="Input.UserName">@LA["Account:Username"]</label>
+                        </div>
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="rp-smartserve-field mb-4">
+                        <div class="form-floating rp-smartserve-floating-field">
+                            <input asp-for="Input.EmailAddress" type="email" class="form-control rp-smartserve-input"
+                                   autocomplete="off" required placeholder="@LA["Account:EnterEmailAddress"]" />
+                            <label asp-for="Input.EmailAddress">@LA["Account:Email"]</label>
+                        </div>
+                        <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
+                    </div>
+
+                    @if (!Model.IsExternalLogin && Model.EnableLocalRegister)
+                    {
+                        <div class="rp-smartserve-field mb-4">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input asp-for="Input.Password" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password" required minlength="8"
+                                       placeholder="@LA["Account:EnterPassword"]" />
+                                <label asp-for="Input.Password">@LA["Account:Password"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
+                                        aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <small class="form-text text-muted rp-smartserve-password-hint">Use at least 8 characters with a letter and a number.</small>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="rp-smartserve-field mb-4">
+                            <div class="form-floating rp-smartserve-password-wrap">
+                                <input name="Input.ConfirmPassword" id="Input_ConfirmPassword" type="password"
+                                       class="form-control rp-smartserve-input rp-smartserve-password-input"
+                                       autocomplete="new-password" required minlength="8"
+                                       placeholder="@LA["Account:ConfirmPassword"]" />
+                                <label for="Input_ConfirmPassword">@LA["Account:ConfirmPassword"]</label>
+                                <button class="btn rp-smartserve-password-toggle password-visibility-button" type="button"
+                                        aria-label="Show password" title="Show password">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <span class="text-danger" data-valmsg-for="Input.ConfirmPassword"></span>
+                        </div>
+                    }
+
+                    <div class="rp-smartserve-actions">
+                        <button type="submit" class="btn btn-success rp-smartserve-submit">@L["Register"]</button>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('registerForm');
+    if (!form) return;
+
+    const password = form.querySelector('input[name="Input.Password"]');
+    const confirmation = form.querySelector('input[name="Input.ConfirmPassword"]');
+
+    form.addEventListener('submit', function (event) {
+        if (password && confirmation && password.value !== confirmation.value) {
+            event.preventDefault();
+            confirmation.setCustomValidity('Passwords do not match.');
+            confirmation.reportValidity();
+        }
+    });
+
+    document.querySelectorAll('.password-visibility-button').forEach(function (button) {
+        const container = button.closest('.rp-smartserve-password-wrap');
+        const input = container && container.querySelector('input');
+        const icon = button.querySelector('i');
+        if (!input || !icon) return;
+
+        button.addEventListener('click', function () {
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            icon.classList.toggle('fa-eye', !show);
+            icon.classList.toggle('fa-eye-slash', show);
+            button.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+            button.setAttribute('aria-pressed', String(show));
+        });
+    });
+});
+</script>

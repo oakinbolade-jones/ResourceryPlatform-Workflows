@@ -1,9 +1,8 @@
-
 namespace ResourceryPlatformWorkflow.Workflow.Translations;
 
 public class AzureTranslatorOptions
 {
-    public const string SectionName = "AzureTranslator";
+    public const string SectionName = "Azure:Translator";
 
     public string Endpoint { get; set; } = string.Empty;
 

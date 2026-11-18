@@ -14,7 +14,7 @@
     Layout = "~/Pages/Account/Templates/_AccountLayout.Custom.cshtml";
     ViewData["Title"] = L["Register"].Value;
     var registerTemplate = AuthUiOptions.Value.Register.TemplatePartial;
-    var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Templates/_Register.Custom" : registerTemplate;
+    var templateName = string.IsNullOrWhiteSpace(registerTemplate) ? "Templates/_Register.Fixed" : registerTemplate;
 }
 
 <partial name="@templateName" model="Model" />

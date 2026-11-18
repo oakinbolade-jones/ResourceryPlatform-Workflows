@@ -1,4 +1,3 @@
-
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -40,6 +39,13 @@ public class AzureTranslatorService : ITranslationService
 
         if (string.IsNullOrWhiteSpace(targetLanguage))
             throw new ArgumentException("Target language is required.");
+
+        if (string.IsNullOrWhiteSpace(_options.Key))
+        {
+            throw new InvalidOperationException(
+                "Azure__Translator__Key or AZURETRANSLATOR_KEY is not configured."
+            );
+        }
 
         var route =
             $"translate?api-version=3.0&to={Uri.EscapeDataString(targetLanguage)}";

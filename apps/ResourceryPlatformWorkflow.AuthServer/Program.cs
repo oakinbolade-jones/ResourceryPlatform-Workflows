@@ -21,6 +21,11 @@ public class Program
             Log.Information("Starting ResourceryPlatformWorkflow.AuthServer.");
 
             var builder = WebApplication.CreateBuilder(args);
+
+#if DEBUG
+            builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+#endif
+
             builder.AddServiceDefaults();
             builder.AddSharedEndpoints();
 

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bootstrap": "^5.3.9",
     "google-translate-api-x": "^10.7.3"
   }
 }
