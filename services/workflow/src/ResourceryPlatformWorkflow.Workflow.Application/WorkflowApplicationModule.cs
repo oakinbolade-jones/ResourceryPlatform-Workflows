@@ -1,11 +1,8 @@
-
 using System;
-<<<<<<< HEAD
-=======
 using Azure;
 using Azure.AI.TextAnalytics;
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ResourceryPlatformWorkflow.Workflow.Requests;
 using ResourceryPlatformWorkflow.Workflow.Summarization;
 using ResourceryPlatformWorkflow.Workflow.Translations;
@@ -13,10 +10,6 @@ using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Modularity;
-<<<<<<< HEAD
-using SmartServe.Workflow.Translations;
-=======
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
 namespace ResourceryPlatformWorkflow.Workflow;
 
 [DependsOn(typeof(WorkflowDomainModule))]
@@ -33,9 +26,7 @@ public class WorkflowApplicationModule : AbpModule
     {
         var configuration = context.Services.GetConfiguration();
 
-        // AutoMapper configuration
         context.Services.AddAutoMapperObjectMapper<WorkflowApplicationModule>();
-
         context.Services.AddTransient<RequestSubmissionValidationService>();
 
         Configure<AbpAutoMapperOptions>(options =>
@@ -43,7 +34,6 @@ public class WorkflowApplicationModule : AbpModule
             options.AddMaps<WorkflowApplicationModule>(true);
         });
 
-<<<<<<< HEAD
         var azureTranslatorOptions = AzureEnvironmentOptions.Resolve<AzureTranslatorOptions>(
             AzureTranslatorOptions.SectionName,
             configuration
@@ -65,43 +55,6 @@ public class WorkflowApplicationModule : AbpModule
         );
 
         context.Services.Configure<AzureTranslatorOptions>(options =>
-=======
-        // ==========================================
-        // AZURE TRANSLATOR CONFIGURATION
-        // ==========================================
-
-        Configure<AzureTranslatorOptions>(
-            configuration.GetSection(
-                AzureTranslatorOptions.SectionName
-            )
-        );
-
-        Configure<AzureTranslatorOptions>(options =>
-        {
-            options.Key = ResolveFromEnvironment(
-                options.Key,
-                "AZURETRANSLATOR_KEY1",
-                "AZURETRANSLATOR_KEY2"
-            );
-            options.Endpoint = ResolveFromEnvironment(
-                options.Endpoint,
-                "AZURETRANSLATOR_ENDPOINT"
-            );
-            options.Region = ResolveFromEnvironment(
-                options.Region,
-                "AZURETRANSLATOR_REGION"
-            );
-
-            if (string.IsNullOrWhiteSpace(options.Endpoint))
-            {
-                options.Endpoint = DefaultAzureTranslatorEndpoint;
-            }
-        });
-
-        context.Services.AddHttpClient<
-            ITranslationService,
-            AzureTranslatorService>((serviceProvider, client) =>
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
         {
             options.Endpoint = azureTranslatorOptions.Endpoint;
             options.Key = azureTranslatorOptions.Key;
@@ -110,7 +63,6 @@ public class WorkflowApplicationModule : AbpModule
             options.MaxBatchCharacters = azureTranslatorOptions.MaxBatchCharacters;
         });
 
-<<<<<<< HEAD
         var azureLanguageServiceOptions = AzureEnvironmentOptions.Resolve<AzureLanguageServiceOptions>(
             AzureLanguageServiceOptions.SectionName,
             configuration
@@ -143,9 +95,6 @@ public class WorkflowApplicationModule : AbpModule
                 ? azureLanguageServiceOptions.Key1
                 : azureLanguageServiceOptions.Key2;
         }
-=======
-            client.BaseAddress = ResolveTranslatorBaseAddress(options.Endpoint);
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
 
         context.Services.Configure<AzureLanguageServiceOptions>(options =>
         {
@@ -175,14 +124,11 @@ public class WorkflowApplicationModule : AbpModule
         {
             if (string.IsNullOrWhiteSpace(azureTranslatorOptions.Endpoint))
             {
-                throw new InvalidOperationException(
-                    "AzureTranslator Endpoint is not configured. Set Azure__Translator__Endpoint or AZURETRANSLATOR_ENDPOINT."
-                );
+                azureTranslatorOptions.Endpoint = DefaultAzureTranslatorEndpoint;
             }
 
-            client.BaseAddress = new Uri(azureTranslatorOptions.Endpoint.TrimEnd('/') + "/");
+            client.BaseAddress = ResolveTranslatorBaseAddress(azureTranslatorOptions.Endpoint);
             client.Timeout = TimeSpan.FromMinutes(2);
-<<<<<<< HEAD
         });
 
         context.Services.AddHttpClient<ISummarizationService, AzureLanguageService>((_, client) =>
@@ -196,18 +142,11 @@ public class WorkflowApplicationModule : AbpModule
 
             client.BaseAddress = new Uri(azureLanguageServiceOptions.Endpoint.TrimEnd('/') + "/");
             client.Timeout = TimeSpan.FromMinutes(2);
-=======
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
         });
 
-      
-        // Bind Azure Language configuration
         Configure<AzureLanguageOptions>(
-            configuration.GetSection(
-                AzureLanguageOptions.SectionName
-            )
+            configuration.GetSection(AzureLanguageOptions.SectionName)
         );
-
         Configure<AzureLanguageOptions>(options =>
         {
             options.Key = ResolveFromEnvironment(
@@ -225,24 +164,20 @@ public class WorkflowApplicationModule : AbpModule
             );
         });
 
-
-        // Register Azure Language client
-        context.Services.AddSingleton(sp =>
+        context.Services.AddSingleton(serviceProvider =>
         {
-            var options = sp
+            var options = serviceProvider
                 .GetRequiredService<IOptions<AzureLanguageOptions>>()
                 .Value;
 
             if (string.IsNullOrWhiteSpace(options.Endpoint))
             {
-                throw new InvalidOperationException(
-                    "Azure Language Endpoint is not configured.");
+                throw new InvalidOperationException("Azure Language Endpoint is not configured.");
             }
 
             if (string.IsNullOrWhiteSpace(options.Key))
             {
-                throw new InvalidOperationException(
-                    "Azure Language Key is not configured.");
+                throw new InvalidOperationException("Azure Language Key is not configured.");
             }
 
             return new TextAnalyticsClient(
@@ -251,11 +186,10 @@ public class WorkflowApplicationModule : AbpModule
             );
         });
 
-        // Register summarization service
         context.Services.AddTransient<
-                IAzureLanguageSummarizationService,
-                AzureLanguageSummarizationService
-            >();
+            IAzureLanguageSummarizationService,
+            AzureLanguageSummarizationService
+        >();
     }
 
     private static string ResolveFromEnvironment(

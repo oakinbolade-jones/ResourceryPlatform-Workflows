@@ -67,7 +67,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   hasTranscriptionUpdatePermission = false;
   hasTranscriptionDeletePermission = false;
   downloadMenuLanguage: string | null = null;
-<<<<<<< HEAD
   translationText = '';
   translationLanguage = '';
   translationError: string | null = null;
@@ -77,7 +76,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   summaryError: string | null = null;
   summarizing = false;
   translatingSummary = false;
-=======
   summaryMenuLanguage: string | null = null;
   selectedSummaryType: string | null = null;
   translatedPreviewText: string | null = null;
@@ -85,18 +83,13 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   summaryPreviewText: string | null = null;
   summaryPreviewLanguage: string | null = null;
   summaryPreviewType: string | null = null;
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
 
   private allWords: TranscriptWord[] = [];
   private playbackFrame: number | null = null;
   private searchMatchPositions: Array<{ lineId: number }> = [];
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly translationEndpoint = `${environment.apis.default.url}/api/workflow/translations/translate`;
-<<<<<<< HEAD
-  private readonly summarizationEndpoint = `${environment.apis.default.url}/api/workflow/summarization/summarize`;
-=======
   private readonly summaryEndpoint = `${environment.apis.default.url}/api/workflow/summarization/summarize`;
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
   private readonly translationLanguageCodes = ['en', 'fr', 'pt'] as const;
   private readonly summaryLanguageCodes = ['en', 'fr', 'pt'] as const;
   private readonly availableSummaryTypes = [
@@ -646,17 +639,15 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     return fallbackSummary;
   }
 
-  private async translateText(text: string, targetLanguage: string): Promise<string> {
-    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
-
+  private async translateText(
+    text: string,
+    sourceLanguage: string,
+    targetLanguage: string
+  ): Promise<string> {
     if (!text.trim()) {
       throw new Error('No transcript text is available to translate.');
     }
 
-    return this.translateText(transcriptText, sourceLanguage, targetLanguage);
-  }
-
-  private async translateText(text: string, sourceLanguage: string, targetLanguage: string): Promise<string> {
     const payload = {
       text,
       sourceLanguage: sourceLanguage === 'xx' ? null : sourceLanguage,
@@ -675,7 +666,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     return translatedText;
   }
 
-<<<<<<< HEAD
   async translateTranscript(targetLanguage: string): Promise<void> {
     if (!targetLanguage) {
       return;
@@ -693,6 +683,11 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     } finally {
       this.translatingTranscript = false;
     }
+  }
+
+  private async translateTranscriptText(targetLanguage: string): Promise<string> {
+    const sourceLanguage = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
+    return this.translateText(this.getTranscriptText(), sourceLanguage, targetLanguage);
   }
 
   private t(key: string, fallback: string): string {
@@ -713,7 +708,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       const language = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
       const response = await firstValueFrom(
-        this.http.post<{ summary?: string; language?: string }>(this.summarizationEndpoint, {
+        this.http.post<{ summary?: string; language?: string }>(this.summaryEndpoint, {
           text: transcriptText,
           language: language === 'xx' ? null : language,
           sentenceCount: 5,
@@ -753,10 +748,6 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     } finally {
       this.translatingSummary = false;
     }
-=======
-  private async translateTranscriptText(targetLanguage: string): Promise<string> {
-    return this.translateText(this.getTranscriptText(), targetLanguage);
->>>>>>> 3bbfd810cb2f231e93032affe1e52010ea2833ab
   }
 
   async downloadResult(

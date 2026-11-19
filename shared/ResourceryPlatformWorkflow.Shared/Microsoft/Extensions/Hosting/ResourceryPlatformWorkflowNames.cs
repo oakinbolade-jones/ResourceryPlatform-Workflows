@@ -19,6 +19,12 @@ public static class ResourceryPlatformWorkflowNames
 
     public const string Gateway = "ResourceryPlatformWorkflowGateway";
 
+    public const string DocumentsApi = "ResourceryPlatformWorkflowDocuments";
+    public const string DocumentsDb = "ResourceryPlatformWorkflowDocumentsDb";
+
+    public const string MailingApi = "ResourceryPlatformWorkflowMailing";
+    public const string MailingDb = "ResourceryPlatformWorkflowMailingDb";
+
     public const string IdentityServiceApi = "ResourceryPlatformWorkflowIdentityService";
     public const string IdentityServiceDb = "ResourceryPlatformWorkflowIdentityServiceDb";
 
@@ -27,6 +33,9 @@ public static class ResourceryPlatformWorkflowNames
 
     public const string SaaSApi = "ResourceryPlatformWorkflowSaaS";
     public const string SaaSDb = "ResourceryPlatformWorkflowSaaSDb";
+
+    public const string DocumentationApi = "ResourceryPlatformWorkflowDocumentation";
+    public const string DocumentationDb = "ResourceryPlatformWorkflowDocumentationDb";
 
     public const string WebAppApi = "ResourceryPlatformWorkflowWebApp";
     public const string WebAppClient = "ResourceryPlatformWorkflowWebAppClient";

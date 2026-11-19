@@ -40,8 +40,8 @@ public class Program
                 connectionName: ResourceryPlatformWorkflowNames.AdministrationDb,
                 configure => configure.DisableRetry = true
             );
-            builder.AddSqlServerDbContext<WorkflowDbContext>(
-                connectionName: ResourceryPlatformWorkflowNames.WorkflowDb,
+            builder.AddSqlServerDbContext<MailingDbContext>(
+                connectionName: ResourceryPlatformWorkflowNames.MailingDb,
                 configure => configure.DisableRetry = true
             );
 
