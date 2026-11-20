@@ -19,11 +19,43 @@ internal static class AzureEnvironmentOptions
 
     public static string GetValue(IConfiguration configuration, string sectionName, string propertyName)
     {
-        // WebApplication's environment-variables provider maps Azure__Translator__Endpoint
-        // to Azure:Translator:Endpoint. Read Environment explicitly too, which is also useful
-        // for configuration roots supplied by IIS-hosted and test application modules.
-        var environmentName = $"{sectionName.Replace(":", "__")}__{propertyName}";
+        // The canonical environment-variable names use uppercase sections separated by double underscores,
+        // for example AZURE__TRANSLATOR__KEY, so they also work on case-sensitive hosts.
+        var environmentName = $"{sectionName.Replace(":", "__")}__{propertyName}".ToUpperInvariant();
+        if (sectionName.Equals(AzureLanguageServiceOptions.SectionName, StringComparison.OrdinalIgnoreCase) &&
+            propertyName.Equals(nameof(AzureLanguageServiceOptions.Endpoint), StringComparison.OrdinalIgnoreCase))
+        {
+            environmentName = "AZURE__LANGUAGESERVICES__ENDPOINT";
+        }
+
         var environmentValue = Environment.GetEnvironmentVariable(environmentName);
+        if (sectionName.Equals(AzureTranslatorOptions.SectionName, StringComparison.OrdinalIgnoreCase) &&
+            propertyName.Equals(nameof(AzureTranslatorOptions.Key), StringComparison.OrdinalIgnoreCase))
+        {
+            environmentValue = FirstNonEmpty(
+                Environment.GetEnvironmentVariable("AZURE__TRANSLATOR__KEY1"),
+                Environment.GetEnvironmentVariable("AZURE__TRANSLATOR__KEY2")
+            );
+        }
+        else if (sectionName.Equals(AzureLanguageServiceOptions.SectionName, StringComparison.OrdinalIgnoreCase) &&
+                 propertyName.Equals(nameof(AzureLanguageServiceOptions.Key), StringComparison.OrdinalIgnoreCase))
+        {
+            environmentValue = FirstNonEmpty(
+                Environment.GetEnvironmentVariable("AZURE__LANGUAGESERVICES__KEY1"),
+                Environment.GetEnvironmentVariable("AZURE__LANGUAGESERVICES__KEY2")
+            );
+        }
+        else if (sectionName.Equals(AzureLanguageServiceOptions.SectionName, StringComparison.OrdinalIgnoreCase) &&
+                 propertyName.Equals(nameof(AzureLanguageServiceOptions.Key1), StringComparison.OrdinalIgnoreCase))
+        {
+            environmentValue = Environment.GetEnvironmentVariable("AZURE__LANGUAGESERVICES__KEY1");
+        }
+        else if (sectionName.Equals(AzureLanguageServiceOptions.SectionName, StringComparison.OrdinalIgnoreCase) &&
+                 propertyName.Equals(nameof(AzureLanguageServiceOptions.Key2), StringComparison.OrdinalIgnoreCase))
+        {
+            environmentValue = Environment.GetEnvironmentVariable("AZURE__LANGUAGESERVICES__KEY2");
+        }
+
         if (!string.IsNullOrWhiteSpace(environmentValue))
         {
             return environmentValue;
@@ -42,10 +74,7 @@ internal static class AzureEnvironmentOptions
             return legacyConfigurationValue!;
         }
 
-        var childName = sectionName.Substring(sectionName.LastIndexOf(':') + 1);
-        var legacyName = $"AZURE{childName.ToUpperInvariant()}_{propertyName.ToUpperInvariant()}";
-        return Environment.GetEnvironmentVariable(legacyName) ??
-               (!IsPlaceholder(configurationValue) ? configurationValue : null) ??
+        return (!IsPlaceholder(configurationValue) ? configurationValue : null) ??
                (!IsPlaceholder(legacyConfigurationValue) ? legacyConfigurationValue : null) ??
                string.Empty;
     }
@@ -53,6 +82,19 @@ internal static class AzureEnvironmentOptions
     private static string GetLegacySectionName(string sectionName)
     {
         return sectionName.Replace("Azure:", "Azure", StringComparison.Ordinal);
+    }
+
+    private static string? FirstNonEmpty(params string?[] values)
+    {
+        foreach (var value in values)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+        }
+
+        return null;
     }
 
     private static bool IsPlaceholder(string value)

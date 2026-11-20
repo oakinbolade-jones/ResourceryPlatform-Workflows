@@ -12,7 +12,7 @@ public class SummarizationAppService : ApplicationService, ISummarizationAppServ
         _summarizationService = summarizationService;
     }
 
-    public async Task<SummarizationResultDto> SummarizeAsync(SummarizeTextInputDto input)
+    public async Task<SummarizationResultDto> SummarizeTextAsync(SummarizeTextInputDto input)
     {
         var summary = await _summarizationService.SummarizeAsync(
             input.Text,

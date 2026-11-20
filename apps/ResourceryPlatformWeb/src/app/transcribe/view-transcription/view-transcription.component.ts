@@ -90,6 +90,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
   private readonly downloadResultEndpoint = `${environment.apis.default.url}/api/workflow/transcription/download-result`;
   private readonly translationEndpoint = `${environment.apis.default.url}/api/workflow/translations/translate`;
   private readonly summaryEndpoint = `${environment.apis.default.url}/api/workflow/summarization/summarize`;
+  private readonly textSummaryEndpoint = `${environment.apis.default.url}/api/workflow/summarization/text/summarize`;
   private readonly translationLanguageCodes = ['en', 'fr', 'pt'] as const;
   private readonly summaryLanguageCodes = ['en', 'fr', 'pt'] as const;
   private readonly availableSummaryTypes = [
@@ -708,7 +709,7 @@ export class ViewTranscriptionComponent implements OnInit, OnDestroy {
     try {
       const language = this.normalizeLanguageCode(this.transcription?.language ?? 'en');
       const response = await firstValueFrom(
-        this.http.post<{ summary?: string; language?: string }>(this.summaryEndpoint, {
+        this.http.post<{ summary?: string; language?: string }>(this.textSummaryEndpoint, {
           text: transcriptText,
           language: language === 'xx' ? null : language,
           sentenceCount: 5,

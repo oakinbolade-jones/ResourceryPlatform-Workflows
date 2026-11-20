@@ -43,7 +43,7 @@ public class AzureTranslatorService : ITranslationService
         if (string.IsNullOrWhiteSpace(_options.Key))
         {
             throw new InvalidOperationException(
-                "Azure__Translator__Key or AZURETRANSLATOR_KEY is not configured."
+                "Azure:Translator:Key is not configured. Set AZURE__TRANSLATOR__KEY1 or AZURE__TRANSLATOR__KEY2."
             );
         }
 

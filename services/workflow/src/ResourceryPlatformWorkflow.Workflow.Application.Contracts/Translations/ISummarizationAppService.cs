@@ -5,5 +5,5 @@ namespace ResourceryPlatformWorkflow.Workflow.Translations;
 
 public interface ISummarizationAppService : IApplicationService
 {
-    Task<SummarizationResultDto> SummarizeAsync(SummarizeTextInputDto input);
+    Task<SummarizationResultDto> SummarizeTextAsync(SummarizeTextInputDto input);
 }

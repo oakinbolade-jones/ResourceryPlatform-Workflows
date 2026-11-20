@@ -10,7 +10,7 @@ internal class Program
         const string LaunchProfileName = "Aspire";
         var builder = DistributedApplication.CreateBuilder(args);
 
-       // var sqlServer = builder.AddSqlServer(ResourceryPlatformWorkflowNames.SqlServer);
+        // var sqlServer = builder.AddSqlServer(ResourceryPlatformWorkflowNames.SqlServer);
         var rabbitMq = builder.AddRabbitMQ(ResourceryPlatformWorkflowNames.RabbitMq).WithManagementPlugin();
         var redis = builder.AddRedis(ResourceryPlatformWorkflowNames.Redis).WithRedisCommander();
         var seq = builder.AddSeq(ResourceryPlatformWorkflowNames.Seq);
@@ -19,11 +19,13 @@ internal class Program
         // var identityDb = sqlServer.AddDatabase(ResourceryPlatformWorkflowNames.IdentityServiceDb);
         // var workflowDb = sqlServer.AddDatabase(ResourceryPlatformWorkflowNames.WorkflowDb);
         // var saasDb = sqlServer.AddDatabase(ResourceryPlatformWorkflowNames.SaaSDb);
-        
+
         var adminDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.AdministrationDb);
         var identityDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.IdentityServiceDb);
         var saasDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.SaaSDb);
         var workflowDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.WorkflowDb);
+        var mailingDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.MailingDb);
+        var documentsDb = builder.AddConnectionString(ResourceryPlatformWorkflowNames.DocumentsDb);
 
         var migrator = builder
             .AddProject<ResourceryPlatformWorkflow_DbMigrator>(
@@ -33,9 +35,11 @@ internal class Program
             .WithReference(adminDb)
             .WithReference(identityDb)
             .WithReference(workflowDb)
+            .WithReference(mailingDb)
+            .WithReference(documentsDb)
             .WithReference(saasDb)
             .WithReference(seq);
-            //.WaitFor(sqlServer);
+        //.WaitFor(sqlServer);
 
         // Removed duplicate sqlServer reference - it's already waited on above via WaitFor
 

@@ -8,7 +8,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Translations;
 [RemoteService(Name = WorkflowRemoteServiceConsts.RemoteServiceName)]
 [ApiExplorerSettings(IgnoreApi = false)]
 [ApiController]
-[Route("api/workflow/summarization")]
+[Route("api/workflow/summarization/text")]
 public class SummarizationController(ISummarizationAppService appService)
     : WorkflowController,
         ISummarizationAppService
@@ -16,8 +16,8 @@ public class SummarizationController(ISummarizationAppService appService)
     private readonly ISummarizationAppService _appService = appService;
 
     [HttpPost("summarize")]
-    public Task<SummarizationResultDto> SummarizeAsync(SummarizeTextInputDto input)
+    public Task<SummarizationResultDto> SummarizeTextAsync(SummarizeTextInputDto input)
     {
-        return _appService.SummarizeAsync(input);
+        return _appService.SummarizeTextAsync(input);
     }
 }

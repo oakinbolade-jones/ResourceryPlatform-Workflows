@@ -1905,6 +1905,7 @@
         "Account:RegisterWithECOWASMail": "Registe-se no Correio da CEDEAO",
         "Account:LoginWithECOWASMail": "Faça login com o Correio da CEDEAO",
         "Account:RegistrationInfo": "O registro segue padrões de integração seguros para ambientes operacionais.",
+        "Account:Disabled": "Desativado",
         "ECOWAS": "Comunidade Económica dos Estados da África Ocidental (CEDEAO)",
         "ECOWASCommission": "Comissão da CEDEAO",
         "ECOWASCopyright": "Direitos de autor (c) Comissão da CEDEAO. ",
@@ -1913,5 +1914,7 @@
         "Transcription:DownloadedSummaryLabel": "Prévia: transcrição resumida baixada",
         "Common:ApiError:Default": "Algo inesperado aconteceu. Tente novamente em instantes.",
         "Common:ApiError:Network": "Não foi possível acessar o servidor. Verifique sua conexão e tente novamente."
+       
+       
     }
 }

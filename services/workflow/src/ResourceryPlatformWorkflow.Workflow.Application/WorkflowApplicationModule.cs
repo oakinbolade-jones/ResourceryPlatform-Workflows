@@ -136,7 +136,7 @@ public class WorkflowApplicationModule : AbpModule
             if (string.IsNullOrWhiteSpace(azureLanguageServiceOptions.Endpoint))
             {
                 throw new InvalidOperationException(
-                    "AzureLanguageService Endpoint is not configured. Set Azure__LanguageService__Endpoint or AZURELANGUAGESERVICE_ENDPOINT."
+                    "AzureLanguageService Endpoint is not configured. Set AZURE__LANGUAGESERVICES__ENDPOINT."
                 );
             }
 
@@ -151,16 +151,16 @@ public class WorkflowApplicationModule : AbpModule
         {
             options.Key = ResolveFromEnvironment(
                 options.Key,
-                "AZURELANGUAGE_KEY1",
-                "AZURELANGUAGE_KEY2"
+                "AZURE__LANGUAGESERVICES__KEY1",
+                "AZURE__LANGUAGESERVICES__KEY2"
             );
             options.Endpoint = ResolveFromEnvironment(
                 options.Endpoint,
-                "AZURELANGUAGE_ENDPOINT"
+                "AZURE__LANGUAGESERVICES__ENDPOINT"
             );
             options.Region = ResolveFromEnvironment(
                 options.Region,
-                "AZURELANGUAGE_REGION"
+                "AZURE__LANGUAGESERVICES__REGION"
             );
         });
 
@@ -225,7 +225,7 @@ public class WorkflowApplicationModule : AbpModule
         if (!Uri.TryCreate(normalizedEndpoint, UriKind.Absolute, out var baseUri))
         {
             throw new InvalidOperationException(
-                $"Invalid Azure Translator endpoint '{endpoint}'. Configure AZURETRANSLATOR_ENDPOINT as an absolute URL."
+                $"Invalid Azure Translator endpoint '{endpoint}'. Configure AZURE__LANGUAGESERVICES__TRANSLATOR__ENDPOINT as an absolute URL."
             );
         }
 

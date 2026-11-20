@@ -2,7 +2,7 @@ namespace ResourceryPlatformWorkflow.Workflow.Translations;
 
 public class AzureLanguageServiceOptions
 {
-    public const string SectionName = "Azure:LanguageService";
+    public const string SectionName = "Azure:LanguageServices";
 
     public string Endpoint { get; set; } = string.Empty;
 

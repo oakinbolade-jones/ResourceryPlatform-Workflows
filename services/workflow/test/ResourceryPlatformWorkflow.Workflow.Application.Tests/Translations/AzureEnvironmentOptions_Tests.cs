@@ -14,11 +14,13 @@ public class AzureEnvironmentOptions_Tests
     {
         var values = new Dictionary<string, string>
         {
-            ["Azure__Translator__Endpoint"] = "https://translator.test/",
-            ["Azure__Translator__Key"] = "translator-secret",
-            ["Azure__LanguageService__Endpoint"] = "https://language.test/",
-            ["Azure__LanguageService__Key1"] = "language-secret",
-            ["Azure__KeyVault__VaultUri"] = "https://vault.test/"
+            ["AZURE__TRANSLATOR__ENDPOINT"] = "https://translator.test/",
+            ["AZURE__TRANSLATOR__KEY1"] = "translator-secret",
+            ["AZURE__TRANSLATOR__KEY2"] = "translator-fallback-secret",
+            ["AZURE__LANGUAGESERVICES__ENDPOINT"] = "https://language.test/",
+            ["AZURE__LANGUAGESERVICES__KEY1"] = "language-secret",
+            ["AZURE__LANGUAGESERVICES__KEY2"] = "language-fallback-secret",
+            ["AZURE__KEYVAULT__VAULTURI"] = "https://vault.test/"
         };
 
         var configuration = new ConfigurationBuilder()
@@ -48,7 +50,15 @@ public class AzureEnvironmentOptions_Tests
             AzureEnvironmentOptions.GetValue(
                 configuration,
                 AzureLanguageServiceOptions.SectionName,
+                nameof(AzureLanguageServiceOptions.Endpoint)).ShouldBe("https://language.test/");
+            AzureEnvironmentOptions.GetValue(
+                configuration,
+                AzureLanguageServiceOptions.SectionName,
                 nameof(AzureLanguageServiceOptions.Key1)).ShouldBe("language-secret");
+            AzureEnvironmentOptions.GetValue(
+                configuration,
+                AzureLanguageServiceOptions.SectionName,
+                nameof(AzureLanguageServiceOptions.Key2)).ShouldBe("language-fallback-secret");
             AzureEnvironmentOptions.GetValue(
                 configuration,
                 AzureKeyVaultOptions.SectionName,

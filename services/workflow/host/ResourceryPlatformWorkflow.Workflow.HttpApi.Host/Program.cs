@@ -30,7 +30,7 @@ public class Program
             builder.AddSharedEndpoints();
             
             // Read the Key Vault address
-            var vaultUri = builder.Configuration["AzureTranslator:Endpoint"];
+            var vaultUri = builder.Configuration["Azure:KeyVault:KeyVaultUri"];
 
             // Register Azure Key Vault
             if (!string.IsNullOrWhiteSpace(vaultUri))
