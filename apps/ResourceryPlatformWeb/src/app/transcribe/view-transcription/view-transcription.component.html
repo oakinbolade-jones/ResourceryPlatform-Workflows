@@ -1,10 +1,6 @@
 <div class="container bg-white min-vh-50 p-5 border border-success rounded transcription-page">
   <div class="d-flex align-items-center gap-2 mb-5">
-    <!-- <img
-      src="assets/images/logo/ecowas-circle-logo.png"
-      alt="DCP SmartServe"
-      style="max-height: 50px; width: auto"
-    /> -->
+    
     <h2 class="fw-bold fs-3 mb-0">{{ 'Administration::ECOWASS2Title' | abpLocalization }}</h2>
   </div>
 
@@ -163,7 +159,7 @@
           <h4 class="fs-6 fw-bold mb-3">
             {{ 'Administration::Transcription:TranscriptLabel' | abpLocalization }}
           </h4>
-          <!-- <small class="text-muted">Hover to highlight, click to seek</small> -->
+         
           <div class="d-inline-flex align-items-center gap-2 position-relative flex-wrap">
             <button type="button" class="btn btn-sm btn-outline-success rounded-5"
               [disabled]="!canDownload('docx') || downloadingFormat !== null" (click)="downloadResult('docx')">
