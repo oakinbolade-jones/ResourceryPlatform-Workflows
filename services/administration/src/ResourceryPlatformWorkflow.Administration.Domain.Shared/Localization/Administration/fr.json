@@ -1779,6 +1779,8 @@
         "Transcription:SearchByTitleLabel": "Recherche par titre...",
         "Transcription:SearchByDateLabel": "Recherche par date...",
         "Transcription:TitleHeaderLabel": "Titre",
+        "Transcription:ActionLabel": "Action",
+        "Transcription:UnauthorizedActionsLabel": "Vous n'avez pas la permission d'effectuer des actions.",
         "Transcription:LanguageHeaderLabel": "Langue",
         "Transcription:StatusHeaderLabel": "Statut",
         "Transcription:DateHeaderLabel": "Date",

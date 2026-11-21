@@ -1438,6 +1438,8 @@
         "Transcription:StatusHeaderLabel": "Status",
         "Transcription:DateHeaderLabel": "Date",
         "Transcription:ActionHeaderLabel": "Action",
+        "Transcription:ActionLabel": "Action",
+        "Transcription:UnauthorizedActionsLabel": "You do not have the permission to carry out any actions.",
         "Transcription:SelectFormatLabel": "Select format before starting recording.",
         "Transcription:LanguageEnglish": "English",
         "Transcription:LanguageFrench": "French",

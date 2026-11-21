@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { WorkflowService } from '../proxy/workflow/services/workflow.service';
 import { ServiceDto } from '../proxy/workflow/services/models';
 import { RequestService } from '../proxy/workflow/requests/request.service';
-import { RequestStatus, RequestType } from '@proxy/workflow/requests';
+import { RequestStatus, RequestType } from '../proxy/workflow/requests';
 import { AppPopupService } from '../shared/services/app-popup.service';
 import { Router } from '@angular/router';
 

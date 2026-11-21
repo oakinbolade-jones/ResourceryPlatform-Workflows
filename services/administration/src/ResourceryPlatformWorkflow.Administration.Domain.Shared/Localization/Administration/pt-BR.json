@@ -1783,6 +1783,8 @@
         "Transcription:StatusHeaderLabel": "Situação",
         "Transcription:DateHeaderLabel": "Data",
         "Transcription:ActionHeaderLabel": "Ação",
+        "Transcription:ActionLabel": "Ação",
+        "Transcription:UnauthorizedActionsLabel": "Você não tem permissão para realizar nenhuma ação.",
         "Transcription:SelectFormatLabel": "Selecione o formato antes de iniciar a gravação.",
         "Transcription:LanguageEnglish": "Inglês",
         "Transcription:LanguageFrench": "Francês",
@@ -1914,7 +1916,5 @@
         "Transcription:DownloadedSummaryLabel": "Prévia: transcrição resumida baixada",
         "Common:ApiError:Default": "Algo inesperado aconteceu. Tente novamente em instantes.",
         "Common:ApiError:Network": "Não foi possível acessar o servidor. Verifique sua conexão e tente novamente."
-       
-       
     }
 }

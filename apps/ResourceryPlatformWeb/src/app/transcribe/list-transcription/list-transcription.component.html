@@ -77,7 +77,7 @@
           <th>{{ 'Administration::Transcription:LanguageLabel' | abpLocalization }}</th>
           <th>{{ 'Administration::Transcription:StatusLabel' | abpLocalization }}</th>
           <th>{{ 'Administration::Transcription:EventDateLabel' | abpLocalization }}</th>
-          <th class="text-center">{{ actionLabel }}</th>
+          <th class="text-center">{{ 'Administration::Transcription:ActionHeaderLabel' | abpLocalization }}</th>
         </tr>
       </thead>
       <tbody>
@@ -90,7 +90,7 @@
           </td>
           <td>{{ item.dateOfTranscription | date: 'short' }}</td>
           <td class="text-center">
-            <div ngbDropdown [container]="'body'" class="d-inline-block actions-dropdown">
+            <div ngbDropdown class="d-inline-block actions-dropdown">
               <button class="btn btn-sm " ngbDropdownToggle type="button"
                 [attr.aria-label]="'Administration::Actions' | abpLocalization"
                 [title]="'Administration::Actions' | abpLocalization">
@@ -112,6 +112,16 @@
                   [disabled]="deletingId === item.id">
                   <i class="fa fa-trash me-3" aria-hidden="true"></i>
                   {{ deletingId === item.id ? ('Administration::Transcription:DeleteConfirmationDeletingLabel' | abpLocalization) : ('Administration::Transcription:DeleteLabel' | abpLocalization) }}
+                </button>
+                <button
+                  *ngIf="!hasTranscriptionViewPermission && !hasTranscriptionUpdatePermission && !hasTranscriptionDeletePermission"
+                  ngbDropdownItem
+                  type="button"
+                  disabled
+                  class="d-flex align-items-center py-2"
+                >
+                  <i class="fa fa-ban me-3" aria-hidden="true"></i>
+                  {{ 'Administration::Transcription:UnauthorizedActionsLabel' | abpLocalization }}
                 </button>
               </div>
             </div>
