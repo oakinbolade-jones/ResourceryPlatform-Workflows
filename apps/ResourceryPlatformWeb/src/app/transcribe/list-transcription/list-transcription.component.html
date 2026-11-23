@@ -46,7 +46,8 @@
           'Administration::Transcription:SearchByTitleLabel' |
           abpLocalization }}</label>
         <input id="searchTitle" type="text" class="form-control border border-success rounded-0" [value]="searchTitle"
-          (input)="onTitleSearch(($any($event.target).value ?? '').toString())" placeholder="Enter title" />
+          (input)="onTitleSearch(($any($event.target).value ?? '').toString())"
+          [placeholder]="'Administration::Transcription:TitlePlaceholderLabel' | abpLocalization" />
       </div>
       <div class="col-12 col-md-3">
         <label for="searchDate" class="form-label fw-semibold mb-1">{{ 'Administration::Transcription:SearchByDateLabel'
