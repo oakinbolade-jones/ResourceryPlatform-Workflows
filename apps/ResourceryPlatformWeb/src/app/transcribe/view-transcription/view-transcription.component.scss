@@ -1,6 +1,26 @@
 .transcription-page {
   background: #fff;
 
+  .page-title-header {
+    min-width: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    h2 {
+      flex: 1 1 auto;
+    }
+  }
+
+  .wipo-logo {
+    display: block;
+    width: auto;
+    height: 100px;
+    max-width: 180px;
+    object-fit: contain;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
   .page-description {
     font-size: small;
     width: 75%;

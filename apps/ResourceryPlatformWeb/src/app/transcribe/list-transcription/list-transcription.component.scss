@@ -2,11 +2,42 @@
   position: relative;
   background: #fff;
 
+  .page-title-header {
+    flex-wrap: nowrap;
+
+    @media (max-width: 767.98px) {
+      align-items: flex-start !important;
+      flex-wrap: wrap;
+    }
+  }
+
+  .wipo-logo {
+    display: block;
+    flex: 0 1 225px;
+    width: min(100%, 225px);
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    object-position: right center;
+    margin-left: auto;
+
+    @media (max-width: 767.98px) {
+      flex-basis: 210px;
+      width: 210px;
+      max-width: 100%;
+      margin-left: 0;
+    }
+  }
+
   .page-description {
     font-size: small;
     width: 100%;
     max-width: 980px;
     color: #4d6659;
+
+    @media (max-width: 767.98px) {
+      width: 100%;
+    }
   }
 
   .list-header-content {
@@ -129,12 +160,4 @@
 
 .modal {
   z-index: 1050;
-}
-
-@media (max-width: 767.98px) {
-  .transcription-page {
-    .page-description {
-      width: 100%;
-    }
-  }
 }
