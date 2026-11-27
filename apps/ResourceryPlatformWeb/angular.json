@@ -37,6 +37,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/maintenance.html",
+              "src/timer.html",
               {
                 "glob": "Web.config",
                 "input": ".",
